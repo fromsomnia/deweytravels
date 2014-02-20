@@ -1,5 +1,5 @@
 TeamDeweyWebsite::Application.routes.draw do
-  get "users"
+  get "users/index"
   resources :graphs
 
   resources :topics
