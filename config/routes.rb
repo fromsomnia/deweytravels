@@ -1,5 +1,6 @@
 TeamDeweyWebsite::Application.routes.draw do
   get "users/index"
+  get "about/team"
   resources :graphs
 
   resources :topics
