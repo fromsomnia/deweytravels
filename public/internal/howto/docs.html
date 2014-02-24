@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en-us">
+<head>
+   <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+   <title>Editing Dewey's Internal Documentation</title>
+   <meta name="author" content="Zach Bruhnke" />
+
+   <!-- boostrap CSS -->
+   <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css">
+</head>
+<body>
+
+  <nav class="navbar navbar-default" role="navigation">
+    <div class="container-fluid">
+      <div class="navbar-header">
+        <a class="navbar-brand" href="/internal">Dewey Internal</a>
+      </div>
+    </div>
+  </nav>
+
+  <div class="container">
+
+  <h1 id="adding_and_editing_deweys_internal_documentation">Adding and Editing Dewey’s Internal Documentation</h1>
+<hr />
+<p>Dewey’s Internal Documentation for employees (/internal) is built with <a href="https://github.com/jekyll/jekyll">Jekyll</a>, a blog-aware static site generator in Ruby. Currently we are not using the blog feature. Jekyll is mainly used to interpret Markdown documents to display-able texts inside /internal.</p>
+
+<p>To add a new documentation page:</p>
+
+<ul>
+<li>Go to /config/jekyll, then to the appropriate dir. If you are adding a new blog post, go to posts. If you are adding to /internal/howto, go to the howto folder. See the documentation on Jekyll’s directory structure <a href="http://jekyllrb.com/docs/pages/">here</a>.</li>
+
+<li>Write the new document with Markdown. See the cheatsheet <a href="http://nestacms.com/docs/creating-content/markdown-cheat-sheet">here</a></li>
+
+<li>Run bundle exec rake generate. This will generate the displayable html document in /public/internal.</li>
+</ul>
+
+<p>To edit a new doc:</p>
+
+<ul>
+<li>Find the appropriate file in /config/jekyll.</li>
+
+<li>Edit the document with Markdown.</li>
+
+<li>Run bundle exec rake generate. This will generate the displayable html document in /public/internal.</li>
+</ul>
+
+  </div>
+
+
+
+</body>
+</html>
