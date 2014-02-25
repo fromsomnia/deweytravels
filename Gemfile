@@ -9,9 +9,15 @@ gem 'pg'
 # Use SCSS for stylesheets
 gem 'sass-rails', '~> 4.0.0'
 
+# Bootstrap
+gem 'bootstrap-sass', '~> 3.1.1'
+
 # Use Uglifier as compressor for JavaScript assets
 gem 'uglifier', '>= 1.3.0'
 
+# Use bloggy to do a simple internal blog
+gem 'bloggy'
+gem 'maruku'
 # Use CoffeeScript for .js.coffee assets and views
 gem 'coffee-rails', '~> 4.0.0'
 
@@ -43,3 +49,6 @@ end
 
 # Use debugger
 # gem 'debugger', group: [:development, :test]
+
+gem 'heroku'
+gem 'rails_12factor'

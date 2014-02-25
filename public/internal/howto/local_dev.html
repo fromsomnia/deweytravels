@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en-us">
+<head>
+   <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+   <title>Setting up your local dev</title>
+   <meta name="author" content="Zach Bruhnke" />
+
+   <!-- boostrap CSS -->
+   <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css">
+</head>
+<body>
+
+  <nav class="navbar navbar-default" role="navigation">
+    <div class="container-fluid">
+      <div class="navbar-header">
+        <a class="navbar-brand" href="/internal">Dewey Internal</a>
+      </div>
+    </div>
+  </nav>
+
+  <div class="container">
+
+  <h1 id="setting_up_your_local_dev_environment">Setting up your local dev environment</h1>
+<hr />
+<h3 id="1_download_the_postgres_app">1. Download the postgres app</h3>
+
+<p>http://postgresapp.com/</p>
+
+<h3 id="2_run_the_postgres_app_you_should_see_a_little_elephant_icon_in_your_status_bar">2. Run the postgres app (you should see a little elephant icon in your status bar)</h3>
+
+<h3 id="3_enter_postgres_console_in_terminal">3. Enter postgres console (in terminal)</h3>
+
+<pre><code>=&gt; psql -d postgres</code></pre>
+
+<h3 id="4_create_user">4. Create user</h3>
+
+<pre><code>=&gt; CREATE ROLE team_dewey_website;</code></pre>
+
+<h3 id="5_create_databases">5. Create databases</h3>
+
+<pre><code>=&gt; CREATE DATABASE team_dewey_website_test WITH OWNER team_dewey_website;
+=&gt; CREATE DATABASE team_dewey_website_development WITH OWNER team_dewey_website;
+=&gt; CREATE DATABASE team_dewey_website_production WITH OWNER team_dewey_website;</code></pre>
+
+<h3 id="6_enable_login">6. Enable login</h3>
+
+<pre><code>=&gt; ALTER ROLE team_dewey_website LOGIN;</code></pre>
+
+<p>Exit postgres console (ctrl + d)</p>
+
+<h3 id="7_cd_into_desired_directory_and_clone_heroku_app">7. cd into desired directory and clone heroku app</h3>
+
+<pre><code>=&gt; git clone git@heroku.com:team-dewey-website.git</code></pre>
+
+<h3 id="8_if_needed">8. if needed:</h3>
+
+<pre><code>=&gt; heroku login
+=&gt; heroku keys:add</code></pre>
+
+<h3 id="9_make_sure_server_runs_with_rails_server_crl__c_to_stop">9. Make sure server runs with “rails server” (crl + C to stop)</h3>
+
+<h3 id="10_for_future_use_to_load_databases_not_yet">10. For future use: to load databases (not yet)</h3>
+
+<pre><code>=&gt; rake db:migrate</code></pre>
+
+  </div>
+
+
+
+</body>
+</html>
