@@ -51,3 +51,4 @@ end
 # gem 'debugger', group: [:development, :test]
 
 gem 'heroku'
+gem 'rails_12factor'
