@@ -19,7 +19,7 @@ Mapping employees’ expertise and facilitating productive knowledge flow inside
    * GroupMe
 *  Either send a share request or shoot an email to [Veni] (mailto:veni@stanford.edu) if you have not been added to these tools.
 *  [Setup your dev environment locally] (/internal/howto/local_dev)
-*  Check in for your first code: add your bio to the team page
+*  Check in for your first code: add your bio to the [team page] (/about/team)
 * Add yourself to the [team skills matrix] (https://docs.google.com/spreadsheet/ccc?key=0AgxIKrJjqiXwdEE1TG9MbDB6NHNLUXo2SHJhdTBkZFE&usp=drive_web)
 
 # How-To
@@ -37,8 +37,8 @@ Mapping employees’ expertise and facilitating productive knowledge flow inside
 --------------
 * Jan 21: Team formation
 * Feb 4: First meeting with VMWare Liaisons
-* Feb 6: VC Presentation. [Slide] (https://docs.google.com/presentation/d/1LxpRmevZFrB_5o_f1HkAuFatsgstUl_MAc_Poknc6us/), [Script] (https://docs.google.com/document/d/16dgz7shCBTDtU9f1YGCs2F838deACrdCen__X2erqgM/)
-* Feb 13: Pivoting the Product Idea. See current [product specification] (https://docs.google.com/document/d/1lmRcVgWUTT7dF6gtfsaLODK6CVB89jlFiGCdW37N9tU/)
+* Feb 6: VC Presentation. See [slide] (https://docs.google.com/presentation/d/1LxpRmevZFrB_5o_f1HkAuFatsgstUl_MAc_Poknc6us/) and [script] (https://docs.google.com/document/d/16dgz7shCBTDtU9f1YGCs2F838deACrdCen__X2erqgM/)
+* Feb 13: Pivoting the product idea. See current [product specification] (https://docs.google.com/document/d/1lmRcVgWUTT7dF6gtfsaLODK6CVB89jlFiGCdW37N9tU/)
 
 # Team Documents
 --------------
@@ -51,5 +51,5 @@ Mapping employees’ expertise and facilitating productive knowledge flow inside
 
 # Miscellaneous
 --------------
-Read more random musings at our [team blog] (http://weareteamdewey.wordpress.com)
-[Gallery] (https://drive.google.com/#folders/0B0UIZuUdn7BDWUdlSXRXV1N3VU0)
+* Read more random musings at our [team blog] (http://weareteamdewey.wordpress.com)
+* [Gallery] (https://drive.google.com/#folders/0B0UIZuUdn7BDWUdlSXRXV1N3VU0)
