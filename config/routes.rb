@@ -1,4 +1,5 @@
 TeamDeweyWebsite::Application.routes.draw do
+  get "session/login"
   get "users/index"
   resources :graphs
 
