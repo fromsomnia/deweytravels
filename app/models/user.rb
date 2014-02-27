@@ -1,10 +1,19 @@
 class User < ActiveRecord::Base
 	# attr_accessible :
 
-	has_many :from_users, :class_name => "User", :foreign_key => "from_user_id"
-	has_many :to_users, :class_name => "User", :foreign_key => "to_user_id"
+	belongs_to :expert, :class_name => "Topic"
+	has_many :expertises, :class_name => "Topic", :foreign_key => "expertise_id"
 
-	belongs_to :from_user, :class_name => "User"
-	belongs_to :to_user, :class_name => "User"
+	has_many :superiors, :class_name => "User", :foreign_key => "superior_id"
+	has_many :subordinates, :class_name => "User", :foreign_key => "subordinate_id"
+	has_many :peers, :class_name => "User", :foreign_key => "peer_id"
+
+	belongs_to :superior, :class_name => "User"
+	belongs_to :peer, :class_name => "User"
+	belongs_to :subordiante, :class_name => "User"
+
+	belongs_to :connection_subordinate, :class_name => "Connection"
+	belongs_to :connection_superior, :class_name => "Connection"
+	belongs_to :connection_expert, :class_name => "Connection"
 
 end
