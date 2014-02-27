@@ -1,4 +1,6 @@
 TeamDeweyWebsite::Application.routes.draw do
+  resources :expertises
+
   get "session/login"
   get "users/index"
   get "about/team"
