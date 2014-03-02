@@ -4,8 +4,443 @@
 # model remove the '{}' from the fixture names and add the columns immediately
 # below each fixture, per the syntax in the comments below
 #
-one: {}
-# column: value
-#
-two: {}
-#  column: value
+
+william_1:
+	expert: users(:william)
+	expertise: topics(:full_stack)
+
+william_2:
+	expert: users(:william)
+	expertise: topics(:web)
+
+william_3:
+	expert: users(:william)
+	expertise: topics(:programming)
+
+william_4:
+	expert: users(:william)
+	expertise: topics(:iOS)
+
+william_5:
+	expert: users(:william)
+	expertise: topics(:rails)
+
+william_6:
+	expert: users(:william)
+	expertise: topics(:java)
+
+william_7:
+	expert: users(:william)
+	expertise: topics(:html)
+
+william_8:
+	expert: users(:william)
+	expertise: topics(:mobile)
+
+william_9:
+	expert: users(:william)
+	expertise: topics(:javascript)
+
+william_10:
+	expert: users(:william)
+	expertise: topics(:jquery)
+
+veni_1:
+	expert: users(:veni)
+	expertise: topics(:full_stack)
+
+veni_2:
+	expert: users(:veni)
+	expertise: topics(:web)
+
+veni_3:
+	expert: users(:veni)
+	expertise: topics(:programming)
+
+veni_4:
+	expert: users(:veni)
+	expertise: topics(:python)
+
+veni_5:
+	expert: users(:veni)
+	expertise: topics(:management)
+
+veni_6:
+	expert: users(:veni)
+	expertise: topics(:android)
+
+veni_7:
+	expert: users(:veni)
+	expertise: topics(:html)
+
+veni_8:
+	expert: users(:veni)
+	expertise: topics(:mobile)
+
+veni_9:
+	expert: users(:veni)
+	expertise: topics(:version_control)
+
+veni_10:
+	expert: users(:veni)
+	expertise: topics(:subversion)
+
+veni_11:
+	expert: users(:veni)
+	expertise: topics(:git)
+
+veni_12:
+	expert: users(:veni)
+	expertise: topics(:communication)
+
+brett_1:
+	expert: users(:brett)
+	expertise: topics(:full_stack)
+
+brett_2:
+	expert: users(:brett)
+	expertise: topics(:web)
+
+brett_3:
+	expert: users(:brett)
+	expertise: topics(:programming)
+
+brett_4:
+	expert: users(:brett)
+	expertise: topics(:iOS)
+
+brett_5:
+	expert: users(:brett)
+	expertise: topics(:c_plus_plus)
+
+brett_6:
+	expert: users(:brett)
+	expertise: topics(:java)
+
+brett_7:
+	expert: users(:brett)
+	expertise: topics(:html)
+
+brett_8:
+	expert: users(:brett)
+	expertise: topics(:mobile)
+
+brett_9:
+	expert: users(:brett)
+	expertise: topics(:algorithms)
+
+brett_10:
+	expert: users(:brett)
+	expertise: topics(:presentation)
+
+brett_11:
+	expert: users(:brett)
+	expertise: topics(:management)
+
+john_1:
+	expert: users(:john)
+	expertise: topics(:full_stack)
+
+john_2:
+	expert: users(:john)
+	expertise: topics(:web)
+
+john_3:
+	expert: users(:john)
+	expertise: topics(:programming)
+
+john_4:
+	expert: users(:john)
+	expertise: topics(:graphic_design)
+
+john_5:
+	expert: users(:john)
+	expertise: topics(:rails)
+
+john_6:
+	expert: users(:john)
+	expertise: topics(:java)
+
+john_7:
+	expert: users(:john)
+	expertise: topics(:html)
+
+john_8:
+	expert: users(:john)
+	expertise: topics(:ruby)
+
+john_9:
+	expert: users(:john)
+	expertise: topics(:javascript)
+
+john_10:
+	expert: users(:john)
+	expertise: topics(:jquery)
+
+stephen_1:
+	expert: users(:stephen)
+	expertise: topics(:full_stack)
+
+stephen_2:
+	expert: users(:stephen)
+	expertise: topics(:web)
+
+stephen_3:
+	expert: users(:stephen)
+	expertise: topics(:programming)
+
+stephen_4:
+	expert: users(:stephen)
+	expertise: topics(:management)
+
+stephen_5:
+	expert: users(:stephen)
+	expertise: topics(:presentation)
+
+stephen_6:
+	expert: users(:stephen)
+	expertise: topics(:java)
+
+stephen_7:
+	expert: users(:stephen)
+	expertise: topics(:html)
+
+stephen_8:
+	expert: users(:stephen)
+	expertise: topics(:version_control)
+
+stephen_9:
+	expert: users(:stephen)
+	expertise: topics(:javascript)
+
+stephen_10:
+	expert: users(:stephen)
+	expertise: topics(:jquery)
+
+stephen_11:
+	expert: users(:stephen)
+	expertise: topics(:data_visualization)
+
+stephen_12:
+	expert: users(:stephen)
+	expertise: topics(:git)
+
+chris_1:
+	expert: users(:chris)
+	expertise: topics(:management)
+
+chris_2:
+	expert: users(:chris)
+	expertise: topics(:communication)
+
+chris_3:
+	expert: users(:chris)
+	expertise: topics(:sales)
+
+chris_4:
+	expert: users(:chris)
+	expertise: topics(:presentation)
+
+chris_5:
+	expert: users(:chris)
+	expertise: topics(:statistics)
+
+<% count = 0 %>
+<% topics.all.each do |topic| %>
+	jay_<%= count %>:
+		expert: users(:jay)
+		expertise: <%= topic %>
+	<% count ++ %>
+<% end %>
+
+<% count = 0 %>
+<% topics.all.each do |topic| %>
+	oren_<%= count %>:
+		expert: users(:oren)
+		expertise: <%= topic %>
+	<% count ++ %>
+<% end %>
+
+mike_1:
+	expert: users(:mike)
+	expertise: topics(:full_stack)
+
+mike_2:
+	expert: users(:mike)
+	expertise: topics(:web)
+
+mike_3:
+	expert: users(:mike)
+	expertise: topics(:programming)
+
+mike_4:
+	expert: users(:mike)
+	expertise: topics(:iOS)
+
+mike_5:
+	expert: users(:mike)
+	expertise: topics(:rails)
+
+mike_6:
+	expert: users(:mike)
+	expertise: topics(:java)
+
+mike_7:
+	expert: users(:mike)
+	expertise: topics(:html)
+
+mike_8:
+	expert: users(:mike)
+	expertise: topics(:ruby)
+
+mike_9:
+	expert: users(:mike)
+	expertise: topics(:javascript)
+
+mike_10:
+	expert: users(:mike)
+	expertise: topics(:jquery)
+
+mike_11:
+	expert: users(:mike)
+	expertise: topics(:algorithms)
+
+mike_12:
+	expert: users(:mike)
+	expertise: topics(:python)
+
+mike_13:
+	expert: users(:mike)
+	expertise: topics(:fortran)
+
+mike_14:
+	expert: users(:mike)
+	expertise: topics(:java)
+
+mike_15:
+	expert: users(:mike)
+	expertise: topics(:php)
+
+mike_16:
+	expert: users(:mike)
+	expertise: topics(:android)
+
+mike_17:
+	expert: users(:mike)
+	expertise: topics(:c)
+
+mike_18:
+	expert: users(:mike)
+	expertise: topics(:c_plus_plus)
+
+mike_19:
+	expert: users(:mike)
+	expertise: topics(:objective_c)
+
+mike_20:
+	expert: users(:mike)
+	expertise: topics(:git)
+
+mike_21:
+	expert: users(:mike)
+	expertise: topics(:subversion)
+
+mike_22:
+	expert: users(:mike)
+	expertise: topics(:version_control)
+
+mike_23:
+	expert: users(:mike)
+	expertise: topics(:mobile)
+
+marc_1:
+	expert: users(:marc)
+	expertise: topics(:full_stack)
+
+marc_2:
+	expert: users(:marc)
+	expertise: topics(:web)
+
+marc_3:
+	expert: users(:marc)
+	expertise: topics(:programming)
+
+marc_4:
+	expert: users(:marc)
+	expertise: topics(:iOS)
+
+marc_5:
+	expert: users(:marc)
+	expertise: topics(:rails)
+
+marc_6:
+	expert: users(:marc)
+	expertise: topics(:java)
+
+marc_7:
+	expert: users(:marc)
+	expertise: topics(:html)
+
+marc_8:
+	expert: users(:marc)
+	expertise: topics(:ruby)
+
+marc_9:
+	expert: users(:marc)
+	expertise: topics(:javascript)
+
+marc_10:
+	expert: users(:marc)
+	expertise: topics(:jquery)
+
+marc_11:
+	expert: users(:marc)
+	expertise: topics(:algorithms)
+
+marc_12:
+	expert: users(:marc)
+	expertise: topics(:python)
+
+marc_13:
+	expert: users(:marc)
+	expertise: topics(:fortran)
+
+marc_14:
+	expert: users(:marc)
+	expertise: topics(:java)
+
+marc_15:
+	expert: users(:marc)
+	expertise: topics(:php)
+
+marc_16:
+	expert: users(:marc)
+	expertise: topics(:android)
+
+marc_17:
+	expert: users(:marc)
+	expertise: topics(:c)
+
+marc_18:
+	expert: users(:marc)
+	expertise: topics(:c_plus_plus)
+
+marc_19:
+	expert: users(:marc)
+	expertise: topics(:objective_c)
+
+marc_20:
+	expert: users(:marc)
+	expertise: topics(:git)
+
+marc_21:
+	expert: users(:marc)
+	expertise: topics(:subversion)
+
+marc_22:
+	expert: users(:marc)
+	expertise: topics(:version_control)
+
+marc_23:
+	expert: users(:marc)
+	expertise: topics(:mobile)

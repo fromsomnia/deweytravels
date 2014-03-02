@@ -17,7 +17,7 @@ iOS:
 	title: iOS
 
 user_growth:
-	title: user user_growth
+	title: user growth
 
 algorithms:
 	title: algorithms
@@ -62,7 +62,7 @@ subversion:
 	title: subversion
 
 version_control:
-	title: version version_control
+	title: version control
 
 html:
 	title: html
@@ -73,5 +73,23 @@ jquery:
 mobile:
 	title: mobile
 
-general_programming:
-	title: general programming
+management:
+	title: management
+
+statistics:
+	title: statistics
+
+sales:
+	title: sales
+
+graphic_design:
+	title: graphic design
+
+presentation:
+	title: presentation
+
+communication:
+	title: communication
+
+data_visualization:
+	title: data visualization
