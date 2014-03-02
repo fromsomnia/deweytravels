@@ -6,14 +6,13 @@
 #
 
 full_stack:
-	title: full_stack
+ title: full_stack
 
 programming:
-	title: programming
+ title: programming
 
 web:
-	title: web
-
+ title: web
 
 mobile:
-	title: mobile
+ title: mobile

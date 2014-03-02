@@ -5,117 +5,117 @@
 # below each fixture, per the syntax in the comments below
 #
 one:
-	supertopic: topics(:full_stack)
-	subtopic: topics(:web)
+ supertopic: topics(:full_stack)
+ subtopic: topics(:web)
 
 two:
-	supertopic: topics(:programming)
-	subtopic: topics(:full_stack)
+ supertopic: topics(:programming)
+ subtopic: topics(:full_stack)
 
 three:
-	supertopic: topics(:mobile)
-	subtopic: topics(:iOS)
+ supertopic: topics(:mobile)
+ subtopic: topics(:iOS)
 
 four:
-	supertopic: topics(:mobile)
-	subtopic: topics(:android)
+ supertopic: topics(:mobile)
+ subtopic: topics(:android)
 
 five:
-	supertopic: topics(:programming)
-	subtopic: topics(:mobile)
+ supertopic: topics(:programming)
+ subtopic: topics(:mobile)
 
 six:
-	supertopic: topics(:mobile)
-	subtopic: topics(:objective_c)
+ supertopic: topics(:mobile)
+ subtopic: topics(:objective_c)
 
 seven:
-	supertopic: topics(:mobile)
-	subtopic: topics(:java)
+ supertopic: topics(:mobile)
+ subtopic: topics(:java)
 
 eight:
-	supertopic: topics(:web)
-	subtopic: topics(:ruby)
+ supertopic: topics(:web)
+ subtopic: topics(:ruby)
 
 nine:
-	supertopic: topics(:web)
-	subtopic: topics(:rails)
+ supertopic: topics(:web)
+ subtopic: topics(:rails)
 
 ten:
-	supertopic: topics(:web)
-	subtopic: topics(:javascript)
+ supertopic: topics(:web)
+ subtopic: topics(:javascript)
 
 eleven:
-	supertopic: topics(:web)
-	subtopic: topics(:php)
+ supertopic: topics(:web)
+ subtopic: topics(:php)
 
 twelve:
-	supertopic: topics(:web)
-	subtopic: topics(:python)
+ supertopic: topics(:web)
+ subtopic: topics(:python)
 
 thirteen:
-	supertopic: topics(:version_control)
-	subtopic: topics(:git)
+ supertopic: topics(:version_control)
+ subtopic: topics(:git)
 
 fourteen:
-	supertopic: topics(:version_control)
-	subtopic: topics(:subversion)
+ supertopic: topics(:version_control)
+ subtopic: topics(:subversion)
 
 fifteen:
-	supertopic: topics(:web)
-	subtopic: topics(:jquery)
+ supertopic: topics(:web)
+ subtopic: topics(:jquery)
 
 sixteen:
-	supertopic: topics(:programming)
-	subtopic: topics(:user_growth)
+ supertopic: topics(:programming)
+ subtopic: topics(:user_growth)
 
 seventeen:
-	supertopic: topics(:programming)
-	subtopic: topics(:algorithms)
+ supertopic: topics(:programming)
+ subtopic: topics(:algorithms)
 
 eighteen:
-	supertopic: topics(:programming)
-	subtopic: topics(:fortran)
+ supertopic: topics(:programming)
+ subtopic: topics(:fortran)
 
 nineteen:
-	supertopic: topics(:programming)
-	subtopic: topics(:java)
+ supertopic: topics(:programming)
+ subtopic: topics(:java)
 
 twenty:
-	supertopic: topics(:programming)
-	subtopic: topics(:ruby)
+ supertopic: topics(:programming)
+ subtopic: topics(:ruby)
 
 twenty_one:
-	supertopic: topics(:programming)
-	subtopic: topics(:c)
+ supertopic: topics(:programming)
+ subtopic: topics(:c)
 
 twenty_two:
-	supertopic: topics(:programming)
-	subtopic: topics(:c_plus_plus)
+ supertopic: topics(:programming)
+ subtopic: topics(:c_plus_plus)
 
 twenty_three:
-	supertopic: topics(:programming)
-	subtopic: topics(:objective_c)
+ supertopic: topics(:programming)
+ subtopic: topics(:objective_c)
 
 twenty_four:
-	supertopic: topics(:web)
-	subtopic: topics(:html)
+ supertopic: topics(:web)
+ subtopic: topics(:html)
 
 twenty_five:
-	supertopic: topics(:sales)
-	subtopic: topics(:statistics)
+ supertopic: topics(:sales)
+ subtopic: topics(:statistics)
 
 twenty_six:
-	supertopic: topics(:management)
-	subtopic: topics(:presentation)
+ supertopic: topics(:management)
+ subtopic: topics(:presentation)
 
 twenty_seven:
-	supertopic: topics(:management)
-	subtopic: topics(:communication)
+ supertopic: topics(:management)
+ subtopic: topics(:communication)
 
 twenty_eight:
-	supertopic: topics(:programming)
-	subtopic: topics(:graphic_design)
+ supertopic: topics(:programming)
+ subtopic: topics(:graphic_design)
 
 twenty_eight:
-	supertopic: topics(:programming)
-	subtopic: topics(:data_visualization)
+ supertopic: topics(:programming)
+ subtopic: topics(:data_visualization)

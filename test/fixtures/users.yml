@@ -5,101 +5,101 @@
 # below each fixture, per the syntax in the comments below
 #
 william:
-	first_name: William
-	last_name: Chidyausiku
-	email: wchid@stanford.edu
-	username: william
-	password: william
-	position: Engineer
-	department: Engineering
-	image: William.png
+ first_name: William
+ last_name: Chidyausiku
+ email: wchid@stanford.edu
+ username: william
+ password: william
+ position: Engineer
+ department: Engineering
+ image: William.png
 
 veni:
-	first_name: Veni
-	last_name: Johanna
-	email: veni@stanford.edu
-	username: veni
-	password: veni
-	position: Engineer
-	department: Engineering
-	image: Veni.png
+ first_name: Veni
+ last_name: Johanna
+ email: veni@stanford.edu
+ username: veni
+ password: veni
+ position: Engineer
+ department: Engineering
+ image: Veni.png
 
 brett:
-	first_name: Brett
-	last_name: Solow
-	email: besolow@stanford.edu
-	username: brett
-	password: brett
-	position: Engineer
-	department: Engineering
-	image: Brett.png
+ first_name: Brett
+ last_name: Solow
+ email: besolow@stanford.edu
+ username: brett
+ password: brett
+ position: Engineer
+ department: Engineering
+ image: Brett.png
 
 stephen:
-	first_name: Stephen
-	last_name: Quiñónez
-	email: stephenq@stanford.edu
-	username: stephen
-	password: stephen
-	position: Engineer
-	department: Engineering
-	image: Stephen.png
+ first_name: Stephen
+ last_name: Quiñónez
+ email: stephenq@stanford.edu
+ username: stephen
+ password: stephen
+ position: Engineer
+ department: Engineering
+ image: Stephen.png 
 
 john:
-	first_name: John
-	last_name: Pulvera
-	email: jpulvera@stanford.edu
-	username: john
-	password: john
-	position: Engineer
-	department: Engineering
-	image: John.png
+ first_name: John
+ last_name: Pulvera
+ email: jpulvera@stanford.edu
+ username: john
+ password: john
+ position: Engineer
+ department: Engineering
+ image: John.png
 
 jay:
-	first_name: Jay
-	last_name: Borenstein
-	email: borenstein@cs.stanford.edu
-	username: jay
-	password: jay
-	position: CEO
-	department: Marketing
-	image: default_user_image.png
+ first_name: Jay
+ last_name: Borenstein
+ email: borenstein@cs.stanford.edu
+ username: jay
+ password: jay
+ position: CEO
+ department: Marketing
+ image: default_user_image.png
 
 chris:
-	first_name: Chris
-	last_name: Surowiec
-	email: csurowiec_99@yahoo.com
-	username: chris
-	password: chris
-	position: VP of Sales
-	department: Sales
-	image: default_user_image.png
+ first_name: Chris
+ last_name: Surowiec
+ email: csurowiec_99@yahoo.com
+ username: chris
+ password: chris
+ position: VP of Sales
+ department: Sales
+ image: default_user_image.png
 
 oren:
-	first_name: Oren
-	last_name: Root
-	email: oroot@vmware.com
-	username: oren
-	password: oren
-	position: Manager of HR
-	department: Human Resources
-	image: default_user_image.png
+ first_name: Oren
+ last_name: Root
+ email: oroot@vmware.com
+ username: oren
+ password: oren
+ position: Manager of HR
+ department: Human Resources
+ image: default_user_image.png
 
 marc:
-	first_name: Marc
-	last_name: Fenner
-	email: mfenner@vmware.com
-	username: marc
-	password: marc
-	position: Engineer
-	department: Engineering
-	image: default_user_image.png
+ first_name: Marc
+ last_name: Fenner
+ email: mfenner@vmware.com
+ username: marc
+ password: marc
+ position: Engineer
+ department: Engineering
+ image: default_user_image.png
 
 mike:
-	first_name: mike
-	last_name: Louie
-	email: mlouie@vmware.com
-	username: mike
-	password: mike
-	position: Engineer
-	department: Engineering
-	image: default_user_image.png
+ first_name: mike
+ last_name: Louie
+ email: mlouie@vmware.com
+ username: mike
+ password: mike
+ position: Engineer
+ department: Engineering
+ image: default_user_image.png

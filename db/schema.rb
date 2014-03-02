@@ -11,29 +11,53 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140220132402) do
+ActiveRecord::Schema.define(version: 20140302043957) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
-  create_table "connections", force: true do |t|
-    t.datetime "created_at"
-    t.datetime "updated_at"
+  create_table "graphs", force: true do |t|
+    t.string "title"
   end
 
-  create_table "graphs", force: true do |t|
-    t.datetime "created_at"
-    t.datetime "updated_at"
+  create_table "graphs_topics", id: false, force: true do |t|
+    t.integer "graph_id"
+    t.integer "topic_id"
+  end
+
+  create_table "topic_topic_connections", force: true do |t|
+    t.integer "subtopic_id"
+    t.integer "supertopic_id"
+  end
+
+  create_table "topic_user_connections", force: true do |t|
+    t.integer "expert_id"
+    t.integer "expertise_id"
   end
 
   create_table "topics", force: true do |t|
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.string "title"
+  end
+
+  create_table "topics_users", id: false, force: true do |t|
+    t.integer "expertise_id"
+    t.integer "expert_id"
+  end
+
+  create_table "user_user_connections", force: true do |t|
+    t.integer "superior_id"
+    t.integer "subordinate_id"
   end
 
   create_table "users", force: true do |t|
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.string "first_name"
+    t.string "last_name"
+    t.string "email"
+    t.string "username"
+    t.string "password"
+    t.string "position"
+    t.string "department"
+    t.string "image"
   end
 
 end

@@ -5,91 +5,91 @@
 # below each fixture, per the syntax in the comments below
 #
 full_stack:
-	title: full-stack
+ title: full-stack
 
 web:
-	title: web
+ title: web
 
 programming:
-	title: programming
+ title: programming
 
 iOS:
-	title: iOS
+ title: iOS
 
 user_growth:
-	title: user growth
+ title: user growth
 
 algorithms:
-	title: algorithms
+ title: algorithms
 
 javascript:
-	title: javascript
+ title: javascript
 
 ruby:
-	title: ruby
+ title: ruby
 
 python:
-	title: python
+ title: python
 
 fortran:
-	title: fortran
+ title: fortran
 
 java:
-	title: java
+ title: java
 
 rails:
-	title: rails
+ title: rails
 
 php:
-	title: php
+ title: php
 
 android:
-	title: android
+ title: android
 
 c:
-	title: c
+ title: c
 
 c_plus_plus:
-	title: c++
+ title: c++
 
 objective_c:
-	title: objective c
+ title: objective c
 
 git:
-	title: git
+ title: git
 
 subversion:
-	title: subversion
+ title: subversion
 
 version_control:
-	title: version control
+ title: version control
 
 html:
-	title: html
+ title: html
 
 jquery:
-	title: jquery
+ title: jquery
 
 mobile:
-	title: mobile
+ title: mobile
 
 management:
-	title: management
+ title: management
 
 statistics:
-	title: statistics
+ title: statistics
 
 sales:
-	title: sales
+ title: sales
 
 graphic_design:
-	title: graphic design
+ title: graphic design
 
 presentation:
-	title: presentation
+ title: presentation
 
 communication:
-	title: communication
+ title: communication
 
 data_visualization:
-	title: data visualization
+ title: data visualization

@@ -6,37 +6,37 @@
 #
 
 one:
-	superior: users(:jay)
-	subordinate: users(:chris)
+ superior: users(:jay)
+ subordinate: users(:chris)
 
 two:
-	superior: users(:jay)
-	subordinate: users(:oren)
+ superior: users(:jay)
+ subordinate: users(:oren)
 
 three:
-	superior: users(:oren)
-	subordinate: users(:marc)
+ superior: users(:oren)
+ subordinate: users(:marc)
 
 four:
-	superior: users(:oren)
-	subordinate: users(:mike)
+ superior: users(:oren)
+ subordinate: users(:mike)
 
 five:
-	superior: users(:jay)
-	subordinate: users(:william)
+ superior: users(:jay)
+ subordinate: users(:william)
 
 six:
-	superior: users(:jay)
-	subordinate: users(:veni)
+ superior: users(:jay)
+ subordinate: users(:veni)
 
 seven:
-	superior: users(:jay)
-	subordinate: users(:john)
+ superior: users(:jay)
+ subordinate: users(:john)
 
 eight:
-	superior: users(:jay)
-	subordinate: users(:brett)
+ superior: users(:jay)
+ subordinate: users(:brett)
 
 nine:
-	superior: users(:jay)
-	subordinate: users(:stephen)
+ superior: users(:jay)
+ subordinate: users(:stephen)
