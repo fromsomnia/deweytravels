@@ -4,8 +4,74 @@
 # model remove the '{}' from the fixture names and add the columns immediately
 # below each fixture, per the syntax in the comments below
 #
-one: {}
-# column: value
-#
-two: {}
-#  column: value
+full_stack:
+	title: full-stack
+
+web:
+	title: web
+
+programming:
+	title: programming
+
+iOS:
+	title: iOS
+
+user_growth:
+	title: user user_growth
+
+algorithms:
+	title: algorithms
+
+javascript:
+	title: javascript
+
+ruby:
+	title: ruby
+
+python:
+	title: python
+
+fortran:
+	title: fortran
+
+java:
+	title: java
+
+rails:
+	title: rails
+
+php:
+	title: php
+
+android:
+	title: android
+
+c:
+	title: c
+
+c_plus_plus:
+	title: c++
+
+objective_c:
+	title: objective c
+
+git:
+	title: git
+
+subversion:
+	title: subversion
+
+version_control:
+	title: version version_control
+
+html:
+	title: html
+
+jquery:
+	title: jquery
+
+mobile:
+	title: mobile
+
+general_programming:
+	title: general programming
