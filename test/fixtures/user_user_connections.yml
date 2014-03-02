@@ -4,8 +4,39 @@
 # model remove the '{}' from the fixture names and add the columns immediately
 # below each fixture, per the syntax in the comments below
 #
-one: {}
-# column: value
-#
-two: {}
-#  column: value
+
+one:
+	superior: users(:jay)
+	subordinate: users(:chris)
+
+two:
+	superior: users(:jay)
+	subordinate: users(:oren)
+
+three:
+	superior: users(:oren)
+	subordinate: users(:marc)
+
+four:
+	superior: users(:oren)
+	subordinate: users(:mike)
+
+five:
+	superior: users(:jay)
+	subordinate: users(:william)
+
+six:
+	superior: users(:jay)
+	subordinate: users(:veni)
+
+seven:
+	superior: users(:jay)
+	subordinate: users(:john)
+
+eight:
+	superior: users(:jay)
+	subordinate: users(:brett)
+
+nine:
+	superior: users(:jay)
+	subordinate: users(:stephen)
