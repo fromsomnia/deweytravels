@@ -31,17 +31,12 @@ ActiveRecord::Schema.define(version: 20140302043957) do
   end
 
   create_table "topic_user_connections", force: true do |t|
-    t.integer "expert_id"
-    t.integer "expertise_id"
+    t.integer "user_id"
+    t.integer "topic_id"
   end
 
   create_table "topics", force: true do |t|
     t.string "title"
-  end
-
-  create_table "topics_users", id: false, force: true do |t|
-    t.integer "expertise_id"
-    t.integer "expert_id"
   end
 
   create_table "user_user_connections", force: true do |t|

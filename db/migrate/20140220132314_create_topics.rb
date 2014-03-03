@@ -3,7 +3,7 @@ class CreateTopics < ActiveRecord::Migration
     create_table :topics do |t|
     	
     	t.column :title, :string
-
+    	
     end
   end
 end
