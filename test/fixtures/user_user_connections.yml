@@ -5,38 +5,22 @@
 # below each fixture, per the syntax in the comments below
 #
 
-one:
- superior: users(:jay)
- subordinate: users(:chris)
+<%
+ users(:jay).subordinates  << users(:chris)
 
-two:
- superior: users(:jay)
- subordinate: users(:oren)
+ users(:jay).subordinates << users(:oren)
 
-three:
- superior: users(:oren)
- subordinate: users(:marc)
+ users(:oren).subordinates << users(:marc)
 
-four:
- superior: users(:oren)
- subordinate: users(:mike)
+ users(:oren).subordinates << users(:mike)
 
-five:
- superior: users(:jay)
- subordinate: users(:william)
+ users(:jay).subordinates << users(:william)
 
-six:
- superior: users(:jay)
- subordinate: users(:veni)
+ users(:jay).subordinates << users(:veni)
 
-seven:
- superior: users(:jay)
- subordinate: users(:john)
+ users(:jay).subordinates << users(:john)
 
-eight:
- superior: users(:jay)
- subordinate: users(:brett)
+ users(:jay).subordinates << users(:brett)
 
-nine:
- superior: users(:jay)
- subordinate: users(:stephen)
+ users(:jay).subordinates << users(:stephen)
+ %>
