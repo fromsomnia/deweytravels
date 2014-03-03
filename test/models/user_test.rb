@@ -4,7 +4,6 @@ class UserTest < ActiveSupport::TestCase
   test "the truth" do
   	william = users(:william)
   	puts william.first_name
-  	william.topics << topics(:full_stack)
   	puts "Skill Set"
   	william.topics.each do |expertise|
   		puts ""

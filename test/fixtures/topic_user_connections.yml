@@ -7,217 +7,217 @@
 
 <% users(:william).topics << topics(:full_stack)
 
-users(:william) << topics(:web)
+users(:william).topics << topics(:web)
 
-users(:william) << topics(:programming)
+users(:william).topics << topics(:programming)
 
-users(:william) << topics(:iOS)
+users(:william).topics << topics(:iOS)
 
-users(:william) << topics(:rails)
+users(:william).topics << topics(:rails)
 
-users(:william) << topics(:java)
+users(:william).topics << topics(:java)
 
-users(:william) << topics(:html)
+users(:william).topics << topics(:html)
 
-users(:william) << topics(:mobile)
+users(:william).topics << topics(:mobile)
 
-users(:william) << topics(:javascript)
+users(:william).topics << topics(:javascript)
 
-users(:william) << topics(:jquery)
+users(:william).topics << topics(:jquery)
 
-users(:veni) << topics(:full_stack)
+users(:veni).topics << topics(:full_stack)
 
-users(:veni) << topics(:web)
+users(:veni).topics << topics(:web)
 
-users(:veni) << topics(:programming)
+users(:veni).topics << topics(:programming)
 
-users(:veni) << topics(:python)
+users(:veni).topics << topics(:python)
 
-users(:veni) << topics(:management)
+users(:veni).topics << topics(:management)
 
-users(:veni) << topics(:android)
+users(:veni).topics << topics(:android)
 
-users(:veni) << topics(:html)
+users(:veni).topics << topics(:html)
 
-users(:veni) << topics(:mobile)
+users(:veni).topics << topics(:mobile)
 
-users(:veni) << topics(:version_control)
+users(:veni).topics << topics(:version_control)
 
-users(:veni) << topics(:subversion)
+users(:veni).topics << topics(:subversion)
 
-users(:veni) << topics(:git)
+users(:veni).topics << topics(:git)
 
-users(:veni) << topics(:communication)
+users(:veni).topics << topics(:communication)
 
-users(:brett) << topics(:full_stack)
+users(:brett).topics << topics(:full_stack)
 
-users(:brett) << topics(:web)
+users(:brett).topics << topics(:web)
 
-users(:brett) << topics(:programming)
+users(:brett).topics << topics(:programming)
 
-users(:brett) << topics(:iOS)
+users(:brett).topics << topics(:iOS)
 
-users(:brett) << topics(:c_plus_plus)
+users(:brett).topics << topics(:c_plus_plus)
 
-users(:brett) << topics(:java)
+users(:brett).topics << topics(:java)
 
-users(:brett) << topics(:html)
+users(:brett).topics << topics(:html)
 
-users(:brett) << topics(:mobile)
+users(:brett).topics << topics(:mobile)
 
-users(:brett) << topics(:algorithms)
+users(:brett).topics << topics(:algorithms)
 
-users(:brett) << topics(:presentation)
+users(:brett).topics << topics(:presentation)
 
-users(:brett) << topics(:management)
+users(:brett).topics << topics(:management)
 
-users(:john) << topics(:full_stack)
+users(:john).topics << topics(:full_stack)
 
-users(:john) << topics(:web)
+users(:john).topics << topics(:web)
 
-users(:john) << topics(:programming)
+users(:john).topics << topics(:programming)
 
-users(:john) << topics(:graphic_design)
+users(:john).topics << topics(:graphic_design)
 
-users(:john) << topics(:rails)
+users(:john).topics << topics(:rails)
 
-users(:john) << topics(:java)
+users(:john).topics << topics(:java)
 
-users(:john) << topics(:html)
+users(:john).topics << topics(:html)
 
-users(:john) << topics(:ruby)
+users(:john).topics << topics(:ruby)
 
-users(:john) << topics(:javascript)
+users(:john).topics << topics(:javascript)
 
-users(:john) << topics(:jquery)
+users(:john).topics << topics(:jquery)
 
-users(:stephen) << topics(:full_stack)
+users(:stephen).topics << topics(:full_stack)
 
-users(:stephen) << topics(:web)
+users(:stephen).topics << topics(:web)
 
-users(:stephen) << topics(:programming)
+users(:stephen).topics << topics(:programming)
 
-users(:stephen) << topics(:management)
+users(:stephen).topics << topics(:management)
 
-users(:stephen) << topics(:presentation)
+users(:stephen).topics << topics(:presentation)
 
-users(:stephen) << topics(:java)
+users(:stephen).topics << topics(:java)
 
-users(:stephen) << topics(:html)
+users(:stephen).topics << topics(:html)
 
-users(:stephen) << topics(:version_control)
+users(:stephen).topics << topics(:version_control)
 
-users(:stephen) << topics(:javascript)
+users(:stephen).topics << topics(:javascript)
 
-users(:stephen) << topics(:jquery)
+users(:stephen).topics << topics(:jquery)
 
-users(:stephen) << topics(:data_visualization)
+users(:stephen).topics << topics(:data_visualization)
 
-users(:stephen) << topics(:git)
+users(:stephen).topics << topics(:git)
 
-users(:chris) << topics(:management)
+users(:chris).topics << topics(:management)
 
-users(:chris) << topics(:communication)
+users(:chris).topics << topics(:communication)
 
-users(:chris) << topics(:sales)
+users(:chris).topics << topics(:sales)
 
-users(:chris) << topics(:presentation)
+users(:chris).topics << topics(:presentation)
 
-users(:chris) << topics(:statistics)
+users(:chris).topics << topics(:statistics)
 
-users(:mike) << topics(:full_stack)
+users(:mike).topics << topics(:full_stack)
 
-users(:mike) << topics(:web)
+users(:mike).topics << topics(:web)
 
-users(:mike) << topics(:programming)
+users(:mike).topics << topics(:programming)
 
-users(:mike) << topics(:iOS)
+users(:mike).topics << topics(:iOS)
 
-users(:mike) << topics(:rails)
+users(:mike).topics << topics(:rails)
 
-users(:mike) << topics(:java)
+users(:mike).topics << topics(:java)
 
-users(:mike) << topics(:html)
+users(:mike).topics << topics(:html)
 
-users(:mike) << topics(:ruby)
+users(:mike).topics << topics(:ruby)
 
-users(:mike) << topics(:javascript)
+users(:mike).topics << topics(:javascript)
 
-users(:mike) << topics(:jquery)
+users(:mike).topics << topics(:jquery)
 
-users(:mike) << topics(:algorithms)
+users(:mike).topics << topics(:algorithms)
 
-users(:mike) << topics(:python)
+users(:mike).topics << topics(:python)
 
-users(:mike) << topics(:fortran)
+users(:mike).topics << topics(:fortran)
 
-users(:mike) << topics(:java)
+users(:mike).topics << topics(:java)
 
-users(:mike) << topics(:php)
+users(:mike).topics << topics(:php)
 
-users(:mike) << topics(:android)
+users(:mike).topics << topics(:android)
 
-users(:mike) << topics(:c)
+users(:mike).topics << topics(:c)
 
-users(:mike) << topics(:c_plus_plus)
+users(:mike).topics << topics(:c_plus_plus)
 
-users(:mike) << topics(:objective_c)
+users(:mike).topics << topics(:objective_c)
 
-users(:mike) << topics(:git)
+users(:mike).topics << topics(:git)
 
-users(:mike) << topics(:subversion)
+users(:mike).topics << topics(:subversion)
 
-users(:mike) << topics(:version_control)
+users(:mike).topics << topics(:version_control)
 
-users(:mike) << topics(:mobile)
+users(:mike).topics << topics(:mobile)
 
-users(:marc) << topics(:full_stack)
+users(:marc).topics << topics(:full_stack)
 
-users(:marc) << topics(:web)
+users(:marc).topics << topics(:web)
 
-users(:marc) << topics(:programming)
+users(:marc).topics << topics(:programming)
 
-users(:marc) << topics(:iOS)
+users(:marc).topics << topics(:iOS)
 
-users(:marc) << topics(:rails)
+users(:marc).topics << topics(:rails)
 
-users(:marc) << topics(:java)
+users(:marc).topics << topics(:java)
 
-users(:marc) << topics(:html)
+users(:marc).topics << topics(:html)
 
-users(:marc) << topics(:ruby)
+users(:marc).topics << topics(:ruby)
 
-users(:marc) << topics(:javascript)
+users(:marc).topics << topics(:javascript)
 
-users(:marc) << topics(:jquery)
+users(:marc).topics << topics(:jquery)
 
-users(:marc) << topics(:algorithms)
+users(:marc).topics << topics(:algorithms)
 
-users(:marc) << topics(:python)
+users(:marc).topics << topics(:python)
 
-users(:marc) << topics(:fortran)
+users(:marc).topics << topics(:fortran)
 
-users(:marc) << topics(:java)
+users(:marc).topics << topics(:java)
 
-users(:marc) << topics(:php)
+users(:marc).topics << topics(:php)
 
-users(:marc) << topics(:android)
+users(:marc).topics << topics(:android)
 
-users(:marc) << topics(:c)
+users(:marc).topics << topics(:c)
 
-users(:marc) << topics(:c_plus_plus)
+users(:marc).topics << topics(:c_plus_plus)
 
-users(:marc) << topics(:objective_c)
+users(:marc).topics << topics(:objective_c)
 
-users(:marc) << topics(:git)
+users(:marc).topics << topics(:git)
 
-users(:marc) << topics(:subversion)
+users(:marc).topics << topics(:subversion)
 
-users(:marc) << topics(:version_control)
+users(:marc).topics << topics(:version_control)
 
-users(:marc) << topics(:mobile)
+users(:marc).topics << topics(:mobile)
 
 Topic.all.each do |topic|
-	users(:jay) << topic
-	users(:oren) << topic
+	users(:jay).topics << topic
+	users(:oren).topics << topic
 end %>
