@@ -4,118 +4,63 @@
 # model remove the '{}' from the fixture names and add the columns immediately
 # below each fixture, per the syntax in the comments below
 #
-one:
- supertopic: topics(:full_stack)
- subtopic: topics(:web)
 
-two:
- supertopic: topics(:programming)
- subtopic: topics(:full_stack)
+<%
+ topics(:full_stack).subtopics << topics(:web)
 
-three:
- supertopic: topics(:mobile)
- subtopic: topics(:iOS)
+ topics(:programming).subtopics << topics(:full_stack)
 
-four:
- supertopic: topics(:mobile)
- subtopic: topics(:android)
+ topics(:mobile).subtopics << topics(:iOS)
 
-five:
- supertopic: topics(:programming)
- subtopic: topics(:mobile)
+ topics(:mobile).subtopics << topics(:android)
 
-six:
- supertopic: topics(:mobile)
- subtopic: topics(:objective_c)
+ topics(:programming).subtopics << topics(:mobile)
 
-seven:
- supertopic: topics(:mobile)
- subtopic: topics(:java)
+ topics(:mobile).subtopics << topics(:objective_c)
 
-eight:
- supertopic: topics(:web)
- subtopic: topics(:ruby)
+ topics(:mobile).subtopics << topics(:java)
 
-nine:
- supertopic: topics(:web)
- subtopic: topics(:rails)
+ topics(:web).subtopics << topics(:ruby)
 
-ten:
- supertopic: topics(:web)
- subtopic: topics(:javascript)
+ topics(:web).subtopics << topics(:rails)
 
-eleven:
- supertopic: topics(:web)
- subtopic: topics(:php)
+ topics(:web).subtopics << topics(:javascript)
 
-twelve:
- supertopic: topics(:web)
- subtopic: topics(:python)
+ topics(:web).subtopics << topics(:php)
 
-thirteen:
- supertopic: topics(:version_control)
- subtopic: topics(:git)
+ topics(:web).subtopics << topics(:python)
 
-fourteen:
- supertopic: topics(:version_control)
- subtopic: topics(:subversion)
+ topics(:version_control).subtopics << topics(:git)
 
-fifteen:
- supertopic: topics(:web)
- subtopic: topics(:jquery)
+ topics(:version_control).subtopics << topics(:subversion)
 
-sixteen:
- supertopic: topics(:programming)
- subtopic: topics(:user_growth)
+ topics(:web).subtopics << topics(:jquery)
 
-seventeen:
- supertopic: topics(:programming)
- subtopic: topics(:algorithms)
+ topics(:programming).subtopics << topics(:user_growth)
 
-eighteen:
- supertopic: topics(:programming)
- subtopic: topics(:fortran)
+ topics(:programming).subtopics << topics(:algorithms)
 
-nineteen:
- supertopic: topics(:programming)
- subtopic: topics(:java)
+ topics(:programming).subtopics << topics(:fortran)
 
-twenty:
- supertopic: topics(:programming)
- subtopic: topics(:ruby)
+ topics(:programming).subtopics << topics(:java)
 
-twenty_one:
- supertopic: topics(:programming)
- subtopic: topics(:c)
+ topics(:programming).subtopics << topics(:ruby)
 
-twenty_two:
- supertopic: topics(:programming)
- subtopic: topics(:c_plus_plus)
+ topics(:programming).subtopics << topics(:c)
 
-twenty_three:
- supertopic: topics(:programming)
- subtopic: topics(:objective_c)
+ topics(:programming).subtopics << topics(:c_plus_plus)
 
-twenty_four:
- supertopic: topics(:web)
- subtopic: topics(:html)
+ topics(:programming).subtopics << topics(:objective_c)
 
-twenty_five:
- supertopic: topics(:sales)
- subtopic: topics(:statistics)
+ topics(:web).subtopics << topics(:html)
 
-twenty_six:
- supertopic: topics(:management)
- subtopic: topics(:presentation)
+ topics(:sales).subtopics << topics(:statistics)
 
-twenty_seven:
- supertopic: topics(:management)
- subtopic: topics(:communication)
+ topics(:management).subtopics << topics(:presentation)
 
-twenty_eight:
- supertopic: topics(:programming)
- subtopic: topics(:graphic_design)
+ topics(:management).subtopics << topics(:communication)
 
-twenty_eight:
- supertopic: topics(:programming)
- subtopic: topics(:data_visualization)
+ topics(:programming).subtopics << topics(:graphic_design)
+
+ topics(:programming).subtopics << topics(:data_visualization)
+%>
