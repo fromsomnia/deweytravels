@@ -14,7 +14,9 @@ class User < ActiveRecord::Base
 		@peers = []
 		self.superiors.each do |boss|
 			boss.subordinates.each do |my_peer|
-				@peers << my_peer
+				if(!self.eql?(my_peer)) then
+					@peers << my_peer
+				end
 			end
 		end
 		return @peers

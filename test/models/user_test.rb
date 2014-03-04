@@ -22,11 +22,11 @@ class UserTest < ActiveSupport::TestCase
   			puts "    " + superior.first_name + " " + superior.last_name
   		end
 
-  		#puts ""
-  		#puts " " + user.first_name + "'s Peers:"
-  		#user.peers.each do |peer|
-  		#	puts "    " + peer.first_name + " " + peer.last_name
-  		#end
+  		puts ""
+  		puts " " + user.first_name + "'s Peers:"
+  		user.peers.each do |peer|
+  			puts "    " + peer.first_name + " " + peer.last_name
+  		end
 
   		puts ""
   		puts " " + user.first_name + "'s Subordinates:"
@@ -41,9 +41,6 @@ class UserTest < ActiveSupport::TestCase
   		end
 
   		puts ""
-  		puts topics(:mobile).title
-  		puts topics(:mobile).supertopics.to_json
-  		puts topics(:mobile).subtopics.to_json
   		puts ""
   	end
   	assert true
