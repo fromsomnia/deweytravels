@@ -1,5 +1,4 @@
 markdown: rdiscount
-permalink: /:title.html
 destination: ../../public/internal
 markdown: maruku
 exclude:

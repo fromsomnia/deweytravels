@@ -4,12 +4,156 @@
  <title>BLOG_NAME</title>
  <link href="YOUR_URL/atom.xml" rel="self"/>
  <link href="YOUR_URL"/>
- <updated>2014-03-03T21:38:47-08:00</updated>
+ <updated>2014-03-04T15:31:41-08:00</updated>
  <id>BLOG_URL</id>
  <author>
    <name>BLOG_NAME</name>
  </author>
 
+ 
+ <entry>
+   <title>Pivoting</title>
+   <link href="YOUR_URL/2014/02/17/pivoting.html"/>
+   <updated>2014-02-17T00:00:00-08:00</updated>
+   <id>BLOG_URL/2014/02/17/pivoting</id>
+   <content type="html">&lt;p&gt;On Dewey’s short group meeting with Jay on 11/2, Jay brought up some concerns about our product specification. At this point, we were set on doing the original product that VMWare suggested: a bot that replies on conversations on Socialcast with relevant data and people who might be able to answer the question. The concerns with this idea are:&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;This project is almost entirely backend-focused with no UI element, which:
+&lt;ul&gt;
+&lt;li&gt;do not utilize the full skill sets of our team members&lt;/li&gt;
+
+&lt;li&gt;will be difficult to split up.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+
+&lt;li&gt;Our level of excitement on the product is questionable, because it feels like a project that VMWare ‘tasked’ on us instead of something we came up on our own.&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;Agreeing with these two observations, we went back to the drawing board and restarted our brainstorming session. On the meeting today (Wed Feb 12), we talked about a couple of different ideas:&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;Kinect-related projects
+&lt;ul&gt;
+&lt;li&gt;teach fine motor skills - example: cooking, shoot a basketball&lt;/li&gt;
+
+&lt;li&gt;identify moods from faces&lt;/li&gt;
+
+&lt;li&gt;virtual classroom; as a teaching aid&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+
+&lt;li&gt;Data visualization about employee’s expertise
+&lt;ul&gt;
+&lt;li&gt;if you had a visualization of topics relevant to your company, and you could “drill down” and find people relevant to the topic, and maybe also see why they’re listed as relevant (expertise, email thread, etc)&lt;/li&gt;
+
+&lt;li&gt;“making it easier for people to know who to ask inside the company about a certain topic”&lt;/li&gt;
+
+&lt;li&gt;use case: new hire wants to know how search infrastructure works. New hire doesn’t know who to contact, so they go to Dewey to discover who to ask about it&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+
+&lt;li&gt;The difficulties of onboarding
+&lt;ul&gt;
+&lt;li&gt;There are always the same questions that a new hire has&lt;/li&gt;
+
+&lt;li&gt;Poor documentation for how to use internal tools, such as issue tracking&lt;/li&gt;
+
+&lt;li&gt;Need to know who to ask certain questions (“Oh, just ask John about that, he dealt with that last week”)&lt;/li&gt;
+
+&lt;li&gt;Capturing information &amp;amp; capturing people relevant to onboarding&lt;/li&gt;
+
+&lt;li&gt;Recommend people to ask about certain questions, similar to Dewey&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+
+&lt;li&gt;Collecting information about where employee’s time is spent
+&lt;ul&gt;
+&lt;li&gt;track how much time is spent in certain files in a project; maybe could help indicate that a project needs more resources (developers) or that the engineers are spending too much time on something considered not a high priority, could help engineers manage their time more effectively&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+
+&lt;li&gt;Data visualization about interactions between employees
+&lt;ul&gt;
+&lt;li&gt;hierarchical information is already captured, but what about seeing who works with who most often?&lt;/li&gt;
+
+&lt;li&gt;could uncover interesting conclusions about single points of failure, an employee who is particularly crucial to a team’s success, or just discovering clusters of people who tend to work well together&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+
+&lt;li&gt;Postsecret / geocaching
+&lt;ul&gt;
+&lt;li&gt;having people share “secrets” tied to a location, can only be viewed if person actually visits location&lt;/li&gt;
+
+&lt;li&gt;captures transience of secrets&lt;/li&gt;
+
+&lt;li&gt;a way of anonymously sharing how you feel; interesting method of interpersonal interaction&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+
+&lt;li&gt;there is value in enterprises using social applications
+&lt;ul&gt;
+&lt;li&gt;enterprise social networks were created to better connect people within a company&lt;/li&gt;
+
+&lt;li&gt;perhaps content on social apps can be used to express the company’s culture or team; can be used for PR; recruiting; teambuilding&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+
+&lt;li&gt;for the workplace
+&lt;ul&gt;
+&lt;li&gt;tinder experience&lt;/li&gt;
+
+&lt;li&gt;timehop&lt;/li&gt;
+
+&lt;li&gt;game that quizzes you on coworkers&lt;/li&gt;
+
+&lt;li&gt;meet people in the workplace&lt;/li&gt;
+
+&lt;li&gt;send picture asking who it is&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+
+&lt;li&gt;Integrated search engine in the workplace
+&lt;ul&gt;
+&lt;li&gt;information overload in the workplace, people don’t know where things are&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;The first idea that gets traction from all of us is #9. However, we found out about Google Enterprise Search that does exactly what we want.&lt;/p&gt;
+
+&lt;p&gt;On the next brainstorming session, on Feb 16, we zeroed in on the aspect of the original Dewey Bot project that attracted us in the first place -t the ide aof surfacing appropriate people to a particular problem. Brett was away for a wedding, and his email made this idea seem more and more realistic and exciting: &lt;img src=&quot;/assets/brainstorm_email.png&quot; alt=&quot;Bretts email&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;During this meeting we fleshed out more about what this product will feel like, as well as exploring the possible use cases. All of us have experienced woes in finding the right people to ask during our internships, so this makes us even more excited.&lt;/p&gt;
+
+&lt;p&gt;On the next brainstorming meeting, on Feb 17, we came out with the &lt;a href=&quot;https://docs.google.com/document/d/1lmRcVgWUTT7dF6gtfsaLODK6CVB89jlFiGCdW37N9tU/&quot;&gt;Product Specification for Dewey&lt;/a&gt;. We officially pivot our product to be a webapp where employees inside a company can easily create, edit and explore expertise graph within a company.&lt;/p&gt;</content>
+ </entry>
+ 
+ <entry>
+   <title>Introducing Dewey</title>
+   <link href="YOUR_URL/2014/01/24/naming-dewey.html"/>
+   <updated>2014-01-24T00:00:00-08:00</updated>
+   <id>BLOG_URL/2014/01/24/naming-dewey</id>
+   <content type="html">&lt;p&gt;After a bunch of brainstorming on names, we finally come up with a name that everyone likes: Dewey!&lt;/p&gt;
+
+&lt;p&gt;We decided pretty quickly that we want a person name that represents knowledge - either the collection, the processing, or the organization of knowledge. This is, at its core, the crux of the project that VMWare brought forward to us.&lt;/p&gt;
+
+&lt;p&gt;We brainstormed a couple of names, such as Athena, Minerva, Prometheus, Sheldon, Sherlock. Sherlock and Dewey were our final two.&lt;/p&gt;
+
+&lt;p&gt;The name Dewey comes from The Dewey Decimal Classification (DDC), or Dewey Decimal System, is a proprietary library classification system first published in the United States by Melvil Dewey in 1876. This classification system, used in 200,000 libraries in at least 135 countries, is hugely valuable in organizing the vast knowledge held by the libraries. DDC’s goal is quite similar to our own. In large enterprises, knowledge are interspersed in so many places that it is extremely difficult for people to manage and find. We hope that our system, like DDC, can help organize and make sense of this complexity, hence bringing productivity and effective knowledge sharing in the workplace.&lt;/p&gt;</content>
+ </entry>
+ 
+ <entry>
+   <title>Team Formation</title>
+   <link href="YOUR_URL/2014/01/21/team-formation.html"/>
+   <updated>2014-01-21T00:00:00-08:00</updated>
+   <id>BLOG_URL/2014/01/21/team-formation</id>
+   <content type="html">&lt;p&gt;The Dewey Team was formed on Jan 21, 2014 at CS 210 Large Group Meeting.&lt;/p&gt;
+
+&lt;p&gt;Members of the team arrive at this project in different ways: Brett and Stephen just got into CS 210 class just hours or days earlier. John, Will and Veni ranked this project highly for different reasons - John for the NLP focus, Veni for the automated Q&amp;amp;A element of it, and Will for the possibility of improving social connections in the workplace. Either way, we are all excited to be working with VMWare in these two quarters!&lt;/p&gt;
+
+&lt;p&gt;Right out of the gate, we have to brainstorm things like name, logo, and project idea, as well as developing relationship with our liaisons from VMWare. The most important thing about these early days, however, is perhaps getting to know each other better and setting a good base of our working relationship in the next two quarters.&lt;/p&gt;</content>
+ </entry>
  
  
 </feed>

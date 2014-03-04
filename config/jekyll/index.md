@@ -35,10 +35,11 @@ Mapping employees’ expertise and facilitating productive knowledge flow inside
 
 # Team Milestones
 --------------
-* Jan 21: Team formation
+* Jan 21: [Team formation] (/internal/2014/01/24/naming-dewey.html)
+* Jan 23: [Naming the team: "Dewey"] (/internal/2014/01/24/naming-dewey.html)
 * Feb 4: First meeting with VMWare Liaisons
 * Feb 6: VC Presentation. See [slide] (https://docs.google.com/presentation/d/1LxpRmevZFrB_5o_f1HkAuFatsgstUl_MAc_Poknc6us/) and [script] (https://docs.google.com/document/d/16dgz7shCBTDtU9f1YGCs2F838deACrdCen__X2erqgM/)
-* Feb 13: Pivoting the product idea. See current [product specification] (https://docs.google.com/document/d/1lmRcVgWUTT7dF6gtfsaLODK6CVB89jlFiGCdW37N9tU/)
+* Feb 13: [Pivoting the product idea] (internal/2014/02/17/pivoting.html). See current [product specification] (https://docs.google.com/document/d/1lmRcVgWUTT7dF6gtfsaLODK6CVB89jlFiGCdW37N9tU/)
 
 # Team Documents
 --------------
