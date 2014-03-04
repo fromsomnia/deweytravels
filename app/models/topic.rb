@@ -12,4 +12,16 @@ class Topic < ActiveRecord::Base
 	has_many :second_topic_topic_connections, :class_name => "TopicTopicConnection", :foreign_key => "subtopic_id"
 	has_many :subtopics, :through => :topic_topic_connections, :source => :subtopic
 
+	def related
+		@related = []
+		self.supertopics.each do |top|
+			top.subtopics.each do |my_related|
+				if(!self.eql?(my_related)) then
+					@related << my_related
+				end
+			end
+		end
+		return @related
+	end
+
 end
