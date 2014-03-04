@@ -6,673 +6,673 @@
 #
 
 topic_user2:
- user: william
- topic: full_stack
+ expert: william
+ expertise: full_stack
 
 topic_user3:
- user: william
- topic: web
+ expert: william
+ expertise: web
 
 topic_user4:
- user: william
- topic: programming
+ expert: william
+ expertise: programming
 
 topic_user5:
- user: william
- topic: iOS
+ expert: william
+ expertise: iOS
 
 topic_user6:
- user: william
- topic: rails
+ expert: william
+ expertise: rails
 
 topic_user7:
- user: william
- topic: java
+ expert: william
+ expertise: java
 
 topic_user8:
- user: william
- topic: html
+ expert: william
+ expertise: html
 
 topic_user9:
- user: william
- topic: mobile
+ expert: william
+ expertise: mobile
 
 topic_user10:
- user: william
- topic: javascript
+ expert: william
+ expertise: javascript
 
 topic_user11:
- user: william
- topic: jquery
+ expert: william
+ expertise: jquery
 
 topic_user12:
- user: veni
- topic: full_stack
+ expert: veni
+ expertise: full_stack
 
 topic_user13:
- user: veni
- topic: web
+ expert: veni
+ expertise: web
 
 topic_user14:
- user: veni
- topic: programming
+ expert: veni
+ expertise: programming
 
 topic_user15:
- user: veni
- topic: python
+ expert: veni
+ expertise: python
 
 topic_user16:
- user: veni
- topic: management
+ expert: veni
+ expertise: management
 
 topic_user17:
- user: veni
- topic: android
+ expert: veni
+ expertise: android
 
 topic_user18:
- user: veni
- topic: html
+ expert: veni
+ expertise: html
 
 topic_user19:
- user: veni
- topic: mobile
+ expert: veni
+ expertise: mobile
 
 topic_user20:
- user: veni
- topic: version_control
+ expert: veni
+ expertise: version_control
 
 topic_user21:
- user: veni
- topic: subversion
+ expert: veni
+ expertise: subversion
 
 topic_user22:
- user: veni
- topic: git
+ expert: veni
+ expertise: git
 
 topic_user23:
- user: veni
- topic: communication
+ expert: veni
+ expertise: communication
 
 topic_user24:
- user: brett
- topic: full_stack
+ expert: brett
+ expertise: full_stack
 
 topic_user25:
- user: brett
- topic: web
+ expert: brett
+ expertise: web
 
 topic_user26:
- user: brett
- topic: programming
+ expert: brett
+ expertise: programming
 
 topic_user27:
- user: brett
- topic: iOS
+ expert: brett
+ expertise: iOS
 
 topic_user28:
- user: brett
- topic: c_plus_plus
+ expert: brett
+ expertise: c_plus_plus
 
 topic_user29:
- user: brett
- topic: java
+ expert: brett
+ expertise: java
 
 topic_user30:
- user: brett
- topic: html
+ expert: brett
+ expertise: html
 
 topic_user31:
- user: brett
- topic: mobile
+ expert: brett
+ expertise: mobile
 
 topic_user32:
- user: brett
- topic: algorithms
+ expert: brett
+ expertise: algorithms
 
 topic_user33:
- user: brett
- topic: presentation
+ expert: brett
+ expertise: presentation
 
 topic_user34:
- user: brett
- topic: management
+ expert: brett
+ expertise: management
 
 topic_user35:
- user: john
- topic: full_stack
+ expert: john
+ expertise: full_stack
 
 topic_user36:
- user: john
- topic: web
+ expert: john
+ expertise: web
 
 topic_user37:
- user: john
- topic: programming
+ expert: john
+ expertise: programming
 
 topic_user38:
- user: john
- topic: graphic_design
+ expert: john
+ expertise: graphic_design
 
 topic_user39:
- user: john
- topic: rails
+ expert: john
+ expertise: rails
 
 topic_user40:
- user: john
- topic: java
+ expert: john
+ expertise: java
 
 topic_user41:
- user: john
- topic: html
+ expert: john
+ expertise: html
 
 topic_user42:
- user: john
- topic: ruby
+ expert: john
+ expertise: ruby
 
 topic_user43:
- user: john
- topic: javascript
+ expert: john
+ expertise: javascript
 
 topic_user44:
- user: john
- topic: jquery
+ expert: john
+ expertise: jquery
 
 topic_user45:
- user: stephen
- topic: full_stack
+ expert: stephen
+ expertise: full_stack
 
 topic_user46:
- user: stephen
- topic: web
+ expert: stephen
+ expertise: web
 
 topic_user47:
- user: stephen
- topic: programming
+ expert: stephen
+ expertise: programming
 
 topic_user48:
- user: stephen
- topic: management
+ expert: stephen
+ expertise: management
 
 topic_user49:
- user: stephen
- topic: presentation
+ expert: stephen
+ expertise: presentation
 
 topic_user50:
- user: stephen
- topic: java
+ expert: stephen
+ expertise: java
 
 topic_user51:
- user: stephen
- topic: html
+ expert: stephen
+ expertise: html
 
 topic_user52:
- user: stephen
- topic: version_control
+ expert: stephen
+ expertise: version_control
 
 topic_user53:
- user: stephen
- topic: javascript
+ expert: stephen
+ expertise: javascript
 
 topic_user54:
- user: stephen
- topic: jquery
+ expert: stephen
+ expertise: jquery
 
 topic_user55:
- user: stephen
- topic: data_visualization
+ expert: stephen
+ expertise: data_visualization
 
 topic_user56:
- user: stephen
- topic: git
+ expert: stephen
+ expertise: git
 
 topic_user57:
- user: chris
- topic: management
+ expert: chris
+ expertise: management
 
 topic_user58:
- user: chris
- topic: communication
+ expert: chris
+ expertise: communication
 
 topic_user59:
- user: chris
- topic: sales
+ expert: chris
+ expertise: sales
 
 topic_user60:
- user: chris
- topic: presentation
+ expert: chris
+ expertise: presentation
 
 topic_user61:
- user: chris
- topic: statistics
+ expert: chris
+ expertise: statistics
 
 topic_user62:
- user: mike
- topic: full_stack
+ expert: mike
+ expertise: full_stack
 
 topic_user63:
- user: mike
- topic: web
+ expert: mike
+ expertise: web
 
 topic_user64:
- user: mike
- topic: programming
+ expert: mike
+ expertise: programming
 
 topic_user65:
- user: mike
- topic: iOS
+ expert: mike
+ expertise: iOS
 
 topic_user66:
- user: mike
- topic: rails
+ expert: mike
+ expertise: rails
 
 topic_user67:
- user: mike
- topic: java
+ expert: mike
+ expertise: java
 
 topic_user68:
- user: mike
- topic: html
+ expert: mike
+ expertise: html
 
 topic_user69:
- user: mike
- topic: ruby
+ expert: mike
+ expertise: ruby
 
 topic_user70:
- user: mike
- topic: javascript
+ expert: mike
+ expertise: javascript
 
 topic_user71:
- user: mike
- topic: jquery
+ expert: mike
+ expertise: jquery
 
 topic_user72:
- user: mike
- topic: algorithms
+ expert: mike
+ expertise: algorithms
 
 topic_user73:
- user: mike
- topic: python
+ expert: mike
+ expertise: python
 
 topic_user74:
- user: mike
- topic: fortran
+ expert: mike
+ expertise: fortran
 
 topic_user75:
- user: mike
- topic: java
+ expert: mike
+ expertise: java
 
 topic_user76:
- user: mike
- topic: php
+ expert: mike
+ expertise: php
 
 topic_user77:
- user: mike
- topic: android
+ expert: mike
+ expertise: android
 
 topic_user78:
- user: mike
- topic: c
+ expert: mike
+ expertise: c
 
 topic_user79:
- user: mike
- topic: c_plus_plus
+ expert: mike
+ expertise: c_plus_plus
 
 topic_user80:
- user: mike
- topic: objective_c
+ expert: mike
+ expertise: objective_c
 
 topic_user81:
- user: mike
- topic: git
+ expert: mike
+ expertise: git
 
 topic_user82:
- user: mike
- topic: subversion
+ expert: mike
+ expertise: subversion
 
 topic_user83:
- user: mike
- topic: version_control
+ expert: mike
+ expertise: version_control
 
 topic_user84:
- user: mike
- topic: mobile
+ expert: mike
+ expertise: mobile
 
 topic_user85:
- user: marc
- topic: full_stack
+ expert: marc
+ expertise: full_stack
 
 topic_user86:
- user: marc
- topic: web
+ expert: marc
+ expertise: web
 
 topic_user87:
- user: marc
- topic: programming
+ expert: marc
+ expertise: programming
 
 topic_user88:
- user: marc
- topic: iOS
+ expert: marc
+ expertise: iOS
 
 topic_user89:
- user: marc
- topic: rails
+ expert: marc
+ expertise: rails
 
 topic_user90:
- user: marc
- topic: java
+ expert: marc
+ expertise: java
 
 topic_user91:
- user: marc
- topic: html
+ expert: marc
+ expertise: html
 
 topic_user92:
- user: marc
- topic: ruby
+ expert: marc
+ expertise: ruby
 
 topic_user93:
- user: marc
- topic: javascript
+ expert: marc
+ expertise: javascript
 
 topic_user94:
- user: marc
- topic: jquery
+ expert: marc
+ expertise: jquery
 
 topic_user95:
- user: marc
- topic: algorithms
+ expert: marc
+ expertise: algorithms
 
 topic_user96:
- user: marc
- topic: python
+ expert: marc
+ expertise: python
 
 topic_user97:
- user: marc
- topic: fortran
+ expert: marc
+ expertise: fortran
 
 topic_user98:
- user: marc
- topic: java
+ expert: marc
+ expertise: java
 
 topic_user99:
- user: marc
- topic: php
+ expert: marc
+ expertise: php
 
 topic_user100:
- user: marc
- topic: android
+ expert: marc
+ expertise: android
 
 topic_user101:
- user: marc
- topic: c
+ expert: marc
+ expertise: c
 
 topic_user102:
- user: marc
- topic: c_plus_plus
+ expert: marc
+ expertise: c_plus_plus
 
 topic_user103:
- user: marc
- topic: objective_c
+ expert: marc
+ expertise: objective_c
 
 topic_user104:
- user: marc
- topic: git
+ expert: marc
+ expertise: git
 
 topic_user105:
- user: marc
- topic: subversion
+ expert: marc
+ expertise: subversion
 
 topic_user106:
- user: marc
- topic: version_control
+ expert: marc
+ expertise: version_control
 
 topic_user107:
- user: marc
- topic: mobile
+ expert: marc
+ expertise: mobile
 
 topic_user133:
- user: jay
- topic: presentation
+ expert: jay
+ expertise: presentation
 
 topic_user138:
- user: jay
- topic: graphic_design
+ expert: jay
+ expertise: graphic_design
 
 topic_user155:
- user: jay
- topic: data_visualization
+ expert: jay
+ expertise: data_visualization
 
 topic_user157:
- user: jay
- topic: management
+ expert: jay
+ expertise: management
 
 topic_user158:
- user: jay
- topic: communication
+ expert: jay
+ expertise: communication
 
 topic_user159:
- user: jay
- topic: sales
+ expert: jay
+ expertise: sales
 
 topic_user160:
- user: jay
- topic: presentation
+ expert: jay
+ expertise: presentation
 
 topic_user161:
- user: jay
- topic: statistics
+ expert: jay
+ expertise: statistics
 
 topic_user185:
- user: jay
- topic: full_stack
+ expert: jay
+ expertise: full_stack
 
 topic_user186:
- user: jay
- topic: web
+ expert: jay
+ expertise: web
 
 topic_user187:
- user: jay
- topic: programming
+ expert: jay
+ expertise: programming
 
 topic_user188:
- user: jay
- topic: iOS
+ expert: jay
+ expertise: iOS
 
 topic_user189:
- user: jay
- topic: rails
+ expert: jay
+ expertise: rails
 
 topic_user190:
- user: jay
- topic: java
+ expert: jay
+ expertise: java
 
 topic_user191:
- user: jay
- topic: html
+ expert: jay
+ expertise: html
 
 topic_user192:
- user: jay
- topic: ruby
+ expert: jay
+ expertise: ruby
 
 topic_user193:
- user: jay
- topic: javascript
+ expert: jay
+ expertise: javascript
 
 topic_user194:
- user: jay
- topic: jquery
+ expert: jay
+ expertise: jquery
 
 topic_user195:
- user: jay
- topic: algorithms
+ expert: jay
+ expertise: algorithms
 
 topic_user196:
- user: jay
- topic: python
+ expert: jay
+ expertise: python
 
 topic_user197:
- user: jay
- topic: fortran
+ expert: jay
+ expertise: fortran
 
 topic_user198:
- user: jay
- topic: java
+ expert: jay
+ expertise: java
 
 topic_user199:
- user: jay
- topic: php
+ expert: jay
+ expertise: php
 
 topic_user1100:
- user: jay
- topic: android
+ expert: jay
+ expertise: android
 
 topic_user1101:
- user: jay
- topic: c
+ expert: jay
+ expertise: c
 
 topic_user1102:
- user: jay
- topic: c_plus_plus
+ expert: jay
+ expertise: c_plus_plus
 
 topic_user1103:
- user: jay
- topic: objective_c
+ expert: jay
+ expertise: objective_c
 
 topic_user1104:
- user: jay
- topic: git
+ expert: jay
+ expertise: git
 
 topic_user1105:
- user: jay
- topic: subversion
+ expert: jay
+ expertise: subversion
 
 topic_user1106:
- user: jay
- topic: version_control
+ expert: jay
+ expertise: version_control
 
 topic_user1107:
- user: jay
- topic: mobile
+ expert: jay
+ expertise: mobile
 
 topic_user133:
- user: oren
- topic: presentation
+ expert: oren
+ expertise: presentation
 
 topic_user138:
- user: oren
- topic: graphic_design
+ expert: oren
+ expertise: graphic_design
 
 topic_user155:
- user: oren
- topic: data_visualization
+ expert: oren
+ expertise: data_visualization
 
 topic_user157:
- user: oren
- topic: management
+ expert: oren
+ expertise: management
 
 topic_user158:
- user: oren
- topic: communication
+ expert: oren
+ expertise: communication
 
 topic_user159:
- user: oren
- topic: sales
+ expert: oren
+ expertise: sales
 
 topic_user160:
- user: oren
- topic: presentation
+ expert: oren
+ expertise: presentation
 
 topic_user161:
- user: oren
- topic: statistics
+ expert: oren
+ expertise: statistics
 
 topic_user185:
- user: oren
- topic: full_stack
+ expert: oren
+ expertise: full_stack
 
 topic_user186:
- user: oren
- topic: web
+ expert: oren
+ expertise: web
 
 topic_user187:
- user: oren
- topic: programming
+ expert: oren
+ expertise: programming
 
 topic_user188:
- user: oren
- topic: iOS
+ expert: oren
+ expertise: iOS
 
 topic_user189:
- user: oren
- topic: rails
+ expert: oren
+ expertise: rails
 
 topic_user190:
- user: oren
- topic: java
+ expert: oren
+ expertise: java
 
 topic_user191:
- user: oren
- topic: html
+ expert: oren
+ expertise: html
 
 topic_user192:
- user: oren
- topic: ruby
+ expert: oren
+ expertise: ruby
 
 topic_user193:
- user: oren
- topic: javascript
+ expert: oren
+ expertise: javascript
 
 topic_user194:
- user: oren
- topic: jquery
+ expert: oren
+ expertise: jquery
 
 topic_user195:
- user: oren
- topic: algorithms
+ expert: oren
+ expertise: algorithms
 
 topic_user196:
- user: oren
- topic: python
+ expert: oren
+ expertise: python
 
 topic_user197:
- user: oren
- topic: fortran
+ expert: oren
+ expertise: fortran
 
 topic_user198:
- user: oren
- topic: java
+ expert: oren
+ expertise: java
 
 topic_user199:
- user: oren
- topic: php
+ expert: oren
+ expertise: php
 
 topic_user1100:
- user: oren
- topic: android
+ expert: oren
+ expertise: android
 
 topic_user1101:
- user: oren
- topic: c
+ expert: oren
+ expertise: c
 
 topic_user1102:
- user: oren
- topic: c_plus_plus
+ expert: oren
+ expertise: c_plus_plus
 
 topic_user1103:
- user: oren
- topic: objective_c
+ expert: oren
+ expertise: objective_c
 
 topic_user1104:
- user: oren
- topic: git
+ expert: oren
+ expertise: git
 
 topic_user1105:
- user: oren
- topic: subversion
+ expert: oren
+ expertise: subversion
 
 topic_user1106:
- user: oren
- topic: version_control
+ expert: oren
+ expertise: version_control
 
 topic_user1107:
- user: oren
- topic: mobile
+ expert: oren
+ expertise: mobile

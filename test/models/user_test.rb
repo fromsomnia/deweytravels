@@ -5,7 +5,7 @@ class UserTest < ActiveSupport::TestCase
   	william = users(:william)
   	puts william.first_name
   	puts "Skill Set"
-  	william.topics.each do |expertise|
+  	william.expertises.each do |expertise|
   		puts ""
   		puts expertise.title
   		puts "subtopics"

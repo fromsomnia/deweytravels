@@ -3,8 +3,8 @@ class Topic < ActiveRecord::Base
 
 	has_and_belongs_to_many :graphs
 
-	has_many :topic_user_connections
-	has_many :users, :through => :topic_user_connections
+	has_many :topic_user_connections, :foreign_key => "expertise_id"
+	has_many :experts, :through => :topic_user_connections, :source => :expert
 
 	has_many :topic_topic_connections, :foreign_key => "supertopic_id"
 	has_many :supertopics, :through => :topic_topic_connections, :source => :supertopic
