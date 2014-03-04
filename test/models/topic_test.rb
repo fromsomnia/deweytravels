@@ -5,7 +5,7 @@ class TopicTest < ActiveSupport::TestCase
   	puts "Displaying All Topic Information..."
   	puts ""
   	Topic.all.each do |topic|
-  		puts "TOPIC ================" + topic.title + "====================="
+  		puts "TOPIC ================ " + topic.title + " ====================="
 
   		puts "    Topic Title: " + topic.title
   		puts ""

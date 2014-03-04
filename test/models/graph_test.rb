@@ -5,7 +5,7 @@ class GraphTest < ActiveSupport::TestCase
   	puts "Displaying All Graph Information..."
   	puts ""
   	Graph.all.each do |graph|
-  		puts "GRAPH =================" + graph.title + "=================="
+  		puts "GRAPH ================= " + graph.title + " =================="
   		puts "    Graph Title: " + graph.title
   		puts ""
 

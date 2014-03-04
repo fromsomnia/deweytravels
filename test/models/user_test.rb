@@ -5,7 +5,7 @@ class UserTest < ActiveSupport::TestCase
   	puts "Displaying All User Information..."
   	puts ""
   	User.all.each do |user|
-  		puts "USER =================" + user.first_name + "=================="
+  		puts "USER ================= " + user.first_name + " =================="
 
   		puts " First Name: " + user.first_name
   		puts " Last Name: " + user.last_name
