@@ -8,8 +8,9 @@ class UserTest < ActiveSupport::TestCase
   	william.topics.each do |expertise|
   		puts ""
   		puts expertise.title
-  		expertise.users.each do |expert|
-  			puts expert.first_name
+  		puts "subtopics"
+  		expertise.subtopics.each do |l|
+  			puts l.title
   		end
 
   	end

@@ -5,219 +5,439 @@
 # below each fixture, per the syntax in the comments below
 #
 
-<% users(:william).topics << topics(:full_stack)
-
-users(:william).topics << topics(:web)
-
-users(:william).topics << topics(:programming)
-
-users(:william).topics << topics(:iOS)
-
-users(:william).topics << topics(:rails)
-
-users(:william).topics << topics(:java)
-
-users(:william).topics << topics(:html)
-
-users(:william).topics << topics(:mobile)
-
-users(:william).topics << topics(:javascript)
-
-users(:william).topics << topics(:jquery)
-
-users(:veni).topics << topics(:full_stack)
-
-users(:veni).topics << topics(:web)
-
-users(:veni).topics << topics(:programming)
-
-users(:veni).topics << topics(:python)
-
-users(:veni).topics << topics(:management)
-
-users(:veni).topics << topics(:android)
-
-users(:veni).topics << topics(:html)
-
-users(:veni).topics << topics(:mobile)
-
-users(:veni).topics << topics(:version_control)
-
-users(:veni).topics << topics(:subversion)
-
-users(:veni).topics << topics(:git)
-
-users(:veni).topics << topics(:communication)
-
-users(:brett).topics << topics(:full_stack)
-
-users(:brett).topics << topics(:web)
-
-users(:brett).topics << topics(:programming)
-
-users(:brett).topics << topics(:iOS)
-
-users(:brett).topics << topics(:c_plus_plus)
-
-users(:brett).topics << topics(:java)
-
-users(:brett).topics << topics(:html)
-
-users(:brett).topics << topics(:mobile)
-
-users(:brett).topics << topics(:algorithms)
-
-users(:brett).topics << topics(:presentation)
-
-users(:brett).topics << topics(:management)
-
-users(:john).topics << topics(:full_stack)
-
-users(:john).topics << topics(:web)
-
-users(:john).topics << topics(:programming)
-
-users(:john).topics << topics(:graphic_design)
-
-users(:john).topics << topics(:rails)
-
-users(:john).topics << topics(:java)
-
-users(:john).topics << topics(:html)
-
-users(:john).topics << topics(:ruby)
-
-users(:john).topics << topics(:javascript)
-
-users(:john).topics << topics(:jquery)
-
-users(:stephen).topics << topics(:full_stack)
-
-users(:stephen).topics << topics(:web)
-
-users(:stephen).topics << topics(:programming)
-
-users(:stephen).topics << topics(:management)
-
-users(:stephen).topics << topics(:presentation)
-
-users(:stephen).topics << topics(:java)
-
-users(:stephen).topics << topics(:html)
-
-users(:stephen).topics << topics(:version_control)
-
-users(:stephen).topics << topics(:javascript)
-
-users(:stephen).topics << topics(:jquery)
-
-users(:stephen).topics << topics(:data_visualization)
-
-users(:stephen).topics << topics(:git)
-
-users(:chris).topics << topics(:management)
-
-users(:chris).topics << topics(:communication)
-
-users(:chris).topics << topics(:sales)
-
-users(:chris).topics << topics(:presentation)
-
-users(:chris).topics << topics(:statistics)
-
-users(:mike).topics << topics(:full_stack)
-
-users(:mike).topics << topics(:web)
-
-users(:mike).topics << topics(:programming)
-
-users(:mike).topics << topics(:iOS)
-
-users(:mike).topics << topics(:rails)
-
-users(:mike).topics << topics(:java)
-
-users(:mike).topics << topics(:html)
-
-users(:mike).topics << topics(:ruby)
-
-users(:mike).topics << topics(:javascript)
-
-users(:mike).topics << topics(:jquery)
-
-users(:mike).topics << topics(:algorithms)
-
-users(:mike).topics << topics(:python)
-
-users(:mike).topics << topics(:fortran)
-
-users(:mike).topics << topics(:java)
-
-users(:mike).topics << topics(:php)
-
-users(:mike).topics << topics(:android)
-
-users(:mike).topics << topics(:c)
-
-users(:mike).topics << topics(:c_plus_plus)
-
-users(:mike).topics << topics(:objective_c)
-
-users(:mike).topics << topics(:git)
-
-users(:mike).topics << topics(:subversion)
-
-users(:mike).topics << topics(:version_control)
-
-users(:mike).topics << topics(:mobile)
-
-users(:marc).topics << topics(:full_stack)
-
-users(:marc).topics << topics(:web)
-
-users(:marc).topics << topics(:programming)
-
-users(:marc).topics << topics(:iOS)
-
-users(:marc).topics << topics(:rails)
-
-users(:marc).topics << topics(:java)
-
-users(:marc).topics << topics(:html)
-
-users(:marc).topics << topics(:ruby)
-
-users(:marc).topics << topics(:javascript)
-
-users(:marc).topics << topics(:jquery)
-
-users(:marc).topics << topics(:algorithms)
-
-users(:marc).topics << topics(:python)
-
-users(:marc).topics << topics(:fortran)
-
-users(:marc).topics << topics(:java)
-
-users(:marc).topics << topics(:php)
-
-users(:marc).topics << topics(:android)
-
-users(:marc).topics << topics(:c)
-
-users(:marc).topics << topics(:c_plus_plus)
-
-users(:marc).topics << topics(:objective_c)
-
-users(:marc).topics << topics(:git)
-
-users(:marc).topics << topics(:subversion)
-
-users(:marc).topics << topics(:version_control)
-
-users(:marc).topics << topics(:mobile)
-
-Topic.all.each do |topic|
-	users(:jay).topics << topic
-	users(:oren).topics << topic
-end %>
+topic_user2:
+ user: william
+ topic: full_stack
+
+topic_user3:
+ user: william
+ topic: web
+
+topic_user4:
+ user: william
+ topic: programming
+
+topic_user5:
+ user: william
+ topic: iOS
+
+topic_user6:
+ user: william
+ topic: rails
+
+topic_user7:
+ user: william
+ topic: java
+
+topic_user8:
+ user: william
+ topic: html
+
+topic_user9:
+ user: william
+ topic: mobile
+
+topic_user10:
+ user: william
+ topic: javascript
+
+topic_user11:
+ user: william
+ topic: jquery
+
+topic_user12:
+ user: veni
+ topic: full_stack
+
+topic_user13:
+ user: veni
+ topic: web
+
+topic_user14:
+ user: veni
+ topic: programming
+
+topic_user15:
+ user: veni
+ topic: python
+
+topic_user16:
+ user: veni
+ topic: management
+
+topic_user17:
+ user: veni
+ topic: android
+
+topic_user18:
+ user: veni
+ topic: html
+
+topic_user19:
+ user: veni
+ topic: mobile
+
+topic_user20:
+ user: veni
+ topic: version_control
+
+topic_user21:
+ user: veni
+ topic: subversion
+
+topic_user22:
+ user: veni
+ topic: git
+
+topic_user23:
+ user: veni
+ topic: communication
+
+topic_user24:
+ user: brett
+ topic: full_stack
+
+topic_user25:
+ user: brett
+ topic: web
+
+topic_user26:
+ user: brett
+ topic: programming
+
+topic_user27:
+ user: brett
+ topic: iOS
+
+topic_user28:
+ user: brett
+ topic: c_plus_plus
+
+topic_user29:
+ user: brett
+ topic: java
+
+topic_user30:
+ user: brett
+ topic: html
+
+topic_user31:
+ user: brett
+ topic: mobile
+
+topic_user32:
+ user: brett
+ topic: algorithms
+
+topic_user33:
+ user: brett
+ topic: presentation
+
+topic_user34:
+ user: brett
+ topic: management
+
+topic_user35:
+ user: john
+ topic: full_stack
+
+topic_user36:
+ user: john
+ topic: web
+
+topic_user37:
+ user: john
+ topic: programming
+
+topic_user38:
+ user: john
+ topic: graphic_design
+
+topic_user39:
+ user: john
+ topic: rails
+
+topic_user40:
+ user: john
+ topic: java
+
+topic_user41:
+ user: john
+ topic: html
+
+topic_user42:
+ user: john
+ topic: ruby
+
+topic_user43:
+ user: john
+ topic: javascript
+
+topic_user44:
+ user: john
+ topic: jquery
+
+topic_user45:
+ user: stephen
+ topic: full_stack
+
+topic_user46:
+ user: stephen
+ topic: web
+
+topic_user47:
+ user: stephen
+ topic: programming
+
+topic_user48:
+ user: stephen
+ topic: management
+
+topic_user49:
+ user: stephen
+ topic: presentation
+
+topic_user50:
+ user: stephen
+ topic: java
+
+topic_user51:
+ user: stephen
+ topic: html
+
+topic_user52:
+ user: stephen
+ topic: version_control
+
+topic_user53:
+ user: stephen
+ topic: javascript
+
+topic_user54:
+ user: stephen
+ topic: jquery
+
+topic_user55:
+ user: stephen
+ topic: data_visualization
+
+topic_user56:
+ user: stephen
+ topic: git
+
+topic_user57:
+ user: chris
+ topic: management
+
+topic_user58:
+ user: chris
+ topic: communication
+
+topic_user59:
+ user: chris
+ topic: sales
+
+topic_user60:
+ user: chris
+ topic: presentation
+
+topic_user61:
+ user: chris
+ topic: statistics
+
+topic_user62:
+ user: mike
+ topic: full_stack
+
+topic_user63:
+ user: mike
+ topic: web
+
+topic_user64:
+ user: mike
+ topic: programming
+
+topic_user65:
+ user: mike
+ topic: iOS
+
+topic_user66:
+ user: mike
+ topic: rails
+
+topic_user67:
+ user: mike
+ topic: java
+
+topic_user68:
+ user: mike
+ topic: html
+
+topic_user69:
+ user: mike
+ topic: ruby
+
+topic_user70:
+ user: mike
+ topic: javascript
+
+topic_user71:
+ user: mike
+ topic: jquery
+
+topic_user72:
+ user: mike
+ topic: algorithms
+
+topic_user73:
+ user: mike
+ topic: python
+
+topic_user74:
+ user: mike
+ topic: fortran
+
+topic_user75:
+ user: mike
+ topic: java
+
+topic_user76:
+ user: mike
+ topic: php
+
+topic_user77:
+ user: mike
+ topic: android
+
+topic_user78:
+ user: mike
+ topic: c
+
+topic_user79:
+ user: mike
+ topic: c_plus_plus
+
+topic_user80:
+ user: mike
+ topic: objective_c
+
+topic_user81:
+ user: mike
+ topic: git
+
+topic_user82:
+ user: mike
+ topic: subversion
+
+topic_user83:
+ user: mike
+ topic: version_control
+
+topic_user84:
+ user: mike
+ topic: mobile
+
+topic_user85:
+ user: marc
+ topic: full_stack
+
+topic_user86:
+ user: marc
+ topic: web
+
+topic_user87:
+ user: marc
+ topic: programming
+
+topic_user88:
+ user: marc
+ topic: iOS
+
+topic_user89:
+ user: marc
+ topic: rails
+
+topic_user90:
+ user: marc
+ topic: java
+
+topic_user91:
+ user: marc
+ topic: html
+
+topic_user92:
+ user: marc
+ topic: ruby
+
+topic_user93:
+ user: marc
+ topic: javascript
+
+topic_user94:
+ user: marc
+ topic: jquery
+
+topic_user95:
+ user: marc
+ topic: algorithms
+
+topic_user96:
+ user: marc
+ topic: python
+
+topic_user97:
+ user: marc
+ topic: fortran
+
+topic_user98:
+ user: marc
+ topic: java
+
+topic_user99:
+ user: marc
+ topic: php
+
+topic_user100:
+ user: marc
+ topic: android
+
+topic_user101:
+ user: marc
+ topic: c
+
+topic_user102:
+ user: marc
+ topic: c_plus_plus
+
+topic_user103:
+ user: marc
+ topic: objective_c
+
+topic_user104:
+ user: marc
+ topic: git
+
+topic_user105:
+ user: marc
+ topic: subversion
+
+topic_user106:
+ user: marc
+ topic: version_control
+
+topic_user107:
+ user: marc
+ topic: mobile
+
+<% count = 108 %>
+<% Topic.all.each do |topic| %>
+topic_user<%= count %>:
+<% count = count + 1 %>
+ user: jay
+ topic: <%= topic %>
+
+topic_user<%= count %>:
+<% count = count + 1 %>
+ user: oren
+ topic: <%= topic %>
+<% end %>

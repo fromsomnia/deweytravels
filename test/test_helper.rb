@@ -9,6 +9,8 @@ class ActiveSupport::TestCase
   #
   # Note: You'll currently still have to declare fixtures explicitly in integration tests
   # -- they do not yet inherit this setting
+  # fixtures :graphs, :topics, :users, :topic_user_connections, :topic_topic_connections, :user_user_connections
+  
   fixtures :all
 
   # Add more helper methods to be used by all tests here...

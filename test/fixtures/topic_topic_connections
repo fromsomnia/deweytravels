@@ -5,7 +5,12 @@
 # below each fixture, per the syntax in the comments below
 #
 
+topic_1:
+ supertopic: full_stack
+ subtopic: web 
+
 <%
+=begin
  topics(:full_stack).subtopics << topics(:web)
 
  topics(:programming).subtopics << topics(:full_stack)
@@ -63,4 +68,5 @@
  topics(:programming).subtopics << topics(:graphic_design)
 
  topics(:programming).subtopics << topics(:data_visualization)
+=end
 %>

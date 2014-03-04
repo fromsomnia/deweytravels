@@ -5,7 +5,20 @@
 # below each fixture, per the syntax in the comments below
 #
 
+user_user1:
+ subordinate: chris
+ superior: jay
+
+user_user2:
+ subordinate: veni
+ superior: jay
+
+user_user3:
+ subordinate: john
+ superior: jay
+
 <%
+=begin
  users(:jay).subordinates  << users(:chris)
 
  users(:jay).subordinates << users(:oren)
@@ -23,4 +36,5 @@
  users(:jay).subordinates << users(:brett)
 
  users(:jay).subordinates << users(:stephen)
+=end 
  %>
