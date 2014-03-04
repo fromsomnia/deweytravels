@@ -1,0 +1,126 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+# This model initially had no columns defined.  If you add columns to the
+# model remove the '{}' from the fixture names and add the columns immediately
+# below each fixture, per the syntax in the comments below
+#
+
+topic_1:
+ supertopic: full_stack
+ subtopic: web 
+
+topic_2:
+ supertopic: full_stack
+ subtopic: web
+
+topic_3:
+ supertopic: programming
+ subtopic: full_stack
+
+topic_4:
+ supertopic: mobile
+ subtopic: iOS
+
+topic_5:
+ supertopic: mobile
+ subtopic: android
+
+topic_6:
+ supertopic: programming
+ subtopic: mobile
+
+topic_7:
+ supertopic: mobile
+ subtopic: objective_c
+
+topic_8:
+ supertopic: mobile
+ subtopic: java
+
+topic_9:
+ supertopic: web
+ subtopic: ruby
+
+topic_10:
+ supertopic: web
+ subtopic: rails
+
+topic_11:
+ supertopic: web
+ subtopic: javascript
+
+topic_12:
+ supertopic: web
+ subtopic: php
+
+topic_13:
+ supertopic: web
+ subtopic: python
+
+topic_14:
+ supertopic: version_control
+ subtopic: git
+
+topic_15:
+ supertopic: version_control
+ subtopic: subversion
+
+topic_16:
+ supertopic: web
+ subtopic: jquery
+
+topic_17:
+ supertopic: programming
+ subtopic: user_growth
+
+topic_18:
+ supertopic: programming
+ subtopic: algorithms
+
+topic_19:
+ supertopic: programming
+ subtopic: fortran
+
+topic_20:
+ supertopic: programming
+ subtopic: java
+
+topic_21:
+ supertopic: programming
+ subtopic: ruby
+
+topic_22:
+ supertopic: programming
+ subtopic: c
+
+topic_23:
+ supertopic: programming
+ subtopic: c_plus_plus
+
+topic_24:
+ supertopic: programming
+ subtopic: objective_c
+
+topic_25:
+ supertopic: web
+ subtopic: html
+
+topic_26:
+ supertopic: sales
+ subtopic: statistics
+
+topic_27:
+ supertopic: management
+ subtopic: presentation
+
+topic_28:
+ supertopic: management
+ subtopic: communication
+
+topic_29:
+ supertopic: programming
+ subtopic: graphic_design
+
+topic_30:
+ supertopic: programming
+ subtopic: data_visualization

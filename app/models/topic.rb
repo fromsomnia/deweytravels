@@ -7,9 +7,9 @@ class Topic < ActiveRecord::Base
 	has_many :users, :through => :topic_user_connections
 
 	has_many :topic_topic_connections, :foreign_key => "supertopic_id"
-	has_many :supertopics, :through => :topic_topic_connections #, :source => :subtopic
+	has_many :supertopics, :through => :topic_topic_connections, :source => :supertopic
 
 	has_many :topic_topic_connections, :foreign_key => "supertopic_id"
-	has_many :subtopics, :through => :topic_topic_connections #, :source => :supertopic
+	has_many :subtopics, :through => :topic_topic_connections, :source => :subtopic
 
 end
