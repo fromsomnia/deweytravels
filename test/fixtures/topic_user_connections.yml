@@ -429,15 +429,250 @@ topic_user107:
  user: marc
  topic: mobile
 
-<% count = 108 %>
-<% Topic.all.each do |topic| %>
-topic_user<%= count %>:
-<% count = count + 1 %>
+topic_user133:
  user: jay
- topic: <%= topic %>
+ topic: presentation
 
-topic_user<%= count %>:
-<% count = count + 1 %>
+topic_user138:
+ user: jay
+ topic: graphic_design
+
+topic_user155:
+ user: jay
+ topic: data_visualization
+
+topic_user157:
+ user: jay
+ topic: management
+
+topic_user158:
+ user: jay
+ topic: communication
+
+topic_user159:
+ user: jay
+ topic: sales
+
+topic_user160:
+ user: jay
+ topic: presentation
+
+topic_user161:
+ user: jay
+ topic: statistics
+
+topic_user185:
+ user: jay
+ topic: full_stack
+
+topic_user186:
+ user: jay
+ topic: web
+
+topic_user187:
+ user: jay
+ topic: programming
+
+topic_user188:
+ user: jay
+ topic: iOS
+
+topic_user189:
+ user: jay
+ topic: rails
+
+topic_user190:
+ user: jay
+ topic: java
+
+topic_user191:
+ user: jay
+ topic: html
+
+topic_user192:
+ user: jay
+ topic: ruby
+
+topic_user193:
+ user: jay
+ topic: javascript
+
+topic_user194:
+ user: jay
+ topic: jquery
+
+topic_user195:
+ user: jay
+ topic: algorithms
+
+topic_user196:
+ user: jay
+ topic: python
+
+topic_user197:
+ user: jay
+ topic: fortran
+
+topic_user198:
+ user: jay
+ topic: java
+
+topic_user199:
+ user: jay
+ topic: php
+
+topic_user1100:
+ user: jay
+ topic: android
+
+topic_user1101:
+ user: jay
+ topic: c
+
+topic_user1102:
+ user: jay
+ topic: c_plus_plus
+
+topic_user1103:
+ user: jay
+ topic: objective_c
+
+topic_user1104:
+ user: jay
+ topic: git
+
+topic_user1105:
+ user: jay
+ topic: subversion
+
+topic_user1106:
+ user: jay
+ topic: version_control
+
+topic_user1107:
+ user: jay
+ topic: mobile
+
+topic_user133:
  user: oren
- topic: <%= topic %>
-<% end %>
+ topic: presentation
+
+topic_user138:
+ user: oren
+ topic: graphic_design
+
+topic_user155:
+ user: oren
+ topic: data_visualization
+
+topic_user157:
+ user: oren
+ topic: management
+
+topic_user158:
+ user: oren
+ topic: communication
+
+topic_user159:
+ user: oren
+ topic: sales
+
+topic_user160:
+ user: oren
+ topic: presentation
+
+topic_user161:
+ user: oren
+ topic: statistics
+
+topic_user185:
+ user: oren
+ topic: full_stack
+
+topic_user186:
+ user: oren
+ topic: web
+
+topic_user187:
+ user: oren
+ topic: programming
+
+topic_user188:
+ user: oren
+ topic: iOS
+
+topic_user189:
+ user: oren
+ topic: rails
+
+topic_user190:
+ user: oren
+ topic: java
+
+topic_user191:
+ user: oren
+ topic: html
+
+topic_user192:
+ user: oren
+ topic: ruby
+
+topic_user193:
+ user: oren
+ topic: javascript
+
+topic_user194:
+ user: oren
+ topic: jquery
+
+topic_user195:
+ user: oren
+ topic: algorithms
+
+topic_user196:
+ user: oren
+ topic: python
+
+topic_user197:
+ user: oren
+ topic: fortran
+
+topic_user198:
+ user: oren
+ topic: java
+
+topic_user199:
+ user: oren
+ topic: php
+
+topic_user1100:
+ user: oren
+ topic: android
+
+topic_user1101:
+ user: oren
+ topic: c
+
+topic_user1102:
+ user: oren
+ topic: c_plus_plus
+
+topic_user1103:
+ user: oren
+ topic: objective_c
+
+topic_user1104:
+ user: oren
+ topic: git
+
+topic_user1105:
+ user: oren
+ topic: subversion
+
+topic_user1106:
+ user: oren
+ topic: version_control
+
+topic_user1107:
+ user: oren
+ topic: mobile
