@@ -31,15 +31,27 @@ Mapping employees’ expertise and facilitating productive knowledge flow inside
 # Engineering
 --------------
 * [Engineering stack] (https://docs.google.com/spreadsheets/d/1m4gDz_nR8__ryrkldm-fc7ldlnFUXt0K5WEtX4ZvD5A/)
+* Socialcast integration
 * Topic tagging algorithm
 
-# Team Milestones
+# Design
 --------------
-* Jan 21: [Team formation] (/internal/2014/01/24/naming-dewey.html)
-* Jan 23: [Naming the team: "Dewey"] (/internal/2014/01/24/naming-dewey.html)
-* Feb 4: First meeting with VMWare Liaisons
-* Feb 6: VC Presentation. See [slide] (https://docs.google.com/presentation/d/1LxpRmevZFrB_5o_f1HkAuFatsgstUl_MAc_Poknc6us/) and [script] (https://docs.google.com/document/d/16dgz7shCBTDtU9f1YGCs2F838deACrdCen__X2erqgM/)
-* Feb 13: [Pivoting the product idea] (internal/2014/02/17/pivoting.html). See current [product specification] (https://docs.google.com/document/d/1lmRcVgWUTT7dF6gtfsaLODK6CVB89jlFiGCdW37N9tU/)
+* The design of the original Dewey logo
+* The design of Dewey Expertise Graph logo
+* The design of first set of mockup
+* The design of expertise graph visualization
+
+# Product
+--------------
+* [About Socialcast] (/internal/2014/01/23/about-socialcast.html)
+* [Naming "Dewey"] (/internal/2014/01/24/naming-dewey.html)
+* [Pivoting the product idea] (/internal/2014/02/17/pivoting.html)
+* [Benchmarking product area] (/internal/2014/02/22/benchmarking.html)
+* User research: need finding
+* ["Pink Bagel" - testing through advertising] (/internal/2014/02/17/pivoting.html)
+* User research: mockup feedback
+
+
 
 # Team Documents
 --------------
@@ -48,7 +60,7 @@ Mapping employees’ expertise and facilitating productive knowledge flow inside
 * [Brainstorming Recap] (https://docs.google.com/document/d/1CA_APZHvg3PPqnzO7ZKFmozW5Zn4ehlo1JeVBocTRZI/)
 * [Meeting Notes] (https://docs.google.com/document/d/1J3Nn1u9_611yJeNVPW9gKefOXFgcQcdZkDNwuqtJsBs/)
 * [Original Problem Specification from VMWare] (http://cs210net.stanford.edu/pmwiki/uploads/VMWare2014/vmware2014.pdf)
-
+* VC Presentation. See [slide] (https://docs.google.com/presentation/d/1LxpRmevZFrB_5o_f1HkAuFatsgstUl_MAc_Poknc6us/) and [script] (https://docs.google.com/document/d/16dgz7shCBTDtU9f1YGCs2F838deACrdCen__X2erqgM/)
 
 # Miscellaneous
 --------------

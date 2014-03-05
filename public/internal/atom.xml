@@ -4,12 +4,200 @@
  <title>BLOG_NAME</title>
  <link href="YOUR_URL/atom.xml" rel="self"/>
  <link href="YOUR_URL"/>
- <updated>2014-03-04T16:02:35-08:00</updated>
+ <updated>2014-03-05T02:55:59-08:00</updated>
  <id>BLOG_URL</id>
  <author>
    <name>BLOG_NAME</name>
  </author>
 
+ 
+ <entry>
+   <title>Pink Bagel</title>
+   <link href="YOUR_URL/2014/03/05/pink-bagel.html"/>
+   <updated>2014-03-05T00:00:00-08:00</updated>
+   <id>BLOG_URL/2014/03/05/pink-bagel</id>
+   <content type="html">&lt;p&gt;In this task we will use advertising to get quick feedback from our potential user about the questions that we are curious about. We started with listing out what we want to know. The questions we came up with:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;Demographics: who are the most likely to be interested in Dewey the Expertise Mapper?&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Types of company
+&lt;ul&gt;
+&lt;li&gt;Technology&lt;/li&gt;
+
+&lt;li&gt;Law&lt;/li&gt;
+
+&lt;li&gt;Retail&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+
+&lt;li&gt;Department
+&lt;ul&gt;
+&lt;li&gt;Engineering&lt;/li&gt;
+
+&lt;li&gt;HR&lt;/li&gt;
+
+&lt;li&gt;Law&lt;/li&gt;
+
+&lt;li&gt;Sales&lt;/li&gt;
+
+&lt;li&gt;Marketing&lt;/li&gt;
+
+&lt;li&gt;IT&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+
+&lt;li&gt;Size of company
+&lt;ul&gt;
+&lt;li&gt;less than 100&lt;/li&gt;
+
+&lt;li&gt;100 - 1000&lt;/li&gt;
+
+&lt;li&gt;more than 10000&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+
+&lt;li&gt;Types of employees
+&lt;ul&gt;
+&lt;li&gt;Experienced&lt;/li&gt;
+
+&lt;li&gt;New hire / new grads&lt;/li&gt;
+
+&lt;li&gt;Management&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+
+&lt;li&gt;
+&lt;p&gt;Product: Tagline&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Dewey maps employees’ expertise in your company&lt;/li&gt;
+
+&lt;li&gt;Dewey captures what your employees are capable of&lt;/li&gt;
+
+&lt;li&gt;Dewey captures the distribution of knowledge inside your company&lt;/li&gt;
+
+&lt;li&gt;Dewey - How to find who knows what&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+
+&lt;li&gt;
+&lt;p&gt;Which part of the UI will people be more interested in?&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;The visualization part&lt;/li&gt;
+
+&lt;li&gt;The text-based UI&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+
+&lt;li&gt;
+&lt;p&gt;Would rendering pictures be significantly better than not?&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h1 id=&quot;linkedin_ads&quot;&gt;LinkedIn Ads&lt;/h1&gt;
+&lt;hr /&gt;
+&lt;p&gt;LinkedIn Ads is our first stab on this task, because of the professional nature of our product. LinkedIn seems to be a good way to slice by demographics.&lt;/p&gt;
+
+&lt;p&gt;The result: 9,596 impressions 1 click 19.19 USD&lt;/p&gt;
+
+&lt;p&gt;Demographics: US-based Human Resources Employees&lt;/p&gt;
+
+&lt;p&gt;Learning: the market size is relatively specific and small, relevant demographic studies will need much more money&lt;/p&gt;
+
+&lt;p&gt;Because of the very low click through rate, we decided to continue with Facebook instead.&lt;/p&gt;
+
+&lt;h1 id=&quot;facebook_ads&quot;&gt;Facebook Ads&lt;/h1&gt;
+&lt;hr /&gt;
+&lt;p&gt;The focus of this ad is to test whether faces on the graphs make a difference in click-through rate.&lt;/p&gt;
+
+&lt;p&gt;With 80 USD, the combined result: 80 USD 47 Website Clicks, 63 Clicks $1.61 / website click 13,865 campaign reach 0.378% CTR&lt;/p&gt;
+
+&lt;p&gt;Demographics: Employees of 25 Selected Companies, such as Dell, Cisco, Amazon, etc.&lt;/p&gt;
+
+&lt;p&gt;We tested two variations of this ad - one with photos and one without photos.&lt;/p&gt;
+
+&lt;p&gt;Variation 1&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/assets/ads_without_photo.png&quot; alt=&quot;Variation 1&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Result:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;22 Website Click, 28 Clicks&lt;/li&gt;
+
+&lt;li&gt;$1.45 / Website Click&lt;/li&gt;
+
+&lt;li&gt;5592 Reach&lt;/li&gt;
+
+&lt;li&gt;0.509% CTR&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Variation 2&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/assets/ads_with_photo.png&quot; alt=&quot;Variation 1&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Result:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;26 Website Click, 35 Clicks&lt;/li&gt;
+
+&lt;li&gt;$1.67 / Website Click&lt;/li&gt;
+
+&lt;li&gt;6798 Reach&lt;/li&gt;
+
+&lt;li&gt;0.517%&lt;/li&gt;
+&lt;/ul&gt;</content>
+ </entry>
+ 
+ <entry>
+   <title>Benchmarking Product Area</title>
+   <link href="YOUR_URL/2014/02/22/benchmarking.html"/>
+   <updated>2014-02-22T00:00:00-08:00</updated>
+   <id>BLOG_URL/2014/02/22/benchmarking</id>
+   <content type="html">&lt;p&gt;Enterprise product is a new area for most of us and none of us have previously used Socialcast before. Because of that, we started the benchmarking with the general area of enterprise social network. The full benchmarking document can be seen &lt;a href=&quot;https://docs.google.com/document/d/1uXgTH6dltvE6ecdf8HDoV9y4bhoV6A2Md1Djty_wFeg/edit&quot;&gt;here&lt;/a&gt;, and a comparison matrix can be seen &lt;a href=&quot;https://docs.google.com/spreadsheet/ccc?key=0AgxIKrJjqiXwdFVBT25JNk5mRkpDbTdDUmlaZjlLdGc&amp;usp=drive_web#gid=0&quot;&gt;here&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;Some of the competitors are:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Quad from Cisco Systems&lt;/li&gt;
+
+&lt;li&gt;Connections from IBM&lt;/li&gt;
+
+&lt;li&gt;Engage from Jive Software&lt;/li&gt;
+
+&lt;li&gt;SharePoint Workspace from Microsoft&lt;/li&gt;
+
+&lt;li&gt;Salesforce Chatter from Salesforce&lt;/li&gt;
+
+&lt;li&gt;StreamWork from SAP&lt;/li&gt;
+
+&lt;li&gt;Yammer from Microsoft&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Feature sets of most of these products are similar to real-life social networks (Facebook, Twitter, etc), adapted to workplace environment. For example, there are supports for files and teams. In the coming years, there will be more and more customization of these processes to enterprise settings. A PwC paper suggests that the next generation of corporate social network will be focused on semantic analysis to make sense of the plethora of data floating around in the workplace.&lt;/p&gt;
+
+&lt;p&gt;We also did a benchmarking on Q &amp;amp; A products, such as Quora, Jelly, Ask.com, and ChaCha. We like the people suggestions on Quora in connecting people to experts and the smart push notification system of Jelly.&lt;/p&gt;
+
+&lt;p&gt;After &lt;a href=&quot;/internal/2014/02/17/pivoting.html&quot;&gt;pivoting&lt;/a&gt;, we looked at expertise mapper / expertise finder that exists on the market. See the full benchmarking document &lt;a href=&quot;https://docs.google.com/document/d/1gZTdLcREtbPWPnqGhci8yzLniOswV3B5lqP-OmzhafA/edit?usp=drive_web&quot;&gt;here&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;Key Takings&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;The problem ‘find the best person in topic X’ or ‘find the best person to answer question Y’ has been tackled in numerous different ways, catered to different use cases&lt;/li&gt;
+
+&lt;li&gt;Most services here are painful to use and very text-heavy, with lists of never-ending topics to choose from. Approaching this problem visually will differentiate our product.&lt;/li&gt;
+
+&lt;li&gt;Services that attempt automatic mapping restrict the scope to certain types of sources or certain verticals.&lt;/li&gt;
+
+&lt;li&gt;A learning mechanism for the people suggestions (either via likes or votes) is crucial.&lt;/li&gt;
+&lt;/ul&gt;</content>
+ </entry>
  
  <entry>
    <title>Pivoting</title>
@@ -141,6 +329,58 @@
 &lt;p&gt;We brainstormed a couple of names, such as Athena, Minerva, Prometheus, Sheldon, Sherlock. Sherlock and Dewey were our final two.&lt;/p&gt;
 
 &lt;p&gt;The name Dewey comes from The Dewey Decimal Classification (DDC), or Dewey Decimal System, is a proprietary library classification system first published in the United States by Melvil Dewey in 1876. This classification system, used in 200,000 libraries in at least 135 countries, is hugely valuable in organizing the vast knowledge held by the libraries. DDC’s goal is quite similar to our own. In large enterprises, knowledge are interspersed in so many places that it is extremely difficult for people to manage and find. We hope that our system, like DDC, can help organize and make sense of this complexity, hence bringing productivity and effective knowledge sharing in the workplace.&lt;/p&gt;</content>
+ </entry>
+ 
+ <entry>
+   <title>About Socialcast</title>
+   <link href="YOUR_URL/2014/01/23/about-socialcast.html"/>
+   <updated>2014-01-23T00:00:00-08:00</updated>
+   <id>BLOG_URL/2014/01/23/about-socialcast</id>
+   <content type="html">&lt;p&gt;Socialcast is an enterprise social platform that connects people to the knowledge, ideas and resources they need to work better together. Socialcast is owned by VMWare, and used by more than 20,000 companies around the world.&lt;/p&gt;
+
+&lt;p&gt;The fundamental value of Socialcast is merging many different systems used in business settings, reducing the need to switch between systems to do work. Many companies use different services to do different things, such as uploading files, gauging employee interests / ideas, etc. Each functions in the company often use different tools to do their work. Through its API, Reach Extensions and its vast functionalities, Socialcast serves as a central hub that integrate all these systems. Examples of applications that can be integrated using Reach Extensions are Gmail, Salesforce, Sharepoint, and JIRA.&lt;/p&gt;
+
+&lt;p&gt;Socialcast’s functionalities:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Project Management&lt;/li&gt;
+
+&lt;li&gt;Share ideas&lt;/li&gt;
+
+&lt;li&gt;Including external Streams (e.g. Twitter)&lt;/li&gt;
+
+&lt;li&gt;Private messages&lt;/li&gt;
+
+&lt;li&gt;Questions and answers&lt;/li&gt;
+
+&lt;li&gt;Socialcast Thanks&lt;/li&gt;
+
+&lt;li&gt;Create challenges to brainstorm ideas&lt;/li&gt;
+
+&lt;li&gt;Internationalization&lt;/li&gt;
+
+&lt;li&gt;Analytics&lt;/li&gt;
+
+&lt;li&gt;API&lt;/li&gt;
+
+&lt;li&gt;Mobile apps (iOS, Android, Blackberry)&lt;/li&gt;
+
+&lt;li&gt;Embeddable conversations to different apps&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Socialcast’s REST API (http://developers.socialcast.com/) provides programmatic access to the same functionality that is available via the community’s Socialcast website.&lt;/p&gt;
+
+&lt;p&gt;Example usage of Socialcast’s API:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;Philips “We used Socialcast’s API to connect with Connect Us, our enterprise social platform. We created a private group for leaders to engage and have dialogues. Upon opening the summit app, the saw the activity stream on which they could create their own messages and engage with other messages. This made it easy for them to connect with other participants and share information, photos and videos. All content on Philips’ Socialcast community was projected onto meeting walls, creating a powerful, visual experience.” http://www.simply-communicate.com/case-studies/company-profile/philips%E2%80%99-leadership-summit-goes-all-digital&lt;/p&gt;
+&lt;/li&gt;
+
+&lt;li&gt;
+&lt;p&gt;Humana “Using the Socialcast API, a team of Human Resources employees conceptualized and developed a suite of apps and game-like activities with the goal of strengthening the community. Humana’s goal was to make Socialcast – or “Buzz,” as it’s called internally, into an engaging and helpful tool for employees. The team created “The Hive,” a personal social graph for every employee that highlighted one’s participation level and the fellow Buzzers with whom they collaborated the most. They also created apps to highlight unanswered questions, participation heat maps, and trending conversations.” http://www.readwriteweb.com/enterprise/2011/12/how-humana-used-the-socialcast.php&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;</content>
  </entry>
  
  <entry>
