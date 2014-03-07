@@ -16,8 +16,14 @@ ActiveRecord::Schema.define(version: 20140302043957) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
+  create_table "connections", force: true do |t|
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "graphs", force: true do |t|
-    t.string "title"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "graphs_topics", id: false, force: true do |t|
@@ -36,7 +42,8 @@ ActiveRecord::Schema.define(version: 20140302043957) do
   end
 
   create_table "topics", force: true do |t|
-    t.string "title"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "user_user_connections", force: true do |t|
@@ -45,14 +52,8 @@ ActiveRecord::Schema.define(version: 20140302043957) do
   end
 
   create_table "users", force: true do |t|
-    t.string "first_name"
-    t.string "last_name"
-    t.string "email"
-    t.string "username"
-    t.string "password"
-    t.string "position"
-    t.string "department"
-    t.string "image"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
 end
