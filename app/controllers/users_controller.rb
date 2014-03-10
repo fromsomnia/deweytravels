@@ -10,16 +10,31 @@ class UsersController < ApplicationController
   #Adds topic to given user
   #topic_id as payload
   def add_topic
+    if params[:topic_id].present? then
+      topic = Topic.find(params[:topic_id])
+      if topic != nil then
+        self.topics << topic
+      end
+    end
   end
 
   #Adds topic to given user
   #topic_id as payload
   def remove_topic
+    if params[:topic_id].present? then
+      topic = Topic.find([params[:topic_id]])
+      if topic != nil then
+        if self.topics.include? topic then
+          self.topics.delete(topic)
+        end
+      end
+    end
   end
 
   # GET /users/1
   # GET /users/1.json
   def show
+    @user = User.find(params[:id])
   end
 
   # GET /users/new
@@ -29,6 +44,7 @@ class UsersController < ApplicationController
 
   # GET /users/1/edit
   def edit
+    @user = User.find(params[:id])
   end
 
   # POST /users

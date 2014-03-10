@@ -27,29 +27,149 @@ class TopicsController < ApplicationController
   #Adds user to given topic
   #user_id as payload
   def add_user
-
+    if params[:id].present? then
+      current_topic = Topic.find(params[:id])
+      user = User.find(params[:user_id])
+      if current_topic != nil && user != nil then
+        current_topic.users << user
+      end
+    end
   end
 
   #Removes user from topic
   #user_id as payload
   def remove_user
-
+     if params[:id].present? then
+      current_topic = Topic.find(params[:id])
+      user = User.find(params[:user_id])
+      if current_topic != nil && user != nil then
+        current_topic.users.delete(user)
+      end
+    end
   end
 
   #returns related topics (same parents)
   def related
+    @topics = []
+    if params[:id].present? then
+      topic = Topic.find(params[:id].to_i)
+      if topic != nil then
+        topic.supertopics.each do |supertopic|
+          supertopic.subtopics.each do |tiq|
+            if !related.include?(tiq) then
+              related << tiq
+            end
+          end
+        end
+      end
+    end
+    respond_to do |format|
+      format.html { redirect_to @topics }
+      format.json { render json: @topics }
+    end
   end
+
+  def subtopics
+    @topics = []
+    if params[:id].present then
+      topic = Topic.find(params[:id].to_i)
+      if topic != nil then
+        @topics = topic.subtopics
+      end
+    end
+    respond_to do |format|
+      format.html { redirect_to @topics }
+      format.json { render json: @topics }
+    end
+  end
+
+  def supertopics
+    @topics = []
+    if params[:id].present then
+      topic = Topic.find(params[:id].to_i)
+      if topic != nil then
+        @topics = topic.supertopics
+      end
+    end
+    respond_to do |format|
+      format.html { redirect_to @topics }
+      format.json { render json: @topics }
+    end
+  end
+
 
   #max_topics is in params
   def most_connected
+    @topics = []
+    if params[:id].present? then
+      topic = Topic.find(params[:id].to_i)
+      if topic != nil then
+        topic.supertopics.each do |supertopic|
+          supertopic.subtopics.each do |tiq|
+            if !@topics.include?(tiq) then
+              @topics << tiq
+            end
+          end
+        end
+        topic.supertopics.each do |supertopic|
+          if !@topics.include?(supertopic) then
+            @topics << supertopic
+          end
+        end
+        topic.subtopics.each do |subtopic|
+          if !@topics.include?(subtopic) then
+            @topics << subtopic
+          end
+        end
+      end
+    end
+  end
+
+  def add_subtopic
+    if params[:id].present? && params[:topic_id2].present? then
+      topic = Topic.find(params[:id].to_i)
+      subtopic = Topic.find(params[:topic_id2].to_i)
+      if topic != nil && subtopic != nil then
+        topic.subtopics << subtopic
+      end
+    end
   end
 
   #topic_id2 as payload
-  def add_connection
+  def add_supertopic
+    if params[:id].present? && params[:topic_id2].present? then
+      topic = Topic.find(params[:id].to_i)
+      supertopic = Topic.find(params[:topic_id2].to_i)
+      if topic != nil && supertopic != nil then
+        topic.supertopics << supertopic
+      end
+    end
   end
 
   #topic_id2 as payload
-  def remove_connection
+  def remove_subtopic
+    if params[:id].present? && params[:topic_id2].present? then
+      topic = Topic.find(params[:id].to_i)
+      subtopic = Topic.find(params[:topic_id2].to_i)
+      if topic != nil && subtopic != nil then
+        if topic.subtopics.include?(subtopic) then
+          topic.subtopics.delete(subtopic)
+        end
+      end
+    end
+  end
+
+  #topic_id2 as payload
+  def remove_supertopic
+    if params[:id].present? && params[:topic_id2].present? then
+      current_topic = Topic.find(params[:id].to_i)
+      to_remove = Topic.find(params[:topic_id2].to_i)
+      if current_topic != nil && to_remove != nil then
+        if current_topic.supertopics.include?(to_remove) then
+          current_topic.supertopics.delete(to_remove)
+        end
+      end
+    end
   end
 
   # POST /topics
