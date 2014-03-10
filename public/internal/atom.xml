@@ -4,12 +4,188 @@
  <title>BLOG_NAME</title>
  <link href="YOUR_URL/atom.xml" rel="self"/>
  <link href="YOUR_URL"/>
- <updated>2014-03-05T02:55:59-08:00</updated>
+ <updated>2014-03-09T22:53:42-07:00</updated>
  <id>BLOG_URL</id>
  <author>
    <name>BLOG_NAME</name>
  </author>
 
+ 
+ <entry>
+   <title>Needfinding</title>
+   <link href="YOUR_URL/2014/03/09/needfinding.html"/>
+   <updated>2014-03-09T00:00:00-08:00</updated>
+   <id>BLOG_URL/2014/03/09/needfinding</id>
+   <content type="html">&lt;h3 id=&quot;takeaway_points&quot;&gt;Takeaway Points:&lt;/h3&gt;
+
+&lt;ul&gt;
+&lt;li&gt;People in different companies and groups use different communication channels → important that we list / link to / enable as many communication links as possible.&lt;/li&gt;
+
+&lt;li&gt;People need to find experts in their organization very often, other than people with standalone projects (e.g. sales in a specific locale)&lt;/li&gt;
+
+&lt;li&gt;Institutional memory of ‘who-to-ask’ lies with senior members of the team, and is passed down from people to people.&lt;/li&gt;
+
+&lt;li&gt;A lot of organizations change quite often, so our app has to be flexible with changes of expertise / directly-responsible individuals.&lt;/li&gt;
+
+&lt;li&gt;Subject Matter Experts are chased down by many people, so whenever possible load-balancing recommendations is a good idea.&lt;/li&gt;
+
+&lt;li&gt;Might want to consider gamification / incentive for people to answer.&lt;/li&gt;
+
+&lt;li&gt;We cannot rely on user input for knowing expertise, so the more automated we can make this process to be, the better.&lt;/li&gt;
+
+&lt;li&gt;This app needs to integrate with whatever the user already uses at their company to be useful. It’s a high frictional cost to have to open up and learn another tool. Ideally we can seamlessly integrate with existing intranet tools.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr /&gt;
+&lt;p&gt;See the &lt;a href=&quot;https://docs.google.com/forms/d/1M7-DTy38SMOJy9E5T1GbXzaAfWaXCcPY5UeHxB4dogk/viewform&quot;&gt;list of interview transcriptions&lt;/a&gt; and &lt;a href=&quot;https://docs.google.com/document/d/1kPZNwS4oSI3mnM-AV9FD32BVga4PMB_8cwMTitfZ__0/edit&quot;&gt;the notes from the conference call with Chris Iannuccilli (Global Head of Strategy and Operations at Google)&lt;/a&gt;.&lt;/p&gt;
+
+&lt;h3 id=&quot;objective&quot;&gt;Objective:&lt;/h3&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Validate that there is a need of an application that makes finding subject matter expert in the workplace easier.&lt;/li&gt;
+
+&lt;li&gt;Validate that there is a need on a management level for an application that maps out the distribution of knowledge on the workplace.&lt;/li&gt;
+
+&lt;li&gt;Find out the demographics of people (which department, what size of company) who often face the problem of finding the right person to ask in the workplace.&lt;/li&gt;
+
+&lt;li&gt;Find out the current workflow of finding people to ask on the workplace and the pain points of such workflow.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;questions_asked&quot;&gt;Questions asked:&lt;/h3&gt;
+
+&lt;ul&gt;
+&lt;li&gt;How often do you interact with employees outside your team / office?&lt;/li&gt;
+
+&lt;li&gt;How do you usually ask questions at work?&lt;/li&gt;
+
+&lt;li&gt;How do you find people to ask at the workplace?&lt;/li&gt;
+
+&lt;li&gt;What is the pain points on this process and how can it be improved?&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;interview_targets&quot;&gt;Interview targets&lt;/h3&gt;
+
+&lt;p&gt;15 employees or managers at companies of varying sizes and types:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Companies: Google, Intel, Oracle, OptumRx, PIMCO (investment firm), Cargill, ESRI, Alliance Human Services, Raytheon, school district, etc.&lt;/li&gt;
+
+&lt;li&gt;Company Type: Software, Medical, Investment Firm, Agriculture, Education, Hardware, Health / Social, Defense Contractor&lt;/li&gt;
+
+&lt;li&gt;Company size: small, medium, national, multinational&lt;/li&gt;
+
+&lt;li&gt;Department: People Operations / HR, Technical Staff, IT, Aerospace Engineer, Software Engineer, Medical Officer, Associate, VP, Teacher, Sales, Department Head, Project Lead&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;results&quot;&gt;Results&lt;/h3&gt;
+
+&lt;h4 id=&quot;how_often_do_you_interact_with_people_outside_your_team__office&quot;&gt;How often do you interact with people outside your team / office?&lt;/h4&gt;
+
+&lt;ul&gt;
+&lt;li&gt;“Everyday / all the time”
+&lt;ul&gt;
+&lt;li&gt;People Operations&lt;/li&gt;
+
+&lt;li&gt;IT / Technical Staff&lt;/li&gt;
+
+&lt;li&gt;Software Engineer (working on a project w/ many dependencies),&lt;/li&gt;
+
+&lt;li&gt;Health / social service in management role&lt;/li&gt;
+
+&lt;li&gt;Aerospace Engineer&lt;/li&gt;
+
+&lt;li&gt;Medical officer in management role&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+
+&lt;li&gt;“Rarely / only to specific set of people”
+&lt;ul&gt;
+&lt;li&gt;Hardware Engineer with a relatively standalone responsibility&lt;/li&gt;
+
+&lt;li&gt;Sales only responsible for a specific region&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h4 id=&quot;how_often_do_you_have_questions_at_work&quot;&gt;How often do you have questions at work?&lt;/h4&gt;
+
+&lt;p&gt;Most respondents agrees: “Every day / very often”&lt;/p&gt;
+
+&lt;h4 id=&quot;how_do_you_usually_ask_questions&quot;&gt;How do you usually ask questions?&lt;/h4&gt;
+
+&lt;ul&gt;
+&lt;li&gt;In person&lt;/li&gt;
+
+&lt;li&gt;Email&lt;/li&gt;
+
+&lt;li&gt;Video conference&lt;/li&gt;
+
+&lt;li&gt;Phone&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h4 id=&quot;how_do_you_find_the_right_person_to_ask&quot;&gt;How do you find the right person to ask?&lt;/h4&gt;
+
+&lt;ul&gt;
+&lt;li&gt;A lot of them say a variation of:&lt;/li&gt;
+
+&lt;li&gt;“After a while, you sort of know who you need to talk to - a mental map of: if I need to ask question about X, go to A. If the question is about Y, go to B. etc”&lt;/li&gt;
+
+&lt;li&gt;Ask teammates / senior coworkers / managers if you don’t know.&lt;/li&gt;
+
+&lt;li&gt;“Start with senior people and work downwards”&lt;/li&gt;
+
+&lt;li&gt;“Start with secretary or principal”&lt;/li&gt;
+
+&lt;li&gt;This information is passed down from people to people&lt;/li&gt;
+
+&lt;li&gt;Lookup on internal team page or internal directory of ‘who’s in department X?’&lt;/li&gt;
+
+&lt;li&gt;Reference sheet distributed by different teams&lt;/li&gt;
+
+&lt;li&gt;Google has corporate G+ and Google Groups, but most people don’t end up using them.&lt;/li&gt;
+
+&lt;li&gt;Google has a “who knows what tool”, that finds where people went to school, what projects they worked on, Google resume, personal interests and their inputted expertise&lt;/li&gt;
+
+&lt;li&gt;Not really used at Google&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h4 id=&quot;pain_points_on_this_process&quot;&gt;Pain points on this process&lt;/h4&gt;
+
+&lt;ul&gt;
+&lt;li&gt;“Subject Matter Experts are important people, so they are chased by many people - questions often times get ignored or get short responses.”&lt;/li&gt;
+
+&lt;li&gt;Teams operate differently, so documentations are not standardized (big company is hard to standardize)&lt;/li&gt;
+
+&lt;li&gt;People move around a lot so it’s hard to keep data from being stale.&lt;/li&gt;
+
+&lt;li&gt;“Hard to know who does what in my large company.”&lt;/li&gt;
+
+&lt;li&gt;It’s rare to get to the right person on first try - often times I get ping-ponged between people until actually getting to the right person&lt;/li&gt;
+
+&lt;li&gt;Hard to know the right person on the team who I should contact - is it the manager? The senior person?&lt;/li&gt;
+
+&lt;li&gt;“Different offices often have very different software/hardware/communication devices, for example, we have video conferencing and voice capabilities through MS Lync that work extremely well and are cheap, although some offices don’t have headsets or cameras, so we use an actual phone call which costs significantly more.”&lt;/li&gt;
+
+&lt;li&gt;“Difficult to reach out to those you don’t know, as it nearly always requires a formal email to introduce yourself, etc. and I never know if I’m talking to the right person so I may be just bothering them for information they don’t know anyway.”&lt;/li&gt;
+
+&lt;li&gt;“Social workers outside the agency often times don’t know about processes and multitask with their cases. It can be time consuming to wait for people to provide the right services / answers.”&lt;/li&gt;
+
+&lt;li&gt;For questions with technical depth, it’s hard to scope down the project to a short question to other people - it’s hard to pick and choose what details to share.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h4 id=&quot;how_could_that_process_be_improved&quot;&gt;How could that process be improved?&lt;/h4&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Standardized procedure / central reference in making things more transparent - who is responsible for this project, etc.&lt;/li&gt;
+
+&lt;li&gt;The biggest problem is ‘how-to-make-them-answer’.&lt;/li&gt;
+
+&lt;li&gt;With a good tool to search information easily, something like Google Enterprise Search.&lt;/li&gt;
+
+&lt;li&gt;“If I knew the correct subject matter expert (SME) to go to the first time, that would be most beneficial in saving time and getting to the right source. It would be nice to have some type of directory that showed functions and expertise–all that is shared now is the reporting hierarchy.”&lt;/li&gt;
+
+&lt;li&gt;Having a broader net to cast, so I could reach someone whom I may have never spoken to prior. Maybe if there was some way to ask my question, and have everyone see it so they can point me in the right way, would be a better way to drive this, kind of like stack overflow and yahoo answers. A lot of times you don’t know what you don’t know, and so might be looking for the wrong person. It’s better to have a lot of eyes see your problem.&lt;/li&gt;
+&lt;/ul&gt;</content>
+ </entry>
  
  <entry>
    <title>Pink Bagel</title>

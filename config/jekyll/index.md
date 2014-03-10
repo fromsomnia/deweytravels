@@ -47,7 +47,7 @@ Mapping employees’ expertise and facilitating productive knowledge flow inside
 * [Naming "Dewey"] (/internal/2014/01/24/naming-dewey.html)
 * [Pivoting the product idea] (/internal/2014/02/17/pivoting.html)
 * [Benchmarking product area] (/internal/2014/02/22/benchmarking.html)
-* User research: need finding
+* [User research: need finding] (/internal/2014/03/09/needfinding.html)
 * ["Pink Bagel" - testing through advertising] (/internal/2014/02/17/pivoting.html)
 * User research: mockup feedback
 
