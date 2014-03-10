@@ -1,5 +1,7 @@
 TeamDeweyWebsite::Application.routes.draw do
   get "session/login"
+  post "session/post_login"
+  get "session/get_users"
   get "users/index"
   get "about/team"
   resources :graphs
