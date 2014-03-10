@@ -12,6 +12,7 @@ class TopicsController < ApplicationController
   def show
   end
 
+
   # GET /topics/new
   def new
     @topic = Topic.new
@@ -19,6 +20,31 @@ class TopicsController < ApplicationController
 
   # GET /topics/1/edit
   def edit
+  end
+
+  #Adds topic to given topic controller
+  #topic_id as payload
+  def add
+  end
+
+  #Removes user from topic
+  def remove
+  end
+
+  #returns related topics (same parents)
+  def related
+  end
+
+  #max_topics is in params
+  def most_connected
+  end
+
+  #topic_id2 as payload
+  def add_connection
+  end
+
+  #topic_id2 as payload
+  def remove_connection
   end
 
   # POST /topics

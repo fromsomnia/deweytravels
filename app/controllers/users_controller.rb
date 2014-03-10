@@ -7,6 +7,11 @@ class UsersController < ApplicationController
     @users = User.all
   end
 
+  #Adds user to given topic controller
+  #user_id as payload
+  def add
+  end
+
   # GET /users/1
   # GET /users/1.json
   def show

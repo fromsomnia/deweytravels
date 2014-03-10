@@ -4,6 +4,7 @@ class CreateUsers < ActiveRecord::Migration
         t.column :user_id, :primary_key
     	t.column :first_name, :string
     	t.column :last_name, :string
+        t.column :domain, :string
     	t.column :email, :string
         t.column :office_phone, :integer
     	t.column :username, :string
