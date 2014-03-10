@@ -7,9 +7,14 @@ class UsersController < ApplicationController
     @users = User.all
   end
 
-  #Adds user to given topic controller
-  #user_id as payload
-  def add
+  #Adds topic to given user
+  #topic_id as payload
+  def add_topic
+  end
+
+  #Adds topic to given user
+  #topic_id as payload
+  def remove_topic
   end
 
   # GET /users/1

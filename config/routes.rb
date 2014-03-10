@@ -11,19 +11,23 @@ TeamDeweyWebsite::Application.routes.draw do
     post "remove_connection"
     get "most_connected"
     get "related"
+    
+    post "add_user"
+    post "remove_user"
 
-    resources :users do
-      get "add"
-      post "remove"
-    end
+
+
+    resources :users
+
   end
 
   resources :users do
+    post "add_topic"
+    post "remove_topic"
 
-    resources :topics do
-      get "add"
-      post "remove"
-    end
+
+    resources :topics
+
   end
 
 

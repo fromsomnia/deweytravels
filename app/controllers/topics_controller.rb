@@ -10,6 +10,7 @@ class TopicsController < ApplicationController
   # GET /topics/1
   # GET /topics/1.json
   def show
+    @topic = Topic.find(params[:id])
   end
 
 
@@ -20,15 +21,19 @@ class TopicsController < ApplicationController
 
   # GET /topics/1/edit
   def edit
+    @topic = Topic.find(params[:id])
   end
 
-  #Adds topic to given topic controller
-  #topic_id as payload
-  def add
+  #Adds user to given topic
+  #user_id as payload
+  def add_user
+
   end
 
   #Removes user from topic
-  def remove
+  #user_id as payload
+  def remove_user
+
   end
 
   #returns related topics (same parents)
