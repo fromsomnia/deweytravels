@@ -1,6 +1,7 @@
 class Socialcast
     include HTTParty
     debug_output $stdout
+    
     #TODO: don't hard code domain once switched to OAUTH
     domain_name = 'dewey-cs210'
     base_uri "https://#{domain_name}.socialcast.com/api"
@@ -9,7 +10,7 @@ class Socialcast
         @auth = {:username => username, :password => password}
     end
 
-    def post_login
+    def authenticate
         puts "posting login"
         login_auth = {email: @auth[:username], password: @auth[:password]}
         puts login_auth

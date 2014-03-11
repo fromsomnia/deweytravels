@@ -1,5 +1,7 @@
+<% if flash[:notice]%>
+    <p><%= flash[:notice] %></p>
+<% end %>
 <h1>Session#login</h1>
-<p>Find me in app/views/session/login.html.erb</p>
 <%= form_tag(:action => :post_login) do %>
 <%= label_tag(:email, "Socialcast Username:") %>
 <%= text_field_tag(:email) %>

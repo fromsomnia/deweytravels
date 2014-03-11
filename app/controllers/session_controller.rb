@@ -1,54 +1,32 @@
 require 'socialcast'
+require 'pp'
 
 class SessionController < ApplicationController
   def login
   end
 
+
   def post_login
     email = params[:email]
     password = params[:password]
     sc = Socialcast.new(email, password)
-    status = sc.post_login
-    #need to check that login success
+    status = sc.authenticate
     if status['authentication-failure']
-      puts "Could not log in"
-      puts status['authentication-failure']['error-message']
-
-      #handle error
-      #LOGIN ERROR
-      #status['authentication-failure']['error-code']
-      #status['authentication-failure']['error-message']
+      err = status['authentication-failure']
+      render json: err, status: :unauthorized
     else
-    #temp hack storing auth info in client session until we have oauth *cringe*
-      session[:user] = sc
-      domain = status['communities'][0]['subdomain']
-      puts domain
-      #if can't find domain in Users:
-      unless User.exists? domain: domain
+      #TODO: figure out what to do if login belongs to > 1 community
+      info = status['communities'][0]
+      domain = info['subdomain']
+      user_id = info['profile']['id']
+      #if company is not in db, fetch all employees:
+      if !User.exists?(domain: domain)
         puts "fetching all users"
-        get_users
+        User.load_from_sc(sc, domain)
       end
-    end
-      render json: status
-  end
-
-  def get_users
-    email = params[:email]
-    password = params[:password]
-    sc = session[:user]
-    if sc
-      puts "logged in"
-      users = sc.get_users
-      users.each do |user|
-          User.new
-          email = user['contact_info']['email']
-          name = user['name']
-          puts email
-          puts name
-      end
-    else
-      puts "not logged in"
-      # render json: {error: 'not logged in'}
+      #TODO: just using user id as auth token for now - should change
+      session[:user_id] = user_id
+      head :ok
     end
   end
 
