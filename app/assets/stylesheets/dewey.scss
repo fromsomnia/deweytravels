@@ -1,0 +1,192 @@
+$mobile: 641px;
+$white: #e7e6dd;
+$gray: #dcdbce;
+$blue: #25a0ca;
+$dark-blue: #1d7e9f;
+$font: "Trebuchet MS", Helvetica, sans-serif;
+
+* {
+	font-family: $font;
+}
+
+body {
+	background-color: $blue;
+}
+
+#main {
+
+	background-color: $blue;
+	color: $white;
+	padding-top: 15px;
+	padding-bottom: 15px;
+	
+	@media (min-width: $mobile) {
+		width: 400px;
+		position: fixed;
+		top: 50px;
+		left: 50px;
+		max-height: 85%;
+		overflow: scroll;
+		border: 3px solid $white;
+	}
+	
+}
+
+.list {
+	
+	.list-group-item {
+		background-color: $blue;
+		color: $white;
+		border: none;
+		height: 63px;
+
+		img {
+			height: 42px;
+			float: left;
+		}
+		
+		.list-group-item-heading {
+			color: $white;
+		}
+
+		&:hover {
+			background-color: $dark-blue;
+		}
+	}
+}
+
+.login {
+
+	text-align: center;
+
+	#email {
+		margin-top: 20px;
+	}
+
+	#password {
+		margin-top: 5px;
+	}
+
+	input {
+		display: inline;
+	}
+	
+	.mission {
+		font-size: 2em;
+		font-style: italic;
+	}
+
+	button {
+		margin-top: 5px;
+		background-color: $white;
+		color: $blue;
+		&:hover {
+			background-color: $gray;
+		}
+	}
+
+}
+
+.nav {
+	height: 56px;
+	padding: 5px;
+	margin-bottom: 10px;
+
+	#logo {
+		height: 100%;
+		width: auto;
+		float: left
+	}
+
+	#search {
+		background-color: $white;
+		color: $blue;
+	}
+}
+
+.profile {
+
+	text-align: center;
+
+	@media (max-width: $mobile) {
+
+		margin-bottom: 20px;
+
+		img {
+			margin-bottom: 20px;
+		}
+
+		.name {
+			font-size: 3em;
+		}
+
+		.description {
+			font-size: 2em;
+			font-style: italic;
+		}
+
+		.email {
+			font-size: 1.5em;
+		}
+
+		.phone {
+			font-size: 1.5em;
+		}
+	}
+
+	@media (min-width: $mobile) {
+
+		margin-bottom: 20px;
+
+		img {
+			width: 200px;
+			margin-bottom: 5px;
+		}
+
+		.name {
+			font-size: 2.5em;
+		}
+
+		.description {
+			font-size: 1.5em;
+			font-style: italic;
+		}
+
+		.email {
+			font-size: 1.2em;
+		}
+
+		.phone {
+			font-size: 1.2em;
+		}
+	}
+
+}
+
+.tags {
+	text-align: center;
+	
+	span {
+
+		font-size: 1.1em;
+		background-color: $white;
+		color: $blue;
+		display: inline-block;
+		border-radius: 3px;
+
+		@media (max-width: $mobile) {
+			padding: 15px;
+			margin: 3px;
+		}
+
+		@media (min-width: $mobile) {
+			padding: 5px 10px;
+			margin: 3px;
+		}
+
+		&:hover {
+			background-color: $gray;
+			cursor: pointer;
+		}
+	}
+}
