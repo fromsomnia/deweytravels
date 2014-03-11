@@ -21,11 +21,9 @@
 				<br>
 				<span class="mission col-xs-12">find the right people</span>
 				<br>
-				<input type="email" class="form-control" id="email" name="email" placeholder="email">
-				<input type="password" class="form-control" id="password" name="password" placeholder="password">
-				<a href="#/search">
-					<button type="button" class="col-xs-12 btn btn-default btn-lg">login</button>
-				</a>
+				<input type="email" class="form-control" id="email" name="email" placeholder="email" ng-model="loginData.email">
+				<input type="password" class="form-control" id="password" name="password" placeholder="password" ng-model="loginData.password">
+				<button type="button" class="col-xs-12 btn btn-default btn-lg" ng-click='login()'>login</button>
 				<div class="col-xs-1"></div>
 			</div>
 		</script>
@@ -222,7 +220,7 @@
 			  return factory;
 			});
 
-			DeweyApp.controller('DeweyController', function ($scope, DeweyFactory) {
+			DeweyApp.controller('DeweyController', function ($scope, $location, DeweyFactory) {
 
 				function init () {
 					$scope.results = DeweyFactory.results;
@@ -230,6 +228,20 @@
 					$scope.users = DeweyFactory.users;
 					$scope.topic = DeweyFactory.topic;
 					$scope.topics = DeweyFactory.topics;
+					$scope.loginData = {};
+
+					$scope.login = function () {
+						debugger;
+						$.post('/session/post_login', { 
+							email: $scope.loginData.email, 
+							password: $scope.loginData.password 
+						}, function () {
+							debugger;
+							// todo
+					    $location.path('/search');
+						});
+					};
+
 				}
 
 				(function () {
