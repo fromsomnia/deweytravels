@@ -11,7 +11,7 @@ full_stack:
 
 programming:
  title: programming
- topics: mobile, iOS, android, algorithms, ruby, python, fortran, java, c, c_plus_plus, objective_c, subersion, git, version_control
+ topics: mobile, iOS, android, algorithms, ruby, python, fortran, java, c, c_plus_plus, objective_c, subversion, git, version_control
 
 web:
  title: web

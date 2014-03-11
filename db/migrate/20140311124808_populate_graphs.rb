@@ -3,7 +3,7 @@ class PopulateGraphs < ActiveRecord::Migration
 	full_stack = Graph.new(
 	 :title => "full_stack")
 	full_stack.save(:validate => false)
-	array = ["web", "javascript", "ruby", "python", "rails", "php", "version_control", "html", "jquery", "git", "subversion", "data_visualization", "graphic_design"]
+	array = ["web", "javascript", "ruby", "python", "rails", "php", "version control", "html", "jquery", "git", "subversion", "data visualization", "graphic design"]
 	array.each do |topic|
 		full_stack.topics << Topic.find_by_title(topic)
 	end
@@ -11,7 +11,7 @@ class PopulateGraphs < ActiveRecord::Migration
 	programming = Graph.new(
 	 :title => "programming")
 	programming.save(:validate => false)
-	array = ["mobile", "iOS", "android", "algorithms", "ruby", "python", "fortran", "java", "c", "c_plus_plus", "objective_c", "subersion", "git", "version_control"]
+	array = ["mobile", "iOS", "android", "algorithms", "ruby", "python", "fortran", "java", "c", "c++", "objective c", "subversion", "git", "version control"]
 	array.each do |topic|
 		programming.topics << Topic.find_by_title(topic)
 	end
@@ -27,7 +27,7 @@ class PopulateGraphs < ActiveRecord::Migration
 	mobile = Graph.new(
 	 :title => "mobile")
 	mobile.save(:validate => false)
-	array = ["iOS", "android", "objective_c"]
+	array = ["iOS", "android", "objective c"]
 	array.each do |topic|
 		mobile.topics << Topic.find_by_title(topic)
 	end
