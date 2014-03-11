@@ -7,8 +7,8 @@ class PopulateUsers < ActiveRecord::Migration
 	 :username => "william",
 	 :password => "william",
 	 :position => "Engineer",
-	 :department => "Engineering",
 	 :phone => "123-456-7890",
+	 :department => "Engineering",
 	 :image => "William.png")
 	william.save(:validate => false)
 
@@ -45,7 +45,8 @@ class PopulateUsers < ActiveRecord::Migration
 	 :position => "Engineer",
 	 :department => "Engineering",
 	 :phone => "123-456-7890",
-	 :image => "Stephen.png") 
+	 :image => "Stephen.png")
+	stephen.save(:validate => false) 
 
 	john = User.new(
 	 :first_name => "John",

@@ -6,6 +6,7 @@ class CreateUsers < ActiveRecord::Migration
     	t.column :last_name, :string
         t.column :domain, :string
     	t.column :email, :string
+        t.column :phone, :string
     	t.column :username, :string
     	t.column :password, :string
     	t.column :position, :string
@@ -15,7 +16,6 @@ class CreateUsers < ActiveRecord::Migration
         t.column :image_70, :string
         t.column :image_140, :string
     	t.column :image, :string
-        t.column :phone, :string
 
     end
   end
