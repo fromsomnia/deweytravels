@@ -190,95 +190,11 @@
 			<hr>
 			<p class="centered">Theme adapted from BlackTie.co - Attribution License 3.0 - 2013</p>
 		</div><!-- /container -->
-
-		<div id = "nodeInfo" class = "node_info">
-			<img src="assets/dewey_logo.png" width="40" height="40" align="left">
-			<input type="text" class="form-control" placeHolder="search" style="width:200px">
-			<br/>
-			<div id="nodeInfoContent">Dewey: Find Answers</div>
-		</div>
+		
 	    <!-- Bootstrap core JavaScript
 	    ================================================== -->
 	    <!-- Placed at the end of the document so the pages load faster -->
 	    <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
 	    <script src="assets/bootstrap.min.js"></script>
-
-    	<script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
-    	<script>
-
-			var width = 1160, height = 700;
-			var force = d3.layout.force()
-			    .charge(-1000)
-			    .linkDistance(200)
-			    .size([width, height]);
-
-			var svg = d3.select("body").append("svg")
-			    .attr("width", "100%")
-			    .attr("height", "100%");
-
-			d3.json("myj.json", function(error, graph) {
-				force
-				  .nodes(graph.nodes)
-				  .links(graph.links).theta(1)
-				  .start();
-
-				var link = svg.selectAll(".link")
-				  .data(graph.links)
-				  .enter().append("line")
-				  .attr("class", "link")
-				  .style("stroke-dasharray", ("3, 3"));
-
-				var gnodes = svg.selectAll('.node')
-				  .data(graph.nodes)
-				  .enter()
-				  .append('g');
-
-				// Add one circle in each group
-				var node = gnodes.append("circle")
-				  .attr("class", "node")
-				  .attr("r", function(d) { return d.conns * d.group * 12; })
-				  .style("fill", function(d, i) {
-				  	return d.group % 2 ? "#FFFF66" : "#00CC66";
-				  });
-
-				// Append the labels to each group
-				gnodes.append("text")
-				  .attr("text-anchor", "middle")
-				  .text(function(d) { return d.name; })
-				  .style("font-size", function(d) { return 10 * d.group * d.conns + "px"; });
-
-				 gnodes.on("click", function(d, i) {
-				 	if(d.group === 1) {
-				 		$("#nodeInfoContent").text(d.name).append("<br/> Email: " + d.email)
-				 	}
-				 	if(d.group === 2) {
-					 	var connections = "";
-					 	for(var j = 0; j < graph.links.length; j++) {
-					 		if(graph.links[j].source === d) {
-					 			connections += graph.links[j].target.name + "<br/>";
-					 		}
-					 		else if (graph.links[j].target === d) {
-					 			connections += graph.links[j].source.name + "<br/>";
-					 		}
-					 	}
-					 	$("#nodeInfoContent").text(d.name).append("<br/><br/><div style=\"text-align: left\">" + 
-					 		connections + "</div>");
-					 }
-
-				 });
-
-				force.on("tick", function() {
-					link.attr("x1", function(d) { return d.source.x; })
-					    .attr("y1", function(d) { return d.source.y; })
-					    .attr("x2", function(d) { return d.target.x; })
-					    .attr("y2", function(d) { return d.target.y; });
-
-					  // Translate the groups
-					  gnodes.attr("transform", function(d) { 
-					    return 'translate(' + [d.x, d.y] + ')'; 
-					  }); 
-				});
-			});
-		</script>
 	</body>
 </html>
