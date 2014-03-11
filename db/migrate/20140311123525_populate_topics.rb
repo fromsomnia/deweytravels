@@ -26,7 +26,7 @@ class PopulateTopics < ActiveRecord::Migration
 
 	javascript = Topic.new(
 	 :title => "javascript")
-	javscript.save(:validate => false)
+	javascript.save(:validate => false)
 
 	ruby = Topic.new(
 	 :title => "ruby")
