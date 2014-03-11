@@ -5,7 +5,8 @@ title: Logo Design Process
 
 # Logo Design Process
 --------------
-by John Pulvera
+
+![Logo](/assets/logo.png)
 
 ## Inspiration
 

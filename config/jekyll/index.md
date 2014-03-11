@@ -7,15 +7,19 @@ title: Internal Documentation
 --------------
 Mapping employees’ expertise and facilitating productive knowledge flow inside corporations.
 
+# What Dewey Does
+--------------
+Dewey is a webapp that allows employees inside companies to easily find who is the Subject Matter Expert on a particular topic inside a company. Such expertise graph can be built manually and automatically, by pulling in data from communication tools inside a company, for example [Socialcast] (/internal/2014/01/23/about-socialcast.html).
+
 # First Day Checklist
 --------------
 *  Make sure that you are added to tools we used internally.
-   * [Asana] (https://app.asana.com/0/9775270990167/9775270990167)
-   * [Google Drive] (https://drive.google.com/#folders/0BwxIKrJjqiXwdHV5UnhHTzNZRkE)
-   * [Socialcast] (https://dewey-cs210.socialcast.com/login)
-   * [Github] (https://github.com/stephenq/dewey)
-   * [Wordpress] (http://weareteamdewey.wordpress.com/)
-   * [Heroku] (http://www.heroku.com)
+   * [Asana] (https://app.asana.com/0/9775270990167/9775270990167) for project management
+   * [Google Drive] (https://drive.google.com/#folders/0BwxIKrJjqiXwdHV5UnhHTzNZRkE) for documents storage
+   * [Socialcast] (https://dewey-cs210.socialcast.com/login) for testing locally
+   * [Github] (https://github.com/stephenq/dewey) for code storage
+   * [Wordpress] (http://weareteamdewey.wordpress.com/) for blogging
+   * [Heroku] (http://www.heroku.com) for deploying the app
    * GroupMe
 *  Either send a share request or shoot an email to [Veni] (mailto:veni@stanford.edu) if you have not been added to these tools.
 *  [Setup your dev environment locally] (/internal/howto/local_dev)
@@ -37,30 +41,48 @@ Mapping employees’ expertise and facilitating productive knowledge flow inside
 # Design
 --------------
 * The design of the original Dewey logo
-* The design of Dewey Expertise Graph logo
-* The design of first set of mockup
+* [The design of Dewey Expertise Graph logo] (/internal/design/logo)
+* [The design of first set of mockup] (/internal/design/user_experience)
 * The design of expertise graph visualization
 
 # Product
 --------------
+* [Initial Problem Specification from VMWare] (http://cs210net.stanford.edu/pmwiki/uploads/VMWare2014/vmware2014.pdf)
 * [About Socialcast] (/internal/2014/01/23/about-socialcast.html)
-* [Naming "Dewey"] (/internal/2014/01/24/naming-dewey.html)
-* [Pivoting the product idea] (/internal/2014/02/17/pivoting.html)
+* [Naming the product "Dewey"] (/internal/2014/01/24/naming-dewey.html)
+* [Brainstorming Notes] (https://docs.google.com/document/d/1CA_APZHvg3PPqnzO7ZKFmozW5Zn4ehlo1JeVBocTRZI/)
+* [Pivoting the product idea] (/internal/2014/02/17/pivoting.html).
+
+  The initial idea is to have [a bot automatically responds to conversations in Socialcast] (http://cs210net.stanford.edu/pmwiki/uploads/VMWare2014/vmware2014.pdf). The new idea is to [build tools that map expertise inside a company] (https://docs.google.com/document/d/1lmRcVgWUTT7dF6gtfsaLODK6CVB89jlFiGCdW37N9tU/)
 * [Benchmarking product area] (/internal/2014/02/22/benchmarking.html)
 * [User research: need finding] (/internal/2014/03/09/needfinding.html)
-* ["Pink Bagel" - testing through advertising] (/internal/2014/02/17/pivoting.html)
+* ["Pink Bagel" - testing through advertising] (/internal/2014/03/05/pink-bagel)
 * User research: mockup feedback
 
 
 
 # Team Documents
 --------------
-* [Product Specification] (https://docs.google.com/document/d/1lmRcVgWUTT7dF6gtfsaLODK6CVB89jlFiGCdW37N9tU/)
-* Benchmarking on [Enterprise Social Network] (https://docs.google.com/document/d/1uXgTH6dltvE6ecdf8HDoV9y4bhoV6A2Md1Djty_wFeg/), [Comparison Matrix] (https://docs.google.com/spreadsheet/ccc?key=0AgxIKrJjqiXwdFVBT25JNk5mRkpDbTdDUmlaZjlLdGc&usp=drive_web), and [Expertise Mapper] (https://docs.google.com/document/d/1gZTdLcREtbPWPnqGhci8yzLniOswV3B5lqP-OmzhafA/)
-* [Brainstorming Recap] (https://docs.google.com/document/d/1CA_APZHvg3PPqnzO7ZKFmozW5Zn4ehlo1JeVBocTRZI/)
-* [Meeting Notes] (https://docs.google.com/document/d/1J3Nn1u9_611yJeNVPW9gKefOXFgcQcdZkDNwuqtJsBs/)
 * [Original Problem Specification from VMWare] (http://cs210net.stanford.edu/pmwiki/uploads/VMWare2014/vmware2014.pdf)
-* VC Presentation. See [slide] (https://docs.google.com/presentation/d/1LxpRmevZFrB_5o_f1HkAuFatsgstUl_MAc_Poknc6us/) and [script] (https://docs.google.com/document/d/16dgz7shCBTDtU9f1YGCs2F838deACrdCen__X2erqgM/)
+* [Product Specification] (https://docs.google.com/document/d/1lmRcVgWUTT7dF6gtfsaLODK6CVB89jlFiGCdW37N9tU/)
+* Benchmarking on:
+  * [Enterprise Social Network] (https://docs.google.com/document/d/1uXgTH6dltvE6ecdf8HDoV9y4bhoV6A2Md1Djty_wFeg/)
+  * [Comparison Matrix] (https://docs.google.com/spreadsheet/ccc?key=0AgxIKrJjqiXwdFVBT25JNk5mRkpDbTdDUmlaZjlLdGc&usp=drive_web)
+  * [Expertise Mapper] (https://docs.google.com/document/d/1gZTdLcREtbPWPnqGhci8yzLniOswV3B5lqP-OmzhafA/)
+* [Brainstorming Recap] (https://docs.google.com/document/d/1CA_APZHvg3PPqnzO7ZKFmozW5Zn4ehlo1JeVBocTRZI/)
+* Needfinding
+  * [Summary] (https://docs.google.com/document/d/1-rJIJzsrAgVMzbW3qUZhRKKnuHdMvaqlRRdkAp_xL_4/edit)
+  * [Transcription] (https://docs.google.com/spreadsheet/ccc?key=0ArS2_OCbR-MddDEwYzNxRG9tb1lHeTJ2ZnBGMklmX2c&usp=drive_web)
+  * [Notes from Interview with Chris Iannuccilli - Global Head of Strategy and Operations at Google] (https://docs.google.com/document/d/1kPZNwS4oSI3mnM-AV9FD32BVga4PMB_8cwMTitfZ__0/edit) 
+
+* [Pink Bagel Presentation] (https://docs.google.com/presentation/d/1uVn6Y_paPGQuYFB8JcW_13mGnVBm8OmjAqD8AS6fUrc/edit?usp=drive_web)
+* [Meeting Notes] (https://docs.google.com/document/d/1J3Nn1u9_611yJeNVPW9gKefOXFgcQcdZkDNwuqtJsBs/)
+* VC Presentation Feb 6. See [slide] (https://docs.google.com/presentation/d/1LxpRmevZFrB_5o_f1HkAuFatsgstUl_MAc_Poknc6us/) and [script] (https://docs.google.com/document/d/16dgz7shCBTDtU9f1YGCs2F838deACrdCen__X2erqgM/)
+* Liaison Documents
+  * [Liaison Meeting #1 Notes] (https://docs.google.com/document/d/1HY9F6UyRtK0hxtg9T4tdmlbksqe1XlL5GD-9V8v_ZiE/edit)
+  * [VMWare Conference Call with Socialcast Community Managers] (https://docs.google.com/document/d/1vM8l3h4syadmKMh623LtbnriONmrdjG3cpr9-OC4Rm8/edit)
+  * [Presentation Slides to VMWare, about Pivoted Product Idea] (https://docs.google.com/presentation/d/1y9embuAITHmEkRAnodPTUBBsQ1ZyjLTF0HlxdYtz-WI/edit#slide=id.g2c1d43eb4_05)
+
 
 # Miscellaneous
 --------------

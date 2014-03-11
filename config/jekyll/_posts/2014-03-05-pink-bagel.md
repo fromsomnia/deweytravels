@@ -94,3 +94,5 @@ Variation 2
   * $1.67 / Website Click
   * 6798 Reach
   * 0.517%
+
+The campaign also resulted in two likes, and two email subscriptions.

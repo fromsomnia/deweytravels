@@ -9,6 +9,8 @@ by John Pulvera
 
 ## Mobile-First
 
+![Mobile Design](/assets/mockups_mobile.png)
+
 I went with the mobile first approach after reading articles about it and hearing other advocate this philosophy.  Mobile first prioritizes the mobile context when creating user experiences.
 
 * reach more people
@@ -18,6 +20,8 @@ I went with the mobile first approach after reading articles about it and hearin
 The experience was initially designed for a mobile web app experience.  For instance, the experience is simplistic and the inputs and buttons have larger real estate for fingers.  For the tablet and desktop version, the app adjusts to a more high-resolution-friendly experience.  Inputs and buttons are smaller.
 
 ## Responsive Web Design
+
+![Desktop / Tablet Design](/assets/mockups_desktop_tablet.png)
 
 Additionally, I went with the responsive web design approach after reading articles about it and agreeing with the philosophy.  Responsive web design articulates how to adapt a website's layout for multiple screen resolutions.
 
