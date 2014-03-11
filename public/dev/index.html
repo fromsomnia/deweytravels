@@ -10,9 +10,15 @@
 		<link rel="stylesheet" type="text/css" href="/assets/bootstrap.css"/>
 		<link rel="stylesheet" type="text/css" href="/assets/dewey.css"/>
 
-	</head>
-	<body data-ng-app="DeweyApp">
 
+	</head>
+	<style>
+	    .link {
+	        stroke: #ffffff;
+	        stroke-opacity: 1;
+	    }
+	</style>
+	<body data-ng-app="DeweyApp">
 		<!-- container -->
 		<div id="main" class="container-fluid">
 			<div class="col-xs-12" data-ng-view></div>
@@ -43,7 +49,7 @@
 		<script type="text/ng-template" id="/topic">
 			<div ng-include src="'/navigation'"></div>
 			<div ng-include src="'/topic_profile'"></div>
-			<div ng-include src="'/list'"></div>
+			<div ng-include src="'/list'"></div>|object_id
 		</script>
 
 		<script type="text/ng-template" id="/">
@@ -104,7 +110,7 @@
 			</div>
 		</script>
 		<script type="text/ng-template" id="/topic_profile">
-			<div class="profile col-xs-12">					
+			<div class="profile col-xs-12">
 				<div class="circular-image" style="background-image:url('/assets/picture_placeholder.png')"></div>
 				<div class="col-xs-12">
 					<span class="name">{{ topic.title }}</span>
@@ -120,18 +126,240 @@
 			</div>
 		</script>
 
+		<!-- graph -->
+		<div ng-controller="triCtrl" style="margin-left: 500px">
+            <svg ng-attr-width="{{width}}"
+                 ng-attr-height="{{height}}">
+                <line   ng-repeat="link in links"
+                        class="link"
+                        ng-attr-stroke-width="{{link.strokeWidth}}"
+                        ng-attr-x1="{{link.source.x}}"
+                        ng-attr-y1="{{link.source.y}}"
+                        ng-attr-x2="{{link.target.x}}"
+                        ng-attr-y2="{{link.target.y}}">
+                </line>
+                <g ng-repeat="node in nodes">
+	                <a ng-xlink:href="{{node.href}}" xlink:href="">
+	                	<circle class="node"
+	                        r="{{node.radius}}"
+	                        ng-attr-fill="{{node.color}}"
+	                        ng-attr-cx="{{node.x}}"
+	                        ng-attr-cy="{{node.y}}">
+	                	</circle>
+	                </a>
+	                <text ng-attr-x="{{node.x}}" ng-attr-y="{{node.y}}">{{node.name}}</text>
+            	</g>
+            </svg>
+        </div>
+
 		<!-- javascripts -->
 		<script src="/assets/angular.js"></script>
 		<script src="/assets/angular-route.js"></script>
 		<script src="/assets/jquery-1.11.0.js"></script>
-    <script src="/assets/ui-bootstrap-tpls-0.10.0.min.js "></script>
+    	<script src="/assets/ui-bootstrap-tpls-0.10.0.min.js "></script>
 		<script src="/assets/underscore.js"></script>
+		<script src="http://d3js.org/d3.v3.min.js"></script>
+
 
 		<!-- Angular javascript -->
 		<script src="/assets/dewey.js"></script>
 		<script>
 			var DeweyApp = Dewey();
-		</script>
+		<script>
+			var DeweyApp = angular.module('DeweyApp', ['ngRoute']);
 
+			// SVG graph controller
+            DeweyApp.controller("triCtrl", function($scope, $http) {
+                $scope.width = 500;
+                $scope.height = 500;
+
+                var force = d3.layout.force()
+                    .charge(-120)
+                    .linkDistance(55)
+                    .size([$scope.width, $scope.height]);
+
+                $http.get('/dev/myj.json').success(function(graph) {
+                    $scope.nodes = graph.nodes;
+                    $scope.links = graph.links;
+
+                    for(var i=0; i < $scope.links.length ; i++){
+                        $scope.links[i].strokeWidth = Math.round(Math.sqrt($scope.links[i].value))
+                    }
+
+                    for(var i=0; i < $scope.nodes.length ; i++){
+                        $scope.nodes[i].color = $scope.nodes[i].group % 2 ? "#FFFF66" : "#00CC66";
+                        $scope.nodes[i].radius = $scope.nodes[i].conns * 6;
+                        if($scope.nodes[i].group == 1) {
+                        	$scope.nodes[i].href = "#/user/" + $scope.nodes[i].name;
+                        }
+                        if($scope.nodes[i].group == 2) {
+                        	$scope.nodes[i].href = "#/topic/" + $scope.nodes[i].name;
+                        }
+                    }
+
+					force
+					  .nodes(graph.nodes)
+					  .links(graph.links).theta(1)
+					  .on("tick", function(){$scope.$apply()})
+					  .start();
+
+                })
+            })
+
+			DeweyApp.directive('ngXlinkHref', function () {
+			  return {
+			    priority: 99,
+			    restrict: 'A',
+			    link: function (scope, element, attr) {
+			      var attrName = 'xlink:href';
+			      attr.$observe('ngXlinkHref', function (value) {
+			        if (!value)
+			          return;
+
+			        attr.$set(attrName, value);
+			      });
+			    }
+			  };
+			});
+
+			DeweyApp.config(function ($routeProvider) {
+			  $routeProvider
+			    .when('/', {
+			    	controller: 'DeweyController',
+			    	templateUrl: '/login'
+			    })
+			    .when('/search', {
+			    	redirectTo: '/search/_'
+			    })
+			    .when('/search/:query', {
+			    	controller: 'DeweyController',
+			    	templateUrl: '/search',
+			    	resolve: {
+			    		getResults: function (DeweyFactory) {
+			    			return DeweyFactory.getResults();
+			    		}
+			    	}
+			    })
+			    .when('/users/:userId', {
+			    	controller: 'DeweyController',
+			    	templateUrl: '/user',
+			    	resolve: {
+			    		getUser: function (DeweyFactory) {
+			    			return DeweyFactory.getUser();
+			    		},
+			    		getTopics: function (DeweyFactory) {
+			    			return DeweyFactory.getTopics();
+			    		}
+			    	}
+			    })
+			    .when('/topics/:topicId', {
+			    	controller: 'DeweyController',
+			    	templateUrl: '/topic',
+			    	resolve: {
+			    		getTopic: function (DeweyFactory) {
+			    			return DeweyFactory.getTopic();
+			    		},
+			    		getUsers: function (DeweyFactory) {
+			    			return DeweyFactory.getUsers();
+			    		}
+			    	}
+			    })
+			    .otherwise({
+			    	redirectTo: '/'
+			    });
+			});
+
+			DeweyApp.factory('DeweyFactory', function ($http, $q, $route) {
+
+				var factory = {};
+
+				function getResults () {
+					var defer = $q.defer(),
+						params = $route.current.params;
+					// query is in 'params.query'
+					$http.get('/users.json').success(function (response) {
+						factory.results = response;
+						defer.resolve();
+					});
+					return defer.promise;
+				}
+
+				function getUser () {
+					var defer = $q.defer(),
+						params = $route.current.params;
+					$http.get("/users/" + params.userId + ".json").success(function (response) {
+						factory.user = response;
+						defer.resolve();
+					});
+					return defer.promise;
+				}
+
+				function getUsers () {
+					var defer = $q.defer(),
+						params = $route.current.params;
+					$http.get('/topics/' + params.topicId + '/users.json').success(function (response) {
+						factory.users = response;
+						defer.resolve();
+					});
+					return defer.promise;
+				}
+
+				function getTopic () {
+					var defer = $q.defer(),
+						params = $route.current.params;
+					$http.get('/topics/' + params.topicId + '.json').success(function (response) {
+						factory.topic = response;
+						defer.resolve();
+					});
+					return defer.promise;
+				}
+
+				function getTopics () {
+					var defer = $q.defer(),
+						params = $route.current.params;
+					$http.get('/users/' + params.userId + '/topics.json').success(function (response) {
+						factory.topics = response;
+						defer.resolve();
+					});
+					return defer.promise;
+				}
+
+				factory.getResults = getResults;
+				factory.getUser = getUser;
+				factory.getUsers = getUsers;
+				factory.getTopic = getTopic;
+				factory.getTopics = getTopics;
+			  return factory;
+			});
+
+			DeweyApp.controller('DeweyController', function ($scope, $location, DeweyFactory) {
+
+				function init () {
+					$scope.results = DeweyFactory.results;
+					$scope.user = DeweyFactory.user;
+					$scope.users = DeweyFactory.users;
+					$scope.topic = DeweyFactory.topic;
+					$scope.topics = DeweyFactory.topics;
+					$scope.loginData = {};
+
+					$scope.login = function () {
+						// $.post('/session/post_login', { 
+						// 	email: $scope.loginData.email, 
+						// 	password: $scope.loginData.password 
+						// }, function () {
+						// 	// todo
+					 //    $location.path('/search');
+						// });
+				    $location.path('/search');
+					};
+
+				}
+
+				(function () {
+					init();
+				})();
+
+			});
+		</script>
 	</body>
 </html>
