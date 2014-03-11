@@ -34,6 +34,7 @@ class TopicsController < ApplicationController
         current_topic.users << user
       end
     end
+    render :nothing => true
   end
 
   #Removes user from topic
@@ -46,6 +47,7 @@ class TopicsController < ApplicationController
         current_topic.users.delete(user)
       end
     end
+    render :nothing => true
   end
 
   #returns related topics (same parents)
@@ -97,8 +99,24 @@ class TopicsController < ApplicationController
     end
   end
 
+  def sort_by_degree(a, b)
+    if a != nil then
+      if b != nil then
+        return a.degree <=> b.degree
+      else
+        return 1
+      end
+    elsif b != nil then
+      return -1
+    else
+      return 0
+    end
+  end
+
+  end
 
   #max_topics is in params
+  #currently returns most connected TOPICS
   def most_connected
     @topics = []
     if params[:id].present? then
@@ -123,6 +141,11 @@ class TopicsController < ApplicationController
         end
       end
     end
+    @topics = @topics.sort{|a, b| sort_by_degree(a, b)}
+    respond_to do |format|
+      format.html { redirect_to @topics }
+      format.json { render json: @topics }
+    end
   end
 
   def add_subtopic
@@ -133,6 +156,7 @@ class TopicsController < ApplicationController
         topic.subtopics << subtopic
       end
     end
+    render :nothing => true
   end
 
   #topic_id2 as payload
@@ -144,6 +168,7 @@ class TopicsController < ApplicationController
         topic.supertopics << supertopic
       end
     end
+    render :nothing => true
   end
 
   #topic_id2 as payload
@@ -157,6 +182,7 @@ class TopicsController < ApplicationController
         end
       end
     end
+    render :nothing => true
   end
 
   #topic_id2 as payload
@@ -170,6 +196,7 @@ class TopicsController < ApplicationController
         end
       end
     end
+    render :nothing => true
   end
 
   # POST /topics

@@ -11,24 +11,28 @@ class UsersController < ApplicationController
   #topic_id as payload
   def add_topic
     if params[:topic_id].present? then
-      topic = Topic.find(params[:topic_id])
-      if topic != nil then
-        self.topics << topic
+      topic = Topic.find(params[:topic_id].to_i)
+      user = User.find(params[:id])
+      if topic != nil && user != nil then
+        user.topics << topic
       end
     end
+    render :nothing => true
   end
 
   #Adds topic to given user
   #topic_id as payload
   def remove_topic
-    if params[:topic_id].present? then
-      topic = Topic.find([params[:topic_id]])
-      if topic != nil then
-        if self.topics.include? topic then
-          self.topics.delete(topic)
+    if params[:topic_id].present? && params[:id].present? then
+      user = User.find(params[:id])
+      topic = Topic.find(params[:topic_id].to_i)
+      if topic != nil && user!= nil then
+        if user.topics.include? topic then
+          user.topics.delete(topic)
         end
       end
     end
+    render :nothing => true
   end
 
   # GET /users/1

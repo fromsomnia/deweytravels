@@ -20,12 +20,7 @@ class User < ActiveRecord::Base
 		return @peers
 	end
 
-	def degree
-		curr_degree = 0
-		curr_degree = curr_degree + self.expertises.size
-		return curr_degree
-	end
-
+<<<<<<< HEAD
     #TODO: should probably optimize with bulk insertion
     def self.load_from_sc(sc, domain)
         if sc
@@ -59,4 +54,11 @@ class User < ActiveRecord::Base
         end
         return true
     end
+=======
+	def degree
+		curr_degree = 0
+		curr_degree = curr_degree + self.expertises.size
+		return curr_degree
+	end
+>>>>>>> finished implementing API
 end

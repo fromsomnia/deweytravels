@@ -24,4 +24,12 @@ class Topic < ActiveRecord::Base
 		return @related
 	end
 
+	def degree
+		curr_degree = 0
+		curr_degree = curr_degree + self.subtopics.size
+		curr_degree = curr_degree + self.supertopics.size
+		curr_degree = curr_degree + self.experts.size
+		return curr_degree
+	end
+
 end
