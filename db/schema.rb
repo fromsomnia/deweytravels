@@ -53,6 +53,10 @@ ActiveRecord::Schema.define(version: 20140302043957) do
     t.string "password"
     t.string "position"
     t.string "department"
+    t.string "image_16"
+    t.string "image_30"
+    t.string "image_70"
+    t.string "image_140"
     t.string "image"
     t.string "phone"
   end
