@@ -108,6 +108,7 @@
 		<script src="/assets/angular-route.js"></script>
 		<script src="/assets/jquery-1.11.0.js"></script>
 
+		<!-- Angular javascript -->
 		<script>
 			var DeweyApp = angular.module('DeweyApp', ['ngRoute']);
 
@@ -119,7 +120,12 @@
 			    })
 			    .when('/search', {
 			    	controller: 'DeweyController',
-			    	templateUrl: '/search'
+			    	templateUrl: '/search',
+			    	resolve: {
+			    		getResults: function (DeweyFactory) {
+			    			return DeweyFactory.getResults();
+			    		}
+			    	}
 			    })
 			    .when('/user', {
 			    	controller: 'DeweyController',
@@ -138,24 +144,27 @@
 			    });
 			});
 
-			DeweyApp.factory('DeweyFactory', function ($http) {
+			DeweyApp.factory('DeweyFactory', function ($http, $q) {
 
 				var factory, user, users, topic, topics;
 			  
 			  factory = {};
-				//results = [{name:"Veni Johanna",description:"Engineer"},{name:"Brett Solow",description:"Engineer"},{name:"Stephen Quinonez",description:"Engineer"},{name:"William Chidyausiku",description:"Engineer"},{name:"John Pulvera",description:"Engineer"},{name:"#full-stack",description:"4 people with this skill"}];
 				user = {name: "Veni Johanna",description: "Engineer",email: "veni@stanford.edu",phone: "123-456-7890"};
 				users = [{name:"Veni Johanna",description:"Engineer"},{name:"Brett Solow",description:"Engineer"},{name:"William Chidyausiku",description:"Engineer"},{name:"John Pulvera",description:"Engineer"}];
 				topic = {name: "#full-stack",description: "4 people know this topic"};
 				topics = [{name:"full-stack"},{name:"web"},{name:"programming"},{name:"iOS"},{name:"user growth"},{name:"algorithms"}];
 
-				factory.getResults = function (callback) {
-					$http.get("/users.json").success(callback);
+				factory.getResults = function () {
+					var defer = $q.defer();
+					$http.get('/users.json').success(function (response) {
+						factory.results = response;
+						defer.resolve();
+					});
+					return defer.promise;
 				};
 
 				factory.getUser = function (params, callback) {
 					$http.get("/users/" + params.userId + ".json").success(callback);
-					//return user;
 				};
 
 				factory.getUsers = function () {
@@ -175,10 +184,6 @@
 
 			DeweyApp.controller('DeweyController', function ($scope, $routeParams, DeweyFactory) {
 
-				DeweyFactory.getResults(function(results) {
-					$scope.results = results;
-				});
-
 				if (!jQuery.isEmptyObject($routeParams)) {
 					DeweyFactory.getUser($routeParams, function(user) {
 						console.log(user);
@@ -187,8 +192,7 @@
 				}
 
 				function init () {
-					//$scope.results = DeweyFactory.getResults();
-					//$scope.user = DeweyFactory.getUser();
+					$scope.results = DeweyFactory.results;
 					$scope.users = DeweyFactory.getUsers();
 					$scope.topic = DeweyFactory.getTopic();
 					$scope.topics = DeweyFactory.getTopics();
