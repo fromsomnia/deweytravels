@@ -136,10 +136,10 @@
 			    	resolve: {
 			    		getUser: function (DeweyFactory) {
 			    			return DeweyFactory.getUser();
-			    		},
-			    		getTopics: function (DeweyFactory) {
-			    			return DeweyFactory.getTopics();
 			    		}
+			    		// getTopics: function (DeweyFactory) {
+			    		// 	return DeweyFactory.getTopics();
+			    		// }
 			    	}
 			    })
 			    .when('/topics/:topicId', {
@@ -148,10 +148,10 @@
 			    	resolve: {
 			    		getTopic: function (DeweyFactory) {
 			    			return DeweyFactory.getTopic();
-			    		},
-			    		getUsers: function (DeweyFactory) {
-			    			return DeweyFactory.getUsers();
 			    		}
+			    		// getUsers: function (DeweyFactory) {
+			    		// 	return DeweyFactory.getUsers();
+			    		// }
 			    	}
 			    })
 			    .otherwise({ 
@@ -161,30 +161,32 @@
 
 			DeweyApp.factory('DeweyFactory', function ($http, $q, $route) {
 
-				var params = $route.current.params,
-					factory = {};
+				var factory = {};
 
 				function getResults () {
-					var defer = $q.defer();
+					var defer = $q.defer(),
+						params = $route.current.params;
 					// query is in 'params.query'
 					$http.get('/users.json').success(function (response) {
 						factory.results = response;
 						defer.resolve();
 					});
 					return defer.promise;
-				};
+				}
 
 				function getUser () {
-					var defer = $q.defer();
+					var defer = $q.defer(),
+						params = $route.current.params;
 					$http.get("/users/" + params.userId + ".json").success(function (response) {
 						factory.user = response;
 						defer.resolve();
 					});
 					return defer.promise;
-				};
+				}
 
 				function getUsers () {
-					// var defer = $q.defer();
+					// var defer = $q.defer(),
+					// 	params = $route.current.params;
 					// $http.get('').success(function (response) {
 					// 	factory.users = response;
 					// 	defer.resolved();
@@ -193,16 +195,18 @@
 				}
 
 				function getTopic () {
-					var defer = $q.defer();
+					var defer = $q.defer(),
+						params = $route.current.params;
 					$http.get('/topics/' + params.topicId + '.json').success(function (response) {
 						factory.topic = response;
 						defer.resolve();
 					});
 					return defer.promise;
-				};
+				}
 
 				function getTopics () {
-					// var defer = $q.defer();
+					// var defer = $q.defer(),
+					// 	params = $route.current.params;
 					// $http.get('').success(function (response) {
 					// 	factory.topics = response;
 					// 	defer.resolved();
