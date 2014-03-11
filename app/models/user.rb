@@ -1,4 +1,6 @@
 class User < ActiveRecord::Base
+	attr_accessible :first_name, :last_name, :domain, :email, :username, :password, :position, :department, :image
+
 	has_many :topic_user_connections, :foreign_key => "expert_id"
 	has_many :expertises, :through => :topic_user_connections, :source => :expertise
 

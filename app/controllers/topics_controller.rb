@@ -5,12 +5,20 @@ class TopicsController < ApplicationController
   # GET /topics.json
   def index
     @topics = Topic.all
+    respond_to do |format|
+      format.html { redirect_to topics_url }
+      format.json { render json: @topics }
+    end
   end
 
   # GET /topics/1
   # GET /topics/1.json
   def show
     @topic = Topic.find(params[:id])
+    respond_to do |format|
+      format.html { redirect_to topic_url }
+      format.json { render json: @topic }
+    end
   end
 
 
@@ -22,6 +30,10 @@ class TopicsController < ApplicationController
   # GET /topics/1/edit
   def edit
     @topic = Topic.find(params[:id])
+    respond_to do |format|
+      format.html { redirect_to edit_topic_url }
+      format.json { render json: @topic }
+    end
   end
 
   #Adds user to given topic

@@ -10,10 +10,6 @@ class CreateUsers < ActiveRecord::Migration
     	t.column :password, :string
     	t.column :position, :string
     	t.column :department, :string
-        t.column :image_16, :string
-        t.column :image_30, :string
-        t.column :image_70, :string
-        t.column :image_140, :string
     	t.column :image, :string
         t.column :phone, :string
 

@@ -44,6 +44,22 @@ ActiveRecord::Schema.define(version: 20140302043957) do
     t.integer "subordinate_id"
   end
 
+<<<<<<< HEAD
+  create_table "users", primary_key: "user_id", force: true do |t|
+    t.string  "first_name"
+    t.string  "last_name"
+    t.string  "email"
+    t.integer "office_phone"
+    t.string  "username"
+    t.string  "password"
+    t.string  "domain"
+    t.string  "title"
+    t.string  "department"
+    t.string  "image_16"
+    t.string  "image_30"
+    t.string  "image_70"
+    t.string  "image_140"
+=======
   create_table "users", force: true do |t|
     t.string "first_name"
     t.string "last_name"
@@ -55,6 +71,7 @@ ActiveRecord::Schema.define(version: 20140302043957) do
     t.string "department"
     t.string "image"
     t.string "phone"
+>>>>>>> beginnings of front-end integration
   end
 
 end

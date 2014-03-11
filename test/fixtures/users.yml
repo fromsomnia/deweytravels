@@ -12,6 +12,7 @@ william:
  password: william
  position: Engineer
  department: Engineering
+ phone: 123-456-7890
  image: William.png
 
 veni:
@@ -22,6 +23,7 @@ veni:
  password: veni
  position: Engineer
  department: Engineering
+ phone: 123-456-7890
  image: Veni.png
 
 brett:
@@ -32,6 +34,7 @@ brett:
  password: brett
  position: Engineer
  department: Engineering
+ phone: 123-456-7890
  image: Brett.png
 
 stephen:
@@ -42,6 +45,7 @@ stephen:
  password: stephen
  position: Engineer
  department: Engineering
+ phone: 123-456-7890
  image: Stephen.png 
 
 john:
@@ -52,6 +56,7 @@ john:
  password: john
  position: Engineer
  department: Engineering
+ phone: 123-456-7890
  image: John.png
 
 jay:
@@ -62,6 +67,7 @@ jay:
  password: jay
  position: CEO
  department: Marketing
+ phone: 123-456-7890
  image: default_user_image.png
 
 chris:
@@ -72,6 +78,7 @@ chris:
  password: chris
  position: VP of Sales
  department: Sales
+ phone: 123-456-7890
  image: default_user_image.png
 
 oren:
@@ -82,6 +89,7 @@ oren:
  password: oren
  position: Manager of HR
  department: Human Resources
+ phone: 123-456-7890
  image: default_user_image.png
 
 marc:
@@ -92,6 +100,7 @@ marc:
  password: marc
  position: Engineer
  department: Engineering
+ phone: 123-456-7890
  image: default_user_image.png
 
 mike:
@@ -102,4 +111,5 @@ mike:
  password: mike
  position: Engineer
  department: Engineering
+ phone: 123-456-7890
  image: default_user_image.png

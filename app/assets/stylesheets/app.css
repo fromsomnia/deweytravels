@@ -19,6 +19,24 @@ body {
       overflow: scroll;
       border: 3px solid #e7e6dd; } }
 
+.circular-image {
+  width: 300px;
+  height: 300px;
+  float: none;
+  margin: 0 auto;
+  overflow: hidden;
+  -webkit-border-radius: 150px;
+  -moz-border-radius: 150px;
+  -ms-border-radius: 150px;
+  -o-border-radius: 150px;
+  border-radius: 150px;
+}
+
+.circular-image img {
+  min-width: 300px;
+  min-height: 300px;
+}
+
 .list .list-group-item {
   background-color: #25a0ca;
   color: #e7e6dd;

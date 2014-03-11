@@ -1,4 +1,6 @@
 class User < ActiveRecord::Base
+	attr_accessible :first_name, :last_name, :domain, :email, :username, :password, :position, :department, :image
+
 	has_many :topic_user_connections, :foreign_key => "expert_id"
 	has_many :expertises, :through => :topic_user_connections, :source => :expertise
 
@@ -20,7 +22,12 @@ class User < ActiveRecord::Base
 		return @peers
 	end
 
-<<<<<<< HEAD
+	def degree
+		curr_degree = 0
+		curr_degree = curr_degree + self.expertises.size
+		return curr_degree
+	end
+
     #TODO: should probably optimize with bulk insertion
     def self.load_from_sc(sc, domain)
         if sc
@@ -54,11 +61,4 @@ class User < ActiveRecord::Base
         end
         return true
     end
-=======
-	def degree
-		curr_degree = 0
-		curr_degree = curr_degree + self.expertises.size
-		return curr_degree
-	end
->>>>>>> finished implementing API
 end

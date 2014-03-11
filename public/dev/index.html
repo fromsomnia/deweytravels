@@ -56,22 +56,26 @@
 		</script>
 		<script type="text/ng-template" id="/list">
 			<div class="list col-xs-12 list-group">
-			  <a ng-repeat="result in results" href="#/user" class="list-group-item">
-			  	<img src="assets/picture_placeholder.png">
-			  	<div class="col-xs-10">
-				    <h4 class="list-group-item-heading">{{ result.name }}</h4>
-				    <p class="list-group-item-text">{{ result.description }}</p>
-			  	</div>
-			  </a>
+				<div ng-repeat="result in results">
+				  <a href="#/user/{{ result.id }}" class="list-group-item">
+				  	<img src="assets/picture_placeholder.png">
+				  	<div class="col-xs-10">
+					    <h4 class="list-group-item-heading">{{ result.first_name }}</h4>
+					    <p class="list-group-item-text">{{ result.department }}</p>
+				  	</div>
+				  </a>
+				</div>
 			</div>
 		</script>
 		<script type="text/ng-template" id="/user_profile">
-			<div class="profile col-xs-12">					
-				<img src="assets/picture_placeholder.png">
+			<div class="profile col-xs-12">	
+				<div class=circular-image>				
+					<img src="assets/{{ user.image }}">
+				</div>
 				<div class="col-xs-12">
-					<span class="name">{{ user.name }}</span>
+					<span class="name">{{ user.first_name }} {{ user.last_name }}</span>
 					<br>
-					<span class="description">{{ user.description }}</span>
+					<span class="description">{{ user.position }}</span>
 					<br>
 					<br>
 					<span class="email">email: {{ user.email }}</span>
@@ -101,6 +105,8 @@
 		<!-- javascripts -->
 		<script src="assets/angular.js"></script>
 		<script src="assets/angular-route.js"></script>
+		<script src="assets/jquery-1.11.0.js"></script>
+
 		<script>
 			var DeweyApp = angular.module('DeweyApp', ['ngRoute']);
 
@@ -118,6 +124,10 @@
 			    	controller: 'DeweyController',
 			    	templateUrl: '/user'
 			    })
+			    .when('/user/:userId', {
+			    	controller: 'DeweyController',
+			    	templateUrl: '/user'
+			    })
 			    .when('/topic', {
 			    	controller: 'DeweyController',
 			    	templateUrl: '/topic'
@@ -127,23 +137,24 @@
 			    });
 			});
 
-			DeweyApp.factory('DeweyFactory', function () {
+			DeweyApp.factory('DeweyFactory', function ($http) {
 
-				var factory, results, user, users, topic, topics;
+				var factory, user, users, topic, topics;
 			  
 			  factory = {};
-				results = [{name:"Veni Johanna",description:"Engineer"},{name:"Brett Solow",description:"Engineer"},{name:"Stephen Quinonez",description:"Engineer"},{name:"William Chidyausiku",description:"Engineer"},{name:"John Pulvera",description:"Engineer"},{name:"#full-stack",description:"4 people with this skill"}];
+				//results = [{name:"Veni Johanna",description:"Engineer"},{name:"Brett Solow",description:"Engineer"},{name:"Stephen Quinonez",description:"Engineer"},{name:"William Chidyausiku",description:"Engineer"},{name:"John Pulvera",description:"Engineer"},{name:"#full-stack",description:"4 people with this skill"}];
 				user = {name: "Veni Johanna",description: "Engineer",email: "veni@stanford.edu",phone: "123-456-7890"};
 				users = [{name:"Veni Johanna",description:"Engineer"},{name:"Brett Solow",description:"Engineer"},{name:"William Chidyausiku",description:"Engineer"},{name:"John Pulvera",description:"Engineer"}];
 				topic = {name: "#full-stack",description: "4 people know this topic"};
 				topics = [{name:"full-stack"},{name:"web"},{name:"programming"},{name:"iOS"},{name:"user growth"},{name:"algorithms"}];
 
-				factory.getResults = function () {
-					return results;
+				factory.getResults = function (callback) {
+					$http.get("/users.json").success(callback);
 				};
 
-				factory.getUser = function () {
-					return user;
+				factory.getUser = function (params, callback) {
+					$http.get("/users/" + params.userId + ".json").success(callback);
+					//return user;
 				};
 
 				factory.getUsers = function () {
@@ -161,11 +172,22 @@
 			  return factory;
 			});
 
-			DeweyApp.controller('DeweyController', function ($scope, DeweyFactory) {
+			DeweyApp.controller('DeweyController', function ($scope, $routeParams, DeweyFactory) {
+
+				DeweyFactory.getResults(function(results) {
+					$scope.results = results;
+				});
+
+				if (!jQuery.isEmptyObject($routeParams)) {
+					DeweyFactory.getUser($routeParams, function(user) {
+						console.log(user);
+						$scope.user = user;
+					});
+				}
 
 				function init () {
-					$scope.results = DeweyFactory.getResults();
-					$scope.user = DeweyFactory.getUser();
+					//$scope.results = DeweyFactory.getResults();
+					//$scope.user = DeweyFactory.getUser();
 					$scope.users = DeweyFactory.getUsers();
 					$scope.topic = DeweyFactory.getTopic();
 					$scope.topics = DeweyFactory.getTopics();
