@@ -33,8 +33,11 @@ body {
 }
 
 .circular-image img {
-  min-width: 300px;
-  min-height: 300px;
+  min-width: 310px;
+  min-height: 310px;
+  float: none;
+  margin-left: -10px;
+  margin-top: -10px;
 }
 
 .list .list-group-item {
