@@ -125,8 +125,6 @@ class TopicsController < ApplicationController
     end
   end
 
-  end
-
   #max_topics is in params
   #currently returns most connected TOPICS
   def most_connected
