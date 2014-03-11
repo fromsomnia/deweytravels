@@ -136,6 +136,9 @@
 			    	resolve: {
 			    		getUser: function (DeweyFactory) {
 			    			return DeweyFactory.getUser();
+			    		},
+			    		getTopics: function (DeweyFactory) {
+			    			return DeweyFactory.getTopics();
 			    		}
 			    	}
 			    })
@@ -145,6 +148,9 @@
 			    	resolve: {
 			    		getTopic: function (DeweyFactory) {
 			    			return DeweyFactory.getTopic();
+			    		},
+			    		getUsers: function (DeweyFactory) {
+			    			return DeweyFactory.getUsers();
 			    		}
 			    	}
 			    })
@@ -155,13 +161,12 @@
 
 			DeweyApp.factory('DeweyFactory', function ($http, $q, $route) {
 
-				var factory = {};
-				factory.getResults = getResults;
-				factory.getUser = getUser;
-				factory.getTopic = getTopic;
+				var params = $route.current.params,
+					factory = {};
 
 				function getResults () {
 					var defer = $q.defer();
+					// query is in 'params.query'
 					$http.get('/users.json').success(function (response) {
 						factory.results = response;
 						defer.resolve();
@@ -170,14 +175,22 @@
 				};
 
 				function getUser () {
-					var defer = $q.defer(),
-						params = $route.current.params;
+					var defer = $q.defer();
 					$http.get("/users/" + params.userId + ".json").success(function (response) {
 						factory.user = response;
 						defer.resolve();
 					});
 					return defer.promise;
 				};
+
+				function getUsers () {
+					// var defer = $q.defer();
+					// $http.get('').success(function (response) {
+					// 	factory.users = response;
+					// 	defer.resolved();
+					// });
+					// return defer.promise;
+				}
 
 				function getTopic () {
 					var defer = $q.defer();
@@ -188,6 +201,20 @@
 					return defer.promise;
 				};
 
+				function getTopics () {
+					// var defer = $q.defer();
+					// $http.get('').success(function (response) {
+					// 	factory.topics = response;
+					// 	defer.resolved();
+					// });
+					// return defer.promise;
+				}
+
+				factory.getResults = getResults;
+				factory.getUser = getUser;
+				factory.getUsers = getUsers;
+				factory.getTopic = getTopic;
+				factory.getTopics = getTopics;
 			  return factory;
 			});
 
@@ -196,7 +223,9 @@
 				function init () {
 					$scope.results = DeweyFactory.results;
 					$scope.user = DeweyFactory.user;
+					$scope.users = DeweyFactory.users;
 					$scope.topic = DeweyFactory.topic;
+					$scope.topics = DeweyFactory.topics;
 				}
 
 				(function () {
