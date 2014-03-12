@@ -137,6 +137,9 @@
 			    		getTopics: function (DeweyFactory) {
 			    			return DeweyFactory.getTopics();
 			    		}
+			    		getLinks: function (DeweyFactory) {
+			    			return DeweyFactory.getLinks();
+			    		}
 			    	}
 			    })
 			    .when('/topics/:topicId', {
@@ -239,11 +242,22 @@
 					return defer.promise;
 				}
 
+				function getLinks () {
+					var defer = $q.defer(),
+						params = $route.current.params;
+					$http.get('/topics/' + params.topicId + '/most_connected.json').success(function (response) {
+						factory.nodes_links = response;
+						defer.resolve();
+					});
+					return defer.promise;
+				}
+
 				factory.getResults = getResults;
 				factory.getUser = getUser;
 				factory.getUsers = getUsers;
 				factory.getTopic = getTopic;
 				factory.getTopics = getTopics;
+				factory.getLinks = getLinks;
 			  return factory;
 			});
 

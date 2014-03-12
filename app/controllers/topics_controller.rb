@@ -134,35 +134,40 @@ class TopicsController < ApplicationController
   end
 
   #max_topics is in params
-  #currently returns most connected TOPICS
+  #currently returns most connected USERS & TOPICS
   def most_connected
-    @topics = []
-    if params[:id].present? then
-      topic = Topic.find(params[:id].to_i)
+    @nodes = []
+    @links = []
+    if params[:topic_id].present? then
+      topic = Topic.find(params[:topic_id].to_i)
       if topic != nil then
+        @nodes << topic
         topic.supertopics.each do |supertopic|
-          supertopic.subtopics.each do |tiq|
-            if !@topics.include?(tiq) then
-              @topics << tiq
-            end
-          end
-        end
-        topic.supertopics.each do |supertopic|
-          if !@topics.include?(supertopic) then
-            @topics << supertopic
+          if !@nodes.include?(supertopic) then
+            @nodes << supertopic
+            link = { :source => 0, :target => @nodes.size}
+            @links << link
           end
         end
         topic.subtopics.each do |subtopic|
-          if !@topics.include?(subtopic) then
-            @topics << subtopic
+          if !@nodes.include?(subtopic) then
+            @nodes << subtopic
+            link = { :source => 0, :target => @nodes.size}
+            @links << link
           end
         end
       end
+      topic.experts.each do |expert|
+        @nodes << expert
+        link = { :source => 0, :target => @nodes.size}
+        @links << link
+      end
     end
-    @topics = @topics.sort{|a, b| sort_by_degree(a, b)}
+    result = { :nodes => @nodes, :links => @links }
+
     respond_to do |format|
-      format.html { redirect_to @topics }
-      format.json { render json: @topics }
+      format.html { redirect_to @nodes }
+      format.json { render json: result }
     end
   end
 

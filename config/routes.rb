@@ -26,6 +26,7 @@ TeamDeweyWebsite::Application.routes.draw do
   resources :users do
     post "add_topic"
     post "remove_topic"
+    get "most_connected"
 
 
     resources :topics

@@ -19,6 +19,43 @@ class UsersController < ApplicationController
     end
   end
 
+  def sort_by_degree(a, b)
+    if a != nil then
+      if b != nil then
+        return a.degree <=> b.degree
+      else
+        return 1
+      end
+    elsif b != nil then
+      return -1
+    else
+      return 0
+    end
+  end
+
+  #max_topics is in params
+  #currently returns most connected USERS & TOPICS
+  def most_connected
+    @topics = []
+    if params[:user_id].present? then
+      user = User.find(params[:user_id].to_i)
+      if user != nil then
+        user.expertises.each do |expertise|
+          @topics << expertise
+        end
+        user.peers.each do |peer|
+          @topics << peer 
+        end
+      end
+    end
+
+    @topics = @topics.sort{|a, b| sort_by_degree(a, b)}
+    respond_to do |format|
+      format.html { redirect_to @topics }
+      format.json { render json: @topics }
+    end
+  end
+
   #Adds topic to given user
   #topic_id as payload
   def add_topic
