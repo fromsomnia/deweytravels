@@ -3,7 +3,25 @@ function Dewey () {
 
 	var DeweyApp = angular.module('DeweyApp', ['ngRoute', 'ui.bootstrap']);
 
-	DeweyApp.config(['$routeProvider', function ($routeProvider) {
+  var BaseController = function ($scope, $location, DeweyFactory) {
+	  $scope.results = DeweyFactory.results;
+	  $scope.user = DeweyFactory.user;
+	  $scope.topic = DeweyFactory.topic;
+	  $scope.topics = DeweyFactory.topics;
+    $scope.topic_choices =  DeweyFactory.all_topics;
+	  $scope.nodes_links = DeweyFactory.nodes_links;
+	  $scope.loginData = {};
+	  $scope.queryData = {};
+
+		$scope.search = function () {
+			if (event.keyCode == 13) {
+				$location.path('/search/' + $scope.queryData.query);
+			}
+		};
+  };
+
+	DeweyApp
+	.config(['$routeProvider', function ($routeProvider) {
 	  $routeProvider
 	    .when('/', {
 	    	controller: 'DeweyController',
@@ -22,7 +40,7 @@ function Dewey () {
 	    	}
 	    })
 	    .when('/users/:userId', {
-	    	controller: 'DeweyController',
+	    	controller: 'UserController',
 	    	templateUrl: '/user',
 	    	resolve: {
 	    		getUser: ['DeweyFactory', function (DeweyFactory) {
@@ -41,7 +59,7 @@ function Dewey () {
 	    	}
 	    })
 	    .when('/topics/:topicId', {
-	    	controller: 'DeweyController',
+	    	controller: 'TopicController',
 	    	templateUrl: '/topic',
 	    	resolve: {
 	    		getTopic: ['DeweyFactory', function (DeweyFactory) {
@@ -195,9 +213,47 @@ function Dewey () {
 		factory.getTopics = getTopics;
 		factory.getLinks = getLinks;
 	  return factory;
-  }]);
+  }])
+  .controller('DeweyController', ['$scope', '$injector', '$location', 'DeweyFactory', function($scope, $injector, $location, DeweyFactory) {
+    $injector.invoke(BaseController, this, {$scope: $scope, $location: $location, DeweyFactory: DeweyFactory});
+  }])
+  .controller('LoginController', ['$scope', '$injector', '$location', 'DeweyFactory', function($scope, $injector, $location, DeweyFactory) {
+    $scope.loginData = {};
+	  $scope.login = function () {
+	  	$.post('/session/post_login', { 
+	  		email: $scope.loginData.email, 
+	  		password: $scope.loginData.password,
+	  	}).done(function (response) {
+	      $scope.$apply(function () {
+	  	    $location.path('/search');
+	      });
+	    }).fail(function (response) {
+	      alert("Invalid Socialcast email and password - please retry.");
+	    });
+	  };
+  }])
+  .controller('UserController', ['$scope', '$injector', '$location', 'DeweyFactory', function($scope, $injector, $location, DeweyFactory) {
+    $injector.invoke(BaseController, this, {$scope: $scope, $location: $location, DeweyFactory: DeweyFactory});
 
-	DeweyApp.controller('DeweyTopicController', ['$scope', '$location', 'DeweyFactory', function ($scope, $location, DeweyFactory) {
+    $scope.topic_choices =  DeweyFactory.all_topics;
+
+    $scope.addTopicToUser = function($item) {
+      $.post('/users/' + $scope.user.id + '/add_topic', {
+        topic_id: $item.id,
+        id: $scope.user.id
+      }).done(function(response) {
+        $scope.topics.push($item);
+        $(typeahead).val('');
+        $scope.$apply();
+      }).fail(function(response) {
+        alert("Fail to add topic to user - please retry.");
+      });
+
+    };
+  }])
+	.controller('TopicController', ['$scope', '$injector', '$location', 'DeweyFactory', function ($scope, $injector, $location, DeweyFactory) {
+    $injector.invoke(BaseController, this, {$scope: $scope, $location: $location, DeweyFactory: DeweyFactory});
+
     $scope.user_choices = DeweyFactory.all_users;
     $scope.should_show_add_user_to_topic = true;
     
@@ -212,59 +268,8 @@ function Dewey () {
       }).fail(function(response) {
         alert("Fail to add user to topic - please retry.");
       });
-    };
+    };    
   }]);
-
-	DeweyApp.controller('DeweyController', ['$scope', '$location', 'DeweyFactory', function ($scope, $location, DeweyFactory) {
-
-		function init () {
-			$scope.results = DeweyFactory.results;
-			$scope.user = DeweyFactory.user;
-			$scope.topic = DeweyFactory.topic;
-			$scope.topics = DeweyFactory.topics;
-      $scope.topic_choices =  DeweyFactory.all_topics;
-			$scope.nodes_links = DeweyFactory.nodes_links;
-			$scope.loginData = {};
-			$scope.queryData = {};
-		}
-
-	  $scope.login = function () {
-	  	$.post('/session/post_login', { 
-	  		email: $scope.loginData.email, 
-	  		password: $scope.loginData.password,
-	  	}).done(function (response) {
-	      $scope.$apply(function () {
-	  	    $location.path('/search');
-	      });
-	    }).fail(function (response) {
-	      alert("Invalid Socialcast email and password - please retry.");
-	    });
-	  };
-
-		$scope.search = function () {
-			if (event.keyCode == 13) {
-				$location.path('/search/' + $scope.queryData.query);
-			}
-		};
-    $scope.addTopicToUser = function($item) {
-      $.post('/users/' + $scope.user.id + '/add_topic', {
-        topic_id: $item.id,
-        id: $scope.user.id
-      }).done(function(response) {
-        $scope.topics.push($item);
-        $(typeahead).val('');
-        $scope.$apply();
-      }).fail(function(response) {
-        alert("Fail to add topic to user - please retry.");
-      });
-
-    };
-
-		(function () {
-			init();
-		})();
-
-	}]);
 
 	return DeweyApp;
 
