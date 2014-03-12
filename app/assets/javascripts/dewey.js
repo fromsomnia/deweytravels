@@ -3,7 +3,7 @@ function Dewey () {
 
 	var DeweyApp = angular.module('DeweyApp', ['ngRoute']);
 
-	DeweyApp.config(function ($routeProvider) {
+	DeweyApp.config(['$routeProvider', function ($routeProvider) {
 	  $routeProvider
 	    .when('/', {
 	    	controller: 'DeweyController',
@@ -54,7 +54,7 @@ function Dewey () {
 	    .otherwise({ 
 	    	redirectTo: '/'
 	    });
-	});
+	}]);
 
 	DeweyApp.factory('DeweyFactory', function ($http, $q, $route) {
 
