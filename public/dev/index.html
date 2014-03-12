@@ -87,7 +87,7 @@
 			<div class="profile col-xs-12">					
 				<img src="/assets/picture_placeholder.png">
 				<div class="col-xs-12">
-					<span class="name">{{ topic.name }}</span>
+					<span class="name">{{ topic.title }}</span>
 					<br>
 					<span class="description">{{ topic.description }}</span>
 				</div>
@@ -95,9 +95,7 @@
 		</script>
 		<script type="text/ng-template" id="/tags">
 			<div class="tags col-xs-12">
-				<a ng-repeat="tag in topics" href="#/topics/{{ }}">
-					<span >{{ tag.name }}</span>
-				</a>
+				<a ng-repeat="tag in topics" href="#/topics/{{ tag.id }}">{{ tag.title }}</a>
 			</div>
 		</script>
 
@@ -134,10 +132,10 @@
 			    	resolve: {
 			    		getUser: function (DeweyFactory) {
 			    			return DeweyFactory.getUser();
+			    		},
+			    		getTopics: function (DeweyFactory) {
+			    			return DeweyFactory.getTopics();
 			    		}
-			    		// getTopics: function (DeweyFactory) {
-			    		// 	return DeweyFactory.getTopics();
-			    		// }
 			    	}
 			    })
 			    .when('/topics/:topicId', {
@@ -146,10 +144,10 @@
 			    	resolve: {
 			    		getTopic: function (DeweyFactory) {
 			    			return DeweyFactory.getTopic();
+			    		},
+			    		getUsers: function (DeweyFactory) {
+			    			return DeweyFactory.getUsers();
 			    		}
-			    		// getUsers: function (DeweyFactory) {
-			    		// 	return DeweyFactory.getUsers();
-			    		// }
 			    	}
 			    })
 			    .otherwise({ 
@@ -183,13 +181,13 @@
 				}
 
 				function getUsers () {
-					// var defer = $q.defer(),
-					// 	params = $route.current.params;
-					// $http.get('').success(function (response) {
-					// 	factory.users = response;
-					// 	defer.resolved();
-					// });
-					// return defer.promise;
+					var defer = $q.defer(),
+						params = $route.current.params;
+					$http.get('/topics/' + params.topicId + '/users.json').success(function (response) {
+						factory.users = response;
+						defer.resolve();
+					});
+					return defer.promise;
 				}
 
 				function getTopic () {
@@ -203,13 +201,13 @@
 				}
 
 				function getTopics () {
-					// var defer = $q.defer(),
-					// 	params = $route.current.params;
-					// $http.get('').success(function (response) {
-					// 	factory.topics = response;
-					// 	defer.resolved();
-					// });
-					// return defer.promise;
+					var defer = $q.defer(),
+						params = $route.current.params;
+					$http.get('/users/' + params.userId + '/topics.json').success(function (response) {
+						factory.topics = response;
+						defer.resolve();
+					});
+					return defer.promise;
 				}
 
 				factory.getResults = getResults;
