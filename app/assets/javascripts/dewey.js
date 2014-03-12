@@ -1,7 +1,7 @@
 // constructor for DeweyApp
 function Dewey () {
 
-	var DeweyApp = angular.module('DeweyApp', ['ngRoute']);
+	var DeweyApp = angular.module('DeweyApp', ['ngRoute', 'ui.bootstrap']);
 
 	DeweyApp.config(['$routeProvider', function ($routeProvider) {
 	  $routeProvider
@@ -33,7 +33,11 @@ function Dewey () {
 	    		},
 	    		getLinks: function (DeweyFactory) {
 	    			return DeweyFactory.getLinks();
-	    		}
+	    		},
+          getAllTopics: function(DeweyFactory) {
+            return DeweyFactory.getAllTopics();
+          }
+
 	    	}
 	    })
 	    .when('/topics/:topicId', {
@@ -129,6 +133,17 @@ function Dewey () {
 			return defer.promise;
 		}
 
+    function getAllTopics() {
+      var defer = $q.defer(),
+        params = $route.current.params;
+      $http.get('/topics.json').success(function (response) {
+        factory.all_topics = response;
+        defer.resolve();
+      });
+      return defer.promise;
+    }
+
+
 		function getTopics () {
 			var defer = $q.defer(),
 				params = $route.current.params;
@@ -159,7 +174,7 @@ function Dewey () {
 			});
 			return defer.promise;
 		}
-
+    factory.getAllTopics = getAllTopics
 		factory.getResults = getResults;
 		factory.getUser = getUser;
 		factory.getUsers = getUsers;
@@ -176,6 +191,7 @@ function Dewey () {
 			$scope.user = DeweyFactory.user;
 			$scope.topic = DeweyFactory.topic;
 			$scope.topics = DeweyFactory.topics;
+      $scope.topic_choices =  DeweyFactory.all_topics;
 			$scope.nodes_links = DeweyFactory.nodes_links;
 			$scope.loginData = {};
 			$scope.queryData = {};
@@ -199,6 +215,19 @@ function Dewey () {
 				$location.path('/search/' + $scope.queryData.query);
 			}
 		};
+    $scope.addTopicToUser = function($item) {
+      $.post('/users/' + $scope.user.id + '/add_topic', {
+        topic_id: $item.id,
+        id: $scope.user.id
+      }).done(function(response) {
+        $scope.topics.push($item);
+        $(typeahead).val('');
+        $scope.$apply();
+      }).fail(function(response) {
+        alert("Fail to add topic to user - please retry.");
+      });
+
+    };
 
 		(function () {
 			init();
