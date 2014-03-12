@@ -48,10 +48,6 @@ function Dewey () {
 	    		getTopic: function (DeweyFactory) {
 	    			return DeweyFactory.getTopic();
 	    		},
-
-	    		getAllUsers: function (DeweyFactory) {
-	    			return DeweyFactory.getAllUsers();
-	    		},
 	    		getUsers: function (DeweyFactory) {
 	    			return DeweyFactory.getUsers();
 	    		},
@@ -147,15 +143,6 @@ function Dewey () {
       return defer.promise;
     }
 
-    function getAllUsers() {
-      var defer = $q.defer(),
-        params = $route.current.params;
-      $http.get('/users.json').success(function (response) {
-        factory.all_users = response;
-        defer.resolve();
-      });
-      return defer.promise;
-    }
 
 		function getTopics () {
 			var defer = $q.defer(),
@@ -188,7 +175,6 @@ function Dewey () {
 			return defer.promise;
 		}
     factory.getAllTopics = getAllTopics
-    factory.getAllUsers = getAllUsers
 		factory.getResults = getResults;
 		factory.getUser = getUser;
 		factory.getUsers = getUsers;
@@ -196,26 +182,7 @@ function Dewey () {
 		factory.getTopics = getTopics;
 		factory.getLinks = getLinks;
 	  return factory;
-
-
-	.controller('DeweyTopicController', ['$scope', '$location', 'DeweyFactory', function ($scope, $location, DeweyFactory) {
-    $scope.user_choices = DeweyFactory.all_users;
-    $scope.should_show_add_user_to_topic = true;
-    
-    $scope.addUserToTopic = function($item) {
-      $.post('/topics/' + $scope.topic.id + '/add_user', {
-        user_id: $item.id,
-        id: $scope.topic.id
-      }).done(function(response) {
-        $scope.results.push($item);
-        $(typeahead).val('');
-        $scope.$apply();
-      }).fail(function(response) {
-        alert("Fail to add user to topic - please retry.");
-      });
-    };
-  }]);
-
+	}])
 	.controller('DeweyController', ['$scope', '$location', 'DeweyFactory', function ($scope, $location, DeweyFactory) {
 
 		function init () {

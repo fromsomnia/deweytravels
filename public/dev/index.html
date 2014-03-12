@@ -78,14 +78,6 @@
 				  	</div>
 				  </a>
 				</div>
-        <div class="list-group-item" ng-controller="DeweyTopicController">
-
-						<div class="circular-image" style="background-image:url('/assets/plus.png')"></div>
-				  	<div class="col-xs-10 result-text-container">
-              <input id="typeahead" type="text" class=" form-control" ng-model="selectedUser" placeholder="Add user" typeahead-on-select="addUserToTopic($item)" typeahead="user as user.first_name + user.last_name for user in user_choices | filter: $viewValue | limitTo: 8"  />
-				  	</div>
-				  </a>
-        </div>
 			</div>
 		</script>
 		<script type="text/ng-template" id="/user_profile">
