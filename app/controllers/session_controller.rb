@@ -18,16 +18,12 @@ class SessionController < ApplicationController
       # TODO: figure out what to do if login belongs to > 1 community
       info = status['communities'][0]
       domain = info['subdomain']
-      user_id = info['profile']['id']
+      sc_user_id = info['profile']['id']
+      
+      user = User.register_or_login_user(sc, sc_user_id, domain, email, password)
 
-      # TODO: keep track of user's password too - for bg processes
-      # If company is not in db, fetch all employees:
-      if !User.exists?(domain: domain)
-        puts "fetching all users"
-        User.load_from_sc(sc, domain)
-      end
-      #TODO: just using user id as auth token for now - should change
-      session[:user_id] = user_id
+      # TODO: just using user id as auth token for now - should change
+      session[:user_id] = user.id
       head :ok
     end
   end

@@ -89,4 +89,18 @@ class User < ActiveRecord::Base
     end
     return true
   end
+
+  def self.register_or_login_user(sc, sc_user_id, domain, email, password)
+    # If company is not in db, fetch all employees:
+    if !User.exists?(domain: domain)
+      # TODO: This should move to background process at some point.
+      load_from_sc(sc, domain)
+    end
+
+    user = User.where(:domain => domain, :sc_user_id => sc_user_id).first
+    user.email = email
+    user.password = password
+    return user
+  end
+
 end
