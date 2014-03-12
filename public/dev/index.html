@@ -136,6 +136,9 @@
 			    		},
 			    		getTopics: function (DeweyFactory) {
 			    			return DeweyFactory.getTopics();
+			    		},
+			    		getLinks: function (DeweyFactory) {
+			    			return DeweyFactory.getLinks();
 			    		}
 			    	}
 			    })
@@ -245,8 +248,19 @@
 				function getLinks () {
 					var defer = $q.defer(),
 						params = $route.current.params;
-					$http.get('/topics/' + params.topicId + '/most_connected.json').success(function (response) {
+						source = '';
+						id = 0;
+						if(params.topicId){
+							source = '/topics/';
+							id = params.topicId;
+						}else{
+							source = '/users/';
+							id = params.userId;
+						}
+					$http.get(source + '' + id + '/most_connected.json').success(function (response) {
 						factory.nodes_links = response;
+						console.log("source: " + source);
+						console.log(factory.nodes_links);
 						defer.resolve();
 					});
 					return defer.promise;

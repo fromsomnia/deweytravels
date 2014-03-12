@@ -36,23 +36,28 @@ class UsersController < ApplicationController
   #max_topics is in params
   #currently returns most connected USERS & TOPICS
   def most_connected
-    @topics = []
+    @nodes = []
+    @links = []
     if params[:user_id].present? then
       user = User.find(params[:user_id].to_i)
       if user != nil then
+        @nodes << user
         user.expertises.each do |expertise|
-          @topics << expertise
+          @nodes << expertise
+          link = { :source => 0, :target => @nodes.size}
         end
         user.peers.each do |peer|
-          @topics << peer 
+          @nodes << peer 
+          link = { :source => 0, :target => @nodes.size}
         end
       end
     end
 
-    @topics = @topics.sort{|a, b| sort_by_degree(a, b)}
+    @result = { :nodes => @nodes, :links => @links }
+
     respond_to do |format|
-      format.html { redirect_to @topics }
-      format.json { render json: @topics }
+      format.html { redirect_to @nodes }
+      format.json { render json: @result }
     end
   end
 
