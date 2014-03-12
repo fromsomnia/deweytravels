@@ -3,7 +3,8 @@ function Dewey () {
 
 	var DeweyApp = angular.module('DeweyApp', ['ngRoute', 'ui.bootstrap']);
 
-	DeweyApp.config(['$routeProvider', function ($routeProvider) {
+	DeweyApp
+	.config(['$routeProvider', function ($routeProvider) {
 	  $routeProvider
 	    .when('/', {
 	    	controller: 'DeweyController',
@@ -58,9 +59,8 @@ function Dewey () {
 	    .otherwise({ 
 	    	redirectTo: '/'
 	    });
-	}]);
-
-	DeweyApp.factory('DeweyFactory', ['$http', '$q', '$route', function ($http, $q, $route) {
+	}])
+	.factory('DeweyFactory', ['$http', '$q', '$route', function ($http, $q, $route) {
 
 		var factory = {};
 
@@ -113,7 +113,7 @@ function Dewey () {
 					} else {
 						obj['category'] = 'users';
 					}
-					console.log(obj);
+					// console.log(obj);
 					return obj;
 				});
 
@@ -168,8 +168,8 @@ function Dewey () {
 				}
 			$http.get(source + '' + id + '/most_connected.json').success(function (response) {
 				factory.nodes_links = response;
-				console.log("source: " + source);
-				console.log(factory.nodes_links);
+				// console.log("source: " + source);
+				// console.log(factory.nodes_links);
 				defer.resolve();
 			});
 			return defer.promise;
@@ -182,9 +182,8 @@ function Dewey () {
 		factory.getTopics = getTopics;
 		factory.getLinks = getLinks;
 	  return factory;
-	}]);
-
-	DeweyApp.controller('DeweyController', ['$scope', '$location', 'DeweyFactory', function ($scope, $location, DeweyFactory) {
+	}])
+	.controller('DeweyController', ['$scope', '$location', 'DeweyFactory', function ($scope, $location, DeweyFactory) {
 
 		function init () {
 			$scope.results = DeweyFactory.results;
