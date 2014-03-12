@@ -7,7 +7,7 @@ class UsersController < ApplicationController
     @users = []
     if params[:topic_id].present? then
       topic = Topic.find(params[:topic_id].to_i)
-      if toipc != nil then
+      if topic != nil then
         @users = topic.experts
       end
     else
