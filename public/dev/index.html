@@ -182,7 +182,7 @@
 					var defer = $q.defer(),
 						params = $route.current.params;
 					$http.get('/topics/' + params.topicId + '/users.json').success(function (response) {
-						factory.users = response;
+						factory.results = response;
 						defer.resolve();
 					});
 					return defer.promise;
@@ -221,7 +221,7 @@
 				function init () {
 					$scope.results = DeweyFactory.results;
 					$scope.user = DeweyFactory.user;
-					$scope.users = DeweyFactory.users;
+					// $scope.users = DeweyFactory.users;
 					$scope.topic = DeweyFactory.topic;
 					$scope.topics = DeweyFactory.topics;
 					$scope.loginData = {};
