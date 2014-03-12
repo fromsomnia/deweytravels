@@ -12,6 +12,7 @@ william:
  password: william
  position: Engineer
  department: Engineering
+ domain: dewey-cs210
  phone: 123-456-7890
  image: William.png
 
@@ -23,6 +24,7 @@ veni:
  password: veni
  position: Engineer
  department: Engineering
+ domain: dewey-cs210
  phone: 123-456-7890
  image: Veni.png
 
@@ -34,6 +36,7 @@ brett:
  password: brett
  position: Engineer
  department: Engineering
+ domain: dewey-cs210
  phone: 123-456-7890
  image: Brett.png
 
@@ -45,6 +48,7 @@ stephen:
  password: stephen
  position: Engineer
  department: Engineering
+ domain: dewey-cs210
  phone: 123-456-7890
  image: Stephen.png 
 
@@ -56,6 +60,7 @@ john:
  password: john
  position: Engineer
  department: Engineering
+ domain: dewey-cs210
  phone: 123-456-7890
  image: John.png
 
@@ -67,6 +72,7 @@ jay:
  password: jay
  position: CEO
  department: Marketing
+ domain: dewey-cs210
  phone: 123-456-7890
  image: default_user_image.png
 
@@ -78,6 +84,7 @@ chris:
  password: chris
  position: VP of Sales
  department: Sales
+ domain: dewey-cs210
  phone: 123-456-7890
  image: default_user_image.png
 
@@ -89,6 +96,7 @@ oren:
  password: oren
  position: Manager of HR
  department: Human Resources
+ domain: dewey-cs210
  phone: 123-456-7890
  image: default_user_image.png
 
@@ -100,6 +108,7 @@ marc:
  password: marc
  position: Engineer
  department: Engineering
+ domain: dewey-cs210
  phone: 123-456-7890
  image: default_user_image.png
 
@@ -111,5 +120,6 @@ mike:
  password: mike
  position: Engineer
  department: Engineering
+ domain: dewey-cs210
  phone: 123-456-7890
  image: default_user_image.png

@@ -98,8 +98,11 @@ GEM
       mime-types (~> 1.16)
       treetop (~> 1.4.8)
     maruku (0.7.1)
+    metaclass (0.0.4)
     mime-types (1.25.1)
     minitest (4.7.5)
+    mocha (1.0.0)
+      metaclass (~> 0.0.1)
     multi_json (1.8.4)
     multi_xml (0.5.5)
     netrc (0.7.7)
@@ -196,6 +199,7 @@ DEPENDENCIES
   jbuilder (~> 1.2)
   jquery-rails
   maruku
+  mocha
   pg
   protected_attributes
   rails (= 4.0.3)

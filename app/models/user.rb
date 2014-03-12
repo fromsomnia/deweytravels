@@ -1,5 +1,6 @@
+require 'socialcast'
 class User < ActiveRecord::Base
-	attr_accessible :first_name, :last_name, :domain, :email, :phone, :username, :password, :position, :department, :image
+	attr_accessible :sc_user_id, :first_name, :last_name, :domain, :email, :phone, :username, :password, :position, :department, :image
 
 	has_many :topic_user_connections, :foreign_key => "expert_id"
 	has_many :expertises, :through => :topic_user_connections, :source => :expertise
@@ -28,37 +29,64 @@ class User < ActiveRecord::Base
 		return curr_degree
 	end
 
-    #TODO: should probably optimize with bulk insertion
-    def self.load_from_sc(sc, domain)
-        if sc
-          puts "logged in"
-          users = sc.get_users
-          users.each do |user|
-              pp user
-              new_user = new
-              new_user.user_id = user['id']
-              new_user.email = user['contact_info']['email']
-              new_user.domain = domain
-              names = user['name'].split
-              new_user.first_name = names[0]
-              new_user.last_name = names[1]
-              new_user.image_16 = user['avatars']['square16']
-              new_user.image_30 = user['avatars']['square30']
-              new_user.image_70 = user['avatars']['square70']
-              new_user.image_140 = user['avatars']['square140']
-              new_user.office_phone = user['contact_info']['office-phone']
-              user['custom_fields'].each do |field|
-                if field['id'] == 'title'
-                  new_user.title = field['value']
-                end
-              end
-              puts new_user
-              new_user.save
+  # Returns all existing Socialcast domains on the app
+  def self.domains
+    return User.select("DISTINCT domain").map(&:domain)
+  end
+
+  # Update the Socialcast info of all users in all the Socialcast instances
+  # in our system. Also pulled in and save Socialcast users that are not
+  # part of the site.
+
+  def self.update_all_domains
+    User.domains.each do |domain|
+      users = User.where(:domain => domain)
+      users.each do |user|
+        sc = Socialcast.new(user.email, user.password)
+        if !sc.status['authenticate_failure']
+          if (User.load_from_sc(sc, user.domain))
+            break
           end
-        else
-          puts "not logged in"
-          return false
         end
-        return true
+      end
     end
+  end
+
+  # Returns a Dewey user instance from a Socialcast user instance
+  def self._user_from_sc_user(sc_user, domain)
+    new_user = new
+    new_user.sc_user_id = sc_user['id']
+    new_user.email = sc_user['contact_info']['email']
+    new_user.domain = domain
+    names = sc_user['name'].split
+    new_user.first_name = names[0]
+    new_user.last_name = names[1]
+    new_user.image_16 = sc_user['avatars']['square16']
+    new_user.image_30 = sc_user['avatars']['square30']
+    new_user.image_70 = sc_user['avatars']['square70']
+    new_user.image_140 = sc_user['avatars']['square140']
+    new_user.phone = sc_user['contact_info']['office_phone']
+
+    sc_user['custom_fields'].each do |field|
+      if field['id'] == 'title'
+        new_user.title = field['value']
+      end
+    end
+    return new_user
+  end
+
+  # TODO(brett): should probably optimize with bulk insertion
+  def self.load_from_sc(sc, domain)
+    if sc
+      sc_users = sc.get_users
+      sc_users.each do |sc_user|
+        new_user = User._user_from_sc_user(sc_user, domain)
+        new_user.save
+      end
+    else
+      puts "not logged in"
+      return false
+    end
+    return true
+  end
 end

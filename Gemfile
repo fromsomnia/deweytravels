@@ -58,3 +58,4 @@ group :production do
 end
 
 gem 'httparty'
+gem 'mocha'
