@@ -57,7 +57,7 @@
 			<div class="list col-xs-12 list-group">
 				<div ng-repeat="result in results">
 				  <a href="#/users/{{ result.id }}" class="list-group-item">
-				  	<img src="/assets/picture_placeholder.png">
+						<div class="circular-image" style="background-image:url('/assets/{{ result.image }}')"></div>
 				  	<div class="col-xs-10">
 					    <h4 class="list-group-item-heading">{{ result.first_name }}</h4>
 					    <p class="list-group-item-text">{{ result.department }}</p>
@@ -67,10 +67,8 @@
 			</div>
 		</script>
 		<script type="text/ng-template" id="/user_profile">
-			<div class="profile col-xs-12">	
-				<div class=circular-image>				
-					<img src="/assets/{{ user.image }}">
-				</div>
+			<div class="profile col-xs-12">
+				<div class="circular-image" style="background-image:url('/assets/{{ user.image }}')"></div>
 				<div class="col-xs-12">
 					<span class="name">{{ user.first_name }} {{ user.last_name }}</span>
 					<br>
@@ -85,7 +83,7 @@
 		</script>
 		<script type="text/ng-template" id="/topic_profile">
 			<div class="profile col-xs-12">					
-				<img src="/assets/picture_placeholder.png">
+				<div class="circular-image" style="background-image:url('/assets/picture_placeholder.png')"></div>
 				<div class="col-xs-12">
 					<span class="name">{{ topic.title }}</span>
 					<br>

@@ -20,6 +20,14 @@ body {
 	padding-top: 15px;
 	padding-bottom: 15px;
 	
+	.circular-image {
+		background-image: url('http://localhost:3000/assets/picture_placeholder.png');
+		border-radius: 50%;
+		background-repeat: no-repeat;
+		background-position: center;
+		background-size: cover;
+	}
+
 	@media (min-width: $mobile) {
 		width: 400px;
 		position: fixed;
@@ -40,10 +48,18 @@ body {
 		border: none;
 		height: 63px;
 
+		.circular-image {
+			height: 42px;
+			width: 42px;
+			float: left;
+		}
+
+		/*
 		img {
 			height: 42px;
 			float: left;
 		}
+		*/
 		
 		.list-group-item-heading {
 			color: $white;
@@ -107,6 +123,18 @@ body {
 .profile {
 
 	text-align: center;
+
+	img {
+		border-radius: 50%;
+		-webkit-border-radius: 50%;
+		-moz-border-radius: 50%;
+	}
+
+	.circular-image {
+		width: 200px;
+		height: 200px;
+		margin: 0px auto;
+	}
 
 	@media (max-width: $mobile) {
 
