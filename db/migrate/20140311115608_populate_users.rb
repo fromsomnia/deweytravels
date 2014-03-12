@@ -1,3 +1,5 @@
+# encoding: UTF-8
+
 class PopulateUsers < ActiveRecord::Migration
   def change
 	william = User.new(

@@ -45,14 +45,22 @@ ActiveRecord::Schema.define(version: 20140312184052) do
   end
 
   create_table "users", force: true do |t|
-    t.string "first_name"
-    t.string "last_name"
-    t.string "email"
-    t.string "username"
-    t.string "password"
-    t.string "position"
-    t.string "department"
-    t.string "image"
+    t.string  "first_name"
+    t.string  "last_name"
+    t.string  "domain"
+    t.string  "email"
+    t.string  "phone"
+    t.string  "username"
+    t.string  "password"
+    t.string  "position"
+    t.string  "department"
+    t.string  "image_16"
+    t.string  "image_30"
+    t.string  "image_70"
+    t.string  "image_140"
+    t.string  "image"
+    t.string  "title"
+    t.integer "sc_user_id"
   end
 
   add_index "users", ["sc_user_id", "domain"], name: "index_users_on_sc_user_id_and_domain", unique: true, using: :btree
