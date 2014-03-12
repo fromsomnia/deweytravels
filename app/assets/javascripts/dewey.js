@@ -56,7 +56,7 @@ function Dewey () {
 	    });
 	}]);
 
-	DeweyApp.factory('DeweyFactory', function ($http, $q, $route) {
+	DeweyApp.factory('DeweyFactory', ['$http', '$q', '$route', function ($http, $q, $route) {
 
 		var factory = {};
 
@@ -167,9 +167,9 @@ function Dewey () {
 		factory.getTopics = getTopics;
 		factory.getLinks = getLinks;
 	  return factory;
-	});
+	}]);
 
-	DeweyApp.controller('DeweyController', function ($scope, $location, DeweyFactory) {
+	DeweyApp.controller('DeweyController', ['$scope', '$location', 'DeweyFactory', function ($scope, $location, DeweyFactory) {
 
 		function init () {
 			$scope.results = DeweyFactory.results;
@@ -204,7 +204,7 @@ function Dewey () {
 			init();
 		})();
 
-	});
+	}]);
 
 	return DeweyApp;
 
