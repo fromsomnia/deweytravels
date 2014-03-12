@@ -6,6 +6,7 @@ function Dewey () {
   var BaseController = function ($scope, $location, DeweyFactory) {
 	  $scope.results = DeweyFactory.results;
 	  $scope.user = DeweyFactory.user;
+
 	  $scope.topic = DeweyFactory.topic;
 	  $scope.topics = DeweyFactory.topics;
     $scope.topic_choices =  DeweyFactory.all_topics;
@@ -137,7 +138,6 @@ function Dewey () {
 					// console.log(obj);
 					return obj;
 				});
-
 				factory.results = response;
 				defer.resolve();
 			});
@@ -242,9 +242,14 @@ function Dewey () {
         topic_id: $item.id,
         id: $scope.user.id
       }).done(function(response) {
-        $scope.topics.push($item);
+        DeweyFactory.getTopics();
         $(typeahead).val('');
-        $scope.$apply();
+        setTimeout(function() {
+          $scope.$apply(function() {
+            $scope.topics = DeweyFactory.topics;
+
+          });
+        }, 2000);
       }).fail(function(response) {
         alert("Fail to add topic to user - please retry.");
       });
@@ -262,9 +267,13 @@ function Dewey () {
         user_id: $item.id,
         id: $scope.topic.id
       }).done(function(response) {
-        $scope.results.push($item);
+        DeweyFactory.getUsers();
         $(typeahead).val('');
-        $scope.$apply();
+        setTimeout(function() {
+          $scope.$apply(function() {
+            $scope.results = DeweyFactory.results;
+          });
+        }, 2000);
       }).fail(function(response) {
         alert("Fail to add user to topic - please retry.");
       });
