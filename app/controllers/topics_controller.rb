@@ -4,7 +4,15 @@ class TopicsController < ApplicationController
   # GET /topics
   # GET /topics.json
   def index
-    @topics = Topic.all
+    @topics = []
+    if params[:user_id].present? then
+      user = User.find(params[:user_id].to_i)
+      if user != nil then
+        @topics = user.expertises
+      end
+    else
+      @topics = Topic.all
+    end
     respond_to do |format|
       format.html { redirect_to topics_url }
       format.json { render json: @topics }

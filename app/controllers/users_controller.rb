@@ -4,7 +4,15 @@ class UsersController < ApplicationController
   # GET /users
   # GET /users.json
   def index
-    @users = User.all
+    @users = []
+    if params[:topic_id].present? then
+      topic = Topic.find(params[:topic_id].to_i)
+      if toipc != nil then
+        @users = topic.experts
+      end
+    else
+      @users = User.all
+    end
     respond_to do |format|
       format.html { redirect_to users_url }
       format.json { render json: @users }
@@ -18,7 +26,7 @@ class UsersController < ApplicationController
       topic = Topic.find(params[:topic_id].to_i)
       user = User.find(params[:id])
       if topic != nil && user != nil then
-        user.topics << topic
+        user.expertises << topic
       end
     end
     render :nothing => true
@@ -31,8 +39,8 @@ class UsersController < ApplicationController
       user = User.find(params[:id])
       topic = Topic.find(params[:topic_id].to_i)
       if topic != nil && user!= nil then
-        if user.topics.include? topic then
-          user.topics.delete(topic)
+        if user.expertises.include? topic then
+          user.expertises.delete(topic)
         end
       end
     end
