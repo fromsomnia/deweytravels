@@ -137,9 +137,6 @@
 			    		getTopics: function (DeweyFactory) {
 			    			return DeweyFactory.getTopics();
 			    		}
-			    		getLinks: function (DeweyFactory) {
-			    			return DeweyFactory.getLinks();
-			    		}
 			    	}
 			    })
 			    .when('/topics/:topicId', {
@@ -151,6 +148,9 @@
 			    		},
 			    		getUsers: function (DeweyFactory) {
 			    			return DeweyFactory.getUsers();
+			    		},
+			    		getLinks: function (DeweyFactory) {
+			    			return DeweyFactory.getLinks();
 			    		}
 			    	}
 			    })
