@@ -58,9 +58,9 @@
 		<script type="text/ng-template" id="/list">
 			<div class="list col-xs-12 list-group">
 				<div ng-repeat="result in results">
-				  <a href="#/users/{{ result.id }}" class="list-group-item">
+				  <a href="#/{{ result.category }}/{{ result.id }}" class="list-group-item">
 						<div class="circular-image" style="background-image:url('/assets/{{ result.image }}')"></div>
-				  	<div class="col-xs-10" style="width:auto;">
+				  	<div class="col-xs-10 result-text-container">
 					    <h4 class="list-group-item-heading">{{ result.first_name }}</h4>
 					    <p class="list-group-item-text">{{ result.department }}</p>
 				  	</div>
@@ -103,6 +103,7 @@
 		<script src="/assets/angular.js"></script>
 		<script src="/assets/angular-route.js"></script>
 		<script src="/assets/jquery-1.11.0.js"></script>
+		<script src="/assets/underscore.js"></script>
 
 		<!-- Angular javascript -->
 		<script>
@@ -162,8 +163,24 @@
 				function getResults () {
 					var defer = $q.defer(),
 						params = $route.current.params;
-					// query is in 'params.query'
-					$http.get('/users.json').success(function (response) {
+					$http.get('/graphs/search.json?query=' + params.query).success(function (response) {
+
+						// prep data
+						response = _.map(response, function (obj) {
+							var val = obj['title'];
+							if (val) {
+								obj['first_name'] = val;
+								obj['category'] = 'topics';								
+							} else {
+								obj['category'] = 'users';
+							}
+							if (!obj['image'])
+								obj['image'] = 'picture_placeholder.png';
+							if (!obj['department'])
+								obj['department'] = 'topic';
+							return obj;
+						});
+
 						factory.results = response;
 						defer.resolve();
 					});
@@ -184,6 +201,18 @@
 					var defer = $q.defer(),
 						params = $route.current.params;
 					$http.get('/topics/' + params.topicId + '/users.json').success(function (response) {
+
+						// prep data
+						response = _.map(response, function (obj) {
+							if (obj['title']) {
+								obj['category'] = 'topics';								
+							} else {
+								obj['category'] = 'users';
+							}
+							console.log(obj);
+							return obj;
+						});
+
 						factory.results = response;
 						defer.resolve();
 					});
