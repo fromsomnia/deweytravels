@@ -54,7 +54,9 @@ class User < ActiveRecord::Base
 
   # Returns a Dewey user instance from a Socialcast user instance
   def self._user_from_sc_user(sc_user, domain)
-    new_user = new
+    new_user = User.where(:sc_user_id => sc_user['id'])
+    if not new_user:
+      new_user = new
     new_user.sc_user_id = sc_user['id']
     new_user.email = sc_user['contact_info']['email']
     new_user.domain = domain
