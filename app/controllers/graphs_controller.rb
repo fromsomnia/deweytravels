@@ -12,6 +12,17 @@ class GraphsController < ApplicationController
   def show
   end
 
+  def search
+    @results = []
+    if params[:query].present? then
+      @results = Graph.search(params[:query])
+    end
+    respond_to do |format|
+      format.html { redirect_to "/graphs/index" }
+      format.json { render json: @results }
+    end
+  end
+
   # GET /graphs/new
   def new
     @graph = Graph.new

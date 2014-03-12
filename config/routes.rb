@@ -4,6 +4,8 @@ TeamDeweyWebsite::Application.routes.draw do
   get "session/get_users"
   get "users/index"
   get "about/team"
+  get "graphs/search"
+
   resources :graphs
 
   resources :topics do
