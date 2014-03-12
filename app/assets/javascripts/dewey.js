@@ -3,8 +3,7 @@ function Dewey () {
 
 	var DeweyApp = angular.module('DeweyApp', ['ngRoute', 'ui.bootstrap']);
 
-	DeweyApp
-	.config(['$routeProvider', function ($routeProvider) {
+	DeweyApp.config(['$routeProvider', function ($routeProvider) {
 	  $routeProvider
 	    .when('/', {
 	    	controller: 'DeweyController',
@@ -17,27 +16,27 @@ function Dewey () {
 	    	controller: 'DeweyController',
 	    	templateUrl: '/search',
 	    	resolve: {
-	    		getResults: function (DeweyFactory) {
+	    		getResults: ['DeweyFactory', function (DeweyFactory) {
 	    			return DeweyFactory.getResults();
-	    		}
+	    		}]
 	    	}
 	    })
 	    .when('/users/:userId', {
 	    	controller: 'DeweyController',
 	    	templateUrl: '/user',
 	    	resolve: {
-	    		getUser: function (DeweyFactory) {
+	    		getUser: ['DeweyFactory', function (DeweyFactory) {
 	    			return DeweyFactory.getUser();
-	    		},
-	    		getTopics: function (DeweyFactory) {
+	    		}],
+	    		getTopics: ['DeweyFactory', function (DeweyFactory) {
 	    			return DeweyFactory.getTopics();
-	    		},
-	    		getLinks: function (DeweyFactory) {
+	    		}],
+	    		getLinks: ['DeweyFactory', function (DeweyFactory) {
 	    			return DeweyFactory.getLinks();
-	    		},
-          getAllTopics: function(DeweyFactory) {
+	    		}],
+          getAllTopics: ['DeweyFactory', function(DeweyFactory) {
             return DeweyFactory.getAllTopics();
-          }
+          }]
 
 	    	}
 	    })
@@ -45,26 +44,26 @@ function Dewey () {
 	    	controller: 'DeweyController',
 	    	templateUrl: '/topic',
 	    	resolve: {
-	    		getTopic: function (DeweyFactory) {
+	    		getTopic: ['DeweyFactory', function (DeweyFactory) {
 	    			return DeweyFactory.getTopic();
-	    		},
-
-	    		getAllUsers: function (DeweyFactory) {
+	    		}],
+	    		getAllUsers: ['DeweyFactory', function (DeweyFactory) {
 	    			return DeweyFactory.getAllUsers();
-	    		},
-	    		getUsers: function (DeweyFactory) {
+	    		}],
+	    		getUsers: ['DeweyFactory', function (DeweyFactory) {
 	    			return DeweyFactory.getUsers();
-	    		},
-	    		getLinks: function (DeweyFactory) {
+	    		}],
+	    		getLinks: ['DeweyFactory', function (DeweyFactory) {
 	    			return DeweyFactory.getLinks();
-	    		}
+	    		}]
 	    	}
 	    })
 	    .otherwise({ 
 	    	redirectTo: '/'
 	    });
-	}])
-	.factory('DeweyFactory', ['$http', '$q', '$route', function ($http, $q, $route) {
+	}]);
+	
+	DeweyApp.factory('DeweyFactory', ['$http', '$q', '$route', function ($http, $q, $route) {
 
 		var factory = {};
 
@@ -196,9 +195,9 @@ function Dewey () {
 		factory.getTopics = getTopics;
 		factory.getLinks = getLinks;
 	  return factory;
-  }])
+  }]);
 
-	.controller('DeweyTopicController', ['$scope', '$location', 'DeweyFactory', function ($scope, $location, DeweyFactory) {
+	DeweyApp.controller('DeweyTopicController', ['$scope', '$location', 'DeweyFactory', function ($scope, $location, DeweyFactory) {
     $scope.user_choices = DeweyFactory.all_users;
     $scope.should_show_add_user_to_topic = true;
     
@@ -214,9 +213,9 @@ function Dewey () {
         alert("Fail to add user to topic - please retry.");
       });
     };
-  }])
+  }]);
 
-	.controller('DeweyController', ['$scope', '$location', 'DeweyFactory', function ($scope, $location, DeweyFactory) {
+	DeweyApp.controller('DeweyController', ['$scope', '$location', 'DeweyFactory', function ($scope, $location, DeweyFactory) {
 
 		function init () {
 			$scope.results = DeweyFactory.results;
