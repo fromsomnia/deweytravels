@@ -231,15 +231,14 @@
 					$scope.loginData = {};
 
 					$scope.login = function () {
-						debugger;
-						$.post('/session/post_login', { 
-							email: $scope.loginData.email, 
-							password: $scope.loginData.password 
-						}, function () {
-							debugger;
-							// todo
-					    $location.path('/search');
-						});
+						// $.post('/session/post_login', { 
+						// 	email: $scope.loginData.email, 
+						// 	password: $scope.loginData.password 
+						// }, function () {
+						// 	// todo
+					 //    $location.path('/search');
+						// });
+				    $location.path('/search');
 					};
 
 				}
