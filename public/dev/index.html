@@ -272,16 +272,18 @@
 					$scope.queryData = {};
 				}
 
-				$scope.login = function () {
-					// $.post('/session/post_login', { 
-					// 	email: $scope.loginData.email, 
-					// 	password: $scope.loginData.password 
-					// }, function () {
-					// 	// todo
-				 //    $location.path('/search');
-					// });
-			    $location.path('/search');
-				};
+			  $scope.login = function () {
+			  	$.post('/session/post_login', { 
+			  		email: $scope.loginData.email, 
+			  		password: $scope.loginData.password ,
+			  	}).done(function(response) {
+            $scope.$apply(function() {
+  		  	    $location.path('/search');
+            });
+          }).fail(function(response) {
+            alert("Invalid Socialcast email and password - please retry.");
+          });
+			  };
 
 				$scope.search = function () {
 					if (event.keyCode == 13) {
