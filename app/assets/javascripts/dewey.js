@@ -237,7 +237,7 @@ function Dewey () {
   }]);
 
 	// service that can be called from any controller to re-render the graph based on the new URL
-	DeweyApp.factory("GraphService", function ($rootScope) {
+	DeweyApp.factory('GraphService', ['$rootScope', function ($rootScope) {
 		var factory = {};
 		
 		factory.renderGraph = function() {
