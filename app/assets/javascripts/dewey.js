@@ -245,7 +245,7 @@ function Dewey () {
 		};
 
 		return factory;
-	});
+	}]);
 
 	// ...
   DeweyApp.controller('DeweyController', ['$scope', '$injector', '$location', 'DeweyFactory', function ($scope, $injector, $location, DeweyFactory) {
@@ -262,13 +262,12 @@ function Dewey () {
 	  	}).done(function (response) {
 	      $scope.$apply(function () {
 	  	    $location.path('/search');
-	  	    force.start();
+	  	    GraphService.renderGraph();
 	      });
 	    }).fail(function (response) {
 	      alert("Invalid Socialcast email and password - please retry.");
 	    });
 	  };
-	  GraphService.renderGraph();
   }]);
 
   // ...
