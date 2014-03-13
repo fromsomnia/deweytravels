@@ -228,6 +228,7 @@ function Dewey () {
 	  	}).done(function (response) {
 	      $scope.$apply(function () {
 	  	    $location.path('/search');
+	  	    force.start();
 	      });
 	    }).fail(function (response) {
 	      alert("Invalid Socialcast email and password - please retry.");
