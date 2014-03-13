@@ -3,7 +3,7 @@ function Dewey () {
 
 	var DeweyApp = angular.module('DeweyApp', ['ngRoute', 'ui.bootstrap']);
 
-  var BaseController = ['$scope', '$location', DeweyFactory, function ($scope, $location, DeweyFactory) {
+  var BaseController = function ($scope, $location, DeweyFactory) {
 	  $scope.results = DeweyFactory.results;
 	  $scope.user = DeweyFactory.user;
 
@@ -19,7 +19,7 @@ function Dewey () {
 				$location.path('/search/' + $scope.queryData.query);
 			}
 		};
-  } ];
+  }
 
 	DeweyApp
 	.config(['$routeProvider', function ($routeProvider) {
@@ -29,7 +29,7 @@ function Dewey () {
 	    	templateUrl: '/login'
 	    })
 	    .when('/search', {
-	    	redirectTo: '/search/_'
+	    	redirectTo: '/search/_',
 	    	controller: 'DeweyController',
 	    })
 	    .when('/search/:query', {
