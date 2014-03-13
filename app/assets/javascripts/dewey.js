@@ -25,7 +25,7 @@ function Dewey () {
 	.config(['$routeProvider', function ($routeProvider) {
 	  $routeProvider
 	    .when('/', {
-	    	controller: 'DeweyController',
+	    	controller: 'LoginController',
 	    	templateUrl: '/login'
 	    })
 	    .when('/search', {
