@@ -141,7 +141,7 @@
                 <g ng-repeat="node in nodes">
                     <a ng-xlink:href="{{node.href}}" xlink:href="">
                         <circle class="node"
-                            r="{{node.radius}}"
+                            ng-attr-r="{{node.radius}}"
                             ng-attr-fill="{{node.color}}"
                             ng-attr-cx="{{node.x}}"
                             ng-attr-cy="{{node.y}}">
@@ -225,7 +225,7 @@
 			    }
 			  };
 			});
-			
+
 		</script>
 
 	</body>
