@@ -44,11 +44,11 @@ class UsersController < ApplicationController
         @nodes << user
         user.expertises.each do |expertise|
           @nodes << expertise
-          link = { :source => 0, :target => @nodes.size}
+          link = { :source => 0, :target => @nodes.size-1}
         end
         user.peers.each do |peer|
           @nodes << peer 
-          link = { :source => 0, :target => @nodes.size}
+          link = { :source => 0, :target => @nodes.size-1}
         end
       end
     end

@@ -147,7 +147,11 @@
                             ng-attr-cy="{{node.y}}">
                         </circle>
                     </a>
-                    <text ng-attr-x="{{node.x}}" ng-attr-y="{{node.y}}" text-anchor="middle">{{node.name}}</text>
+                    <text ng-attr-x="{{node.x}}"
+                    	ng-attr-y="{{node.y}}"
+                    	text-anchor="middle"
+                    	pointer-events="none">{{node.name}}
+                    </text>
                 </g>
             </svg>
         </div>
