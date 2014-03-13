@@ -3,7 +3,7 @@ function Dewey () {
 
 	var DeweyApp = angular.module('DeweyApp', ['ngRoute', 'ui.bootstrap']);
 
-  var BaseController = function ($scope, $location, DeweyFactory) {
+  var BaseController = ['$scope', '$location', 'DeweyFactory', function ($scope, $location, DeweyFactory) {
 	  $scope.results = DeweyFactory.results;
 	  $scope.user = DeweyFactory.user;
 
@@ -20,6 +20,7 @@ function Dewey () {
 			}
 		};
   }
+  ];
 
 	DeweyApp
 	.config(['$routeProvider', function ($routeProvider) {
