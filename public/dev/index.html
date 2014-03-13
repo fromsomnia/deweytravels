@@ -142,34 +142,34 @@
 		</script>
 
 		<!-- graph -->
-        <div ng-controller="GraphController" style="margin-left: 500px">
-            <svg ng-attr-width="{{width}}"
-                 ng-attr-height="{{height}}">
-                <line   ng-repeat="link in links"
-                        class="link"
-                        ng-attr-stroke-width="{{link.strokeWidth}}"
-                        ng-attr-x1="{{link.source.x}}"
-                        ng-attr-y1="{{link.source.y}}"
-                        ng-attr-x2="{{link.target.x}}"
-                        ng-attr-y2="{{link.target.y}}">
-                </line>
-                <g ng-repeat="node in nodes">
-                    <a ng-xlink:href="{{node.href}}" xlink:href="">
-                        <circle class="node"
-                            ng-attr-r="{{node.radius}}"
-                            ng-attr-fill="{{node.color}}"
-                            ng-attr-cx="{{node.x}}"
-                            ng-attr-cy="{{node.y}}">
-                        </circle>
-                    </a>
-                    <text ng-attr-x="{{node.x}}"
-                    	ng-attr-y="{{node.y}}"
-                    	text-anchor="middle"
-                    	pointer-events="none">{{node.name}}
-                    </text>
-                </g>
-            </svg>
-        </div>
+    <div ng-controller="GraphController" style="margin-left: 500px">
+      <svg ng-attr-width="{{width}}"
+           ng-attr-height="{{height}}">
+        <line ng-repeat="link in links"
+          class="link"
+          ng-attr-stroke-width="{{link.strokeWidth}}"
+          ng-attr-x1="{{link.source.x}}"
+          ng-attr-y1="{{link.source.y}}"
+          ng-attr-x2="{{link.target.x}}"
+          ng-attr-y2="{{link.target.y}}">
+        </line>
+        <g ng-repeat="node in nodes">
+          <a ng-xlink:href="{{node.href}}" xlink:href="">
+            <circle class="node"
+              ng-attr-r="{{node.radius}}"
+              ng-attr-fill="{{node.color}}"
+              ng-attr-cx="{{node.x}}"
+              ng-attr-cy="{{node.y}}">
+            </circle>
+          </a>
+          <text ng-attr-x="{{node.x}}"
+          	ng-attr-y="{{node.y}}"
+          	text-anchor="middle"
+          	pointer-events="none">{{node.name}}
+          </text>
+        </g>
+      </svg>
+    </div>
 
 		<!-- javascripts -->
 		<script src="/assets/angular.js"></script>
