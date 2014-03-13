@@ -2,21 +2,21 @@
 <html>
 	<head>
 
+		<!-- allows responsive web design -->
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 		<title>Dewey | Find the Right People </title>
 
 		<!-- stylesheets -->
 		<link rel="stylesheet" type="text/css" href="/assets/bootstrap.css"/>
 		<link rel="stylesheet" type="text/css" href="/assets/dewey.css"/>
-        <style>
-            .link {
-                stroke: #ffffff;
-                stroke-opacity: .6;
-            }
-        </style>
-	</head>
+    <style>
+      .link {
+        stroke: #ffffff;
+        stroke-opacity: .6;
+      }
+    </style>
 
+	</head>
 	<body data-ng-app="DeweyApp">
 
 		<!-- container -->
@@ -24,7 +24,7 @@
 			<div class="col-xs-12" data-ng-view></div>
 		</div>
 
-		<!-- inline templates -->
+		<!-- login template -->
 		<script type="text/ng-template" id="/login">
 			<div class="login col-xs-12">
 				<img id="logo" class="col-xs-12" src="/assets/logo_transparent.png">
@@ -37,15 +37,21 @@
 				<div class="col-xs-1"></div>
 			</div>
 		</script>
+
+		<!-- search template -->
 		<script type="text/ng-template" id="/search">
 			<div ng-include src="'/navigation'"></div>
 			<div ng-include src="'/list'"></div>
 		</script>
+
+		<!-- user template -->
 		<script type="text/ng-template" id="/user">
 			<div ng-include src="'/navigation'"></div>
 			<div ng-include src="'/user_profile'"></div>
 			<div ng-include src="'/tags'"></div>
 		</script>
+
+		<!-- topic template -->
 		<script type="text/ng-template" id="/topic">
 			<div ng-include src="'/navigation'"></div>
 			<div ng-include src="'/topic_profile'"></div>
@@ -61,6 +67,7 @@
 		<script type="text/ng-template" id="/">
 		</script>
 
+		<!-- navigation template -->
 		<script type="text/ng-template" id="/navigation">
 			<nav class="nav col-xs-12">
 				<a href="#/search">
@@ -73,6 +80,8 @@
 				</div>
 			</nav>
 		</script>
+
+		<!-- list template -->
 		<script type="text/ng-template" id="/list">
 			<div class="list col-xs-12 list-group">
 				<div ng-repeat="result in results">
@@ -94,6 +103,8 @@
         </div>
 			</div>
 		</script>
+
+		<!-- user profile template -->
 		<script type="text/ng-template" id="/user_profile">
 			<div class="profile col-xs-12">
 				<div class="circular-image" style="background-image:url('/assets/{{ user.image }}')"></div>
@@ -109,6 +120,8 @@
 				</div>
 			</div>
 		</script>
+
+		<!-- topic profile template -->
 		<script type="text/ng-template" id="/topic_profile">
 			<div class="profile col-xs-12">
 				<div class="circular-image" style="background-image:url('/assets/picture_placeholder.png')"></div>
@@ -119,6 +132,8 @@
 				</div>
 			</div>
 		</script>
+
+		<!-- tags template -->
 		<script type="text/ng-template" id="/tags">
 			<div class="tags col-xs-12">
 				<a ng-repeat="tag in topics" href="#/topics/{{ tag.id }}">{{ tag.title }}</a>
@@ -127,7 +142,7 @@
 		</script>
 
 		<!-- graph -->
-        <div ng-controller="triCtrl" style="margin-left: 500px">
+        <div ng-controller="GraphController" style="margin-left: 500px">
             <svg ng-attr-width="{{width}}"
                  ng-attr-height="{{height}}">
                 <line   ng-repeat="link in links"
@@ -163,73 +178,10 @@
     	<script src="/assets/ui-bootstrap-tpls-0.10.0.min.js "></script>
 		<script src="/assets/underscore.js"></script>
 		<script src="/assets/d3.v3.min.js"></script>
-
-
-		<!-- Angular javascript -->
 		<script src="/assets/dewey.js"></script>
 		<script>
+			// instantiate Dewey Angular app
 			var DeweyApp = Dewey();
-
-			// SVG graph controller
-            DeweyApp.controller("triCtrl", function($scope, $http) {
-                $scope.width = 750;
-                $scope.height = 600;
-
-                var force = d3.layout.force()
-                    .charge(-1200)
-                    .linkDistance(205)
-                    .size([$scope.width, $scope.height]);
-
-                $http.get('/topics/1/most_connected.json').success(function(graph) {
-                    $scope.nodes = graph.nodes;
-                    $scope.links = graph.links;
-
-                    for(var i=0; i < $scope.links.length ; i++){
-                        $scope.links[i].strokeWidth = Math.round(Math.sqrt($scope.links[i].value))
-                    }
-
-                    for(var i=0; i < $scope.nodes.length ; i++){
-                        $scope.nodes[i].radius = 10;
-                        // user if first_name defined
-                        if($scope.nodes[i].first_name != undefined) {
-                        	$scope.nodes[i].href = "#/users/" + $scope.nodes[i].id;
-                        	$scope.nodes[i].color = "#FFFF66";
-                        	$scope.nodes[i].name = $scope.nodes[i].first_name + " " + $scope.nodes[i].last_name
-                        }
-                        // topic if title defined
-                        if($scope.nodes[i].title != undefined) {
-                        	$scope.nodes[i].href = "#/topics/" + $scope.nodes[i].id;
-                        	$scope.nodes[i].color = "#00CC66";
-                        	$scope.nodes[i].radius *= 6;
-                        	$scope.nodes[i].name = $scope.nodes[i].title;
-                        }
-                    }
-
-					force
-					  .nodes(graph.nodes)
-					  .links(graph.links).theta(1)
-					  .on("tick", function(){$scope.$apply()});
-
-                })
-            })
-
-			DeweyApp.directive('ngXlinkHref', function () {
-			  return {
-			    priority: 99,
-			    restrict: 'A',
-			    link: function (scope, element, attr) {
-			      var attrName = 'xlink:href';
-			      attr.$observe('ngXlinkHref', function (value) {
-			        if (!value)
-			          return;
-
-			        attr.$set(attrName, value);
-			      });
-			    }
-			  };
-			});
-
 		</script>
-
 	</body>
 </html>
