@@ -145,21 +145,21 @@ class TopicsController < ApplicationController
         topic.supertopics.each do |supertopic|
           if !@nodes.include?(supertopic) then
             @nodes << supertopic
-            link = { :source => 0, :target => @nodes.size}
+            link = { :source => 0, :target => @nodes.size - 1}
             @links << link
           end
         end
         topic.subtopics.each do |subtopic|
           if !@nodes.include?(subtopic) then
             @nodes << subtopic
-            link = { :source => 0, :target => @nodes.size}
+            link = { :source => 0, :target => @nodes.size - 1}
             @links << link
           end
         end
       end
       topic.experts.each do |expert|
         @nodes << expert
-        link = { :source => 0, :target => @nodes.size}
+        link = { :source => 0, :target => @nodes.size - 1}
         @links << link
       end
     end

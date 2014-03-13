@@ -308,15 +308,15 @@
 
 			// SVG graph controller
             DeweyApp.controller("triCtrl", function($scope, $http) {
-                $scope.width = 500;
-                $scope.height = 500;
+                $scope.width = 750;
+                $scope.height = 600;
 
                 var force = d3.layout.force()
-                    .charge(-120)
-                    .linkDistance(55)
+                    .charge(-1200)
+                    .linkDistance(205)
                     .size([$scope.width, $scope.height]);
 
-                $http.get('/dev/myj.json').success(function(graph) {
+                $http.get('/topics/1/most_connected.json').success(function(graph) {
                     $scope.nodes = graph.nodes;
                     $scope.links = graph.links;
 
@@ -325,13 +325,19 @@
                     }
 
                     for(var i=0; i < $scope.nodes.length ; i++){
-                        $scope.nodes[i].color = $scope.nodes[i].group % 2 ? "#FFFF66" : "#00CC66";
-                        $scope.nodes[i].radius = $scope.nodes[i].conns * 6;
-                        if($scope.nodes[i].group == 1) {
-                        	$scope.nodes[i].href = "#/user/" + $scope.nodes[i].id;
+                        $scope.nodes[i].radius = 10;
+                        // user if first_name defined
+                        if($scope.nodes[i].first_name != undefined) {
+                        	$scope.nodes[i].href = "#/users/" + $scope.nodes[i].id;
+                        	$scope.nodes[i].color = "#FFFF66";
+                        	$scope.nodes[i].name = $scope.nodes[i].first_name + " " + $scope.nodes[i].last_name
                         }
-                        if($scope.nodes[i].group == 2) {
-                        	$scope.nodes[i].href = "#/topic/" + $scope.nodes[i].name;
+                        // topic if title defined
+                        if($scope.nodes[i].title != undefined) {
+                        	$scope.nodes[i].href = "#/topics/" + $scope.nodes[i].id;
+                        	$scope.nodes[i].color = "#00CC66";
+                        	$scope.nodes[i].radius *= 6;
+                        	$scope.nodes[i].name = $scope.nodes[i].title;
                         }
                     }
 
