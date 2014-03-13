@@ -158,15 +158,13 @@
 		<script src="/assets/jquery-1.11.0.js"></script>
     	<script src="/assets/ui-bootstrap-tpls-0.10.0.min.js "></script>
 		<script src="/assets/underscore.js"></script>
-		<script src="http://d3js.org/d3.v3.min.js"></script>
+		<script src="/assets/d3.v3.min.js"></script>
 
 
 		<!-- Angular javascript -->
 		<script src="/assets/dewey.js"></script>
 		<script>
 			var DeweyApp = Dewey();
-		<script>
-			var DeweyApp = angular.module('DeweyApp', ['ngRoute']);
 
 			DeweyApp.config(function ($routeProvider) {
 			  $routeProvider
@@ -330,7 +328,7 @@
                         $scope.nodes[i].color = $scope.nodes[i].group % 2 ? "#FFFF66" : "#00CC66";
                         $scope.nodes[i].radius = $scope.nodes[i].conns * 6;
                         if($scope.nodes[i].group == 1) {
-                        	$scope.nodes[i].href = "#/user/" + $scope.nodes[i].name;
+                        	$scope.nodes[i].href = "#/user/" + $scope.nodes[i].id;
                         }
                         if($scope.nodes[i].group == 2) {
                         	$scope.nodes[i].href = "#/topic/" + $scope.nodes[i].name;
