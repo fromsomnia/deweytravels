@@ -4,12 +4,106 @@
  <title>BLOG_NAME</title>
  <link href="YOUR_URL/atom.xml" rel="self"/>
  <link href="YOUR_URL"/>
- <updated>2014-03-10T21:27:58-07:00</updated>
+ <updated>2014-03-31T21:55:31-07:00</updated>
  <id>BLOG_URL</id>
  <author>
    <name>BLOG_NAME</name>
  </author>
 
+ 
+ <entry>
+   <title>Presentation to VMware</title>
+   <link href="YOUR_URL/2014/03/28/vmware-presentation.html"/>
+   <updated>2014-03-28T00:00:00-07:00</updated>
+   <id>BLOG_URL/2014/03/28/vmware-presentation</id>
+   <content type="html">&lt;p&gt;We are in Japan! As part of CS 210 class, the plan is for us to meet Rakuten and VMware Japan to get feedback of our current product and our future roadmap. As fresh sets of eyes and corporate employees with international perspective, their feedback will be really valuable in moving forward. Because William had an Alternative Spring Break in North Dakota, only Veni, Brett, Stephen and John did the presentations in Japan.&lt;/p&gt;
+
+&lt;p&gt;VMware Japan is located in a tall building very close to Hamamatsucho Sq, Tokyo. We were immediately greeted by Nagisa, a recruiter that organizes our meeting today. She assembled a panel of 8 people: 3 backend-engineers from End-User-Computing group, 1 technical sales from End-User-Computing group, 2 human resources, a recruiting manager and herself.&lt;/p&gt;
+
+&lt;p&gt;After brief introductions of the panel, we gave our presentation. The presentation we gave there can be seen &lt;a href=&quot;https://docs.google.com/presentation/d/1_z9wj1wW7dp606LdDfJlhd83JcpfYzyv489z1W8vBHU/edit?usp=drive_web&quot;&gt;here:&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/assets/vmware.jpg&quot; alt=&quot;VMware Meeting&quot; /&gt;&lt;/p&gt;</content>
+ </entry>
+ 
+ <entry>
+   <title>Presentation to Rakuten</title>
+   <link href="YOUR_URL/2014/03/24/rakuten-presentation.html"/>
+   <updated>2014-03-24T00:00:00-07:00</updated>
+   <id>BLOG_URL/2014/03/24/rakuten-presentation</id>
+   <content type="html">&lt;p&gt;&lt;img src=&quot;/assets/rakuten-pic-with-yukari.png&quot; alt=&quot;Kobo&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;We are in Japan! As part of CS 210 class, the plan is for us to meet Rakuten and VMware Japan to get feedback of our current product and our future roadmap. As fresh sets of eyes and corporate employees with international perspective, their feedback will be really valuable in moving forward. Because William had an Alternative Spring Break in North Dakota, only Veni, Brett, Stephen and John did the presentations in Japan.&lt;/p&gt;
+
+&lt;p&gt;Rakuten, Inc. (楽天株式会社) is a Japanese electronic commerce and Internet company based in Tokyo, Japan. Its e-commerce platform Rakuten Ichiba is the largest e-commerce site in Japan and among the world’s largest by sales.&lt;/p&gt;
+
+&lt;p&gt;Stepping inside their tall building in Shinagawa Seaside, we were immediately greeted by the sight of salesmen and women selling Rakuten Kobo, an e-Reader that is very popular in Japan.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/assets/rakuten-kobo.png&quot; alt=&quot;Kobo&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;On the display, we see the brief history of Rakuten’s history:&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/assets/rakuten-history-display.png&quot; alt=&quot;Kobo&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;After waiting for a couple of minutes, Yukari, the recruiter we’ve been in touch with, greeted us. She’s so nice! After introducing herself, she ushered us to the meeting room where we will be giving the presentation. But first, the head of Rakuten Institute of Technology, Masaya Mori, introduced to us about Rakuten and the technology it has developed. The presentation is really cool, and the technology that they presented is really interesting - we were so impressed.&lt;/p&gt;
+
+&lt;p&gt;Then, we gave our presentation. The presentation we gave there can be seen &lt;a href=&quot;https://docs.google.com/presentation/d/1A7AuCdJTxuj4ZBROf9_ZL2pG9Z4Zh-qiP5bhy1Wl1jw/edit?usp=drive_web&quot;&gt;here:&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/assets/rakuten-meeting.png&quot; alt=&quot;Kobo&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Masaya and his colleague at RIT then gave us feedback. The main feedback points are:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Validation: this is a big problem in Rakuten, and they are glad that we are tackling this problem.&lt;/li&gt;
+
+&lt;li&gt;Communication channels: Jira, Confluence, Hipchat, Microsoft Communication, Viber, Email
+&lt;ul&gt;
+&lt;li&gt;Is it possible to integrate email?&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+
+&lt;li&gt;Do we have the expertise to create a good NLP system?
+&lt;ul&gt;
+&lt;li&gt;Maybe find a way to incentivize crowdsourcing?&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+
+&lt;li&gt;Barriers for adoption
+&lt;ul&gt;
+&lt;li&gt;Language&lt;/li&gt;
+
+&lt;li&gt;HR department’s permission for data&lt;/li&gt;
+
+&lt;li&gt;How quick can you provide the solution? Hard to rely on users.&lt;/li&gt;
+
+&lt;li&gt;It is important to automatically build up the graph because it is difficult for people in scale to input.&lt;/li&gt;
+
+&lt;li&gt;Maintenance cost: how do you make the information fresh?&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+
+&lt;li&gt;Market: Maybe we should target a specific niche market&lt;/li&gt;
+
+&lt;li&gt;Visualization / Product
+&lt;ul&gt;
+&lt;li&gt;Should show differentiation - bigger bubbles?&lt;/li&gt;
+
+&lt;li&gt;How to signify varying expertise data?&lt;/li&gt;
+
+&lt;li&gt;Load balancing among employees is important - based on location and company hierarchy&lt;/li&gt;
+
+&lt;li&gt;Data integrity: taking out noises is difficult. How to control user-inputted data?&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+
+&lt;li&gt;Dashboard
+&lt;ul&gt;
+&lt;li&gt;Who is going to use it? Hard to find use cases&lt;/li&gt;
+
+&lt;li&gt;It is meaningless to monitor KPI in internet companies, so fewer things we need to monitor.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;</content>
+ </entry>
  
  <entry>
    <title>Needfinding</title>

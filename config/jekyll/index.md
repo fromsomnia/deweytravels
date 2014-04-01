@@ -58,8 +58,8 @@ Dewey is a webapp that allows employees inside companies to easily find who is t
 * [User research: need finding] (/internal/2014/03/09/needfinding.html)
 * ["Pink Bagel" - testing through advertising] (/internal/2014/03/05/pink-bagel)
 * User research: mockup feedback
-
-
+* [Presentation to Rakuten] (/internal/2014/03/24/rakuten-presentation)
+* [Presentation to VMware] (/internal/2014/03/28/vmware-presentation)
 
 # Team Documents
 --------------
@@ -82,7 +82,7 @@ Dewey is a webapp that allows employees inside companies to easily find who is t
   * [Liaison Meeting #1 Notes] (https://docs.google.com/document/d/1HY9F6UyRtK0hxtg9T4tdmlbksqe1XlL5GD-9V8v_ZiE/edit)
   * [VMWare Conference Call with Socialcast Community Managers] (https://docs.google.com/document/d/1vM8l3h4syadmKMh623LtbnriONmrdjG3cpr9-OC4Rm8/edit)
   * [Presentation Slides to VMWare, about Pivoted Product Idea] (https://docs.google.com/presentation/d/1y9embuAITHmEkRAnodPTUBBsQ1ZyjLTF0HlxdYtz-WI/edit#slide=id.g2c1d43eb4_05)
-
+* [Spring Break Presentations] (https://docs.google.com/presentation/d/1A7AuCdJTxuj4ZBROf9_ZL2pG9Z4Zh-qiP5bhy1Wl1jw/edit#slide=id.p)
 
 # Miscellaneous
 --------------
