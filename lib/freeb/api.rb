@@ -26,6 +26,14 @@ module Freeb
       end
     end
 
+    def self.get_image(id)
+      url = "#{@base_url}topic#{id}?filter=/common/topic/image&limit=1"
+      result = get_result(url, nil)
+      unless result['property'].blank? or result['property']['/common/topic/image'].blank?
+        return result['property']['/common/topic/image']['values'][0]['id']
+      end
+    end
+
     def self.search(params)
       log "Search Request: #{params}"
       url = "#{@base_url}search"

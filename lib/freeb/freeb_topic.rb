@@ -25,8 +25,12 @@ module Freeb
       @raw_data
     end
 
-    def id
+    def mid
       get_property("mid")
+    end
+
+    def id
+      get_property("id")
     end
 
     def name
@@ -34,7 +38,17 @@ module Freeb
     end
 
     def image_url
-      "https://usercontent.googleapis.com/freebase/v1/image#{self.id}?maxwidth=225&maxheight=225&mode=fillcropmid"
+      if not @raw_data['id'].blank?
+        image_id = API.get_image(self['id'])
+      elsif not @raw_data['mid'].blank?
+        image_id = API.get_image(self['mid'])
+      end
+
+      if image_id
+        "https://usercontent.googleapis.com/freebase/v1/image#{image_id}?maxwidth=225&maxheight=225&mode=fillcropmid"
+      else
+        nil
+      end
     end
 
     def get_property(property)
@@ -48,7 +62,7 @@ module Freeb
         id = "#{@raw_data['type']}/#{property}"
         return @raw_data[id] unless @raw_data[id].blank?
       end
-
+      
       mql = {
         "id" => get_property(:id),
         property => nil

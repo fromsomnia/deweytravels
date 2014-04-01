@@ -1,48 +1,31 @@
 require 'test_helper'
 
 class TopicTest < ActiveSupport::TestCase
-  test "all topics" do
-  	puts "Displaying All Topic Information..."
-  	puts ""
-  	Topic.all.each do |topic|
-  		puts "TOPIC ================ " + topic.title + " ====================="
 
-  		puts "    Topic Title: " + topic.title
-  		puts ""
+  test "scrape_image_from_freebase" do
+    new_topic = Topic.new
+    new_topic.title = "The Beatles"
+    new_topic.save
+    assert_nil(new_topic.freebase_topic_id)
+    assert_equal("/assets/picture_placeholder.png", new_topic.image_url)
 
-  		puts "    Subtopics: "
-  		topic.subtopics.each do |subtopic|
-  			puts "        " + subtopic.title
-  		end
-  		puts ""
+    new_topic.scrape_image_from_freebase
 
-  		puts "    Supertopics: "
-  		topic.supertopics.each do |supertopic|
-  			puts "        " + supertopic.title
-  		end
-  		puts ""
+    assert new_topic.freebase_topic_id
+    assert new_topic.image_url
+    assert_equal("/m/07c0j", new_topic.freebase_topic_id)
+    assert_equal("https://usercontent.googleapis.com/freebase/v1/image/m/04y0q3q?maxwidth=225&maxheight=225&mode=fillcropmid",
+                 new_topic.image_url)
 
-  		puts "    Related Topics: "
-  		topic.related.each do |peer|
-  			puts "        " + peer.title
-  		end
-  		puts ""
 
-  		puts "    Graphs: "
-  		topic.graphs.each do |graph|
-  			puts "        " + graph.title + " - Size: " + graph.topics.size.to_s
-  		end
-  		puts ""
+    # If Freebase doesn't give an image, then we should default to placeholder.
+    new_topic = Topic.new
+    new_topic.title = "aer9a7e0r9audfaia;svacvaeirha0eir"
+    new_topic.save
 
-  		puts "    Experts: "
-  		topic.experts.each do |expert|
-  			puts "        " + expert.first_name + " " + expert.last_name + " - Skill: " + expert.expertises.size.to_s
-  		end
+    new_topic.scrape_image_from_freebase
 
-  		puts "=========================================="
-  		puts ""
-  		puts ""
-  	end
-    assert true
-   end
+    assert_nil(new_topic.freebase_topic_id)
+    assert_equal("/assets/picture_placeholder.png", new_topic.image_url)
+  end
 end

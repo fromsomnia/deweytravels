@@ -1,5 +1,7 @@
+require 'freeb/api'
+
 class Topic < ActiveRecord::Base
-	attr_accessible :title
+	attr_accessible :title, :image_url, :freebase_topic_id
 
 	has_and_belongs_to_many :graphs
 
@@ -23,6 +25,29 @@ class Topic < ActiveRecord::Base
 		end
 		return @related
 	end
+
+  def scrape_image_from_freebase
+    freebase_topics = Freeb.const_get(:API).search(:query => "#{self.title}")
+    if freebase_topics and freebase_topics[0]
+      self.freebase_topic_id = freebase_topics[0].mid
+      self.freebase_image_url = freebase_topics[0].image_url
+      self.save
+    end
+  end
+
+  def image_url
+    if not self.freebase_image_url
+      return '/assets/picture_placeholder.png'
+    else
+      return self.freebase_image_url
+    end
+  end
+
+  def self.update_all_images
+    Topic.all.each do |topic|
+      topic.scrape_image_from_freebase
+    end
+  end
 
 	def degree
 		curr_degree = 0
