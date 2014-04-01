@@ -64,7 +64,7 @@ class TopicsController < ApplicationController
       current_topic = Topic.find(params[:id])
       user = User.find(params[:user_id])
       if current_topic != nil && user != nil then
-        current_topic.users.delete(user)
+        current_topic.experts.delete(user)
       end
     end
     render :nothing => true

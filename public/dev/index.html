@@ -84,14 +84,18 @@
 		<!-- list template -->
 		<script type="text/ng-template" id="/list">
 			<div class="list col-xs-12 list-group">
-				<div ng-repeat="result in results">
-				  <a href="#/{{ result.category }}/{{ result.id }}" class="list-group-item">
+				<div ng-repeat="result in results" class="list-group-item">
+				  <a href="#/{{ result.category }}/{{ result.id }}">
 						<div class="circular-image" style="background-image:url('/assets/{{ result.image }}')"></div>
 				  	<div class="col-xs-10 result-text-container">
 					    <h4 class="list-group-item-heading">{{ result.first_name }}</h4>
 					    <p class="list-group-item-text">{{ result.department }}</p>
 				  	</div>
 				  </a>
+				  <div class="col-xs-2 pull-right">
+            <span ng-click="removeUserFromTopic($event, result.id)" class="glyphicon glyphicon-remove"></span>
+          </div>
+
 				</div>
         <div ng-if="should_show_add_user_to_topic">
           <div class="list-group-item">

@@ -331,19 +331,32 @@ function Dewey() {
     $scope.user_choices = DeweyFactory.all_users;
     $scope.should_show_add_user_to_topic = true;
 
-    // ...
+    $scope.updateUsers = function() {
+      DeweyFactory.getUsers();
+      $(typeahead).val('');
+      setTimeout(function () {
+        $scope.$apply(function () {
+          $scope.results = DeweyFactory.results;
+        });
+      }, 2000);
+      // TODO(stephen): update graph
+    };
+
+    $scope.removeUserFromTopic = function($event, $userID) {
+      $.post('/topics/' + $scope.topic.id + '/remove_user', {
+        user_id: $userID,
+        id: $scope.topic.id
+      }).done(function(response) {
+        $scope.updateUsers();
+      });
+    };
+
     $scope.addUserToTopic = function ($item) {
       $.post('/topics/' + $scope.topic.id + '/add_user', {
         user_id: $item.id,
         id: $scope.topic.id
       }).done(function (response) {
-        DeweyFactory.getUsers();
-        $(typeahead).val('');
-        setTimeout(function () {
-          $scope.$apply(function () {
-            $scope.results = DeweyFactory.results;
-          });
-        }, 2000);
+        $scope.updateUsers();
       }).fail(function (response) {
         alert("Fail to add user to topic - please retry.");
       });
