@@ -79,6 +79,7 @@ class UsersController < ApplicationController
   #Adds topic to given user
   #topic_id as payload
   def remove_topic
+    puts params[:id]
     if params[:topic_id].present? && params[:id].present? then
       user = User.find(params[:id])
       topic = Topic.find(params[:topic_id].to_i)

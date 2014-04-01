@@ -126,7 +126,7 @@
 			<div class="profile col-xs-12">
 				<div class="circular-image" style="background-image:url('/assets/picture_placeholder.png')"></div>
 				<div class="col-xs-12">
-					<span class="name">{{ topic.title }}</span>
+					<span class="name">{{ topic.title }}</span> 
 					<br>
 					<span class="description">{{ topic.description }}</span>
 				</div>
@@ -136,7 +136,10 @@
 		<!-- tags template -->
 		<script type="text/ng-template" id="/tags">
 			<div class="tags col-xs-12">
-				<a ng-repeat="tag in topics" href="#/topics/{{ tag.id }}">{{ tag.title }}</a>
+        <span class="tag" ng-repeat="tag in topics">
+          <a href="#/topics/{{ tag.id }}">{{ tag.title }}</a>
+          <span ng-click="removeTopicFromUser($event, tag.id)" class="glyphicon glyphicon-remove"></span>
+        </span>
         <input id="typeahead" type="text"  ng-model="selectedTopic" placeholder="Add expertise" typeahead-on-select="addTopicToUser($item)" typeahead="topic as topic.title for topic in topic_choices | filter: $viewValue | limitTo: 8"  />
 			</div>
 		</script>
@@ -172,10 +175,11 @@
     </div>
 
 		<!-- javascripts -->
+
 		<script src="/assets/angular.js"></script>
 		<script src="/assets/angular-route.js"></script>
 		<script src="/assets/jquery-1.11.0.js"></script>
-    	<script src="/assets/ui-bootstrap-tpls-0.10.0.min.js "></script>
+    <script src="/assets/ui-bootstrap-tpls-0.10.0.min.js "></script>
 		<script src="/assets/underscore.js"></script>
 		<script src="/assets/d3.v3.min.js"></script>
 		<script src="/assets/dewey.js"></script>
