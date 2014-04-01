@@ -1,7 +1,7 @@
 require 'freeb/api'
 
 class Topic < ActiveRecord::Base
-	attr_accessible :title, :image_url, :freebase_topic_id
+	attr_accessible :title, :image_url, :freebase_topic_id, :freebase_image_url
 
 	has_and_belongs_to_many :graphs
 
@@ -32,6 +32,13 @@ class Topic < ActiveRecord::Base
       self.freebase_topic_id = freebase_topics[0].mid
       self.freebase_image_url = freebase_topics[0].image_url
       self.save
+    end
+
+    # Hacky solution, because Angular doesn't accept dynamic attribute(?)
+    # Ideally we don't need the below lines, make freebase_image_url private and service all
+    # public requests to image_url.
+    if not self.freebase_image_url
+      return '/assets/picture_placeholder.png'
     end
   end
 
