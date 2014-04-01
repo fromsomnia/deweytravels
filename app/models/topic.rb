@@ -38,7 +38,8 @@ class Topic < ActiveRecord::Base
     # Ideally we don't need the below lines, make freebase_image_url private and service all
     # public requests to image_url.
     if not self.freebase_image_url
-      return '/assets/picture_placeholder.png'
+      self.freebase_image_url = '/assets/picture_placeholder.png'
+      self.save
     end
   end
 
