@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  table_pkey: 1
+  good_vote: 1
+  total_vote: 1
+  type: 
+
+two:
+  table_pkey: 1
+  good_vote: 1
+  total_vote: 1
+  type: 

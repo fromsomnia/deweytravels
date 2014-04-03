@@ -11,10 +11,19 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140401194009) do
+ActiveRecord::Schema.define(version: 20140403085121) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "actions", force: true do |t|
+    t.integer  "table_pkey"
+    t.integer  "good_vote"
+    t.integer  "total_vote"
+    t.string   "type"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "graphs", force: true do |t|
     t.string "title"
@@ -28,6 +37,7 @@ ActiveRecord::Schema.define(version: 20140401194009) do
   create_table "topic_topic_connections", force: true do |t|
     t.integer "subtopic_id"
     t.integer "supertopic_id"
+    t.integer "action_id"
   end
 
   create_table "topic_user_connections", force: true do |t|
