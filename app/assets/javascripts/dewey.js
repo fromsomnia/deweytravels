@@ -241,6 +241,7 @@ function Dewey() {
   DeweyApp.factory('GraphService', ['$rootScope', function ($rootScope) {
     var factory = {};
     factory.renderGraph = function () {
+      //alert("hi!");
       $rootScope.$broadcast("navigation");
     };
     return factory;
@@ -305,6 +306,7 @@ function Dewey() {
         id: $scope.user.id
       }).done(function(response) {
         $scope.updateTopics();
+        GraphService.renderGraph();
       });
     };
     $scope.addTopicToUser = function ($item) {
@@ -313,6 +315,7 @@ function Dewey() {
         id: $scope.user.id
       }).done(function (response) {
         $scope.updateTopics();
+        GraphService.renderGraph();
       }).fail(function (response) {
         alert("Fail to add topic to user - please retry.");
       });
@@ -357,6 +360,7 @@ function Dewey() {
         id: $scope.topic.id
       }).done(function (response) {
         $scope.updateUsers();
+        GraphService.renderGraph();
       }).fail(function (response) {
         alert("Fail to add user to topic - please retry.");
       });
