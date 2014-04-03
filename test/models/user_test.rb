@@ -83,6 +83,19 @@ class UserTest < ActiveSupport::TestCase
     assert_equal(old_num + 2, User.all.length)
   end
 
+  test "update_all_domains" do
+    user = User._user_from_sc_user(_get_socialcast_users("dewey").first,"dewey")
+    user.domain = "dewey"
+    user.save
+    
+    Socialcast.any_instance.stubs(:authenticate).returns({"success" => true})
+    Socialcast.any_instance.stubs(:get_users).returns(_get_socialcast_users('dewey'))
+
+    old_num = User.all.length
+    User.update_all_domains
+    assert_equal(old_num + 1, User.all.length)
+  end
+
   test "register_or_login_user" do
     old_num = User.all.length
     Socialcast.any_instance.stubs(:get_users).returns(_get_socialcast_users('dewey'))

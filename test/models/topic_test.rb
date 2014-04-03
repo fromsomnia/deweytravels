@@ -27,5 +27,6 @@ class TopicTest < ActiveSupport::TestCase
 
     assert_nil(new_topic.freebase_topic_id)
     assert_equal("/assets/picture_placeholder.png", new_topic.image_url)
+    assert_equal("/assets/picture_placeholder.png", new_topic.freebase_image_url)
   end
 end

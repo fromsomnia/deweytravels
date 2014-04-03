@@ -43,7 +43,8 @@ class User < ActiveRecord::Base
       users = User.where(:domain => domain)
       users.each do |user|
         sc = Socialcast.new(user.email, user.password)
-        if !sc.status['authenticate_failure']
+        status = sc.authenticate
+        if !status['authentication-failure']
           if (User.load_from_sc(sc, user.domain))
             break
           end
@@ -87,7 +88,6 @@ class User < ActiveRecord::Base
         new_user.save
       end
     else
-      puts "not logged in"
       return false
     end
     return true
