@@ -1,3 +1,5 @@
+/* constants */
+
 $mobile: 641px;
 $white: #e7e6dd;
 $gray: #dcdbce;
@@ -12,6 +14,8 @@ $font: "Trebuchet MS", Helvetica, sans-serif;
 body {
 	background-color: $blue;
 }
+
+/* main container */
 
 #main {
 
@@ -39,6 +43,8 @@ body {
 	}
 	
 }
+
+/* list template */
 
 .list {
 	
@@ -68,6 +74,8 @@ body {
 	  }
 	}
 }
+
+/* login template */
 
 .login {
 
@@ -101,6 +109,8 @@ body {
 
 }
 
+/* navigation template */
+
 .nav {
 	height: 56px;
 	padding: 5px;
@@ -117,6 +127,8 @@ body {
 		color: $blue;
 	}
 }
+
+/* profile template */
 
 .profile {
 
@@ -189,6 +201,8 @@ body {
 
 }
 
+/* tags template */
+
 .tags {
 	text-align: center;
 	
@@ -215,4 +229,11 @@ body {
 			cursor: pointer;
 		}
 	}
+}
+
+/* data visualization */
+
+.link {
+  stroke: #ffffff;
+  stroke-opacity: .6;
 }
