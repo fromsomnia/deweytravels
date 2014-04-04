@@ -6,24 +6,38 @@ class Action < ActiveRecord::Base
   # When an action reached below a certain threshold, that action
   # will be automatically be reverted by the system.
 
+  has_many :user_action_votes, :foreign_key => "action_id"
+  has_many :voters, :through => :user_action_votes, :source => :user
+
   attr_accessible :table_pkey
   class_attribute :action_object_class
   THRESHOLD = 0.5
 
-  def upvote
-    @good_vote += 1
-    @all_vote += 1
+  def _voted_by(user, vote_value)
+    vote = UserActionVote.find_by_user_id_and_action_id(user.id, self.id)
+    if (!vote)
+      vote = UserActionVote.new
+      vote.user_id = user.id
+      vote.action_id = self.id
+    end
+    vote.vote_value = vote_value
+    vote.save
   end
 
-  def downvote
-    @all_vote += 1
-    if score < THRESHOLD
-      self.revert
-    end
+  def upvoted_by(user)
+    self._voted_by(user, 1)
+  end
+
+  def downvoted_by(user)
+    self._voted_by(user, -1)
   end
 
   def score
-    @good_vote / @all_vote
+    if self.voters.count
+      self.voters.sum(:vote_value) / self.voters.count
+    else
+      0
+    end
   end
 
   # The actionable object that is represented by this action
@@ -53,6 +67,12 @@ class Action < ActiveRecord::Base
 end
 
 module ActionableObject
+  # ActionableObject is an interface abstraction. Simply add
+  # include ActionableObject to the model class that you want to be
+  # votable. See TopicTopicConnection for example.
+  # "TopicTopicConnection" is an "ActionableObject", where the "Action"
+  # is "AddTopicTopicConnection".
+
   extend ActiveSupport::Concern
 
   included do

@@ -19,8 +19,6 @@ class TopicTopicConnectionTest < ActiveSupport::TestCase
     conn = TopicTopicConnection.find_by subtopic_id: topic2.id, supertopic_id:topic1.id
     assert conn.action
     assert_equal(conn.id, conn.action.table_pkey)
-    assert_equal(nil, conn.action.total_vote)
-    assert_equal(nil, conn.action.good_vote)
     assert_equal(conn, conn.action.actionable_object)
   end
 

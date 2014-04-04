@@ -11,6 +11,9 @@ class User < ActiveRecord::Base
 	has_many :subordinates, :through => :user_user_connections, :source => :subordinate
 	has_many :superiors, :through => :second_user_user_connections, :source => :superior
 
+  has_many :user_action_votes, :foreign_key => "action_id"
+  has_many :upvoted_actions, :through => :user_action_votes, :source => :action
+
 	def peers
 		@peers = []
 		self.superiors.each do |boss|

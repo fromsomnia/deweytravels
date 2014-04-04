@@ -11,15 +11,13 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140403085121) do
+ActiveRecord::Schema.define(version: 20140404060717) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
   create_table "actions", force: true do |t|
     t.integer  "table_pkey"
-    t.integer  "good_vote"
-    t.integer  "total_vote"
     t.string   "type"
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -49,6 +47,14 @@ ActiveRecord::Schema.define(version: 20140403085121) do
     t.string "title"
     t.string "freebase_image_url"
     t.string "freebase_topic_id"
+  end
+
+  create_table "user_action_votes", force: true do |t|
+    t.integer  "action_id"
+    t.integer  "user_id"
+    t.integer  "vote_value"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "user_user_connections", force: true do |t|
