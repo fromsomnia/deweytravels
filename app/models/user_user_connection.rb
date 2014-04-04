@@ -4,4 +4,8 @@ class UserUserConnection < ActiveRecord::Base
 	belongs_to :superior, :class_name => "User"
 	belongs_to :subordinate, :class_name => "User"
 
+  def action_class
+    AddUserUserConnectionAction
+  end
+  include ActionableObject
 end
