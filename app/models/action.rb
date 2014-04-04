@@ -69,9 +69,15 @@ end
 module ActionableObject
   # ActionableObject is an interface abstraction. Simply add
   # include ActionableObject to the model class that you want to be
-  # votable. See TopicTopicConnection for example.
+  # votable.
+
+  # example:
   # "TopicTopicConnection" is an "ActionableObject", where the "Action"
   # is "AddTopicTopicConnection".
+  # In addition to including ActionableObject,
+  # it should also specify action_class.
+
+  # See TopicTopicConnection for example.
 
   extend ActiveSupport::Concern
 
