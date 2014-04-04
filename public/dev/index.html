@@ -4,17 +4,11 @@
 
 		<!-- allows responsive web design -->
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
-		<title>Dewey | Find the Right People </title>
+		<title>Dewey | Explore Company Expertise </title>
 
 		<!-- stylesheets -->
 		<link rel="stylesheet" type="text/css" href="/assets/bootstrap.css"/>
 		<link rel="stylesheet" type="text/css" href="/assets/dewey.css"/>
-    <style>
-      .link {
-        stroke: #ffffff;
-        stroke-opacity: .6;
-      }
-    </style>
 
 	</head>
 	<body data-ng-app="DeweyApp">
@@ -51,6 +45,9 @@
 			<div ng-include src="'/tags'"></div>
 		</script>
 
+		<!-- edit user template -->
+		<!-- todo -->
+
 		<!-- topic template -->
 		<script type="text/ng-template" id="/topic">
 			<div ng-include src="'/navigation'"></div>
@@ -58,14 +55,8 @@
 			<div ng-include src="'/list'"></div>
 		</script>
 
-		<script type="text/ng-template" id="/">
-		</script>
-		<script type="text/ng-template" id="/">
-		</script>
-		<script type="text/ng-template" id="/">
-		</script>
-		<script type="text/ng-template" id="/">
-		</script>
+		<!-- edit topic template -->
+		<!-- todo -->
 
 		<!-- navigation template -->
 		<script type="text/ng-template" id="/navigation">
@@ -84,6 +75,7 @@
 		<!-- list template -->
 		<script type="text/ng-template" id="/list">
 			<div class="list col-xs-12 list-group">
+
 				<div ng-repeat="result in results" class="list-group-item">
 				  <a href="#/{{ result.category }}/{{ result.id }}">
 						<div class="circular-image" style="background-image:url('/assets/{{ result.image }}')"></div>
@@ -95,8 +87,8 @@
 				  <div class="col-xs-2 pull-right">
             <span ng-click="removeUserFromTopic($event, result.id)" class="glyphicon glyphicon-remove"></span>
           </div>
-
 				</div>
+
         <div ng-if="should_show_add_user_to_topic">
           <div class="list-group-item">
 					  <div class="circular-image" style="background-image:url('/assets/plus.png')"></div>
@@ -105,6 +97,7 @@
 					  </div>
           </div>
         </div>
+
 			</div>
 		</script>
 
@@ -148,7 +141,7 @@
 			</div>
 		</script>
 
-		<!-- graph -->
+		<!-- data visualization -->
     <div ng-controller="GraphController" style="margin-left: 500px">
       <svg ng-attr-width="{{width}}"
            ng-attr-height="{{height}}">
@@ -179,7 +172,6 @@
     </div>
 
 		<!-- javascripts -->
-
 		<script src="/assets/angular.js"></script>
 		<script src="/assets/angular-route.js"></script>
 		<script src="/assets/jquery-1.11.0.js"></script>
