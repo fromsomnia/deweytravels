@@ -18,44 +18,62 @@
 
 	</head>
 	<body data-ng-app="DeweyApp">
-
 		<!-- container -->
-		<div id="main" class="container-fluid">
-			<div class="col-xs-12" data-ng-view></div>
-		</div>
-
+    <div data-ng-view></div>
+ 
 		<!-- login template -->
 		<script type="text/ng-template" id="/login">
-			<div class="login col-xs-12">
-				<img id="logo" class="col-xs-12" src="/assets/logo_transparent.png">
-				<br>
-				<span class="mission col-xs-12">explore company expertise</span>
-				<br>
-				<input type="email" class="form-control" id="email" name="email" placeholder="email" ng-model="loginData.email">
-				<input type="password" class="form-control" id="password" name="password" placeholder="password" ng-model="loginData.password">
-				<button type="button" class="col-xs-12 btn btn-default btn-lg" ng-click='login()'>login</button>
-				<div class="col-xs-1"></div>
-			</div>
+      <div id="main" class="container-fluid">
+  			<div class="col-xs-12"> 
+			    <div class="login col-xs-12">
+			    	<img id="logo" class="col-xs-12" src="/assets/logo_transparent.png">
+			    	<br>
+			    	<span class="mission col-xs-12">explore company expertise</span>
+			    	<br>
+			    	<input type="email" class="form-control" id="email" name="email" placeholder="email" ng-model="loginData.email">
+			    	<input type="password" class="form-control" id="password" name="password" placeholder="password" ng-model="loginData.password">
+			    	<button type="button" class="col-xs-12 btn btn-default btn-lg" ng-click='login()'>login</button>
+			    	<div class="col-xs-1"></div>
+			    </div>
+        </div>
+      </div>
 		</script>
 
 		<!-- search template -->
 		<script type="text/ng-template" id="/search">
-			<div ng-include src="'/navigation'"></div>
-			<div ng-include src="'/list'"></div>
+      <div id="main" class="container-fluid">
+  			<div class="col-xs-12"> 
+			    <div ng-include src="'/navigation'"></div>
+			    <div ng-include src="'/list'"></div>
+        </div>
+      </div>
 		</script>
 
 		<!-- user template -->
 		<script type="text/ng-template" id="/user">
-			<div ng-include src="'/navigation'"></div>
-			<div ng-include src="'/user_profile'"></div>
-			<div ng-include src="'/tags'"></div>
+      <div id="main" class="container-fluid">
+  			<div class="col-xs-12"> 
+  			  <div ng-include src="'/navigation'"></div>
+  			  <div ng-include src="'/user_profile'"></div>
+  			  <div ng-include src="'/tags'"></div>
+        </div>
+      </div>
+
+  	  <div ng-include src="'/graph'"></div>
 		</script>
 
 		<!-- topic template -->
 		<script type="text/ng-template" id="/topic">
-			<div ng-include src="'/navigation'"></div>
-			<div ng-include src="'/topic_profile'"></div>
-			<div ng-include src="'/list'"></div>
+
+      <div id="main" class="container-fluid">
+  			<div class="col-xs-12"> 
+			    <div ng-include src="'/navigation'"></div>
+			    <div ng-include src="'/topic_profile'"></div>
+			    <div ng-include src="'/list'"></div>
+        </div>
+      </div>
+
+  	  <div ng-include src="'/graph'"></div>
 		</script>
 
 		<script type="text/ng-template" id="/">
@@ -148,6 +166,7 @@
 			</div>
 		</script>
 
+    <script type="text/ng-template" id="/graph">
 		<!-- graph -->
     <div ng-controller="GraphController" style="margin-left: 500px">
       <svg ng-attr-width="{{width}}"
@@ -177,7 +196,7 @@
         </g>
       </svg>
     </div>
-
+    </script>
 		<!-- javascripts -->
 
 		<script src="/assets/angular.js"></script>

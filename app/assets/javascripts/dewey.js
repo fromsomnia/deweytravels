@@ -8,14 +8,14 @@ function Dewey() {
 
   // ...
   var BaseController = ['$scope', '$location', 'DeweyFactory', function ($scope, $location, DeweyFactory) {
-
     // bind data to the $scope
     $scope.results = DeweyFactory.results;
     $scope.user = DeweyFactory.user;
     $scope.topic = DeweyFactory.topic;
     $scope.topics = DeweyFactory.topics;
     $scope.topic_choices = DeweyFactory.all_topics;
-    $scope.nodes_links = DeweyFactory.nodes_links;
+    $scope.nodes = DeweyFactory.nodes;
+    $scope.links = DeweyFactory.links;
     $scope.loginData = {};
     $scope.queryData = {};
 
@@ -49,7 +49,7 @@ function Dewey() {
       resolve: {
         getResults: ['DeweyFactory', function (DeweyFactory) {
           return DeweyFactory.getResults();
-        }]
+        }],
       }
     })
     // user view
@@ -63,8 +63,8 @@ function Dewey() {
         getTopics: ['DeweyFactory', function (DeweyFactory) {
           return DeweyFactory.getTopics();
         }],
-        getLinks: ['DeweyFactory', function (DeweyFactory) {
-          return DeweyFactory.getLinks();
+        getNodesAndLinks: ['DeweyFactory', function (DeweyFactory) {
+          return DeweyFactory.getNodesAndLinks();
         }],
         getAllTopics: ['DeweyFactory', function (DeweyFactory) {
           return DeweyFactory.getAllTopics();
@@ -85,8 +85,8 @@ function Dewey() {
         getUsers: ['DeweyFactory', function (DeweyFactory) {
           return DeweyFactory.getUsers();
         }],
-        getLinks: ['DeweyFactory', function (DeweyFactory) {
-          return DeweyFactory.getLinks();
+        getNodesAndLinks: ['DeweyFactory', function (DeweyFactory) {
+          return DeweyFactory.getNodesAndLinks();
         }]
       }
     })
@@ -204,7 +204,7 @@ function Dewey() {
     }
 
     // ...
-    function getLinks() {
+    function getNodesAndLinks() {
       var defer = $q.defer(),
         params = $route.current.params;
       source = '';
@@ -216,10 +216,14 @@ function Dewey() {
         source = '/users/';
         id = params.userId;
       }
+
       $http.get(source + '' + id + '/most_connected.json').success(function (response) {
-        factory.nodes_links = response;
+        factory.nodes = response.nodes;
+        factory.links = response.links;
+
         defer.resolve();
       });
+      console.log(defer.promise);
       return defer.promise;
     }
 
@@ -232,19 +236,9 @@ function Dewey() {
     factory.getUsers = getUsers;
     factory.getTopic = getTopic;
     factory.getTopics = getTopics;
-    factory.getLinks = getLinks;
+    factory.getNodesAndLinks = getNodesAndLinks;
     return factory;
 
-  }]);
-
-  // service that can be called from any controller to re-render the graph based on the new URL
-  DeweyApp.factory('GraphService', ['$rootScope', function ($rootScope) {
-    var factory = {};
-    factory.renderGraph = function () {
-      //alert("hi!");
-      $rootScope.$broadcast("navigation");
-    };
-    return factory;
   }]);
 
   // ...
@@ -257,7 +251,7 @@ function Dewey() {
   }]);
 
   // ...
-  DeweyApp.controller('LoginController', ['$scope', '$injector', '$location', 'DeweyFactory', 'GraphService', function ($scope, $injector, $location, DeweyFactory, GraphService) {
+  DeweyApp.controller('LoginController', ['$scope', '$injector', '$location', 'DeweyFactory', function ($scope, $injector, $location, DeweyFactory) {
     $scope.loginData = {};
 
     // ...
@@ -268,7 +262,6 @@ function Dewey() {
       }).done(function (response) {
         $scope.$apply(function () {
           $location.path('/search');
-          GraphService.renderGraph();
         });
       }).fail(function (response) {
         alert("Invalid Socialcast email and password - please retry.");
@@ -276,8 +269,7 @@ function Dewey() {
     };
   }]);
 
-  // ...
-  DeweyApp.controller('UserController', ['$scope', '$injector', '$location', 'DeweyFactory', 'GraphService', function ($scope, $injector, $location, DeweyFactory, GraphService) {
+  DeweyApp.controller('UserController', ['$scope', '$injector', '$location', 'DeweyFactory', function ($scope, $injector, $location, DeweyFactory) {
 
     $injector.invoke(BaseController, this, {
       $scope: $scope,
@@ -286,18 +278,14 @@ function Dewey() {
     });
     $scope.topic_choices = DeweyFactory.all_topics;
 
-    // ...
-
     $scope.updateTopics = function() {
+      $injector.get('$rootScope').$broadcast('graphUpdated');
       DeweyFactory.getTopics();
       setTimeout(function () {
         $scope.$apply(function () {
           $scope.topics = DeweyFactory.topics;
-
         });
-      }, 2000);
-
-      // TODO(stephen): redraw graph
+      }, 500);
     };
 
     $scope.removeTopicFromUser = function($event, $tagID) {
@@ -320,11 +308,10 @@ function Dewey() {
         alert("Fail to add topic to user - please retry.");
       });
     };
-    GraphService.renderGraph();
   }]);
 
   // ...
-  DeweyApp.controller('TopicController', ['$scope', '$injector', '$location', 'DeweyFactory', 'GraphService', function ($scope, $injector, $location, DeweyFactory, GraphService) {
+  DeweyApp.controller('TopicController', ['$scope', '$injector', '$location', 'DeweyFactory', function ($scope, $injector, $location, DeweyFactory) {
     $injector.invoke(BaseController, this, {
       $scope: $scope,
       $location: $location,
@@ -335,14 +322,14 @@ function Dewey() {
     $scope.should_show_add_user_to_topic = true;
 
     $scope.updateUsers = function() {
+      $injector.get('$rootScope').$broadcast('graphUpdated');
       DeweyFactory.getUsers();
       $(typeahead).val('');
       setTimeout(function () {
         $scope.$apply(function () {
           $scope.results = DeweyFactory.results;
         });
-      }, 2000);
-      // TODO(stephen): update graph
+      }, 500);
     };
 
     $scope.removeUserFromTopic = function($event, $userID) {
@@ -365,60 +352,61 @@ function Dewey() {
         alert("Fail to add user to topic - please retry.");
       });
     };
-    GraphService.renderGraph();
   }]);
 
   // SVG graph controller
-  DeweyApp.controller('GraphController', ['$scope', '$location', function ($scope, $location) {
+
+  DeweyApp.controller('GraphController', ['$scope', '$injector', '$location', 'DeweyFactory', function ($scope, $injector, $location, DeweyFactory) {
+    $injector.invoke(BaseController, this, {
+      $scope: $scope,
+      $location: $location,
+      DeweyFactory: DeweyFactory
+    });
+
+    $scope.$on('graphUpdated', function() {
+      DeweyFactory.getNodesAndLinks();
+      setTimeout(function () {
+        $scope.$apply(function () {
+          $scope.nodes = DeweyFactory.nodes;
+          $scope.links = DeweyFactory.links;
+          $scope.makeGraph();
+        });
+      }, 500);
+    });
+
     $scope.width = 750;
     $scope.height = 600;
 
-    // ...
-    $scope.$on("navigation", function () {
-      var arr = $location.$$path.split('/');
-      var topicID = arr[2];
-      var type = arr[1];
-      makeGraph(type, topicID);
-    });
-
-    // this is called anything the "navigation" event is broadcast
-    var makeGraph = function (nodeType, nodeID) {
+    $scope.makeGraph = function() {
       var force = d3.layout.force().charge(-1200).linkDistance(205).size([$scope.width, $scope.height]);
-
-      // ...
-      $.get('/' + nodeType + '/' + nodeID + '/most_connected.json').success(function (graph) {
-
-        $scope.nodes = graph.nodes;
-        $scope.links = graph.links;
-
-        for (var i = 0; i < $scope.links.length; i++) {
-          $scope.links[i].strokeWidth = Math.round(Math.sqrt($scope.links[i].value))
+  
+      for (var i = 0; i < $scope.links.length; i++) {
+        $scope.links[i].strokeWidth = Math.round(Math.sqrt($scope.links[i].value))
+      }
+  
+      for (var i = 0; i < $scope.nodes.length; i++) {
+        $scope.nodes[i].radius = 10;
+        // user if first_name defined
+        if ($scope.nodes[i].first_name != undefined) {
+          $scope.nodes[i].href = "#/users/" + $scope.nodes[i].id;
+          $scope.nodes[i].color = "#FFFF66";
+          $scope.nodes[i].name = $scope.nodes[i].first_name + " " + $scope.nodes[i].last_name
         }
-
-        for (var i = 0; i < $scope.nodes.length; i++) {
-          $scope.nodes[i].radius = 10;
-          // user if first_name defined
-          if ($scope.nodes[i].first_name != undefined) {
-            $scope.nodes[i].href = "#/users/" + $scope.nodes[i].id;
-            $scope.nodes[i].color = "#FFFF66";
-            $scope.nodes[i].name = $scope.nodes[i].first_name + " " + $scope.nodes[i].last_name
-          }
-          // topic if title defined
-          if ($scope.nodes[i].title != undefined) {
-            $scope.nodes[i].href = "#/topics/" + $scope.nodes[i].id;
-            $scope.nodes[i].color = "#00CC66";
-            $scope.nodes[i].radius *= 6;
-            $scope.nodes[i].name = $scope.nodes[i].title;
-          }
+        // topic if title defined
+        if ($scope.nodes[i].title != undefined) {
+          $scope.nodes[i].href = "#/topics/" + $scope.nodes[i].id;
+          $scope.nodes[i].color = "#00CC66";
+          $scope.nodes[i].radius *= 6;
+          $scope.nodes[i].name = $scope.nodes[i].title;
         }
+      }
+  
+      force.nodes($scope.nodes).links($scope.links).theta(1).on("tick", function () {
+        $scope.$apply()
+      }).start();
+    }
 
-        force.nodes($scope.nodes).links($scope.links).theta(1).on("tick", function () {
-          $scope.$apply()
-        }).start();
-
-      });
-    };
-    
+    $scope.makeGraph();
   }]);
 
   // translates circle xlink's to render as href's
