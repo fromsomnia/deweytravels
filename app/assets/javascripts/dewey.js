@@ -4,28 +4,6 @@ function Dewey() {
   // initialize DeweyApp
   var DeweyApp = angular.module('DeweyApp', ['ngRoute', 'ui.bootstrap']);
 
-  // ...
-  var BaseController = ['$scope', '$location', 'DeweyFactory', function ($scope, $location, DeweyFactory) {
-
-    // bind data to the $scope
-    $scope.results = DeweyFactory.results;
-    $scope.user = DeweyFactory.user;
-    $scope.topic = DeweyFactory.topic;
-    $scope.topics = DeweyFactory.topics;
-    $scope.topic_choices = DeweyFactory.all_topics;
-    $scope.nodes_links = DeweyFactory.nodes_links;
-    $scope.loginData = {};
-    $scope.queryData = {};
-
-    // search using API
-    $scope.search = function () {
-      if (event.keyCode == 13) {
-        $location.path('/search/' + $scope.queryData.query);
-      }
-    };
-
-  }];
-
   // configuration
   DeweyApp.config(['$routeProvider', function ($routeProvider) {
 
@@ -39,11 +17,10 @@ function Dewey() {
       // default search view
       .when('/search', {
         redirectTo: '/search/_',
-        controller: 'DeweyController',
       })
       // search view with a query
       .when('/search/:query', {
-        controller: 'DeweyController',
+        controller: 'SearchController',
         templateUrl: '/search',
         resolve: {
           getResults: ['DeweyFactory', function (DeweyFactory) {
@@ -198,7 +175,7 @@ function Dewey() {
       return defer.promise;
     }
 
-    // ...
+    // get all links from a user or topic
     function getLinks() {
       var defer = $q.defer(),
         params = $route.current.params;
@@ -243,19 +220,42 @@ function Dewey() {
 
   }]);
 
-  // ...
-  DeweyApp.controller('DeweyController', ['$scope', '$injector', '$location', 'DeweyFactory', function ($scope, $injector, $location, DeweyFactory) {
+  // controller for all views; other controllers inherit from this
+  DeweyApp.controller('BaseController', ['$scope', '$location', 'DeweyFactory', 'GraphService', function ($scope, $location, DeweyFactory, GraphService) {
 
-    $injector.invoke(BaseController, this, {
-      $scope: $scope,
-      $location: $location,
-      DeweyFactory: DeweyFactory
-    });
+    // bind data to the $scope
+    $scope.results = DeweyFactory.results;
+    $scope.user = DeweyFactory.user;
+    $scope.topic = DeweyFactory.topic;
+    $scope.topics = DeweyFactory.topics;
+    $scope.nodes_links = DeweyFactory.nodes_links;
+    $scope.loginData = {};
+    $scope.queryData = {};
+
+    // search using API
+    $scope.search = function () {
+      if (event.keyCode == 13) {
+        $location.path('/search/' + $scope.queryData.query);
+      }
+    };
+
+    GraphService.renderGraph();
 
   }]);
 
-  // ...
-  DeweyApp.controller('LoginController', ['$scope', '$injector', '$location', 'DeweyFactory', 'GraphService', function ($scope, $injector, $location, DeweyFactory, GraphService) {
+  // controller for the Search view
+  DeweyApp.controller('SearchController', ['$controller', '$scope', '$location', 'DeweyFactory', function ($controller, $scope, $location, DeweyFactory) {
+
+    $controller('BaseController', {
+      $scope: $scope
+    });
+
+    // TODO: clear graph
+
+  }]);
+
+  // controller for the Login view
+  DeweyApp.controller('LoginController', ['$scope', '$location', function ($scope, $location) {
 
     $scope.loginData = {};
     $scope.login = function () {
@@ -265,7 +265,6 @@ function Dewey() {
       }).done(function (response) {
         $scope.$apply(function () {
           $location.path('/search');
-          GraphService.renderGraph();
         });
       }).fail(function (response) {
         alert("Invalid Socialcast email and password - please retry.");
@@ -274,13 +273,11 @@ function Dewey() {
 
   }]);
 
-  // ...
-  DeweyApp.controller('UserController', ['$scope', '$injector', '$location', 'DeweyFactory', 'GraphService', function ($scope, $injector, $location, DeweyFactory, GraphService) {
+  // controller for the User view
+  DeweyApp.controller('UserController', ['$scope', '$controller', '$location', 'DeweyFactory', function ($scope, $controller, $location, DeweyFactory) {
 
-    $injector.invoke(BaseController, this, {
-      $scope: $scope,
-      $location: $location,
-      DeweyFactory: DeweyFactory
+    $controller('BaseController', {
+      $scope: $scope
     });
 
     $scope.topic_choices = DeweyFactory.all_topics;
@@ -293,7 +290,7 @@ function Dewey() {
         });
       }, 2000);
 
-      // TODO(stephen): redraw graph
+      // TODO: redraw graph
 
     };
 
@@ -303,7 +300,6 @@ function Dewey() {
         id: $scope.user.id
       }).done(function (response) {
         $scope.updateTopics();
-        GraphService.renderGraph();
       });
 
     };
@@ -314,23 +310,18 @@ function Dewey() {
         id: $scope.user.id
       }).done(function (response) {
         $scope.updateTopics();
-        GraphService.renderGraph();
       }).fail(function (response) {
         alert("Fail to add topic to user - please retry.");
       });
     };
 
-    GraphService.renderGraph();
-
   }]);
 
-  // ...
-  DeweyApp.controller('TopicController', ['$scope', '$injector', '$location', 'DeweyFactory', 'GraphService', function ($scope, $injector, $location, DeweyFactory, GraphService) {
+  // controller for the Topic view
+  DeweyApp.controller('TopicController', ['$scope', '$controller', '$location', 'DeweyFactory', function ($scope, $controller, $location, DeweyFactory) {
 
-    $injector.invoke(BaseController, this, {
-      $scope: $scope,
-      $location: $location,
-      DeweyFactory: DeweyFactory
+    $controller('BaseController', {
+      $scope: $scope
     });
 
     $scope.user_choices = DeweyFactory.all_users;
@@ -344,7 +335,9 @@ function Dewey() {
           $scope.results = DeweyFactory.results;
         });
       }, 2000);
-      // TODO(stephen): update graph
+
+      // TODO: update graph
+
     };
 
     $scope.removeUserFromTopic = function ($event, $userID) {
@@ -362,23 +355,20 @@ function Dewey() {
         id: $scope.topic.id
       }).done(function (response) {
         $scope.updateUsers();
-        GraphService.renderGraph();
       }).fail(function (response) {
         alert("Fail to add user to topic - please retry.");
       });
     };
 
-    GraphService.renderGraph();
-
   }]);
 
-  // SVG graph controller
+  // controller for the Graph view
   DeweyApp.controller('GraphController', ['$scope', '$location', function ($scope, $location) {
 
     $scope.width = 750;
     $scope.height = 600;
 
-    // ...
+    // triggered when "navigation" event is broadcast
     $scope.$on("navigation", function () {
       var arr = $location.$$path.split('/');
       var topicID = arr[2];
@@ -386,12 +376,12 @@ function Dewey() {
       makeGraph(type, topicID);
     });
 
-    // this is called anything the "navigation" event is broadcast
+    // creates the D3 graph
     var makeGraph = function (nodeType, nodeID) {
 
       var force = d3.layout.force().charge(-1200).linkDistance(205).size([$scope.width, $scope.height]);
 
-      // ...
+      // calls the API
       $.get('/' + nodeType + '/' + nodeID + '/most_connected.json').success(function (graph) {
 
         $scope.nodes = graph.nodes;
