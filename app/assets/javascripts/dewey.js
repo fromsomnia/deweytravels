@@ -381,7 +381,10 @@ function Dewey() {
       var force = d3.layout.force().charge(-1200).linkDistance(205).size([$scope.width, $scope.height]);
   
       for (var i = 0; i < $scope.links.length; i++) {
-        $scope.links[i].strokeWidth = Math.round(Math.sqrt($scope.links[i].value))
+
+        $scope.links[i].strokeWidth = 2;
+        // TODO: uncomment this when the line has strength value.
+        // $scope.links[i].strokeWidth = Math.round(Math.sqrt($scope.links[i].value))
       }
   
       for (var i = 0; i < $scope.nodes.length; i++) {
