@@ -210,19 +210,7 @@ function Dewey() {
 
   }]);
 
-  // service that can be called from any controller to re-render the graph based on the new URL
-  // DeweyApp.factory('GraphService', ['$rootScope', function ($rootScope) {
-
-  //   var factory = {};
-  //   factory.renderGraph = function () {
-  //     $rootScope.$broadcast('navigation');
-  //   };
-  //   return factory;
-
-  // }]);
-
   // controller for all views; other controllers inherit from this
-  // DeweyApp.controller('BaseController', ['$scope', '$location', 'DeweyFactory', 'GraphService', function ($scope, $location, DeweyFactory, GraphService) {
   DeweyApp.controller('BaseController', ['$scope', '$location', 'DeweyFactory', function ($scope, $location, DeweyFactory) {
 
     // bind data to the $scope
@@ -235,7 +223,6 @@ function Dewey() {
     $scope.queryData = {};
 
     $scope.initGraphVars = function () {
-      // debugger;
       if ($scope.user) {
         $scope.nodeType = 'users';
         $scope.nodeId = $scope.user.id;      
@@ -253,9 +240,6 @@ function Dewey() {
       }
     };
 
-    // GraphService.renderGraph();
-    // TODO: update scope's nodeType and nodeId
-
   }]);
 
   // controller for the Search view
@@ -264,8 +248,6 @@ function Dewey() {
     $controller('BaseController', {
       $scope: $scope
     });
-
-    // TODO: clear graph
 
   }]);
 
@@ -342,7 +324,6 @@ function Dewey() {
     });
 
 
-    // debugger;
     $scope.user = undefined;
     $scope.initGraphVars();
 
@@ -383,75 +364,6 @@ function Dewey() {
     };
 
   }]);
-
-  // DeweyApp.controller('GraphController', ['$scope', '$controller', function ($scope, $controller) {
-  //   $controller('BaseController', {
-  //     $scope: $scope
-  //   });
-  //   $scope.nodeType = 'users';
-  //   $scope.nodeId = '5';
-  // }]);
-
-  // controller for the Graph view
-  // DeweyApp.controller('GraphController', ['$scope', '$location', function ($scope, $location) {
-
-  //   $scope.width = 750;
-  //   $scope.height = 600;
-
-  //   // triggered when 'navigation' event is broadcast
-  //   $scope.$on('navigation', function () {
-  //     var arr = $location.$$path.split('/');
-  //     var topicID = arr[2];
-  //     var type = arr[1];
-  //     makeGraph(type, topicID);
-  //   });
-
-  //   // creates the D3 graph
-  //   var makeGraph = function (nodeType, nodeID) {
-
-  //     var force = d3.layout
-  //       .force()
-  //       .charge(-1200)
-  //       .linkDistance(205)
-  //       .size([$scope.width, $scope.height]);
-
-  //     // calls the API
-  //     $.get('/' + nodeType + '/' + nodeID + '/most_connected.json')
-  //       .success(function (graph) {
-
-  //         $scope.nodes = graph.nodes;
-  //         $scope.links = graph.links;
-
-  //         for (var i = 0; i < $scope.links.length; i++) {
-  //           $scope.links[i].strokeWidth = Math.round(Math.sqrt($scope.links[i].value))
-  //         }
-
-  //         for (var i = 0; i < $scope.nodes.length; i++) {
-  //           $scope.nodes[i].radius = 10;
-  //           // user if first_name defined
-  //           if ($scope.nodes[i].first_name != undefined) {
-  //             $scope.nodes[i].href = '#/users/' + $scope.nodes[i].id;
-  //             $scope.nodes[i].color = '#FFFF66';
-  //             $scope.nodes[i].name = $scope.nodes[i].first_name + ' ' + $scope.nodes[i].last_name
-  //           }
-  //           // topic if title defined
-  //           if ($scope.nodes[i].title != undefined) {
-  //             $scope.nodes[i].href = '#/topics/' + $scope.nodes[i].id;
-  //             $scope.nodes[i].color = '#00CC66';
-  //             $scope.nodes[i].radius *= 6;
-  //             $scope.nodes[i].name = $scope.nodes[i].title;
-  //           }
-  //         }
-
-  //         force.nodes($scope.nodes).links($scope.links).theta(1).on('tick', function () {
-  //           $scope.$apply()
-  //         }).start();
-
-  //       });
-
-  //   };
-    
-  // }]);
 
   // directive for data visualization
   DeweyApp.directive('dwVisualization', function () {
@@ -582,23 +494,6 @@ function Dewey() {
     return directiveDefinitionObject;
 
   });
-
-  // translates circle xlink's to render as href's
-  // DeweyApp.directive('ngXlinkHref', function () {
-
-  //   return {
-  //     priority: 99,
-  //     restrict: 'A',
-  //     link: function (scope, element, attr) {
-  //       var attrName = 'xlink:href';
-  //       attr.$observe('ngXlinkHref', function (value) {
-  //         if (!value) return;
-  //         attr.$set(attrName, value);
-  //       });
-  //     }
-  //   };
-
-  // });
 
   // return DeweyApp as a result of function invocation
   return DeweyApp;
