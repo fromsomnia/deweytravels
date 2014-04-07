@@ -187,10 +187,8 @@ function Dewey() {
   // other controllers inherit from this
   DeweyApp.controller('BaseController', ['$scope', '$location', 'DeweyFactory', function ($scope, $location, DeweyFactory) {
 
-    // bind data to the $scope
     $scope.queryData = {};
 
-    // search using API
     $scope.search = function () {
       if (event.keyCode == 13) {
         $location.path('/search/' + $scope.queryData.query);
@@ -212,7 +210,9 @@ function Dewey() {
   // controller for the Login view
   DeweyApp.controller('LoginController', ['$scope', '$location', function ($scope, $location) {
 
+    // does not inherit from BaseController...
     $scope.loginData = {};
+
     $scope.login = function () {
       $.post('/session/post_login', {
         email: $scope.loginData.email,
@@ -234,14 +234,11 @@ function Dewey() {
     $controller('BaseController', {
       $scope: $scope
     });
-
     $scope.user = DeweyFactory.user;
     $scope.topics = DeweyFactory.topics;
-
+    $scope.topic_choices = DeweyFactory.all_topics;
     $scope.nodeType = 'users';
     $scope.nodeId = $scope.user.id;
-
-    $scope.topic_choices = DeweyFactory.all_topics;
 
     $scope.updateTopics = function () {
       DeweyFactory.getTopics();
@@ -283,15 +280,12 @@ function Dewey() {
     $controller('BaseController', {
       $scope: $scope
     });
-
     $scope.results = DeweyFactory.results;
     $scope.topic = DeweyFactory.topic;
-
-    $scope.nodeType = 'topics';
-    $scope.nodeId = $scope.topic.id;
-
     $scope.user_choices = DeweyFactory.all_users;
     $scope.should_show_add_user_to_topic = true;
+    $scope.nodeType = 'topics';
+    $scope.nodeId = $scope.topic.id;
 
     $scope.updateUsers = function () {
       DeweyFactory.getUsers();
@@ -331,6 +325,7 @@ function Dewey() {
   // directive for data visualization
   DeweyApp.directive('dwVisualization', function () {
 
+    // directive object
     var directiveDefinitionObject = {
       restrict: 'E',
       scope: {
@@ -338,6 +333,7 @@ function Dewey() {
       },
       link: function (scope, element, attrs) {
 
+        // calculate width and height each time directive initiates
         var width = $(window).width(),
           height = $(window).height(),
           force = d3.layout
@@ -346,26 +342,29 @@ function Dewey() {
             .linkDistance(205)
             .size([width, height]);
 
+        // svg containers
         var svg = d3.select(element[0])
           .append('svg')
           .attr('width', '100%')
           .attr('height', '100%');
-
         var container = svg.append('g')
           .attr('class', 'graph-container');
 
+        // watch if url value changes
         scope.$watch('url', function (newUrl, oldUrl) {
-
-          container.selectAll('*').remove();
 
           if (!newUrl) {
             return;
           }
 
+          // clear all previous elements
+          container.selectAll('*').remove();
+
           // calls the API
           $.get(newUrl)
             .success(function (data) {
 
+              // svg containers
               var links = container.append('g')
                 .attr('class', 'links');
               var nodes = container.append('g')
@@ -419,6 +418,7 @@ function Dewey() {
                   return datum.title;
                 });
 
+              // tick function calculations positional values for graph elements
               function tick () {
                 g.attr('transform', function (datum) {
                   datum.x = Math.max(datum.r, Math.min(width - datum.r, datum.x));
@@ -442,6 +442,7 @@ function Dewey() {
                   });
               }
 
+              // apply force animations on graph
               force.nodes(data.nodes)
                 .links(data.links)
                 .theta(1)
