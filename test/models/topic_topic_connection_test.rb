@@ -20,6 +20,14 @@ class TopicTopicConnectionTest < ActiveSupport::TestCase
     assert conn.action
     assert_equal(conn.id, conn.action.table_pkey)
     assert_equal(conn, conn.action.actionable_object)
+
+    user = User.all.first
+    assert !conn.is_upvoted_by?(user)
+    assert !conn.is_downvoted_by?(user)
+
+    conn.upvoted.by(user)
+    assert conn.is_upvoted_by?(user)
+    assert !conn.is_downvoted_by?(user)
   end
 
 end

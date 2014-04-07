@@ -24,6 +24,16 @@ class Action < ActiveRecord::Base
     vote.save
   end
 
+  def is_upvoted_by?(user)
+    vote = UserActionVote.find_by_user_id_and_action_id(user.id, self.id)
+    (vote && vote.vote_value == 1)
+  end
+
+  def is_downvoted_by?(user)
+    vote = UserActionVote.find_by_user_id_and_action_id(user.id, self.id)
+    (vote && vote.vote_value == -1)
+  end
+
   def upvoted_by(user)
     self._voted_by(user, 1)
   end
@@ -33,7 +43,7 @@ class Action < ActiveRecord::Base
   end
 
   def score
-    if self.voters.count
+    if self.voters.count > 0
       self.voters.sum(:vote_value) / self.voters.count
     else
       0
@@ -86,13 +96,34 @@ module ActionableObject
   end
 
   def action
-    self.action_class.find_by table_pkey: self.id
+    current_action = self.action_class.find_by table_pkey: self.id
+    if not current_action
+      current_action = self.add_action
+    end
+    current_action
+  end
+
+  def is_upvoted_by?(user)
+    self.action.is_upvoted_by?(user)
+  end
+
+  def is_downvoted_by?(user)
+    self.action.is_downvoted_by?(user)
+  end
+
+  def downvoted_by(user)
+    self.action.downvoted_by(user)
+  end
+
+  def upvoted_by(user)
+    self.action.upvoted_by(user)
   end
 
   def add_action
     new_action = self.action_class.new
     new_action.table_pkey = self.id
     new_action.save
+    new_action
   end
 end
 
