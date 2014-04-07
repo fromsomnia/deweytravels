@@ -33,6 +33,10 @@ TeamDeweyWebsite::Application.routes.draw do
 
   end
 
+  resources :connections do
+    post "upvote"
+    post "downvote"
+  end
 
 
   # The priority is based upon order of creation: first created -> highest priority.

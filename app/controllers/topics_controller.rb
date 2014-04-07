@@ -142,25 +142,53 @@ class TopicsController < ApplicationController
       topic = Topic.find(params[:topic_id].to_i)
       if topic != nil then
         @nodes << topic
-        topic.supertopics.each do |supertopic|
+
+        topic.topic_topic_connections.each do |ttc|
+          supertopic = ttc.supertopic
           if !@nodes.include?(supertopic) then
             @nodes << supertopic
-            link = { :source => 0, :target => @nodes.size - 1}
+
+            link = { :id => @links.size,
+                     :source => 0,
+                     :target => @nodes.size - 1,
+                     # TODO(veni): change when login is correctly
+                     # implemented.
+                     :is_upvoted => ttc.is_upvoted_by?(User.first),
+                     :connection => ttc,
+                     :connectionType => ttc.class.name}
             @links << link
           end
         end
-        topic.subtopics.each do |subtopic|
+        topic.second_topic_topic_connections.each do |ttc|
+          subtopic = ttc.subtopic
           if !@nodes.include?(subtopic) then
             @nodes << subtopic
-            link = { :source => 0, :target => @nodes.size - 1}
+            link = { :id => @links.size,
+                     :source => 0,
+                     :target => @nodes.size - 1,
+                     # TODO(veni): change when login is correctly
+                     # implemented.
+                     :is_upvoted => ttc.is_upvoted_by?(User.first),
+                     :connection => ttc,
+                     :connectionType => ttc.class.name}
+
             @links << link
           end
         end
-      end
-      topic.experts.each do |expert|
-        @nodes << expert
-        link = { :source => 0, :target => @nodes.size - 1}
-        @links << link
+        topic.topic_user_connections.each do |tuc|
+          expert = tuc.expert
+          @nodes << expert
+
+          link = { :id => @links.size,
+                   :source => 0,
+                   :target => @nodes.size - 1,
+                   # TODO(veni): change when login is correctly
+                   # implemented.
+                   :is_upvoted => tuc.is_upvoted_by?(User.first),
+                   :connection => tuc,
+                   :connectionType => tuc.class.name}
+          @links << link
+        end
       end
     end
     result = { :nodes => @nodes, :links => @links }

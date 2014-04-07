@@ -42,14 +42,24 @@ class UsersController < ApplicationController
       user = User.find(params[:user_id].to_i)
       if user != nil then
         @nodes << user
-        user.expertises.each do |expertise|
+        user.topic_user_connections.each do |tuc|
+          expertise = tuc.expertise
           @nodes << expertise
-          link = { :source => 0, :target => @nodes.size - 1}
+          link = { :source => 0,
+                   :target => @nodes.size - 1,
+                   # TODO(veni): change this when login
+                   # is correctly impelemented
+                   :is_upvoted => tuc.is_upvoted_by?(User.first),
+                   :connection => tuc,
+                   :connectionType => tuc.class.name}
           @links << link
         end
+
         user.peers.each do |peer|
           @nodes << peer 
-          link = { :source => 0, :target => @nodes.size - 1}
+          link = { :source => 0,
+                   :target => @nodes.size - 1,
+                   :connection => nil }
           @links << link
         end
       end
