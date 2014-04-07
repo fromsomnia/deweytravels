@@ -297,7 +297,7 @@ function Dewey() {
 
     $scope.topic = undefined;
     $scope.initGraphVars();
-    
+
     $scope.topic_choices = DeweyFactory.all_topics;
 
     $scope.updateTopics = function () {
@@ -456,18 +456,6 @@ function Dewey() {
   // directive for data visualization
   DeweyApp.directive('dwVisualization', function () {
 
-    // var width = 750,
-    //   height = 600,
-    // var width = '100%',
-    //   height = '100%',
-    var width = $(window).width(),
-      height = $(window).height(),
-      force = d3.layout
-        .force()
-        .charge(-1200)
-        .linkDistance(205)
-        .size([width, height]);
-
     var directiveDefinitionObject = {
       restrict: 'E',
       scope: {
@@ -475,12 +463,21 @@ function Dewey() {
       },
       link: function (scope, element, attrs) {
 
+        var width = $(window).width(),
+          height = $(window).height(),
+          force = d3.layout
+            .force()
+            .charge(-1200)
+            .linkDistance(205)
+            .size([width, height]);
+
         var svg = d3.select(element[0])
           .append('svg')
           .attr('width', '100%')
           .attr('height', '100%');
 
-        var container = svg.append('g');
+        var container = svg.append('g')
+          .attr('class', 'graph-container');
 
         scope.$watch('url', function (newUrl, oldUrl) {
 
@@ -494,7 +491,12 @@ function Dewey() {
           $.get(newUrl)
             .success(function (data) {
 
-              var line = container.selectAll('line')
+              var links = container.append('g')
+                .attr('class', 'links');
+              var nodes = container.append('g')
+                .attr('class', 'nodes');
+
+              var line = links.selectAll('line')
                 .data(data.links)
                 .enter()
                 .append('line')
@@ -503,13 +505,14 @@ function Dewey() {
                   return 2;
                 });
 
-              var g = container.selectAll('g')
+              var g = nodes.selectAll('g')
                 .data(data.nodes)
                 .enter()
                 .append('g');
 
               var a = g.append('a')
-                .attr('ngXlinkHref', function (datum) {
+                // .attr('ngXlinkHref', function (datum) {
+                .attr('xlink:href', function (datum) {
                   if (datum.first_name) {
                     return '#/users/' + datum.id;
                   }
