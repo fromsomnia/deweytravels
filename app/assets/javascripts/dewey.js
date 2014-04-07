@@ -2,6 +2,7 @@
 function Dewey() {
 
   // initialize DeweyApp
+  // ngRoute is for routing; ui.bootstrap is for Angular UI Bootstrap components
   var DeweyApp = angular.module('DeweyApp', ['ngRoute', 'ui.bootstrap']);
 
   // configuration
@@ -104,7 +105,7 @@ function Dewey() {
     function getUser() {
       var defer = $q.defer(),
         params = $route.current.params;
-      $http.get("/users/" + params.userId + ".json").success(function (response) {
+      $http.get('/users/' + params.userId + '.json').success(function (response) {
         factory.user = response;
         defer.resolve();
       });
@@ -210,18 +211,19 @@ function Dewey() {
   }]);
 
   // service that can be called from any controller to re-render the graph based on the new URL
-  DeweyApp.factory('GraphService', ['$rootScope', function ($rootScope) {
+  // DeweyApp.factory('GraphService', ['$rootScope', function ($rootScope) {
 
-    var factory = {};
-    factory.renderGraph = function () {
-      $rootScope.$broadcast("navigation");
-    };
-    return factory;
+  //   var factory = {};
+  //   factory.renderGraph = function () {
+  //     $rootScope.$broadcast('navigation');
+  //   };
+  //   return factory;
 
-  }]);
+  // }]);
 
   // controller for all views; other controllers inherit from this
-  DeweyApp.controller('BaseController', ['$scope', '$location', 'DeweyFactory', 'GraphService', function ($scope, $location, DeweyFactory, GraphService) {
+  // DeweyApp.controller('BaseController', ['$scope', '$location', 'DeweyFactory', 'GraphService', function ($scope, $location, DeweyFactory, GraphService) {
+  DeweyApp.controller('BaseController', ['$scope', '$location', 'DeweyFactory', function ($scope, $location, DeweyFactory) {
 
     // bind data to the $scope
     $scope.results = DeweyFactory.results;
@@ -232,6 +234,18 @@ function Dewey() {
     $scope.loginData = {};
     $scope.queryData = {};
 
+    $scope.initGraphVars = function () {
+      // debugger;
+      if ($scope.user) {
+        $scope.nodeType = 'users';
+        $scope.nodeId = $scope.user.id;      
+      }
+      else if ($scope.topic) {
+        $scope.nodeType = 'topics';
+        $scope.nodeId = $scope.topic.id;      
+      }
+    };
+
     // search using API
     $scope.search = function () {
       if (event.keyCode == 13) {
@@ -239,7 +253,8 @@ function Dewey() {
       }
     };
 
-    GraphService.renderGraph();
+    // GraphService.renderGraph();
+    // TODO: update scope's nodeType and nodeId
 
   }]);
 
@@ -267,7 +282,7 @@ function Dewey() {
           $location.path('/search');
         });
       }).fail(function (response) {
-        alert("Invalid Socialcast email and password - please retry.");
+        alert('Invalid Socialcast email and password - please retry.');
       });
     };
 
@@ -280,6 +295,9 @@ function Dewey() {
       $scope: $scope
     });
 
+    $scope.topic = undefined;
+    $scope.initGraphVars();
+    
     $scope.topic_choices = DeweyFactory.all_topics;
 
     $scope.updateTopics = function () {
@@ -301,7 +319,6 @@ function Dewey() {
       }).done(function (response) {
         $scope.updateTopics();
       });
-
     };
 
     $scope.addTopicToUser = function ($item) {
@@ -311,7 +328,7 @@ function Dewey() {
       }).done(function (response) {
         $scope.updateTopics();
       }).fail(function (response) {
-        alert("Fail to add topic to user - please retry.");
+        alert('Fail to add topic to user - please retry.');
       });
     };
 
@@ -323,6 +340,11 @@ function Dewey() {
     $controller('BaseController', {
       $scope: $scope
     });
+
+
+    // debugger;
+    $scope.user = undefined;
+    $scope.initGraphVars();
 
     $scope.user_choices = DeweyFactory.all_users;
     $scope.should_show_add_user_to_topic = true;
@@ -356,84 +378,224 @@ function Dewey() {
       }).done(function (response) {
         $scope.updateUsers();
       }).fail(function (response) {
-        alert("Fail to add user to topic - please retry.");
+        alert('Fail to add user to topic - please retry.');
       });
     };
 
   }]);
+
+  // DeweyApp.controller('GraphController', ['$scope', '$controller', function ($scope, $controller) {
+  //   $controller('BaseController', {
+  //     $scope: $scope
+  //   });
+  //   $scope.nodeType = 'users';
+  //   $scope.nodeId = '5';
+  // }]);
 
   // controller for the Graph view
-  DeweyApp.controller('GraphController', ['$scope', '$location', function ($scope, $location) {
+  // DeweyApp.controller('GraphController', ['$scope', '$location', function ($scope, $location) {
 
-    $scope.width = 750;
-    $scope.height = 600;
+  //   $scope.width = 750;
+  //   $scope.height = 600;
 
-    // triggered when "navigation" event is broadcast
-    $scope.$on("navigation", function () {
-      var arr = $location.$$path.split('/');
-      var topicID = arr[2];
-      var type = arr[1];
-      makeGraph(type, topicID);
-    });
+  //   // triggered when 'navigation' event is broadcast
+  //   $scope.$on('navigation', function () {
+  //     var arr = $location.$$path.split('/');
+  //     var topicID = arr[2];
+  //     var type = arr[1];
+  //     makeGraph(type, topicID);
+  //   });
 
-    // creates the D3 graph
-    var makeGraph = function (nodeType, nodeID) {
+  //   // creates the D3 graph
+  //   var makeGraph = function (nodeType, nodeID) {
 
-      var force = d3.layout.force().charge(-1200).linkDistance(205).size([$scope.width, $scope.height]);
+  //     var force = d3.layout
+  //       .force()
+  //       .charge(-1200)
+  //       .linkDistance(205)
+  //       .size([$scope.width, $scope.height]);
 
-      // calls the API
-      $.get('/' + nodeType + '/' + nodeID + '/most_connected.json').success(function (graph) {
+  //     // calls the API
+  //     $.get('/' + nodeType + '/' + nodeID + '/most_connected.json')
+  //       .success(function (graph) {
 
-        $scope.nodes = graph.nodes;
-        $scope.links = graph.links;
+  //         $scope.nodes = graph.nodes;
+  //         $scope.links = graph.links;
 
-        for (var i = 0; i < $scope.links.length; i++) {
-          $scope.links[i].strokeWidth = Math.round(Math.sqrt($scope.links[i].value))
-        }
+  //         for (var i = 0; i < $scope.links.length; i++) {
+  //           $scope.links[i].strokeWidth = Math.round(Math.sqrt($scope.links[i].value))
+  //         }
 
-        for (var i = 0; i < $scope.nodes.length; i++) {
-          $scope.nodes[i].radius = 10;
-          // user if first_name defined
-          if ($scope.nodes[i].first_name != undefined) {
-            $scope.nodes[i].href = "#/users/" + $scope.nodes[i].id;
-            $scope.nodes[i].color = "#FFFF66";
-            $scope.nodes[i].name = $scope.nodes[i].first_name + " " + $scope.nodes[i].last_name
-          }
-          // topic if title defined
-          if ($scope.nodes[i].title != undefined) {
-            $scope.nodes[i].href = "#/topics/" + $scope.nodes[i].id;
-            $scope.nodes[i].color = "#00CC66";
-            $scope.nodes[i].radius *= 6;
-            $scope.nodes[i].name = $scope.nodes[i].title;
-          }
-        }
+  //         for (var i = 0; i < $scope.nodes.length; i++) {
+  //           $scope.nodes[i].radius = 10;
+  //           // user if first_name defined
+  //           if ($scope.nodes[i].first_name != undefined) {
+  //             $scope.nodes[i].href = '#/users/' + $scope.nodes[i].id;
+  //             $scope.nodes[i].color = '#FFFF66';
+  //             $scope.nodes[i].name = $scope.nodes[i].first_name + ' ' + $scope.nodes[i].last_name
+  //           }
+  //           // topic if title defined
+  //           if ($scope.nodes[i].title != undefined) {
+  //             $scope.nodes[i].href = '#/topics/' + $scope.nodes[i].id;
+  //             $scope.nodes[i].color = '#00CC66';
+  //             $scope.nodes[i].radius *= 6;
+  //             $scope.nodes[i].name = $scope.nodes[i].title;
+  //           }
+  //         }
 
-        force.nodes($scope.nodes).links($scope.links).theta(1).on("tick", function () {
-          $scope.$apply()
-        }).start();
+  //         force.nodes($scope.nodes).links($scope.links).theta(1).on('tick', function () {
+  //           $scope.$apply()
+  //         }).start();
 
-      });
+  //       });
 
-    };
+  //   };
     
-  }]);
+  // }]);
 
-  // translates circle xlink's to render as href's
-  DeweyApp.directive('ngXlinkHref', function () {
+  // directive for data visualization
+  DeweyApp.directive('dwVisualization', function () {
 
-    return {
-      priority: 99,
-      restrict: 'A',
-      link: function (scope, element, attr) {
-        var attrName = 'xlink:href';
-        attr.$observe('ngXlinkHref', function (value) {
-          if (!value) return;
-          attr.$set(attrName, value);
+    // var width = 750,
+    //   height = 600,
+    // var width = '100%',
+    //   height = '100%',
+    var width = $(window).width(),
+      height = $(window).height(),
+      force = d3.layout
+        .force()
+        .charge(-1200)
+        .linkDistance(205)
+        .size([width, height]);
+
+    var directiveDefinitionObject = {
+      restrict: 'E',
+      scope: {
+        url: '@' // '/:nodeType/:nodeID/most_connected.json'
+      },
+      link: function (scope, element, attrs) {
+
+        var svg = d3.select(element[0])
+          .append('svg')
+          .attr('width', '100%')
+          .attr('height', '100%');
+
+        var container = svg.append('g');
+
+        scope.$watch('url', function (newUrl, oldUrl) {
+
+          container.selectAll('*').remove();
+
+          if (!newUrl) {
+            return;
+          }
+
+          // calls the API
+          $.get(newUrl)
+            .success(function (data) {
+
+              var line = container.selectAll('line')
+                .data(data.links)
+                .enter()
+                .append('line')
+                .attr('class', 'link')
+                .attr('stroke-width', function (datum) {
+                  return 2;
+                });
+
+              var g = container.selectAll('g')
+                .data(data.nodes)
+                .enter()
+                .append('g');
+
+              var a = g.append('a')
+                .attr('ngXlinkHref', function (datum) {
+                  if (datum.first_name) {
+                    return '#/users/' + datum.id;
+                  }
+                  return '#/topics/' + datum.id;
+                });
+
+              var circle = a.append('circle')
+                .attr('class', 'node')
+                .attr('r', function (datum) {
+                  if (datum.first_name) {
+                    datum.r = 10;
+                  } else {
+                    datum.r = 60;
+                  }
+                  return datum.r;
+                })
+                .attr('fill', function (datum) {
+                  if (datum.first_name) {
+                    return '#FFFF66';
+                  }
+                  return '#00CC66';
+                });
+
+              var text = g.append('text')
+                .attr('pointer-events', 'none')
+                .text(function (datum) {
+                  if (datum.first_name) {
+                    return datum.first_name + ' ' + datum.last_name;
+                  }
+                  return datum.title;
+                });
+
+              function tick () {
+                g.attr('transform', function (datum) {
+                  datum.x = Math.max(datum.r, Math.min(width - datum.r, datum.x));
+                  datum.y = Math.max(datum.r, Math.min(height - datum.r, datum.y));
+                  return 'translate(' + datum.x + ',' + datum.y + ')';
+                });
+                text.attr('dx', function (datum) {
+                    return '-' + $(this).width() / 2;
+                  });
+                line.attr('x1', function (datum) {
+                    return datum.source.x;
+                  })
+                  .attr('y1', function (datum) {
+                    return datum.source.y;
+                  })
+                  .attr('x2', function (datum) {
+                    return datum.target.x;
+                  })
+                  .attr('y2', function (datum) {
+                    return datum.target.y;
+                  });
+              }
+
+              force.nodes(data.nodes)
+                .links(data.links)
+                .theta(1)
+                .on('tick', tick)
+                .start();
+
+            });
         });
       }
     };
 
+    return directiveDefinitionObject;
+
   });
+
+  // translates circle xlink's to render as href's
+  // DeweyApp.directive('ngXlinkHref', function () {
+
+  //   return {
+  //     priority: 99,
+  //     restrict: 'A',
+  //     link: function (scope, element, attr) {
+  //       var attrName = 'xlink:href';
+  //       attr.$observe('ngXlinkHref', function (value) {
+  //         if (!value) return;
+  //         attr.$set(attrName, value);
+  //       });
+  //     }
+  //   };
+
+  // });
 
   // return DeweyApp as a result of function invocation
   return DeweyApp;

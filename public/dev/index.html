@@ -14,49 +14,59 @@
 	<body data-ng-app="DeweyApp">
 
 		<!-- container -->
-		<div id="main" class="container-fluid">
+		<div class="container-fluid">
 			<div class="col-xs-12" data-ng-view></div>
 		</div>
 
 		<!-- login template -->
 		<script type="text/ng-template" id="/login">
-			<div class="login col-xs-12">
-				<img id="logo" class="col-xs-12" src="/assets/logo_transparent.png">
-				<br>
-				<span class="mission col-xs-12">explore company expertise</span>
-				<br>
-				<input type="email" class="form-control" id="email" name="email" placeholder="email" ng-model="loginData.email">
-				<input type="password" class="form-control" id="password" name="password" placeholder="password" ng-model="loginData.password">
-				<button type="button" class="col-xs-12 btn btn-default btn-lg" ng-click='login()'>login</button>
-				<div class="col-xs-1"></div>
+			<div id="main">
+				<div class="login col-xs-12">
+					<img id="logo" class="col-xs-12" src="/assets/logo_transparent.png">
+					<br>
+					<span class="mission col-xs-12">explore company expertise</span>
+					<br>
+					<input type="email" class="form-control" id="email" name="email" placeholder="email" ng-model="loginData.email">
+					<input type="password" class="form-control" id="password" name="password" placeholder="password" ng-model="loginData.password">
+					<button type="button" class="col-xs-12 btn btn-default btn-lg" ng-click='login()'>login</button>
+					<div class="col-xs-1"></div>
+				</div>
 			</div>
 		</script>
 
 		<!-- search template -->
 		<script type="text/ng-template" id="/search">
-			<div ng-include src="'/navigation'"></div>
-			<div ng-include src="'/list'"></div>
+			<div id="main">
+				<div ng-include src="'/navigation'"></div>
+				<div ng-include src="'/list'"></div>
+			</div>
 		</script>
 
 		<!-- user template -->
 		<script type="text/ng-template" id="/user">
-			<div ng-include src="'/navigation'"></div>
-			<div ng-include src="'/user_profile'"></div>
-			<div ng-include src="'/tags'"></div>
+			<div id="main">
+				<div ng-include src="'/navigation'"></div>
+				<div ng-include src="'/user_profile'"></div>
+				<div ng-include src="'/tags'"></div>
+			</div>
+			<div ng-include src="'/graph'"></div>
 		</script>
 
 		<!-- edit user template -->
-		<!-- todo -->
+		<!-- TODO -->
 
 		<!-- topic template -->
 		<script type="text/ng-template" id="/topic">
-			<div ng-include src="'/navigation'"></div>
-			<div ng-include src="'/topic_profile'"></div>
-			<div ng-include src="'/list'"></div>
+			<div id="main">
+				<div ng-include src="'/navigation'"></div>
+				<div ng-include src="'/topic_profile'"></div>
+				<div ng-include src="'/list'"></div>
+			</div>
+			<div ng-include src="'/graph'"></div>
 		</script>
 
 		<!-- edit topic template -->
-		<!-- todo -->
+		<!-- TODO -->
 
 		<!-- navigation template -->
 		<script type="text/ng-template" id="/navigation">
@@ -141,35 +151,43 @@
 			</div>
 		</script>
 
+		<!-- visualization directive -->
+		<!-- <dw-visualization ng-controller='GraphController' url='/{{ nodeType }}/{{ nodeId }}/most_connected.json'></dw-visualization> -->
+		<script type="text/ng-template" id="/graph">
+			<dw-visualization url="/{{ nodeType }}/{{ nodeId }}/most_connected.json"></dw-visualization>
+		</script>
+
 		<!-- data visualization -->
-    <div ng-controller="GraphController" style="margin-left: 500px">
-      <svg ng-attr-width="{{width}}"
-           ng-attr-height="{{height}}">
-        <line ng-repeat="link in links"
-          class="link"
-          ng-attr-stroke-width="{{link.strokeWidth}}"
-          ng-attr-x1="{{link.source.x}}"
-          ng-attr-y1="{{link.source.y}}"
-          ng-attr-x2="{{link.target.x}}"
-          ng-attr-y2="{{link.target.y}}">
-        </line>
-        <g ng-repeat="node in nodes">
-          <a ng-xlink:href="{{node.href}}" xlink:href="">
-            <circle class="node"
-              ng-attr-r="{{node.radius}}"
-              ng-attr-fill="{{node.color}}"
-              ng-attr-cx="{{node.x}}"
-              ng-attr-cy="{{node.y}}">
-            </circle>
-          </a>
-          <text ng-attr-x="{{node.x}}"
-          	ng-attr-y="{{node.y}}"
-          	text-anchor="middle"
-          	pointer-events="none">{{node.name}}
-          </text>
-        </g>
-      </svg>
-    </div>
+    <!-- 
+		<div ng-controller="GraphController" style="margin-left: 500px">
+	    <svg ng-attr-width="{{width}}"
+	         ng-attr-height="{{height}}">
+	      <line ng-repeat="link in links"
+	        class="link"
+	        ng-attr-stroke-width="{{link.strokeWidth}}"
+	        ng-attr-x1="{{link.source.x}}"
+	        ng-attr-y1="{{link.source.y}}"
+	        ng-attr-x2="{{link.target.x}}"
+	        ng-attr-y2="{{link.target.y}}">
+	      </line>
+	      <g ng-repeat="node in nodes">
+	        <a ng-xlink:href="{{node.href}}" xlink:href="">
+	          <circle class="node"
+	            ng-attr-r="{{node.radius}}"
+	            ng-attr-fill="{{node.color}}"
+	            ng-attr-cx="{{node.x}}"
+	            ng-attr-cy="{{node.y}}">
+	          </circle>
+	        </a>
+	        <text ng-attr-x="{{node.x}}"
+	        	ng-attr-y="{{node.y}}"
+	        	text-anchor="middle"
+	        	pointer-events="none">{{node.name}}
+	        </text>
+	      </g>
+	    </svg>
+	  </div>
+    -->
 
 		<!-- javascripts -->
 		<script src="/assets/angular.js"></script>
