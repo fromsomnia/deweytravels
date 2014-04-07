@@ -40,9 +40,9 @@ function Dewey() {
           getTopics: ['DeweyFactory', function (DeweyFactory) {
             return DeweyFactory.getTopics();
           }],
-          getLinks: ['DeweyFactory', function (DeweyFactory) {
-            return DeweyFactory.getLinks();
-          }],
+          // getLinks: ['DeweyFactory', function (DeweyFactory) {
+          //   return DeweyFactory.getLinks();
+          // }],
           getAllTopics: ['DeweyFactory', function (DeweyFactory) {
             return DeweyFactory.getAllTopics();
           }]
@@ -62,9 +62,9 @@ function Dewey() {
           getUsers: ['DeweyFactory', function (DeweyFactory) {
             return DeweyFactory.getUsers();
           }],
-          getLinks: ['DeweyFactory', function (DeweyFactory) {
-            return DeweyFactory.getLinks();
-          }]
+          // getLinks: ['DeweyFactory', function (DeweyFactory) {
+          //   return DeweyFactory.getLinks();
+          // }]
         }
       })
       // redirect if any other route
@@ -177,24 +177,24 @@ function Dewey() {
     }
 
     // get all links from a user or topic
-    function getLinks() {
-      var defer = $q.defer(),
-        params = $route.current.params;
-      source = '';
-      id = 0;
-      if (params.topicId) {
-        source = '/topics/';
-        id = params.topicId;
-      } else {
-        source = '/users/';
-        id = params.userId;
-      }
-      $http.get(source + '' + id + '/most_connected.json').success(function (response) {
-        factory.nodes_links = response;
-        defer.resolve();
-      });
-      return defer.promise;
-    }
+    // function getLinks() {
+    //   var defer = $q.defer(),
+    //     params = $route.current.params;
+    //   source = '';
+    //   id = 0;
+    //   if (params.topicId) {
+    //     source = '/topics/';
+    //     id = params.topicId;
+    //   } else {
+    //     source = '/users/';
+    //     id = params.userId;
+    //   }
+    //   $http.get(source + '' + id + '/most_connected.json').success(function (response) {
+    //     factory.nodes_links = response;
+    //     defer.resolve();
+    //   });
+    //   return defer.promise;
+    // }
 
     // return public factory methods
     var factory = {};
@@ -205,7 +205,7 @@ function Dewey() {
     factory.getUsers = getUsers;
     factory.getTopic = getTopic;
     factory.getTopics = getTopics;
-    factory.getLinks = getLinks;
+    // factory.getLinks = getLinks;
     return factory;
 
   }]);
@@ -214,24 +214,24 @@ function Dewey() {
   DeweyApp.controller('BaseController', ['$scope', '$location', 'DeweyFactory', function ($scope, $location, DeweyFactory) {
 
     // bind data to the $scope
-    $scope.results = DeweyFactory.results;
-    $scope.user = DeweyFactory.user;
-    $scope.topic = DeweyFactory.topic;
-    $scope.topics = DeweyFactory.topics;
-    $scope.nodes_links = DeweyFactory.nodes_links;
-    $scope.loginData = {};
+    // $scope.results = DeweyFactory.results;
+    // $scope.user = DeweyFactory.user;
+    // $scope.topic = DeweyFactory.topic;
+    // $scope.topics = DeweyFactory.topics;
+    // $scope.nodes_links = DeweyFactory.nodes_links;
+    // $scope.loginData = {};
     $scope.queryData = {};
 
-    $scope.initGraphVars = function () {
-      if ($scope.user) {
-        $scope.nodeType = 'users';
-        $scope.nodeId = $scope.user.id;      
-      }
-      else if ($scope.topic) {
-        $scope.nodeType = 'topics';
-        $scope.nodeId = $scope.topic.id;      
-      }
-    };
+    // $scope.initGraphVariables = function () {
+    //   if ($scope.user) {
+    //     $scope.nodeType = 'users';
+    //     $scope.nodeId = $scope.user.id;      
+    //   }
+    //   else if ($scope.topic) {
+    //     $scope.nodeType = 'topics';
+    //     $scope.nodeId = $scope.topic.id;      
+    //   }
+    // };
 
     // search using API
     $scope.search = function () {
@@ -248,6 +248,9 @@ function Dewey() {
     $controller('BaseController', {
       $scope: $scope
     });
+
+    // debugger;
+    $scope.results = DeweyFactory.results;
 
   }]);
 
@@ -277,8 +280,15 @@ function Dewey() {
       $scope: $scope
     });
 
-    $scope.topic = undefined;
-    $scope.initGraphVars();
+    // debugger;
+    $scope.user = DeweyFactory.user;
+    $scope.topics = DeweyFactory.topics;
+
+    $scope.nodeType = 'users';
+    $scope.nodeId = $scope.user.id;
+
+    // $scope.topic = undefined;
+    // $scope.initGraphVariables();
 
     $scope.topic_choices = DeweyFactory.all_topics;
 
@@ -323,9 +333,16 @@ function Dewey() {
       $scope: $scope
     });
 
+    $scope.results = DeweyFactory.results;
+    $scope.topic = DeweyFactory.topic;
+    // debugger;
 
-    $scope.user = undefined;
-    $scope.initGraphVars();
+    $scope.nodeType = 'topics';
+    $scope.nodeId = $scope.topic.id;
+
+    // clear 
+    // $scope.user = undefined;
+    // $scope.initGraphVariables();
 
     $scope.user_choices = DeweyFactory.all_users;
     $scope.should_show_add_user_to_topic = true;
@@ -423,7 +440,6 @@ function Dewey() {
                 .append('g');
 
               var a = g.append('a')
-                // .attr('ngXlinkHref', function (datum) {
                 .attr('xlink:href', function (datum) {
                   if (datum.first_name) {
                     return '#/users/' + datum.id;
