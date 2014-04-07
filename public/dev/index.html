@@ -196,15 +196,14 @@
             ng-attr-y2="{{link.target.y}}">
           </line>
 
-          <foreignobject
-             width="100"
-             height="100"
-             ng-show="link.show"
+          <foreignObject ng-if="link.connection"
+             width="30"
+             height="30"
              ng-attr-x="{{(link.source.x + link.target.x) / 2 - 50}}"
              ng-attr-y="{{(link.source.y + link.target.y) / 2 - 50}}">
-           <div class="glyphicon glyphicon-thumbs-up"></div>
-           <div class="glyphicon glyphicon-thumbs-down"></div>
-          </foreignobject>
+           <div ng-hide="link.is_upvoted" ng-click="upvote(link);" class="glyphicon glyphicon-thumbs-up"></div>
+           <div ng-hide="link.is_downvoted" ng-click="downvote(link);" class="glyphicon glyphicon-thumbs-down"></div>
+          </foreignObject>
         </g>
 
         <g ng-repeat="node in nodes">

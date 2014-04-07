@@ -223,7 +223,6 @@ function Dewey() {
 
         defer.resolve();
       });
-      console.log(defer.promise);
       return defer.promise;
     }
 
@@ -376,6 +375,28 @@ function Dewey() {
 
     $scope.width = 750;
     $scope.height = 600;
+
+    $scope.upvote = function(link) {
+      $.post('/connections/' + link.connection.id + '/upvote', {
+        id: link.connection.id,
+        connection_type: link.connectionType
+      }).done(function(response) {
+        link.is_upvoted = true;
+        link.is_downvoted = false;
+        $scope.$apply();
+      });
+    };
+
+    $scope.downvote = function(link) {
+      $.post('/connections/' + link.connection.id + '/downvote', {
+        id: link.connection.id,
+        connection_type: link.connectionType
+      }).done(function(response) {
+        link.is_upvoted = false;
+        link.is_downvoted = true;
+        $scope.$apply();
+      });
+    }
 
     $scope.makeGraph = function() {
       var force = d3.layout.force().charge(-1200).linkDistance(205).size([$scope.width, $scope.height]);
