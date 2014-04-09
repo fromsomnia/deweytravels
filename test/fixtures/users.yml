@@ -7,72 +7,72 @@
 william:
  first_name: William
  last_name: Chidyausiku
- email: wchid@stanford.edu
+ email: wchid@temp.stanford.edu
  username: william
  password: william
  position: Engineer
  department: Engineering
- domain: dewey-cs210
+ domain: fixtures
  phone: 123-456-7890
  image: William.png
 
 veni:
  first_name: Veni
  last_name: Johanna
- email: veni@stanford.edu
+ email: veni@temp.stanford.edu
  username: veni
  password: veni
  position: Engineer
  department: Engineering
- domain: dewey-cs210
+ domain: fixtures
  phone: 123-456-7890
  image: Veni.png
 
 brett:
  first_name: Brett
  last_name: Solow
- email: besolow@stanford.edu
+ email: besolow@temp.stanford.edu
  username: brett
  password: brett
  position: Engineer
  department: Engineering
- domain: dewey-cs210
+ domain: fixtures
  phone: 123-456-7890
  image: Brett.png
 
 stephen:
  first_name: Stephen
  last_name: Quiñónez
- email: stephenq@stanford.edu
+ email: stephenq@temp.stanford.edu
  username: stephen
  password: stephen
  position: Engineer
  department: Engineering
- domain: dewey-cs210
+ domain: fixtures
  phone: 123-456-7890
  image: Stephen.png 
 
 john:
  first_name: John
  last_name: Pulvera
- email: jpulvera@stanford.edu
+ email: jpulvera@temp.stanford.edu
  username: john
  password: john
  position: Engineer
  department: Engineering
- domain: dewey-cs210
+ domain: fixtures
  phone: 123-456-7890
  image: John.png
 
 jay:
  first_name: Jay
  last_name: Borenstein
- email: borenstein@cs.stanford.edu
+ email: borenstein@cs.temp.stanford.edu
  username: jay
  password: jay
  position: CEO
  department: Marketing
- domain: dewey-cs210
+ domain: fixtures
  phone: 123-456-7890
  image: default_user_image.png
 
@@ -84,7 +84,7 @@ chris:
  password: chris
  position: VP of Sales
  department: Sales
- domain: dewey-cs210
+ domain: fixtures
  phone: 123-456-7890
  image: default_user_image.png
 
@@ -96,7 +96,7 @@ oren:
  password: oren
  position: Manager of HR
  department: Human Resources
- domain: dewey-cs210
+ domain: fixtures
  phone: 123-456-7890
  image: default_user_image.png
 
@@ -108,7 +108,7 @@ marc:
  password: marc
  position: Engineer
  department: Engineering
- domain: dewey-cs210
+ domain: fixtures
  phone: 123-456-7890
  image: default_user_image.png
 
@@ -120,6 +120,6 @@ mike:
  password: mike
  position: Engineer
  department: Engineering
- domain: dewey-cs210
+ domain: fixtures
  phone: 123-456-7890
  image: default_user_image.png
