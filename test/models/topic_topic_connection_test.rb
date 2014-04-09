@@ -25,7 +25,7 @@ class TopicTopicConnectionTest < ActiveSupport::TestCase
     assert !conn.is_upvoted_by?(user)
     assert !conn.is_downvoted_by?(user)
 
-    conn.upvoted.by(user)
+    conn.upvoted_by(user)
     assert conn.is_upvoted_by?(user)
     assert !conn.is_downvoted_by?(user)
   end
