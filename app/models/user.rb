@@ -5,7 +5,7 @@ class User < ActiveRecord::Base
   belongs_to :graph
 
 	has_many :topic_user_connections, :foreign_key => "expert_id"
-	has_many :expertises, :through => :topic_user_connections, :source => :expertise, :uniq => true
+	has_many :expertises, -> { uniq }, :through => :topic_user_connections, :source => :expertise
 
 	has_many :user_user_connections, :foreign_key => "superior_id"
 	has_many :second_user_user_connections, :class_name => "UserUserConnection", :foreign_key => "subordinate_id"

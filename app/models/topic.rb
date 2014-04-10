@@ -6,7 +6,7 @@ class Topic < ActiveRecord::Base
   belongs_to :graph
 
 	has_many :topic_user_connections, :foreign_key => "expertise_id"
-	has_many :experts, :through => :topic_user_connections, :source => :expert, :uniq => :true
+	has_many :experts, -> { uniq }, :through => :topic_user_connections, :source => :expert
 
 	has_many :topic_topic_connections, :foreign_key => "supertopic_id"
 	has_many :supertopics, :through => :second_topic_topic_connections, :source => :supertopic
