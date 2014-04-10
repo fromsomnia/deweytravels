@@ -16,4 +16,21 @@ class UserUserConnectionTest < ActiveSupport::TestCase
     assert_equal(conn.id, conn.action.table_pkey)
     assert_equal(conn, conn.action.actionable_object)
   end
+
+  test "check_validation" do
+    new_graph = Graph.new
+    new_graph.domain = "new domain"
+    new_graph.save
+
+    user1 = User.all.first
+
+    user2 = User.all.last
+    user2.graph = new_graph
+    user2.save
+
+    assert_raise ActiveRecord::RecordInvalid do
+      user1.subordinates << user2
+    end
+
+  end
 end

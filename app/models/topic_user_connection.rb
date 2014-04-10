@@ -6,6 +6,14 @@ class TopicUserConnection < ActiveRecord::Base
 	belongs_to :expert, :class_name => "User"
 	belongs_to :expertise, :class_name => "Topic"
 
+  validate :in_same_graph, on: :create
+
+  def in_same_graph
+    if expert.graph.id != expertise.graph.id
+      errors.add(:expert,  "should be in the same graph with the expertise")
+    end
+  end
+
   def action_class
     AddTopicUserConnectionAction
   end
