@@ -587,6 +587,87 @@ function Dewey() {
 
   });
 
+  // SVG graph controller
+  // DeweyApp.controller('GraphController', ['$scope', '$injector', '$location', 'DeweyFactory', function ($scope, $injector, $location, DeweyFactory) {
+    
+  //   $injector.invoke(BaseController, this, {
+  //     $scope: $scope,
+  //     $location: $location,
+  //     DeweyFactory: DeweyFactory
+  //   });
+
+  //   $scope.$on('graphUpdated', function() {
+  //     DeweyFactory.getNodesAndLinks();
+  //     setTimeout(function () {
+  //       $scope.$apply(function () {
+  //         $scope.nodes = DeweyFactory.nodes;
+  //         $scope.links = DeweyFactory.links;
+  //         $scope.makeGraph();
+  //       });
+  //     }, 500);
+  //   });
+
+  //   $scope.width = 750;
+  //   $scope.height = 600;
+
+  //   $scope.upvote = function(link) {
+  //     $.post('/connections/' + link.connection.id + '/upvote', {
+  //       id: link.connection.id,
+  //       connection_type: link.connectionType
+  //     }).done(function(response) {
+  //       link.is_upvoted = true;
+  //       link.is_downvoted = false;
+  //       $scope.$apply();
+  //     });
+  //   };
+
+  //   $scope.downvote = function(link) {
+  //     $.post('/connections/' + link.connection.id + '/downvote', {
+  //       id: link.connection.id,
+  //       connection_type: link.connectionType
+  //     }).done(function(response) {
+  //       link.is_upvoted = false;
+  //       link.is_downvoted = true;
+  //       $scope.$apply();
+  //     });
+  //   }
+
+  //   $scope.makeGraph = function() {
+  //     var force = d3.layout.force().charge(-1200).linkDistance(205).size([$scope.width, $scope.height]);
+  
+  //     for (var i = 0; i < $scope.links.length; i++) {
+
+  //       $scope.links[i].strokeWidth = 2;
+  //       // TODO: uncomment this when the line has strength value.
+  //       // $scope.links[i].strokeWidth = Math.round(Math.sqrt($scope.links[i].value))
+  //     }
+  
+  //     for (var i = 0; i < $scope.nodes.length; i++) {
+  //       $scope.nodes[i].radius = 10;
+  //       // user if first_name defined
+  //       if ($scope.nodes[i].first_name != undefined) {
+  //         $scope.nodes[i].href = "#/users/" + $scope.nodes[i].id;
+  //         $scope.nodes[i].color = "#FFFF66";
+  //         $scope.nodes[i].name = $scope.nodes[i].first_name + " " + $scope.nodes[i].last_name
+  //       }
+  //       // topic if title defined
+  //       if ($scope.nodes[i].title != undefined) {
+  //         $scope.nodes[i].href = "#/topics/" + $scope.nodes[i].id;
+  //         $scope.nodes[i].color = "#00CC66";
+  //         $scope.nodes[i].radius *= 6;
+  //         $scope.nodes[i].name = $scope.nodes[i].title;
+  //       }
+  //     }
+  
+  //     force.nodes($scope.nodes).links($scope.links).theta(1).on("tick", function () {
+  //       $scope.$apply()
+  //     }).start();
+  //   }
+
+  //   $scope.makeGraph();
+
+  // }]);
+
   // return DeweyApp as a result of function invocation
   return DeweyApp;
 
