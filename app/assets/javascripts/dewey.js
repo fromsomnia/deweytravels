@@ -294,7 +294,7 @@ function Dewey() {
     };
   }]);
 
-  DeweyApp.controller('UserController', ['$scope', '$injector', '$location', 'DeweyFactory', function ($scope, $injector, $location, DeweyFactory) {
+  DeweyApp.controller('UserController', ['$http', '$scope', '$injector', '$location', 'DeweyFactory', function ($http, $scope, $injector, $location, DeweyFactory) {
 
     $injector.invoke(BaseController, this, {
       $scope: $scope,
@@ -314,29 +314,31 @@ function Dewey() {
     };
 
     $scope.removeTopicFromUser = function($event, $tagID) {
-      $.post('/users/' + $scope.user.id + '/remove_topic', {
-        topic_id: $tagID,
-        id: $scope.user.id
-      }).done(function(response) {
+      $http({
+        url: '/users/' + $scope.user.id + '/remove_topic',
+        method: "POST",
+        data: { topic_id: $tagID,
+                id: $scope.user.id}
+      }).success(function(data, status, headers, config) {
         $scope.updateTopics();
-        GraphService.renderGraph();
       });
     };
     $scope.addTopicToUser = function ($item) {
-      $.post('/users/' + $scope.user.id + '/add_topic', {
-        topic_id: $item.id,
-        id: $scope.user.id
-      }).done(function (response) {
+      $http({
+        url: '/users/' + $scope.user.id + '/add_topic',
+        method: "POST",
+        data: { topic_id: $item.id,
+                id: $scope.user.id}
+      }).success(function (response) {
         $scope.updateTopics();
-        GraphService.renderGraph();
-      }).fail(function (response) {
+      }).error(function (response) {
         alert("Fail to add topic to user - please retry.");
       });
     };
   }]);
 
   // ...
-  DeweyApp.controller('TopicController', ['$scope', '$injector', '$location', 'DeweyFactory', function ($scope, $injector, $location, DeweyFactory) {
+  DeweyApp.controller('TopicController', ['$http', '$scope', '$injector', '$location', 'DeweyFactory', function ($http, $scope, $injector, $location, DeweyFactory) {
     $injector.invoke(BaseController, this, {
       $scope: $scope,
       $location: $location,
@@ -358,22 +360,25 @@ function Dewey() {
     };
 
     $scope.removeUserFromTopic = function($event, $userID) {
-      $.post('/topics/' + $scope.topic.id + '/remove_user', {
-        user_id: $userID,
-        id: $scope.topic.id
-      }).done(function(response) {
+      $http({
+        url: '/topics/' + $scope.topic.id + '/remove_user',
+        method: "POST",
+        data: { user_id: $userID,
+                id: $scope.topic.id }
+      }).success(function (response) {
         $scope.updateUsers();
       });
     };
 
     $scope.addUserToTopic = function ($item) {
-      $.post('/topics/' + $scope.topic.id + '/add_user', {
-        user_id: $item.id,
-        id: $scope.topic.id
-      }).done(function (response) {
+      $http({
+        url: '/topics/' + $scope.topic.id + '/add_user',
+        method: "POST",
+        data: { user_id: $item.id,
+                id: $scope.topic.id }
+      }).success(function (response) {
         $scope.updateUsers();
-        GraphService.renderGraph();
-      }).fail(function (response) {
+      }).error(function (response) {
         alert("Fail to add user to topic - please retry.");
       });
     };
@@ -381,7 +386,7 @@ function Dewey() {
 
   // SVG graph controller
 
-  DeweyApp.controller('GraphController', ['$scope', '$injector', '$location', 'DeweyFactory', function ($scope, $injector, $location, DeweyFactory) {
+  DeweyApp.controller('GraphController', ['$http', '$scope', '$injector', '$location', 'DeweyFactory', function ($http, $scope, $injector, $location, DeweyFactory) {
     $injector.invoke(BaseController, this, {
       $scope: $scope,
       $location: $location,
@@ -403,24 +408,26 @@ function Dewey() {
     $scope.height = 600;
 
     $scope.upvote = function(link) {
-      $.post('/connections/' + link.connection.id + '/upvote', {
-        id: link.connection.id,
-        connection_type: link.connectionType
-      }).done(function(response) {
+      $http({
+        url: '/connections/' + link.connection.id + '/upvote',
+        method: "POST",
+        data: { id: link.connection.id,
+                connection_type: link.connectionType }
+      }).success(function(data, status, headers, config) {
         link.is_upvoted = true;
         link.is_downvoted = false;
-        $scope.$apply();
       });
     };
 
     $scope.downvote = function(link) {
-      $.post('/connections/' + link.connection.id + '/downvote', {
-        id: link.connection.id,
-        connection_type: link.connectionType
-      }).done(function(response) {
+      $http({
+        url: '/connections/' + link.connection.id + '/downvote',
+        method: "POST",
+        data: { id: link.connection.id,
+                connection_type: link.connectionType }
+      }).success(function(data, status, headers, config) {
         link.is_upvoted = false;
         link.is_downvoted = true;
-        $scope.$apply();
       });
     }
 

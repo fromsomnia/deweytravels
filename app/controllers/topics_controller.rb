@@ -152,9 +152,8 @@ class TopicsController < ApplicationController
             link = { :id => @links.size,
                      :source => 0,
                      :target => @nodes.size - 1,
-                     # TODO(veni): change when login is correctly
-                     # implemented.
-                     :is_upvoted => ttc.is_upvoted_by?(User.first),
+                     :is_upvoted => ttc.is_upvoted_by?(@current_user),
+                     :is_downvoted => ttc.is_downvoted_by?(@current_user),
                      :connection => ttc,
                      :connectionType => ttc.class.name}
             @links << link
@@ -167,9 +166,8 @@ class TopicsController < ApplicationController
             link = { :id => @links.size,
                      :source => 0,
                      :target => @nodes.size - 1,
-                     # TODO(veni): change when login is correctly
-                     # implemented.
-                     :is_upvoted => ttc.is_upvoted_by?(User.first),
+                     :is_upvoted => ttc.is_upvoted_by?(@current_user),
+                     :is_downvoted => tuc.is_downvoted_by?(@current_user),
                      :connection => ttc,
                      :connectionType => ttc.class.name}
 
@@ -183,9 +181,8 @@ class TopicsController < ApplicationController
           link = { :id => @links.size,
                    :source => 0,
                    :target => @nodes.size - 1,
-                   # TODO(veni): change when login is correctly
-                   # implemented.
-                   :is_upvoted => tuc.is_upvoted_by?(User.first),
+                   :is_upvoted => tuc.is_upvoted_by?(@current_user),
+                   :is_downvoted => tuc.is_downvoted_by?(@current_user),
                    :connection => tuc,
                    :connectionType => tuc.class.name}
           @links << link

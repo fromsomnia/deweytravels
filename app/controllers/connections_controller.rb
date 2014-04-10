@@ -9,9 +9,7 @@ class ConnectionsController < ApplicationController
     
     connClass = Object.const_get(@connection_type)
     if (connClass)
-      # TODO(veni): change User.first to current_user
-      # when login is correctly implemented
-      connClass.find(@connection_id).upvoted_by(User.first)
+      connClass.find(@connection_id).upvoted_by(@current_user)
     end
     render :nothing => true
   end
@@ -22,9 +20,7 @@ class ConnectionsController < ApplicationController
     
     connClass = Object.const_get(@connection_type)
     if (connClass)
-      # TODO(veni): change User.first to current_user
-      # when login is correctly implemented
-      connClass.find(@connection_id).downvoted_by(User.first)
+      connClass.find(@connection_id).downvoted_by(@current_user)
     end
     render :nothing => true
   end
