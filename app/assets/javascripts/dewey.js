@@ -275,6 +275,11 @@ function Dewey() {
   // ...
   DeweyApp.controller('LoginController', ['$scope', '$injector', '$location', 'localStorageService', 'DeweyFactory', function ($scope, $injector, $location, localStorageService, DeweyFactory) {
     $scope.loginData = {};
+    
+    var token = localStorageService.get('dewey_auth_token');
+    if (token) {
+      $location.path('/search');
+    }
 
     // ...
     $scope.login = function () {
