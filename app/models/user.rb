@@ -1,7 +1,7 @@
 require 'socialcast'
 class User < ActiveRecord::Base
 	attr_accessible :sc_user_id, :first_name, :last_name, :domain, :email, :phone, :username, :password, :position, :department, :image
-  before_create :create_remember_token
+  before_create :set_auth_token
 
   belongs_to :graph
 
@@ -98,4 +98,12 @@ class User < ActiveRecord::Base
     return user
   end
 
+  private
+    def set_auth_token
+      return if auth_token.present?
+
+      begin
+        self.auth_token = SecureRandom.hex
+      end while self.class.exists?(auth_token: self.auth_token)
+    end
 end

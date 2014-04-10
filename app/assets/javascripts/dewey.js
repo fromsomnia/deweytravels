@@ -4,7 +4,7 @@
 function Dewey() {
 
   // initialize DeweyApp
-  var DeweyApp = angular.module('DeweyApp', ['ngRoute', 'ui.bootstrap']);
+  var DeweyApp = angular.module('DeweyApp', ['ngRoute', 'ui.bootstrap', 'LocalStorageModule']);
 
   // ...
   var BaseController = ['$scope', '$location', 'DeweyFactory', function ($scope, $location, DeweyFactory) {
@@ -240,6 +240,29 @@ function Dewey() {
 
   }]);
 
+  DeweyApp.factory('authInterceptor', function ($rootScope, $location, $q, localStorageService) {
+    return {
+      request: function (config) {
+        config.headers = config.headers || {};
+        var token = localStorageService.get('dewey_auth_token');
+        if (token) {
+          config.headers.Authorization = 'Token token=' + token;
+        }
+        return config;
+      },
+      responseError: function(rejection) {
+        if (rejection.status === 401) {
+          // handle the case where the user is not authenticated
+          $location.path('/');
+        }
+        return $q.reject(rejection);
+      }
+    };
+  });
+
+  DeweyApp.config(function ($httpProvider) {
+    $httpProvider.interceptors.push('authInterceptor');
+  });
   // ...
   DeweyApp.controller('DeweyController', ['$scope', '$injector', '$location', 'DeweyFactory', function ($scope, $injector, $location, DeweyFactory) {
     $injector.invoke(BaseController, this, {
@@ -250,19 +273,22 @@ function Dewey() {
   }]);
 
   // ...
-  DeweyApp.controller('LoginController', ['$scope', '$injector', '$location', 'DeweyFactory', function ($scope, $injector, $location, DeweyFactory) {
+  DeweyApp.controller('LoginController', ['$scope', '$injector', '$location', 'localStorageService', 'DeweyFactory', function ($scope, $injector, $location, localStorageService, DeweyFactory) {
     $scope.loginData = {};
 
     // ...
     $scope.login = function () {
-      $.post('/session/post_login', {
+      $.post('/sessions/post_login.json', {
         email: $scope.loginData.email,
         password: $scope.loginData.password,
       }).done(function (response) {
+        localStorageService.add('dewey_auth_token', response.auth_token);
+
         $scope.$apply(function () {
           $location.path('/search');
         });
       }).fail(function (response) {
+        delete $window.sessionStorage.token;
         alert("Invalid Socialcast email and password - please retry.");
       });
     };

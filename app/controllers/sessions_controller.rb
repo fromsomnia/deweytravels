@@ -1,7 +1,7 @@
 require 'socialcast'
 require 'pp'
 
-class SessionController < ApplicationController
+class SessionsController < ApplicationController
   def login
   end
 
@@ -22,11 +22,7 @@ class SessionController < ApplicationController
       
       @user = User.register_or_login_user(sc, sc_user_id, domain, email, password)
 
-      if @user
-        sign_in @user
-      end
-
-      head :ok
+      render json: {:auth_token => @user.auth_token}, status: :ok
     end
   end
 

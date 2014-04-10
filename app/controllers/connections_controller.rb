@@ -1,6 +1,7 @@
 class ConnectionsController < ApplicationController
 
   before_action :set_connection, only: [:show, :edit, :update, :destroy]
+  before_action :authenticate
 
   def upvote
     @connection_type = params[:connection_type]
