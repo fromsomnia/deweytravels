@@ -17,7 +17,8 @@ class UserTest < ActiveSupport::TestCase
                 {"contact_info"=> {
                                          "office_phone"=> "123456789",
                                          "email"=>"bot@socialcast.com"},
-                  "domain" => "dewey",
+                  "subdomain" => "dewey",
+                  "domain" => "dewey.socialcast.com",
                   "custom_fields"=>[],
                   "id"=> 1,
                   "name"=> "Production Bot #145",
@@ -32,7 +33,8 @@ class UserTest < ActiveSupport::TestCase
                                          "office_phone"=> "123456789",
                                          "email"=>"dummy_email@email.com" },
 
-                  "domain" => "dewey",
+                  "subdomain" => "dewey",
+                  "domain" => "dewey.socialcast.com",
                   "custom_fields"=>[],
                   "id"=> 2,
                   "name"=> "Dummy Person",
@@ -77,18 +79,13 @@ class UserTest < ActiveSupport::TestCase
     assert_equal(old_num + 2, User.all.length)
   end
 
-  test "update_all_domains" do
-    new_graph = get_new_graph("dewey")
-    user = User._user_from_sc_user(_get_socialcast_users("dewey").first, new_graph)
-    user.graph = new_graph
-    user.save
-    
+  test "update_all_domains" do 
     Socialcast.any_instance.stubs(:authenticate).returns({"success" => true})
     Socialcast.any_instance.stubs(:get_users).returns(_get_socialcast_users('dewey'))
 
     old_num = User.all.length
     Graph.update_all_users_in_all_domains
-    assert_equal(old_num + 1, User.all.length)
+    assert_equal(old_num + 2, User.all.length)
   end
 
   test "register_or_login_user" do

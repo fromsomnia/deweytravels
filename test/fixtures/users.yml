@@ -7,7 +7,7 @@
 william:
  first_name: William
  last_name: Chidyausiku
- email: wchid@temp.stanford.edu
+ email: wchid+fixtures@stanford.edu
  username: william
  password: william
  position: Engineer
@@ -19,7 +19,7 @@ william:
 veni:
  first_name: Veni
  last_name: Johanna
- email: veni@temp.stanford.edu
+ email: veni+fixtures@stanford.edu
  username: veni
  password: veni
  position: Engineer
@@ -31,7 +31,7 @@ veni:
 brett:
  first_name: Brett
  last_name: Solow
- email: besolow@temp.stanford.edu
+ email: besolow+fixtures@stanford.edu
  username: brett
  password: brett
  position: Engineer
@@ -43,7 +43,7 @@ brett:
 stephen:
  first_name: Stephen
  last_name: Quiñónez
- email: stephenq@temp.stanford.edu
+ email: stephenq+fixtures@stanford.edu
  username: stephen
  password: stephen
  position: Engineer
@@ -55,7 +55,7 @@ stephen:
 john:
  first_name: John
  last_name: Pulvera
- email: jpulvera@temp.stanford.edu
+ email: jpulvera+fixtures@stanford.edu
  username: john
  password: john
  position: Engineer
@@ -67,7 +67,7 @@ john:
 jay:
  first_name: Jay
  last_name: Borenstein
- email: borenstein@cs.temp.stanford.edu
+ email: borenstein+fixtures@cs.stanford.edu
  username: jay
  password: jay
  position: CEO
@@ -79,7 +79,7 @@ jay:
 chris:
  first_name: Chris
  last_name: Surowiec
- email: csurowiec_99@yahoo.com
+ email: csurowiec_99+fixtures@yahoo.com
  username: chris
  password: chris
  position: VP of Sales
@@ -91,7 +91,7 @@ chris:
 oren:
  first_name: Oren
  last_name: Root
- email: oroot@vmware.com
+ email: oroot+fixtures@vmware.com
  username: oren
  password: oren
  position: Manager of HR
@@ -103,7 +103,7 @@ oren:
 marc:
  first_name: Marc
  last_name: Fenner
- email: mfenner@vmware.com
+ email: mfenner+fixtures@vmware.com
  username: marc
  password: marc
  position: Engineer
@@ -115,7 +115,7 @@ marc:
 mike:
  first_name: Mike
  last_name: Louie
- email: mlouie@vmware.com
+ email: mlouie+fixtures@vmware.com
  username: mike
  password: mike
  position: Engineer

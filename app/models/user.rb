@@ -1,6 +1,7 @@
 require 'socialcast'
 class User < ActiveRecord::Base
 	attr_accessible :sc_user_id, :first_name, :last_name, :domain, :email, :phone, :username, :password, :position, :department, :image
+  before_create :create_remember_token
 
   belongs_to :graph
 
@@ -41,27 +42,24 @@ class User < ActiveRecord::Base
     if (!new_user)
       new_user = new
     end
-    if (graph.domain == sc_user['domain'])
-      new_user.sc_user_id = sc_user['id']
-      new_user.email = sc_user['contact_info']['email']
-      new_user.graph = graph
-      names = sc_user['name'].split
-      new_user.first_name = names[0]
-      new_user.last_name = names[1]
-      new_user.image_16 = sc_user['avatars']['square16']
-      new_user.image_30 = sc_user['avatars']['square30']
-      new_user.image_70 = sc_user['avatars']['square70']
-      new_user.image_140 = sc_user['avatars']['square140']
-      new_user.phone = sc_user['contact_info']['office_phone']
+    new_user.sc_user_id = sc_user['id']
+    new_user.email = sc_user['contact_info']['email']
+    new_user.graph = graph
+    names = sc_user['name'].split
+    new_user.first_name = names[0]
+    new_user.last_name = names[1]
+    new_user.image_16 = sc_user['avatars']['square16']
+    new_user.image_30 = sc_user['avatars']['square30']
+    new_user.image_70 = sc_user['avatars']['square70']
+    new_user.image_140 = sc_user['avatars']['square140']
+    new_user.phone = sc_user['contact_info']['office_phone']
   
-      sc_user['custom_fields'].each do |field|
-        if field['id'] == 'title'
-          new_user.title = field['value']
-        end
+    sc_user['custom_fields'].each do |field|
+      if field['id'] == 'title'
+        new_user.title = field['value']
       end
-      return new_user
     end
-    return nil
+    return new_user
   end
 
   # TODO(brett): should probably optimize with bulk insertion
@@ -88,9 +86,11 @@ class User < ActiveRecord::Base
       graph.domain = domain
       graph.save
 
+      # TODO: move to bg process
       load_from_sc(sc, graph)
+    else
+      graph = Graph.find_by_domain(domain)
     end
-    graph = Graph.find_by_domain(domain)
 
     user = User.where(:graph_id => graph.id, :sc_user_id => sc_user_id).first
     user.email = email
