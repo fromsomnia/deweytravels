@@ -2,6 +2,8 @@ require 'socialcast'
 class User < ActiveRecord::Base
 	attr_accessible :sc_user_id, :first_name, :last_name, :domain, :email, :phone, :username, :password, :position, :department, :image
 
+  belongs_to :graph
+
 	has_many :topic_user_connections, :foreign_key => "expert_id"
 	has_many :expertises, :through => :topic_user_connections, :source => :expertise, :uniq => true
 
@@ -32,62 +34,45 @@ class User < ActiveRecord::Base
 		return curr_degree
 	end
 
-  # Returns all existing Socialcast domains on the app
-  def self.domains
-    return User.select("DISTINCT domain").map(&:domain)
-  end
-
-  # Update the Socialcast info of all users in all the Socialcast instances
-  # in our system. Also pulled in and save Socialcast users that are not
-  # part of the site.
-
-  def self.update_all_domains
-    User.domains.each do |domain|
-      users = User.where(:domain => domain)
-      users.each do |user|
-        sc = Socialcast.new(user.email, user.password)
-        status = sc.authenticate
-        if !status['authentication-failure']
-          if (User.load_from_sc(sc, user.domain))
-            break
-          end
-        end
-      end
-    end
-  end
 
   # Returns a Dewey user instance from a Socialcast user instance
-  def self._user_from_sc_user(sc_user, domain)
-    new_user = User.where(:sc_user_id => sc_user['id']).first
+  def self._user_from_sc_user(sc_user, graph)
+    new_user = User.where(:sc_user_id => sc_user['id'], :graph_id => graph.id).first
     if (!new_user)
       new_user = new
     end
-    new_user.sc_user_id = sc_user['id']
-    new_user.email = sc_user['contact_info']['email']
-    new_user.domain = domain
-    names = sc_user['name'].split
-    new_user.first_name = names[0]
-    new_user.last_name = names[1]
-    new_user.image_16 = sc_user['avatars']['square16']
-    new_user.image_30 = sc_user['avatars']['square30']
-    new_user.image_70 = sc_user['avatars']['square70']
-    new_user.image_140 = sc_user['avatars']['square140']
-    new_user.phone = sc_user['contact_info']['office_phone']
-
-    sc_user['custom_fields'].each do |field|
-      if field['id'] == 'title'
-        new_user.title = field['value']
+    if (graph.domain == sc_user['domain'])
+      new_user.sc_user_id = sc_user['id']
+      new_user.email = sc_user['contact_info']['email']
+      new_user.graph = graph
+      names = sc_user['name'].split
+      new_user.first_name = names[0]
+      new_user.last_name = names[1]
+      new_user.image_16 = sc_user['avatars']['square16']
+      new_user.image_30 = sc_user['avatars']['square30']
+      new_user.image_70 = sc_user['avatars']['square70']
+      new_user.image_140 = sc_user['avatars']['square140']
+      new_user.phone = sc_user['contact_info']['office_phone']
+  
+      sc_user['custom_fields'].each do |field|
+        if field['id'] == 'title'
+          new_user.title = field['value']
+        end
       end
+      return new_user
     end
-    return new_user
+    return nil
   end
 
   # TODO(brett): should probably optimize with bulk insertion
-  def self.load_from_sc(sc, domain)
+  def self.load_from_sc(sc, graph)
     if sc
       sc_users = sc.get_users
       sc_users.each do |sc_user|
-        new_user = User._user_from_sc_user(sc_user, domain)
+        new_user = User._user_from_sc_user(sc_user, graph)
+        if not new_user
+          return false
+        end
         new_user.save
       end
     else
@@ -97,13 +82,17 @@ class User < ActiveRecord::Base
   end
 
   def self.register_or_login_user(sc, sc_user_id, domain, email, password)
-    # If company is not in db, fetch all employees:
-    if !User.exists?(domain: domain)
+    if not Graph.find_by_domain(domain)
       # TODO: This should move to background process at some point.
-      load_from_sc(sc, domain)
-    end
+      graph = Graph.new
+      graph.domain = domain
+      graph.save
 
-    user = User.where(:domain => domain, :sc_user_id => sc_user_id).first
+      load_from_sc(sc, graph)
+    end
+    graph = Graph.find_by_domain(domain)
+
+    user = User.where(:graph_id => graph.id, :sc_user_id => sc_user_id).first
     user.email = email
     user.password = password
     return user

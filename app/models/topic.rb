@@ -3,7 +3,7 @@ require 'freeb/api'
 class Topic < ActiveRecord::Base
 	attr_accessible :title, :image_url, :freebase_topic_id, :freebase_image_url
 
-	has_and_belongs_to_many :graphs
+  belongs_to :graph
 
 	has_many :topic_user_connections, :foreign_key => "expertise_id"
 	has_many :experts, :through => :topic_user_connections, :source => :expert, :uniq => :true

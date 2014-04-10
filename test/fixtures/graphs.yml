@@ -4,23 +4,5 @@
 # model remove the '{}' from the fixture names and add the columns immediately
 # below each fixture, per the syntax in the comments below
 #
-
-full_stack:
- title: full_stack
- topics: web, javascript, ruby, python, rails, php, version_control, html, jquery, git, subversion, data_visualization, graphic_design
-
-programming:
- title: programming
- topics: mobile, iOS, android, algorithms, ruby, python, fortran, java, c, c_plus_plus, objective_c, subversion, git, version_control
-
-web:
- title: web
- topics: javascript, ruby, python, php, rails, html, jquery
-
-mobile:
- title: mobile
- topics: iOS, android, objective_c
-
-business:
- title: business
- topics: sales, communication, presentation, management
+fixtures:
+  domain: fixtures

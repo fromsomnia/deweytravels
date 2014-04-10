@@ -7,90 +7,120 @@
 
 full_stack:
  title: full-stack
+ graph: fixtures
 
 web:
  title: web
+ graph: fixtures
 
 programming:
  title: programming
+ graph: fixtures
 
 iOS:
  title: iOS
+ graph: fixtures
 
 user_growth:
  title: user growth
+ graph: fixtures
 
 algorithms:
  title: algorithms
+ graph: fixtures
 
 javascript:
  title: javascript
+ graph: fixtures
 
 ruby:
  title: ruby
+ graph: fixtures
 
 python:
  title: python
+ graph: fixtures
 
 fortran:
  title: fortran
+ graph: fixtures
 
 java:
  title: java
+ graph: fixtures
 
 rails:
  title: rails
+ graph: fixtures
 
 php:
  title: php
+ graph: fixtures
 
 android:
  title: android
+ graph: fixtures
 
 c:
  title: c
+ graph: fixtures
 
 c_plus_plus:
  title: c++
+ graph: fixtures
 
 objective_c:
  title: objective c
+ graph: fixtures
 
 git:
  title: git
+ graph: fixtures
 
 subversion:
  title: subversion
+ graph: fixtures
 
 version_control:
  title: version control
+ graph: fixtures
 
 html:
  title: html
+ graph: fixtures
 
 jquery:
  title: jquery
+ graph: fixtures
 
 mobile:
  title: mobile
+ graph: fixtures
 
 management:
  title: management
+ graph: fixtures
 
 statistics:
  title: statistics
+ graph: fixtures
 
 sales:
  title: sales
+ graph: fixtures
 
 graphic_design:
  title: graphic design
+ graph: fixtures
 
 presentation:
  title: presentation
+ graph: fixtures
 
 communication:
  title: communication
+ graph: fixtures
 
 data_visualization:
  title: data visualization
+ graph: fixtures

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140404060717) do
+ActiveRecord::Schema.define(version: 20140410025252) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -24,12 +24,13 @@ ActiveRecord::Schema.define(version: 20140404060717) do
   end
 
   create_table "graphs", force: true do |t|
-    t.string "title"
+    t.string "domain"
   end
 
-  create_table "graphs_topics", id: false, force: true do |t|
-    t.integer "graph_id"
-    t.integer "topic_id"
+  add_index "graphs", ["domain"], name: "index_graphs_on_domain", unique: true, using: :btree
+
+  create_table "networks", force: true do |t|
+    t.string "domain"
   end
 
   create_table "topic_topic_connections", force: true do |t|
@@ -44,10 +45,14 @@ ActiveRecord::Schema.define(version: 20140404060717) do
   end
 
   create_table "topics", force: true do |t|
-    t.string "title"
-    t.string "freebase_image_url"
-    t.string "freebase_topic_id"
+    t.string  "title"
+    t.string  "freebase_image_url"
+    t.string  "freebase_topic_id"
+    t.integer "graph_id"
   end
+
+  add_index "topics", ["graph_id", "title"], name: "index_topics_on_graph_id_and_title", unique: true, using: :btree
+  add_index "topics", ["graph_id"], name: "index_topics_on_graph_id", using: :btree
 
   create_table "user_action_votes", force: true do |t|
     t.integer  "action_id"
@@ -65,7 +70,6 @@ ActiveRecord::Schema.define(version: 20140404060717) do
   create_table "users", force: true do |t|
     t.string  "first_name"
     t.string  "last_name"
-    t.string  "domain"
     t.string  "email"
     t.string  "phone"
     t.string  "username"
@@ -79,8 +83,10 @@ ActiveRecord::Schema.define(version: 20140404060717) do
     t.string  "image"
     t.string  "title"
     t.integer "sc_user_id"
+    t.integer "graph_id"
   end
 
-  add_index "users", ["sc_user_id", "domain"], name: "index_users_on_sc_user_id_and_domain", unique: true, using: :btree
+  add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
+  add_index "users", ["graph_id"], name: "index_users_on_graph_id", using: :btree
 
 end

@@ -5,25 +5,11 @@ class UserTest < ActiveSupport::TestCase
   def get_new_user(user_id)
     new_user = User.new
     new_user.email = user_id.to_s + '.gmail.com'
-    new_user.domain = "default_domain"
+    new_user.graph = Graph.first
     new_user.first_name = "First Name " + user_id.to_s
     new_user.last_name = "Last Name " + user_id.to_s
     new_user.phone = "123456789"
     return new_user
-  end
-
-  test "get_domains" do
-    domains = User.domains
-    assert_equal(1, domains.length)
-    assert_equal("dewey-cs210", domains[0])
-   
-    new_user = get_new_user(1)
-    new_user.save
- 
-    domains = User.domains
-    assert_equal(2, domains.length)
-    assert_equal(Set.new(["dewey-cs210", "default_domain"]),
-                 domains.to_set())
   end
 
   def _get_socialcast_users(domain)
@@ -31,6 +17,7 @@ class UserTest < ActiveSupport::TestCase
                 {"contact_info"=> {
                                          "office_phone"=> "123456789",
                                          "email"=>"bot@socialcast.com"},
+                  "domain" => "dewey",
                   "custom_fields"=>[],
                   "id"=> 1,
                   "name"=> "Production Bot #145",
@@ -44,6 +31,8 @@ class UserTest < ActiveSupport::TestCase
                 {"contact_info"=> {
                                          "office_phone"=> "123456789",
                                          "email"=>"dummy_email@email.com" },
+
+                  "domain" => "dewey",
                   "custom_fields"=>[],
                   "id"=> 2,
                   "name"=> "Dummy Person",
@@ -60,39 +49,45 @@ class UserTest < ActiveSupport::TestCase
   test "user_from_sc_user" do
     # Testing that given a dictionary of valid response from socialcast,
     # the users are added correctly
-    user = User._user_from_sc_user(_get_socialcast_users("dewey").first,"dewey")
+    user = User._user_from_sc_user(_get_socialcast_users("dewey").first, self.get_new_graph("dewey"))
     assert_equal("bot@socialcast.com", user.email)
+  end
+
+  def get_new_graph(domain_name)
+    new_graph = Graph.new
+    new_graph.domain = "dewey"
+    new_graph.save
+    return new_graph
   end
 
   test "load_from_sc" do
     Socialcast.any_instance.stubs(:get_users).returns(_get_socialcast_users('dewey'))
     old_num = User.all.length
+    new_graph = get_new_graph("dewey")
+
     sc = Socialcast.new("dummy_email", "dummy_password")
-    User.load_from_sc(sc, "dewey")
+    User.load_from_sc(sc, new_graph)
     assert_equal(old_num + 2, User.all.length)
 
-    user1 = User.where(:domain => "dewey", :sc_user_id => 1).first
-    user2 = User.where(:domain => "dewey", :sc_user_id => 2).first
-    user3 = User.where(:domain => "dewey", :sc_user_id => 3).first
-    assert user1
-    assert user2
-    assert !user3
+    users = new_graph.users
+    assert_equal(2, users.length)
 
     # Test that there should not be duplicates if we are reloading
-    User.load_from_sc(sc, "dewey")
+    User.load_from_sc(sc, new_graph)
     assert_equal(old_num + 2, User.all.length)
   end
 
   test "update_all_domains" do
-    user = User._user_from_sc_user(_get_socialcast_users("dewey").first,"dewey")
-    user.domain = "dewey"
+    new_graph = get_new_graph("dewey")
+    user = User._user_from_sc_user(_get_socialcast_users("dewey").first, new_graph)
+    user.graph = new_graph
     user.save
     
     Socialcast.any_instance.stubs(:authenticate).returns({"success" => true})
     Socialcast.any_instance.stubs(:get_users).returns(_get_socialcast_users('dewey'))
 
     old_num = User.all.length
-    User.update_all_domains
+    Graph.update_all_users_in_all_domains
     assert_equal(old_num + 1, User.all.length)
   end
 
@@ -107,11 +102,14 @@ class UserTest < ActiveSupport::TestCase
     user = User.register_or_login_user(sc, 2, "dewey",
                             "dummy_email@email.com", "dummy_password")
 
+    assert_equal(2, Graph.all.length)
     assert_equal(old_num + 2, User.all.length)
     assert_equal("dummy_password", user.password)
     assert_equal("dummy_email@email.com", user.email)
     
-    other_user = User.where(:domain => "dewey", :sc_user_id => 1).first
+    graph = Graph.find_by_domain("dewey")
+    assert graph
+    other_user = User.where(:graph_id => graph.id, :sc_user_id => 1).first
     assert other_user
 
     assert_equal("bot@socialcast.com", other_user.email)
@@ -123,5 +121,6 @@ class UserTest < ActiveSupport::TestCase
                             "dummy_email@email.com", "dummy_password")
 
     assert_equal(old_num + 2, User.all.length)
+    assert_equal(2, Graph.all.length)
   end
 end
