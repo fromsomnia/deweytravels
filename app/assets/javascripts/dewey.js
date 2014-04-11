@@ -71,36 +71,40 @@ function Dewey () {
   // factory as our model
   DeweyApp.factory('DeweyFactory', ['$http', '$q', '$route', function ($http, $q, $route) {
 
+    // prepare search result data for view template
+    function prepareSearchResultData (results) {
+      return _.map(results, function (result) {
+        if (result.first_name && result.last_name) {
+          result.category = 'users';
+          result.name = result.first_name + ' ' + result.last_name;
+          result.description = result.department || 'employee';
+        } else {
+          result.category = 'topics';
+          result.name = result.title;
+          result.description = 'topic';
+        }
+        if (!result.image)
+          result.image = 'picture_placeholder.png';
+        return result;
+      });
+    }
+
+    // prepare data user data for view template
+    function prepareUsersData (users) {
+      return _.map(users, function (user) {
+        user.name = user.first_name + ' ' + user.last_name;
+        user.description = user.department || 'employee';
+        user.category = 'users';
+        return user;
+      });
+    }
+
     // get search results from API
     function getResults () {
       var defer = $q.defer(),
         params = $route.current.params;
       $http.get('/graphs/search.json?query=' + params.query).success(function (response) {
-        // prep data (fix later)
-        response = _.map(response, function (obj) {
-          if (obj.first_name && obj.last_name) {
-            obj.category = 'users';
-            obj.name = obj.first_name + ' ' + obj.last_name;
-            obj.description = (obj.department) ? obj.department : 'employee';
-          } else {
-            obj.category = 'topics';
-            obj.name = obj.title;
-            obj.description = 'topic';
-          }
-          // var val = obj['title'];
-          // if (val) {
-          //   obj['first_name'] = val;
-          //   obj['category'] = 'topics';
-          // } else {
-          //   obj['category'] = 'users';
-          // }          
-          // if (!obj['image']) obj['image'] = 'picture_placeholder.png';
-          // if (!obj['department']) obj['department'] = 'topic';
-          if (!obj.image)
-            obj.image = 'picture_placeholder.png';
-          return obj;
-        });
-        factory.results = response;
+        factory.results = prepareSearchResultData(response);
         defer.resolve();
       });
       return defer.promise;
@@ -122,16 +126,7 @@ function Dewey () {
       var defer = $q.defer(),
         params = $route.current.params;
       $http.get('/topics/' + params.topicId + '/users.json').success(function (response) {
-        // prep data (fix later)
-        response = _.map(response, function (obj) {
-          if (obj['title']) {
-            obj['category'] = 'topics';
-          } else {
-            obj['category'] = 'users';
-          }
-          return obj;
-        });
-        factory.results = response;
+        factory.results = prepareUsersData(response);
         defer.resolve();
       });
       return defer.promise;
