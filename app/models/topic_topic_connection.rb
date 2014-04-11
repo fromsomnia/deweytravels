@@ -11,6 +11,10 @@ class TopicTopicConnection < ActiveRecord::Base
     end
   end
 
+  def graph
+    supertopic.graph
+  end
+
   def action_class
     AddTopicTopicConnectionAction
   end

@@ -12,6 +12,10 @@ class UserUserConnection < ActiveRecord::Base
     end
   end
 
+  def graph
+    superior.graph
+  end
+
   def action_class
     AddUserUserConnectionAction
   end

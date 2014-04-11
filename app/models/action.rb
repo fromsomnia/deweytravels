@@ -112,11 +112,15 @@ module ActionableObject
   end
 
   def downvoted_by(user)
-    self.action.downvoted_by(user)
+    if user.graph == self.graph
+      self.action.downvoted_by(user)
+    end
   end
 
   def upvoted_by(user)
-    self.action.upvoted_by(user)
+    if user.graph == self.graph
+      self.action.upvoted_by(user)
+    end
   end
 
   def add_action

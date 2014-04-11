@@ -14,6 +14,10 @@ class TopicUserConnection < ActiveRecord::Base
     end
   end
 
+  def graph
+    expert.graph
+  end
+
   def action_class
     AddTopicUserConnectionAction
   end
