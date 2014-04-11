@@ -1,13 +1,13 @@
 class UsersController < ApplicationController
-  before_action :set_user, only: [:show, :edit, :update, :destroy]
   before_action :authenticate
+  before_action :set_user, only: [:show, :edit, :update, :destroy]
 
   # GET /users
   # GET /users.json
   def index
     @users = []
     if params[:topic_id].present? then
-      topic = Topic.find(params[:topic_id].to_i)
+      topic = @current_graph.topics.find(params[:topic_id].to_i)
       if topic != nil then
         @users = topic.experts
       end
@@ -40,7 +40,7 @@ class UsersController < ApplicationController
     @nodes = []
     @links = []
     if params[:user_id].present? then
-      user = User.find(params[:user_id].to_i)
+      user = @current_graph.users.find(params[:user_id].to_i)
       if user != nil then
         @nodes << user
         user.topic_user_connections.each do |tuc|
@@ -77,8 +77,8 @@ class UsersController < ApplicationController
   #topic_id as payload
   def add_topic
     if params[:topic_id].present? then
-      topic = Topic.find(params[:topic_id].to_i)
-      user = User.find(params[:id])
+      topic = @current_graph.topics.find(params[:topic_id].to_i)
+      user = @current_graph.users.find(params[:id])
       if topic != nil && user != nil then
         user.expertises << topic
       end
@@ -91,8 +91,8 @@ class UsersController < ApplicationController
   def remove_topic
     puts params[:id]
     if params[:topic_id].present? && params[:id].present? then
-      user = User.find(params[:id])
-      topic = Topic.find(params[:topic_id].to_i)
+      user = @current_graph.users.find(params[:id])
+      topic = @current_graph.topics.find(params[:topic_id].to_i)
       if topic != nil && user!= nil then
         if user.expertises.include? topic then
           user.expertises.delete(topic)
@@ -105,40 +105,19 @@ class UsersController < ApplicationController
   # GET /users/1
   # GET /users/1.json
   def show
-    @user = User.find(params[:id])
+    @user = @current_graph.users.find(params[:id])
     respond_to do |format|
       format.html { redirect_to user_url }
       format.json { render json: @user }
     end
   end
 
-  # GET /users/new
-  def new
-    @user = User.new
-  end
-
   # GET /users/1/edit
   def edit
-    @user = User.find(params[:id])
+    @user = @current_graph.users.find(params[:id])
     respond_to do |format|
       format.html { redirect_to edit_user_url }
       format.json { render json: @user }
-    end
-  end
-
-  # POST /users
-  # POST /users.json
-  def create
-    @user = User.new(user_params)
-
-    respond_to do |format|
-      if @user.save
-        format.html { redirect_to @user, notice: 'User was successfully created.' }
-        format.json { render action: 'show', status: :created, location: @user }
-      else
-        format.html { render action: 'new' }
-        format.json { render json: @user.errors, status: :unprocessable_entity }
-      end
     end
   end
 
@@ -169,7 +148,7 @@ class UsersController < ApplicationController
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_user
-      @user = User.find(params[:id])
+      @user = @current_graph.users.find(params[:id])
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.

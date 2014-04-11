@@ -1,18 +1,19 @@
 class TopicsController < ApplicationController
-  before_action :set_topic, only: [:show, :edit, :update, :destroy]
   before_action :authenticate
+  before_action :set_topic, only: [:show, :edit, :update, :destroy]
+
 
   # GET /topics
   # GET /topics.json
   def index
     @topics = []
     if params[:user_id].present? then
-      user = User.find(params[:user_id].to_i)
+      user = @current_graph.users.find(params[:user_id].to_i)
       if user != nil then
         @topics = user.expertises
       end
     else
-      @topics = Topic.all
+      @topics = @current_graph.topics
     end
     respond_to do |format|
       format.html { redirect_to topics_url }
@@ -23,7 +24,7 @@ class TopicsController < ApplicationController
   # GET /topics/1
   # GET /topics/1.json
   def show
-    @topic = Topic.find(params[:id])
+    @topic = @current_graph.topics.find(params[:id])
     respond_to do |format|
       format.html { redirect_to topic_url }
       format.json { render json: @topic }
@@ -33,12 +34,14 @@ class TopicsController < ApplicationController
 
   # GET /topics/new
   def new
+    # Note from veni to implementor: don't forget to make this
+    # domain spec.
     @topic = Topic.new
   end
 
   # GET /topics/1/edit
   def edit
-    @topic = Topic.find(params[:id])
+    @topic = @current_graph.topics.find(params[:id])
     respond_to do |format|
       format.html { redirect_to edit_topic_url }
       format.json { render json: @topic }
@@ -49,8 +52,8 @@ class TopicsController < ApplicationController
   #user_id as payload
   def add_user
     if params[:id].present? then
-      current_topic = Topic.find(params[:id])
-      user = User.find(params[:user_id])
+      current_topic = @current_graph.topics.find(params[:id])
+      user = @current_graph.users.find(params[:user_id])
       if current_topic != nil && user != nil then
         current_topic.experts << user
       end
@@ -62,8 +65,8 @@ class TopicsController < ApplicationController
   #user_id as payload
   def remove_user
      if params[:id].present? then
-      current_topic = Topic.find(params[:id])
-      user = User.find(params[:user_id])
+      current_topic = @current_graph.topics.find(params[:id])
+      user = @current_graph.users.find(params[:user_id])
       if current_topic != nil && user != nil then
         current_topic.experts.delete(user)
       end
@@ -75,7 +78,7 @@ class TopicsController < ApplicationController
   def related
     @topics = []
     if params[:id].present? then
-      topic = Topic.find(params[:id].to_i)
+      topic = @current_graph.topics.find(params[:id].to_i)
       if topic != nil then
         topic.supertopics.each do |supertopic|
           supertopic.subtopics.each do |tiq|
@@ -95,7 +98,7 @@ class TopicsController < ApplicationController
   def subtopics
     @topics = []
     if params[:id].present then
-      topic = Topic.find(params[:id].to_i)
+      topic = @current_graph.topics.find(params[:id].to_i)
       if topic != nil then
         @topics = topic.subtopics
       end
@@ -109,7 +112,7 @@ class TopicsController < ApplicationController
   def supertopics
     @topics = []
     if params[:id].present then
-      topic = Topic.find(params[:id].to_i)
+      topic = @current_graph.topics.find(params[:id].to_i)
       if topic != nil then
         @topics = topic.supertopics
       end
@@ -140,7 +143,7 @@ class TopicsController < ApplicationController
     @nodes = []
     @links = []
     if params[:topic_id].present? then
-      topic = Topic.find(params[:topic_id].to_i)
+      topic = @current_graph.topics.find(params[:topic_id].to_i)
       if topic != nil then
         @nodes << topic
 
@@ -199,8 +202,8 @@ class TopicsController < ApplicationController
 
   def add_subtopic
     if params[:id].present? && params[:topic_id2].present? then
-      topic = Topic.find(params[:id].to_i)
-      subtopic = Topic.find(params[:topic_id2].to_i)
+      topic = @current_graph.topics.find(params[:id].to_i)
+      subtopic = @current_graph.topics.find(params[:topic_id2].to_i)
       if topic != nil && subtopic != nil then
         topic.subtopics << subtopic
       end
@@ -211,8 +214,8 @@ class TopicsController < ApplicationController
   #topic_id2 as payload
   def add_supertopic
     if params[:id].present? && params[:topic_id2].present? then
-      topic = Topic.find(params[:id].to_i)
-      supertopic = Topic.find(params[:topic_id2].to_i)
+      topic = @current_graph.topics.find(params[:id].to_i)
+      supertopic = @current_graph.topics.find(params[:topic_id2].to_i)
       if topic != nil && supertopic != nil then
         topic.supertopics << supertopic
       end
@@ -223,8 +226,8 @@ class TopicsController < ApplicationController
   #topic_id2 as payload
   def remove_subtopic
     if params[:id].present? && params[:topic_id2].present? then
-      topic = Topic.find(params[:id].to_i)
-      subtopic = Topic.find(params[:topic_id2].to_i)
+      topic = @current_graph.topics.find(params[:id].to_i)
+      subtopic = @current_graph.topics.find(params[:topic_id2].to_i)
       if topic != nil && subtopic != nil then
         if topic.subtopics.include?(subtopic) then
           topic.subtopics.delete(subtopic)
@@ -237,8 +240,8 @@ class TopicsController < ApplicationController
   #topic_id2 as payload
   def remove_supertopic
     if params[:id].present? && params[:topic_id2].present? then
-      current_topic = Topic.find(params[:id].to_i)
-      to_remove = Topic.find(params[:topic_id2].to_i)
+      current_topic = @current_graph.topics.find(params[:id].to_i)
+      to_remove = @current_graph.topics.find(params[:topic_id2].to_i)
       if current_topic != nil && to_remove != nil then
         if current_topic.supertopics.include?(to_remove) then
           current_topic.supertopics.delete(to_remove)
@@ -251,6 +254,8 @@ class TopicsController < ApplicationController
   # POST /topics
   # POST /topics.json
   def create
+    # Note from veni to implementor: don't forget to make this
+    # domain spec.
     @topic = Topic.new(topic_params)
 
     respond_to do |format|
@@ -291,7 +296,7 @@ class TopicsController < ApplicationController
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_topic
-      @topic = Topic.find(params[:id])
+      @topic = @current_graph.topics.find(params[:id])
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.
