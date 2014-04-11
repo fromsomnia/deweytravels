@@ -34,7 +34,7 @@
 		<script type="text/ng-template" id="/search">
 			<div id="main" class="col-xs-12">
 				<div ng-include src="'/navigation'"></div>
-				<div ng-include src="'/list'"></div>
+				<div ng-include src="'/searchResults'"></div>
 			</div>
 		</script>
 
@@ -80,9 +80,6 @@
 					    <p class="list-group-item-text">{{ result.description }}</p>
 				  	</div>
 				  </a>
-				  <div class="col-xs-2 pull-right">
-            <span ng-click="removeUserFromTopic($event, result.id)" class="glyphicon glyphicon-remove"></span>
-          </div>
 				</div>
 
 			</div>
@@ -91,7 +88,7 @@
 		<script type="text/ng-template" id="/usersForTopic">
 			<div class="list col-xs-12 list-group">
 
-				<div ng-repeat="user in users" class="list-group-item">
+				<div ng-repeat="user in usersForTopic" class="list-group-item">
 				  <a href="#/{{ user.category }}/{{ user.id }}">
 						<div class="circular-image" style="background-image:url('/assets/{{ user.image }}')"></div>
 				  	<div class="col-xs-10 user-text-container">
@@ -99,7 +96,7 @@
 					    <p class="list-group-item-text">{{ user.description }}</p>
 				  	</div>
 				  </a>
-				  <div class="col-xs-2 pull-right">
+				  <div class="col-xs-2" style="position: absolute; right: 10px;top: 20px;">
             <span ng-click="removeUserFromTopic($event, user.id)" class="glyphicon glyphicon-remove"></span>
           </div>
 				</div>
@@ -145,9 +142,9 @@
 
 		<script type="text/ng-template" id="/topicsForUser">
 			<div class="tags col-xs-12">
-        <span class="tag" ng-repeat="tag in topics">
-          <a href="#/topics/{{ tag.id }}">{{ tag.title }}</a>
-          <span ng-click="removeTopicFromUser($event, tag.id)" class="glyphicon glyphicon-remove"></span>
+        <span class="tag" ng-repeat="topic in topicsForUser">
+          <a href="#/topics/{{ topic.id }}">{{ topic.title }}</a>
+          <span ng-click="removeTopicFromUser($event, topic.id)" class="glyphicon glyphicon-remove"></span>
         </span>
         <input id="typeahead" type="text"  ng-model="selectedTopic" placeholder="Add expertise" typeahead-on-select="addTopicToUser($item)" typeahead="topic as topic.title for topic in topic_choices | filter: $viewValue | limitTo: 8"  />
 			</div>

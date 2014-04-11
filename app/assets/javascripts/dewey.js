@@ -32,7 +32,7 @@ function Dewey () {
             return DeweyFactory.getUser();
           }],
           getTopics: ['DeweyFactory', function (DeweyFactory) {
-            return DeweyFactory.getTopics();
+            return DeweyFactory.getTopicsForUser();
           }],
           getAllTopics: ['DeweyFactory', function (DeweyFactory) {
             return DeweyFactory.getAllTopics();
@@ -50,7 +50,7 @@ function Dewey () {
             return DeweyFactory.getAllUsers();
           }],
           getUsers: ['DeweyFactory', function (DeweyFactory) {
-            return DeweyFactory.getUsers();
+            return DeweyFactory.getUsersForTopic();
           }],
         }
       })
@@ -113,7 +113,7 @@ function Dewey () {
       var defer = $q.defer(),
         params = $route.current.params;
       $http.get('/topics/' + params.topicId + '/users.json').success(function (response) {
-        factory.results = prepareUsersData(response);
+        factory.usersForTopic = prepareUsersData(response);
         defer.resolve();
       });
       return defer.promise;
@@ -153,7 +153,7 @@ function Dewey () {
       var defer = $q.defer(),
         params = $route.current.params;
       $http.get('/users/' + params.userId + '/topics.json').success(function (response) {
-        factory.topics = response;
+        factory.topicsForUser = response;
         defer.resolve();
       });
       return defer.promise;
@@ -219,16 +219,16 @@ function Dewey () {
       $scope: $scope
     });
     $scope.user = DeweyFactory.user;
-    $scope.topics = DeweyFactory.topics;
+    $scope.topicsForUser = DeweyFactory.topicsForUser;
     $scope.topicChoices = DeweyFactory.allTopics;
     $scope.nodeType = 'users';
     $scope.nodeId = $scope.user.id;
 
     $scope.updateTopics = function () {
-      DeweyFactory.getTopics();
+      DeweyFactory.getTopicsForUser();
       setTimeout(function () {
         $scope.$apply(function () {
-          $scope.topics = DeweyFactory.topics;
+          $scope.topicsForUser = DeweyFactory.topicsForUser;
         });
       }, 500);
       // TODO: redraw graph
@@ -263,7 +263,7 @@ function Dewey () {
     $controller('BaseController', {
       $scope: $scope
     });
-    $scope.results = DeweyFactory.results;
+    $scope.usersForTopic = DeweyFactory.usersForTopic;
     $scope.topic = DeweyFactory.topic;
     $scope.userChoices = DeweyFactory.allUsers;
     $scope.shouldShowAddUserToTopic = true;
@@ -275,7 +275,7 @@ function Dewey () {
       $(typeahead).val('');
       setTimeout(function () {
         $scope.$apply(function () {
-          $scope.results = DeweyFactory.results;
+          $scope.usersForTopic = DeweyFactory.usersForTopic;
         });
       }, 500);
       // TODO: update graph
