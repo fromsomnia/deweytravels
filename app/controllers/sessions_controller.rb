@@ -8,6 +8,13 @@ class SessionsController < ApplicationController
   def post_login
     email = params[:email]
     password = params[:password]
+    
+    @user = User.find_by_email_and_password(email, password)
+    if @user
+      render json: {:auth_token => @user.auth_token}, status: :ok
+      return
+    end
+
     sc = Socialcast.new(email, password)
     status = sc.authenticate
 

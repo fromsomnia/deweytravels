@@ -13,6 +13,7 @@ william:
  position: Engineer
  department: Engineering
  graph: fixtures
+ auth_token: william_auth_token
  phone: 123-456-7890
  image: William.png
 
@@ -23,6 +24,7 @@ veni:
  username: veni
  password: veni
  position: Engineer
+ auth_token: veni_auth_token
  department: Engineering
  graph: fixtures
  phone: 123-456-7890
@@ -34,6 +36,7 @@ brett:
  email: besolow+fixtures@stanford.edu
  username: brett
  password: brett
+ auth_token: brett_auth_token
  position: Engineer
  department: Engineering
  graph: fixtures
@@ -46,6 +49,7 @@ stephen:
  email: stephenq+fixtures@stanford.edu
  username: stephen
  password: stephen
+ auth_token: stephen_auth_token
  position: Engineer
  department: Engineering
  graph: fixtures
@@ -58,6 +62,7 @@ john:
  email: jpulvera+fixtures@stanford.edu
  username: john
  password: john
+ auth_token: john_auth_token
  position: Engineer
  department: Engineering
  graph: fixtures
