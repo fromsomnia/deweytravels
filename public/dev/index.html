@@ -4,9 +4,9 @@
 
 		<!-- allows responsive web design -->
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 		<title>Dewey | Explore Company Expertise </title>
 
-		<!-- stylesheets -->
 		<link rel="stylesheet" type="text/css" href="/assets/bootstrap.css"/>
 		<link rel="stylesheet" type="text/css" href="/assets/dewey.css"/>
 
@@ -16,7 +16,6 @@
 		<!-- container; updates with angular routes -->
 		<div data-ng-view></div>
 
-		<!-- login template -->
 		<script type="text/ng-template" id="/login">
 			<div id="main" class="col-xs-12">
 				<div class="login col-xs-12">
@@ -32,7 +31,6 @@
 			</div>
 		</script>
 
-		<!-- search template -->
 		<script type="text/ng-template" id="/search">
 			<div id="main" class="col-xs-12">
 				<div ng-include src="'/navigation'"></div>
@@ -40,33 +38,24 @@
 			</div>
 		</script>
 
-		<!-- user template -->
 		<script type="text/ng-template" id="/user">
 			<div id="main" class="col-xs-12">
 				<div ng-include src="'/navigation'"></div>
-				<div ng-include src="'/user_profile'"></div>
-				<div ng-include src="'/tags'"></div>
+				<div ng-include src="'/userProfile'"></div>
+				<div ng-include src="'/topicsForUser'"></div>
 			</div>
 			<div ng-include src="'/graph'"></div>
 		</script>
 
-		<!-- edit user template -->
-		<!-- TODO -->
-
-		<!-- topic template -->
 		<script type="text/ng-template" id="/topic">
 			<div id="main" class="col-xs-12">
 				<div ng-include src="'/navigation'"></div>
-				<div ng-include src="'/topic_profile'"></div>
-				<div ng-include src="'/list'"></div>
+				<div ng-include src="'/topicProfile'"></div>
+				<div ng-include src="'/usersForTopic'"></div>
 			</div>
 			<div ng-include src="'/graph'"></div>
 		</script>
 
-		<!-- edit topic template -->
-		<!-- TODO -->
-
-		<!-- navigation template -->
 		<script type="text/ng-template" id="/navigation">
 			<nav class="nav col-xs-12">
 				<a href="#/search">
@@ -75,19 +64,15 @@
 				<div class="col-xs-10">
 					<div class="col-xs-12 input-group input-group-lg">
 					  <input id="search" type="text" class="form-control" placeholder="search by topic or person" ng-keyup="search()" ng-model="queryData.query">
-					  <!--
-					  <input id="typeahead" type="text" class="form-control" ngModel="selectedUser" placeholder="search by topic or person" typeahead-on-select="" typeahead="result as result.first_name + result.last_name for result in results | filter: $viewValue | limitTo: 8" />
-					  -->
 					</div>
 				</div>
 			</nav>
 		</script>
 
-		<!-- list template -->
-		<script type="text/ng-template" id="/list">
+		<script type="text/ng-template" id="/searchResults">
 			<div class="list col-xs-12 list-group">
 
-				<div ng-repeat="result in results" class="list-group-item">
+				<div ng-repeat="result in searchResults" class="list-group-item">
 				  <a href="#/{{ result.category }}/{{ result.id }}">
 						<div class="circular-image" style="background-image:url('/assets/{{ result.image }}')"></div>
 				  	<div class="col-xs-10 result-text-container">
@@ -100,7 +85,26 @@
           </div>
 				</div>
 
-        <div ng-if="should_show_add_user_to_topic">
+			</div>
+		</script>
+
+		<script type="text/ng-template" id="/usersForTopic">
+			<div class="list col-xs-12 list-group">
+
+				<div ng-repeat="user in users" class="list-group-item">
+				  <a href="#/{{ user.category }}/{{ user.id }}">
+						<div class="circular-image" style="background-image:url('/assets/{{ user.image }}')"></div>
+				  	<div class="col-xs-10 user-text-container">
+					    <h4 class="list-group-item-heading">{{ user.name }}</h4>
+					    <p class="list-group-item-text">{{ user.description }}</p>
+				  	</div>
+				  </a>
+				  <div class="col-xs-2 pull-right">
+            <span ng-click="removeUserFromTopic($event, user.id)" class="glyphicon glyphicon-remove"></span>
+          </div>
+				</div>
+
+        <div ng-if="shouldShowAddUserToTopic">
           <div class="list-group-item">
 					  <div class="circular-image" style="background-image:url('/assets/plus.png')"></div>
 					  <div class="col-xs-10 result-text-container">
@@ -112,8 +116,7 @@
 			</div>
 		</script>
 
-		<!-- user profile template -->
-		<script type="text/ng-template" id="/user_profile">
+		<script type="text/ng-template" id="/userProfile">
 			<div class="profile col-xs-12">
 				<div class="circular-image" style="background-image:url('/assets/{{ user.image }}')"></div>
 				<div class="col-xs-12">
@@ -129,8 +132,7 @@
 			</div>
 		</script>
 
-		<!-- topic profile template -->
-		<script type="text/ng-template" id="/topic_profile">
+		<script type="text/ng-template" id="/topicProfile">
 			<div class="profile col-xs-12">
 				<div class="circular-image" style="background-image:url('{{ topic.freebase_image_url }}')"></div>
 				<div class="col-xs-12">
@@ -141,8 +143,7 @@
 			</div>
 		</script>
 
-		<!-- tags template -->
-		<script type="text/ng-template" id="/tags">
+		<script type="text/ng-template" id="/topicsForUser">
 			<div class="tags col-xs-12">
         <span class="tag" ng-repeat="tag in topics">
           <a href="#/topics/{{ tag.id }}">{{ tag.title }}</a>
@@ -157,7 +158,6 @@
 			<dw-visualization url="/{{ nodeType }}/{{ nodeId }}/most_connected.json"></dw-visualization>
 		</script>
 
-		<!-- javascripts -->
 		<script src="/assets/angular.js"></script>
 		<script src="/assets/angular-route.js"></script>
 		<script src="/assets/jquery-1.11.0.js"></script>
