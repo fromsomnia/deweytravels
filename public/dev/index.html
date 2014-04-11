@@ -12,69 +12,59 @@
 
 	</head>
 	<body data-ng-app="DeweyApp">
-		<!-- container -->
-    <div data-ng-view></div>
- 
+
+		<!-- container; updates with angular routes -->
+		<div data-ng-view></div>
+
 		<!-- login template -->
 		<script type="text/ng-template" id="/login">
-      <div id="main" class="container-fluid">
-  			<div class="col-xs-12"> 
-			    <div class="login col-xs-12">
-			    	<img id="logo" class="col-xs-12" src="/assets/logo_transparent.png">
-			    	<br>
-			    	<span class="mission col-xs-12">explore company expertise</span>
-			    	<br>
-			    	<input type="email" class="form-control" id="email" name="email" placeholder="email" ng-model="loginData.email">
-			    	<input type="password" class="form-control" id="password" name="password" placeholder="password" ng-model="loginData.password">
-			    	<button type="button" class="col-xs-12 btn btn-default btn-lg" ng-click='login()'>login</button>
-			    	<div class="col-xs-1"></div>
-			    </div>
-        </div>
-      </div>
+			<div id="main" class="col-xs-12">
+				<div class="login col-xs-12">
+					<img id="logo" class="col-xs-12" src="/assets/logo_transparent.png">
+					<br>
+					<span class="mission col-xs-12">explore company expertise</span>
+					<br>
+					<input type="email" class="form-control" id="email" name="email" placeholder="email" ng-model="loginData.email">
+					<input type="password" class="form-control" id="password" name="password" placeholder="password" ng-model="loginData.password">
+					<button type="button" class="col-xs-12 btn btn-default btn-lg" ng-click='login()'>login</button>
+					<div class="col-xs-1"></div>
+				</div>
+			</div>
 		</script>
 
 		<!-- search template -->
 		<script type="text/ng-template" id="/search">
-      <div id="main" class="container-fluid">
-  			<div class="col-xs-12"> 
-			    <div ng-include src="'/navigation'"></div>
-			    <div ng-include src="'/list'"></div>
-        </div>
-      </div>
+			<div id="main" class="col-xs-12">
+				<div ng-include src="'/navigation'"></div>
+				<div ng-include src="'/list'"></div>
+			</div>
 		</script>
 
 		<!-- user template -->
 		<script type="text/ng-template" id="/user">
-      <div id="main" class="container-fluid">
-  			<div class="col-xs-12"> 
-  			  <div ng-include src="'/navigation'"></div>
-  			  <div ng-include src="'/user_profile'"></div>
-  			  <div ng-include src="'/tags'"></div>
-        </div>
-      </div>
-
-  	  <div ng-include src="'/graph'"></div>
+			<div id="main" class="col-xs-12">
+				<div ng-include src="'/navigation'"></div>
+				<div ng-include src="'/user_profile'"></div>
+				<div ng-include src="'/tags'"></div>
+			</div>
+			<div ng-include src="'/graph'"></div>
 		</script>
 
 		<!-- edit user template -->
-		<!-- todo -->
+		<!-- TODO -->
 
 		<!-- topic template -->
 		<script type="text/ng-template" id="/topic">
-
-      <div id="main" class="container-fluid">
-  			<div class="col-xs-12"> 
-			    <div ng-include src="'/navigation'"></div>
-			    <div ng-include src="'/topic_profile'"></div>
-			    <div ng-include src="'/list'"></div>
-        </div>
-      </div>
-
-  	  <div ng-include src="'/graph'"></div>
+			<div id="main" class="col-xs-12">
+				<div ng-include src="'/navigation'"></div>
+				<div ng-include src="'/topic_profile'"></div>
+				<div ng-include src="'/list'"></div>
+			</div>
+			<div ng-include src="'/graph'"></div>
 		</script>
 
 		<!-- edit topic template -->
-		<!-- todo -->
+		<!-- TODO -->
 
 		<!-- navigation template -->
 		<script type="text/ng-template" id="/navigation">
@@ -85,6 +75,9 @@
 				<div class="col-xs-10">
 					<div class="col-xs-12 input-group input-group-lg">
 					  <input id="search" type="text" class="form-control" placeholder="search by topic or person" ng-keyup="search()" ng-model="queryData.query">
+					  <!--
+					  <input id="typeahead" type="text" class="form-control" ngModel="selectedUser" placeholder="search by topic or person" typeahead-on-select="" typeahead="result as result.first_name + result.last_name for result in results | filter: $viewValue | limitTo: 8" />
+					  -->
 					</div>
 				</div>
 			</nav>
@@ -98,8 +91,8 @@
 				  <a href="#/{{ result.category }}/{{ result.id }}">
 						<div class="circular-image" style="background-image:url('/assets/{{ result.image }}')"></div>
 				  	<div class="col-xs-10 result-text-container">
-					    <h4 class="list-group-item-heading">{{ result.first_name }}</h4>
-					    <p class="list-group-item-text">{{ result.department }}</p>
+					    <h4 class="list-group-item-heading">{{ result.name }}</h4>
+					    <p class="list-group-item-text">{{ result.description }}</p>
 				  	</div>
 				  </a>
 				  <div class="col-xs-2 pull-right">
@@ -159,68 +152,11 @@
 			</div>
 		</script>
 
-<<<<<<< HEAD
-    <script type="text/ng-template" id="/graph">
-		<!-- graph -->
-=======
-		<!-- data visualization -->
->>>>>>> slightly cleaned up and styled html and scss code
-    <div ng-controller="GraphController" style="margin-left: 500px">
-      <svg ng-attr-width="{{width}}"
-           ng-attr-height="{{height}}">
-        <g ng-repeat="link in links">
+		<!-- graph template with visualization directive -->
+		<script type="text/ng-template" id="/graph">
+			<dw-visualization url="/{{ nodeType }}/{{ nodeId }}/most_connected.json"></dw-visualization>
+		</script>
 
-		      <!-- bigger, hidden mouseover area -->
-          <line
-            class="link"
-            ng-attr-stroke-width="{{link.strokeWidth + 25}}"
-            ng-attr-x1="{{link.source.x}}"
-            ng-attr-y1="{{link.source.y}}"
-            ng-attr-x2="{{link.target.x}}"
-            ng-attr-y2="{{link.target.y}}"
-            position="absolute"
-            opacity="0"
-            ng-mouseenter="link.show=true"
-            ng-mouseleave="link.show=false">
-          </line>
-
-          <line
-            class="link"
-            ng-attr-stroke-width="{{link.strokeWidth}}"
-            ng-attr-x1="{{link.source.x}}"
-            ng-attr-y1="{{link.source.y}}"
-            ng-attr-x2="{{link.target.x}}"
-            ng-attr-y2="{{link.target.y}}">
-          </line>
-
-          <foreignObject ng-if="link.connection"
-             width="30"
-             height="30"
-             ng-attr-x="{{(link.source.x + link.target.x) / 2 - 50}}"
-             ng-attr-y="{{(link.source.y + link.target.y) / 2 - 50}}">
-           <div ng-hide="link.is_upvoted" ng-click="upvote(link);" class="glyphicon glyphicon-thumbs-up"></div>
-           <div ng-hide="link.is_downvoted" ng-click="downvote(link);" class="glyphicon glyphicon-thumbs-down"></div>
-          </foreignObject>
-        </g>
-
-        <g ng-repeat="node in nodes">
-          <a ng-xlink:href="{{node.href}}" xlink:href="">
-            <circle class="node"
-              ng-attr-r="{{node.radius}}"
-              ng-attr-fill="{{node.color}}"
-              ng-attr-cx="{{node.x}}"
-              ng-attr-cy="{{node.y}}">
-            </circle>
-          </a>
-          <text ng-attr-x="{{node.x}}"
-          	ng-attr-y="{{node.y}}"
-          	text-anchor="middle"
-          	pointer-events="none">{{node.name}}
-          </text>
-        </g>
-      </svg>
-    </div>
-    </script>
 		<!-- javascripts -->
 		<script src="/assets/angular.js"></script>
 		<script src="/assets/angular-route.js"></script>
