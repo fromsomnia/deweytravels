@@ -1,6 +1,8 @@
 // constructor for DeweyApp
 function Dewey () {
 
+  var deweyGraph;
+
   // ngRoute is for routing; ui.bootstrap is for Angular UI Bootstrap components
   var DeweyApp = angular.module('DeweyApp', ['ngRoute', 'ui.bootstrap']);
 
@@ -176,6 +178,7 @@ function Dewey () {
   DeweyApp.controller('BaseController', ['$scope', '$location', '$http', 'DeweyFactory', function ($scope, $location, $http, DeweyFactory) {
 
     $scope.queryData = {};
+    $scope.deweyGraph;
 
     $scope.search = function () {
       if (event.keyCode == 13) {
@@ -313,127 +316,14 @@ function Dewey () {
         url: '@'
       },
       link: function (scope, element, attrs) {
-
-        // calculate width and height each time directive initiates
-        var width = $(window).width(),
-          height = $(window).height(),
-          force = d3.layout
-            .force()
-            .charge(-1200)
-            .linkDistance(205)
-            .size([width, height]);
-
-        // svg containers
-        var svg = d3.select(element[0])
-          .append('svg')
-          .attr('width', '100%')
-          .attr('height', '100%');
-        var container = svg.append('g')
-          .attr('class', 'graph-container');
-
-        // watch if url value changes
-        scope.$watch('url', function (newUrl, oldUrl) {
-
-          if (!newUrl) {
-            return;
-          }
-
-          // clear all previous elements
-          container.selectAll('*').remove();
-
-          // calls the API
-          $.get(newUrl)
-            .success(function (data) {
-
-              // svg containers
-              var links = container.append('g')
-                .attr('class', 'links');
-              var nodes = container.append('g')
-                .attr('class', 'nodes');
-
-              var linkContainer = links.selectAll('g')
-                .data(data.links)
-                .enter()
-                .append('g');
-
-              var line = linkContainer.append('line')
-                .attr('class', 'link')
-                .attr('stroke-width', function (datum) {
-                  return 2;
-                });
-
-              var nodeContainer = nodes.selectAll('g')
-                .data(data.nodes)
-                .enter()
-                .append('g');
-
-              var anchor = nodeContainer.append('a')
-                .attr('xlink:href', function (datum) {
-                  if (datum.first_name) {
-                    return '#/users/' + datum.id;
-                  }
-                  return '#/topics/' + datum.id;
-                });
-
-              var circle = anchor.append('circle')
-                .attr('class', 'node')
-                .attr('r', function (datum) {
-                  if (datum.first_name) {
-                    datum.r = 10;
-                  } else {
-                    datum.r = 60;
-                  }
-                  return datum.r;
-                })
-                .attr('fill', function (datum) {
-                  if (datum.first_name) {
-                    return '#FFFF66';
-                  }
-                  return '#00CC66';
-                });
-
-              var text = nodeContainer.append('text')
-                .attr('pointer-events', 'none')
-                .text(function (datum) {
-                  if (datum.first_name) {
-                    return datum.first_name + ' ' + datum.last_name;
-                  }
-                  return datum.title;
-                });
-
-              // tick function calculations position values for graph elements
-              function tick () {
-                nodeContainer.attr('transform', function (datum) {
-                  datum.x = Math.max(datum.r, Math.min(width - datum.r, datum.x));
-                  datum.y = Math.max(datum.r, Math.min(height - datum.r, datum.y));
-                  return 'translate(' + datum.x + ',' + datum.y + ')';
-                });
-                text.attr('dx', function (datum) {
-                    return '-' + $(this).width() / 2;
-                  });
-                line.attr('x1', function (datum) {
-                    return datum.source.x;
-                  })
-                  .attr('y1', function (datum) {
-                    return datum.source.y;
-                  })
-                  .attr('x2', function (datum) {
-                    return datum.target.x;
-                  })
-                  .attr('y2', function (datum) {
-                    return datum.target.y;
-                  });
-              }
-
-              // apply force animations on graph
-              force.nodes(data.nodes)
-                .links(data.links)
-                .theta(1)
-                .on('tick', tick)
-                .start();
-
-            });
-        });
+        $.get(scope.url)
+          .success(function (data) {
+            if (!deweyGraph) {
+              deweyGraph = DeweyGraph('dw-visualization', data || { nodes: [],links: [] });
+            } else {
+              deweyGraph.render(data);
+            }
+          });
       }
     };
 
