@@ -1,35 +1,29 @@
 // constructor for DeweyApp
 function Dewey () {
 
-  // initialize DeweyApp
   // ngRoute is for routing; ui.bootstrap is for Angular UI Bootstrap components
   var DeweyApp = angular.module('DeweyApp', ['ngRoute', 'ui.bootstrap']);
 
-  // configuration
   DeweyApp.config(['$routeProvider', function ($routeProvider) {
 
     // establish routes and resolve promises before displaying view
     $routeProvider
-      // default view
       .when('/', {
         controller: 'LoginController',
         templateUrl: '/login'
       })
-      // default search view
       .when('/search', {
         redirectTo: '/search/_',
       })
-      // search view with a query
       .when('/search/:query', {
         controller: 'SearchController',
         templateUrl: '/search',
         resolve: {
-          getResults: ['DeweyFactory', function (DeweyFactory) {
-            return DeweyFactory.getResults();
+          getSearchResults: ['DeweyFactory', function (DeweyFactory) {
+            return DeweyFactory.getSearchResults();
           }]
         }
       })
-      // user view
       .when('/users/:userId', {
         controller: 'UserController',
         templateUrl: '/user',
@@ -45,7 +39,6 @@ function Dewey () {
           }]
         }
       })
-      // topic view
       .when('/topics/:topicId', {
         controller: 'TopicController',
         templateUrl: '/topic',
@@ -61,17 +54,15 @@ function Dewey () {
           }],
         }
       })
-      // redirect if any other route
       .otherwise({
         redirectTo: '/'
       });
 
   }]);
 
-  // factory as our model
+  // factory as our model; calls the API for data
   DeweyApp.factory('DeweyFactory', ['$http', '$q', '$route', function ($http, $q, $route) {
 
-    // prepare search result data for view template
     function prepareSearchResultData (results) {
       return _.map(results, function (result) {
         if (result.first_name && result.last_name) {
@@ -89,7 +80,6 @@ function Dewey () {
       });
     }
 
-    // prepare data user data for view template
     function prepareUsersData (users) {
       return _.map(users, function (user) {
         user.name = user.first_name + ' ' + user.last_name;
@@ -99,18 +89,16 @@ function Dewey () {
       });
     }
 
-    // get search results from API
-    function getResults () {
+    function getSearchResults () {
       var defer = $q.defer(),
         params = $route.current.params;
       $http.get('/graphs/search.json?query=' + params.query).success(function (response) {
-        factory.results = prepareSearchResultData(response);
+        factory.searchResults = prepareSearchResultData(response);
         defer.resolve();
       });
       return defer.promise;
     }
 
-    // get user from API
     function getUser () {
       var defer = $q.defer(),
         params = $route.current.params;
@@ -121,8 +109,7 @@ function Dewey () {
       return defer.promise;
     }
 
-    // get topic's users from API
-    function getUsers () {
+    function getUsersForTopic () {
       var defer = $q.defer(),
         params = $route.current.params;
       $http.get('/topics/' + params.topicId + '/users.json').success(function (response) {
@@ -132,7 +119,6 @@ function Dewey () {
       return defer.promise;
     }
 
-    // get topic from API
     function getTopic () {
       var defer = $q.defer(),
         params = $route.current.params;
@@ -143,7 +129,6 @@ function Dewey () {
       return defer.promise;
     }
 
-    // get all topics from API
     function getAllTopics () {
       var defer = $q.defer(),
         params = $route.current.params;
@@ -154,7 +139,6 @@ function Dewey () {
       return defer.promise;
     }
 
-    // get all users from API
     function getAllUsers () {
       var defer = $q.defer(),
         params = $route.current.params;
@@ -165,8 +149,7 @@ function Dewey () {
       return defer.promise;
     }
 
-    // get user's topics from API
-    function getTopics () {
+    function getTopicsForUser () {
       var defer = $q.defer(),
         params = $route.current.params;
       $http.get('/users/' + params.userId + '/topics.json').success(function (response) {
@@ -180,55 +163,39 @@ function Dewey () {
     var factory = {};
     factory.getAllTopics = getAllTopics;
     factory.getAllUsers = getAllUsers;
-    factory.getResults = getResults;
+    factory.getSearchResults = getSearchResults;
     factory.getUser = getUser;
-    factory.getUsers = getUsers;
+    factory.getUsersForTopic = getUsersForTopic;
     factory.getTopic = getTopic;
-    factory.getTopics = getTopics;
+    factory.getTopicsForUser = getTopicsForUser;
     return factory;
 
   }]);
 
-  // controller for all views
-  // other controllers inherit from this
+  // controller for all views; other controllers inherit from this
   DeweyApp.controller('BaseController', ['$scope', '$location', '$http', 'DeweyFactory', function ($scope, $location, $http, DeweyFactory) {
 
     $scope.queryData = {};
-
-    // TODO: autosuggest
-    // function autoSuggest (query, callback) {
-    //   $http.get('/graphs/search.json?query=' + query).success(function (response) {
-    //     callback(response);
-    //   });
-    // }
 
     $scope.search = function () {
       if (event.keyCode == 13) {
         $location.path('/search/' + $scope.queryData.query);
       }
-      // } else {
-      //   var results = autoSuggest($scope.queryData.query, function (data) {
-      //     console.log(JSON.toString(data));
-      //   });
-      // }
     };
 
   }]);
 
-  // controller for the Search view
   DeweyApp.controller('SearchController', ['$controller', '$scope', '$location', 'DeweyFactory', function ($controller, $scope, $location, DeweyFactory) {
 
     $controller('BaseController', {
       $scope: $scope
     });
-    $scope.results = DeweyFactory.results;
+    $scope.searchResults = DeweyFactory.searchResults;
 
   }]);
 
-  // controller for the Login view
   DeweyApp.controller('LoginController', ['$scope', '$location', function ($scope, $location) {
 
-    // does not inherit from BaseController...
     $scope.loginData = {};
 
     $scope.login = function () {
@@ -246,7 +213,6 @@ function Dewey () {
 
   }]);
 
-  // controller for the User view
   DeweyApp.controller('UserController', ['$scope', '$controller', '$location', 'DeweyFactory', function ($scope, $controller, $location, DeweyFactory) {
 
     $controller('BaseController', {
@@ -292,7 +258,6 @@ function Dewey () {
 
   }]);
 
-  // controller for the Topic view
   DeweyApp.controller('TopicController', ['$scope', '$controller', '$location', 'DeweyFactory', function ($scope, $controller, $location, DeweyFactory) {
 
     $controller('BaseController', {
@@ -342,7 +307,6 @@ function Dewey () {
   // directive for data visualization
   DeweyApp.directive('dwVisualization', function () {
 
-    // directive object
     var directiveDefinitionObject = {
       restrict: 'E',
       scope: {
@@ -398,11 +362,6 @@ function Dewey () {
                   return 2;
                 });
 
-              // TODO: voting UI
-              // var voteContainer = linkContainer.append('foreignobject')
-              //   .attr('width', 30)
-              //   .attr('height', 30);
-
               var nodeContainer = nodes.selectAll('g')
                 .data(data.nodes)
                 .enter()
@@ -442,7 +401,7 @@ function Dewey () {
                   return datum.title;
                 });
 
-              // tick function calculations positional values for graph elements
+              // tick function calculations position values for graph elements
               function tick () {
                 nodeContainer.attr('transform', function (datum) {
                   datum.x = Math.max(datum.r, Math.min(width - datum.r, datum.x));
@@ -464,13 +423,6 @@ function Dewey () {
                   .attr('y2', function (datum) {
                     return datum.target.y;
                   });
-                // TODO: update voteContainer position on tick
-                // voteContainer.attr('x', function (datum) {
-                //     return (datum.source.x + datum.target.x) / 2 - 50;
-                //   })
-                //   .attr('y', function (datum) {
-                //     return (datum.source.y + datum.target.y) / 2 - 50;
-                //   });
               }
 
               // apply force animations on graph
@@ -489,88 +441,6 @@ function Dewey () {
 
   });
 
-  // SVG graph controller
-  // DeweyApp.controller('GraphController', ['$scope', '$injector', '$location', 'DeweyFactory', function ($scope, $injector, $location, DeweyFactory) {
-    
-  //   $injector.invoke(BaseController, this, {
-  //     $scope: $scope,
-  //     $location: $location,
-  //     DeweyFactory: DeweyFactory
-  //   });
-
-  //   $scope.$on('graphUpdated', function() {
-  //     DeweyFactory.getNodesAndLinks();
-  //     setTimeout(function () {
-  //       $scope.$apply(function () {
-  //         $scope.nodes = DeweyFactory.nodes;
-  //         $scope.links = DeweyFactory.links;
-  //         $scope.makeGraph();
-  //       });
-  //     }, 500);
-  //   });
-
-  //   $scope.width = 750;
-  //   $scope.height = 600;
-
-  //   $scope.upvote = function(link) {
-  //     $.post('/connections/' + link.connection.id + '/upvote', {
-  //       id: link.connection.id,
-  //       connection_type: link.connectionType
-  //     }).done(function(response) {
-  //       link.is_upvoted = true;
-  //       link.is_downvoted = false;
-  //       $scope.$apply();
-  //     });
-  //   };
-
-  //   $scope.downvote = function(link) {
-  //     $.post('/connections/' + link.connection.id + '/downvote', {
-  //       id: link.connection.id,
-  //       connection_type: link.connectionType
-  //     }).done(function(response) {
-  //       link.is_upvoted = false;
-  //       link.is_downvoted = true;
-  //       $scope.$apply();
-  //     });
-  //   }
-
-  //   $scope.makeGraph = function() {
-  //     var force = d3.layout.force().charge(-1200).linkDistance(205).size([$scope.width, $scope.height]);
-  
-  //     for (var i = 0; i < $scope.links.length; i++) {
-
-  //       $scope.links[i].strokeWidth = 2;
-  //       // TODO: uncomment this when the line has strength value.
-  //       // $scope.links[i].strokeWidth = Math.round(Math.sqrt($scope.links[i].value))
-  //     }
-  
-  //     for (var i = 0; i < $scope.nodes.length; i++) {
-  //       $scope.nodes[i].radius = 10;
-  //       // user if first_name defined
-  //       if ($scope.nodes[i].first_name != undefined) {
-  //         $scope.nodes[i].href = "#/users/" + $scope.nodes[i].id;
-  //         $scope.nodes[i].color = "#FFFF66";
-  //         $scope.nodes[i].name = $scope.nodes[i].first_name + " " + $scope.nodes[i].last_name
-  //       }
-  //       // topic if title defined
-  //       if ($scope.nodes[i].title != undefined) {
-  //         $scope.nodes[i].href = "#/topics/" + $scope.nodes[i].id;
-  //         $scope.nodes[i].color = "#00CC66";
-  //         $scope.nodes[i].radius *= 6;
-  //         $scope.nodes[i].name = $scope.nodes[i].title;
-  //       }
-  //     }
-  
-  //     force.nodes($scope.nodes).links($scope.links).theta(1).on("tick", function () {
-  //       $scope.$apply()
-  //     }).start();
-  //   }
-
-  //   $scope.makeGraph();
-
-  // }]);
-
-  // return DeweyApp as a result of function invocation
   return DeweyApp;
 
 };
