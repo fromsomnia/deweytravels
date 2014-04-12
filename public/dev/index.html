@@ -43,11 +43,22 @@
 			    	<img id="logo" class="col-xs-12" src="/assets/logo_transparent.png">
 			    	<br>
 			    	<span class="mission col-xs-12">explore company expertise</span>
-			    	<br>
-			    	<input type="email" class="form-control" id="email" name="email" placeholder="email" ng-model="loginData.email">
-			    	<input type="password" class="form-control" id="password" name="password" placeholder="password" ng-model="loginData.password">
-			    	<button type="button" class="col-xs-12 btn btn-default btn-lg" ng-click='login()'>login</button>
-			    	<div class="col-xs-1"></div>
+
+            <button ng-click="show_sc_login = !show_sc_login" class="btn btn-default btn-lg col-xs-12">
+              signup with socialcast
+            </button>
+            <button class="btn btn-default btn-lg col-xs-12"> signup with google</button>
+
+            <button ng-click="show_sc_login = !show_sc_login" class="btn btn-default btn-lg col-xs-12">
+              login
+            </button>
+
+            <div ng-show="show_sc_login">
+			    	  <input type="email" class="form-control" id="email" name="email" placeholder="email" ng-model="loginData.email">
+			    	  <input type="password" class="form-control" id="password" name="password" placeholder="password" ng-model="loginData.password">
+			    	  <button type="button" class="col-xs-12 btn btn-default btn-lg" ng-click='login()'>login</button>
+			    	  <div class="col-xs-1"></div>
+            </div>
 			    </div>
         </div>
       </div>
