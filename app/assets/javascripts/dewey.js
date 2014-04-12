@@ -185,10 +185,11 @@ function Dewey () {
   DeweyApp.controller('BaseController', ['$scope', '$location', '$http', 'DeweyFactory', function ($scope, $location, $http, DeweyFactory) {
 
     $scope.queryData = {};
+    // create DeweyGraph to be accessible in most controllers
     $scope.deweyGraph = $scope.deweyGraph || DeweyGraph('#dewey-graph', null);
 
     $scope.$watch('graphParams', function (newValue, oldValue) {
-      if (!newValue){
+      if (!newValue) {
         return;
       }
       $scope.renderGraph(newValue.type, newValue.id);

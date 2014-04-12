@@ -10,9 +10,9 @@ function DeweyGraph (selector, data) {
 		nodeContainers,
 		anchors,
 		circles,
-		texts;
+		texts,
 
-	var data,
+    data,
 		width,
 		height,
 		force;
