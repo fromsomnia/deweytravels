@@ -1,6 +1,7 @@
 // construct the DeweyGraph
 function DeweyGraph (selector, data) {
 
+  // public variables
 	var svg,
 		container,
 		links,
@@ -11,7 +12,8 @@ function DeweyGraph (selector, data) {
 		anchors,
 		circles,
 		texts,
-
+    
+  // private variables
     data,
 		width,
 		height,
@@ -19,7 +21,7 @@ function DeweyGraph (selector, data) {
 
 	function init () {
 
-    // calculate width and height each time directive initiates
+    // calculate width and height each time it initiates
 		width = $(window).width();
 		height = $(window).height();
 
@@ -114,6 +116,7 @@ function DeweyGraph (selector, data) {
       .theta(1)
       .on('tick', tick)
       .start();
+
 	}
 
   // tick function calculations position values for graph elements
@@ -157,18 +160,20 @@ function DeweyGraph (selector, data) {
 
 	return {
 
-		svg: svg,
-		container: container,
-		nodes: nodes,
-		nodeContainers: nodeContainers,
-		anchors: anchors,
-		circles: circles,
-		texts: texts,
-		links: links,
-		linkContainers: linkContainers,
-		lines: lines,
-		
-		render: render,
+    // public variables
+    svg: svg,
+    container: container,
+    nodes: nodes,
+    nodeContainers: nodeContainers,
+    anchors: anchors,
+    circles: circles,
+    texts: texts,
+    links: links,
+    linkContainers: linkContainers,
+    lines: lines,
+
+    // public methods
+    render: render,
 
 	};
 
