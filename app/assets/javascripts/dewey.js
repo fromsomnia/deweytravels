@@ -279,7 +279,34 @@ function Dewey() {
   // ...
   DeweyApp.controller('LoginController', ['$scope', '$injector', '$location', 'localStorageService', 'DeweyFactory', function ($scope, $injector, $location, localStorageService, DeweyFactory) {
     $scope.loginData = {};
-    
+    $scope.googleLogin = function () {
+      // TODO(veni): this client ID should be supplied from server - depending on the env.
+      gapi.auth.authorize({
+              client_id: '592878661111-b53keflh2nk0q6eipf965c7srutnllr0.apps.googleusercontent.com', 
+              scope: 'https://www.google.com/m8/feeds'},
+              $scope.handleAuthResult);
+    };
+
+    $scope.handleAuthResult = function (authResult) {
+      gapi.client.load('oauth2', 'v2', function () {
+        gapi.client.oauth2.userinfo.get().execute(function(resp) {
+          console.log(resp);
+          var email = resp.email;
+
+          $scope.loginData.email = resp.email;
+          $scope.loginData.lastName = resp.family_name;
+          $scope.loginData.firstName = resp.given_name;
+          $scope.loginData.imageUrl = resp.picture;
+          $scope.loginData.googAccessToken = authResult.access_token;
+          $scope.loginData.googExpiresTime = Date.now() + authResult.expires_in * 1000;
+          $scope.showSocialcastForm = false;
+          $scope.showGoogleForm = true;
+          $scope.$apply();
+        });
+      });
+
+    }
+
     var token = localStorageService.get('dewey_auth_token');
     if (token) {
       $location.path('/search');
@@ -290,6 +317,11 @@ function Dewey() {
       $.post('/sessions/post_login.json', {
         email: $scope.loginData.email,
         password: $scope.loginData.password,
+        image_url: $scope.loginData.imageUrl,
+        last_name: $scope.loginData.firstName,
+        first_name: $scope.loginData.lastName,
+        goog_access_token: $scope.loginData.googAccessToken,
+        goog_expires_time: $scope.loginData.googExpiresTime,
       }).done(function (response) {
         localStorageService.add('dewey_auth_token', response.auth_token);
 
