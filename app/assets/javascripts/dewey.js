@@ -31,12 +31,15 @@ function Dewey () {
           getUser: ['DeweyFactory', function (DeweyFactory) {
             return DeweyFactory.getUser();
           }],
-          getTopics: ['DeweyFactory', function (DeweyFactory) {
+          getTopicsForUser: ['DeweyFactory', function (DeweyFactory) {
             return DeweyFactory.getTopicsForUser();
           }],
           getAllTopics: ['DeweyFactory', function (DeweyFactory) {
             return DeweyFactory.getAllTopics();
-          }]
+          }],
+          getNodesAndLinks: ['DeweyFactory', function (DeweyFactory) {
+            return DeweyFactory.getNodesAndLinks();
+          }],
         }
       })
       .when('/topics/:topicId', {
@@ -46,11 +49,14 @@ function Dewey () {
           getTopic: ['DeweyFactory', function (DeweyFactory) {
             return DeweyFactory.getTopic();
           }],
+          getUsersForTopic: ['DeweyFactory', function (DeweyFactory) {
+            return DeweyFactory.getUsersForTopic();
+          }],
           getAllUsers: ['DeweyFactory', function (DeweyFactory) {
             return DeweyFactory.getAllUsers();
           }],
-          getUsers: ['DeweyFactory', function (DeweyFactory) {
-            return DeweyFactory.getUsersForTopic();
+          getNodesAndLinks: ['DeweyFactory', function (DeweyFactory) {
+            return DeweyFactory.getNodesAndLinks();
           }],
         }
       })
@@ -92,79 +98,91 @@ function Dewey () {
     function getSearchResults () {
       var defer = $q.defer(),
         params = $route.current.params;
-      $http.get('/graphs/search.json?query=' + params.query).success(function (response) {
-        factory.searchResults = prepareSearchResultData(response);
-        defer.resolve();
-      });
+      $http.get('/graphs/search.json?query=' + params.query)
+        .success(function (response) {
+          factory.searchResults = prepareSearchResultData(response);
+          defer.resolve();
+        });
       return defer.promise;
     }
 
     function getUser () {
       var defer = $q.defer(),
         params = $route.current.params;
-      $http.get('/users/' + params.userId + '.json').success(function (response) {
-        factory.user = response;
-        defer.resolve();
-      });
+      $http.get('/users/' + params.userId + '.json')
+        .success(function (response) {
+          factory.user = response;
+          defer.resolve();
+        });
       return defer.promise;
     }
 
     function getUsersForTopic () {
       var defer = $q.defer(),
         params = $route.current.params;
-      $http.get('/topics/' + params.topicId + '/users.json').success(function (response) {
-        factory.usersForTopic = prepareUsersData(response);
-        defer.resolve();
-      });
+      $http.get('/topics/' + params.topicId + '/users.json')
+        .success(function (response) {
+          factory.usersForTopic = prepareUsersData(response);
+          defer.resolve();
+        });
       return defer.promise;
     }
 
     function getTopic () {
       var defer = $q.defer(),
         params = $route.current.params;
-      $http.get('/topics/' + params.topicId + '.json').success(function (response) {
-        factory.topic = response;
-        defer.resolve();
-      });
+      $http.get('/topics/' + params.topicId + '.json')
+        .success(function (response) {
+          factory.topic = response;
+          defer.resolve();
+        });
       return defer.promise;
     }
 
     function getAllTopics () {
       var defer = $q.defer(),
         params = $route.current.params;
-      $http.get('/topics.json').success(function (response) {
-        factory.allTopics = response;
-        defer.resolve();
-      });
+      $http.get('/topics.json')
+        .success(function (response) {
+          factory.allTopics = response;
+          defer.resolve();
+        });
       return defer.promise;
     }
 
     function getAllUsers () {
       var defer = $q.defer(),
         params = $route.current.params;
-      $http.get('/users.json').success(function (response) {
-        factory.allUsers = response;
-        defer.resolve();
-      });
+      $http.get('/users.json')
+        .success(function (response) {
+          factory.allUsers = response;
+          defer.resolve();
+        });
       return defer.promise;
     }
 
     function getTopicsForUser () {
       var defer = $q.defer(),
         params = $route.current.params;
-      $http.get('/users/' + params.userId + '/topics.json').success(function (response) {
-        factory.topicsForUser = response;
-        defer.resolve();
-      });
+      $http.get('/users/' + params.userId + '/topics.json')
+        .success(function (response) {
+          factory.topicsForUser = response;
+          defer.resolve();
+        });
       return defer.promise;
     }
 
-    function getNodesAndLinks (type, id, callback) {
+    function getNodesAndLinks () {
+      var defer = $q.defer(),
+        params = $route.current.params,
+        type = (params.topicId) ? 'topics' : 'users',
+        id = params.topicId || params.userId;
       $http.get('/' + type + '/' + id + '/most_connected.json')
         .success(function (response) {
           factory.nodesAndLinks = response;
-          callback();
+          defer.resolve();
         });
+      return defer.promise;
     }
 
     // return public factory methods
@@ -185,21 +203,29 @@ function Dewey () {
   DeweyApp.controller('BaseController', ['$scope', '$location', '$http', 'DeweyFactory', function ($scope, $location, $http, DeweyFactory) {
 
     $scope.queryData = {};
-    // create DeweyGraph to be accessible in most controllers
-    $scope.deweyGraph = $scope.deweyGraph || DeweyGraph('#dewey-graph', null);
+    $scope.nodesAndLinks = DeweyFactory.nodesAndLinks;
 
-    $scope.$watch('graphParams', function (newValue, oldValue) {
-      if (!newValue) {
-        return;
-      }
-      $scope.renderGraph(newValue.type, newValue.id);
-    });
-
-    $scope.renderGraph = function (type, id) {
-      DeweyFactory.getNodesAndLinks(type, id, function () {
-        $scope.deweyGraph.render(DeweyFactory.nodesAndLinks);
+    $scope.upvote = function (link) {
+      $.post('/connections/' + link.connection.id + '/upvote', {
+        id: link.connection.id,
+        connection_type: link.connectionType
+      }).done(function(response) {
+        link.is_upvoted = true;
+        link.is_downvoted = false;
+        $scope.$apply();
       });
     };
+
+    $scope.downvote = function(link) {
+      $.post('/connections/' + link.connection.id + '/downvote', {
+        id: link.connection.id,
+        connection_type: link.connectionType
+      }).done(function(response) {
+        link.is_upvoted = false;
+        link.is_downvoted = true;
+        $scope.$apply();
+      });
+    }
 
     $scope.search = function () {
       if (event.keyCode == 13) {
@@ -245,10 +271,6 @@ function Dewey () {
     $scope.user = DeweyFactory.user;
     $scope.topicsForUser = DeweyFactory.topicsForUser;
     $scope.topicChoices = DeweyFactory.allTopics;
-    $scope.graphParams = {
-      type: 'users',
-      id: $scope.user.id
-    };
 
     $scope.updateTopics = function () {
       DeweyFactory.getTopicsForUser();
@@ -257,8 +279,9 @@ function Dewey () {
           $scope.topicsForUser = DeweyFactory.topicsForUser;
         });
       }, 500);
-      // bug with updating graph
-      $scope.renderGraph($scope.graphParams.type, $scope.graphParams.id);
+      DeweyFactory.getNodesAndLinks().then(function () {
+        $scope.nodesAndLinks = DeweyFactory.nodesAndLinks;
+      });
     };
 
     $scope.removeTopicFromUser = function ($event, $tagID) {
@@ -292,10 +315,6 @@ function Dewey () {
     $scope.topic = DeweyFactory.topic;
     $scope.userChoices = DeweyFactory.allUsers;
     $scope.shouldShowAddUserToTopic = true;
-    $scope.graphParams = {
-      type: 'topics',
-      id: $scope.topic.id
-    };
 
     $scope.updateUsers = function () {
       DeweyFactory.getUsersForTopic();
@@ -305,7 +324,9 @@ function Dewey () {
           $scope.usersForTopic = DeweyFactory.usersForTopic;
         });
       }, 500);
-      $scope.renderGraph($scope.graphParams.type, $scope.graphParams.id);
+      DeweyFactory.getNodesAndLinks().then(function () {
+        $scope.nodesAndLinks = DeweyFactory.nodesAndLinks;
+      });
     };
 
     $scope.removeUserFromTopic = function ($event, $userID) {
@@ -329,6 +350,19 @@ function Dewey () {
     };
 
   }]);
+
+  DeweyApp.directive('dwyGraph', function () {
+    return {
+      restrict: 'E',
+      link: function ($scope, element, attrs) {
+        attrs.$observe('data', function (value) {
+          if (value) {
+            DeweyGraph('dwy-graph', JSON.parse(value));
+          }
+        });
+      }
+    };
+  });
 
   return DeweyApp;
 

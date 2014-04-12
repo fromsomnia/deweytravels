@@ -141,7 +141,7 @@ function DeweyGraph (selector, data) {
 	}
 
 	function render (newData) {
-    if (!d3.selectAll(selector)[0].length || !newData.nodes || !newData.links) {
+    if (!d3.selectAll(selector)[0].length || !newData || !newData.nodes || !newData.links) {
       return;
     }
 		data = newData;

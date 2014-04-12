@@ -152,11 +152,7 @@
 
 		<!-- graph template with visualization directive -->
 		<script type="text/ng-template" id="/graph">
-			<div id="dewey-graph"></div>
-			<!--
-			<dw-visualization url="/{{ nodeType }}/{{ nodeId }}/most_connected.json"></dw-visualization>
-			<dw-visualization data='{"nodes": [],"links": []}'></dw-visualization>
-			-->
+			<dwy-graph data="{{nodesAndLinks}}"><dwy-graph>
 		</script>
 
 		<script src="/assets/angular.js"></script>
