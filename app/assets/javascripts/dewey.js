@@ -37,6 +37,10 @@ function Dewey() {
       controller: 'LoginController',
       templateUrl: '/login'
     })
+    .when('/logout', {
+      templateUrl: '/logout',
+      controller: 'LogoutController',
+    })
     // default search view
     .when('/search', {
       redirectTo: '/search/_',
@@ -299,6 +303,10 @@ function Dewey() {
     };
   }]);
 
+  DeweyApp.controller('LogoutController', ['$scope', '$injector', '$location', 'localStorageService', 'DeweyFactory', function ($scope, $injector, $location, localStorageService, DeweyFactory) {
+    localStorageService.remove('dewey_auth_token');
+    $location.path('/');
+  }]);
   DeweyApp.controller('UserController', ['$http', '$scope', '$injector', '$location', 'DeweyFactory', function ($http, $scope, $injector, $location, DeweyFactory) {
 
     $injector.invoke(BaseController, this, {
