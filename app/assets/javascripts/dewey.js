@@ -1,8 +1,6 @@
 // constructor for DeweyApp
 function Dewey () {
 
-  var deweyGraph;
-
   // ngRoute is for routing; ui.bootstrap is for Angular UI Bootstrap components
   var DeweyApp = angular.module('DeweyApp', ['ngRoute', 'ui.bootstrap']);
 
@@ -161,6 +159,14 @@ function Dewey () {
       return defer.promise;
     }
 
+    function getNodesAndLinks (type, id, callback) {
+      $http.get('/' + type + '/' + id + '/most_connected.json')
+        .success(function (response) {
+          factory.nodesAndLinks = response;
+          callback();
+        });
+    }
+
     // return public factory methods
     var factory = {};
     factory.getAllTopics = getAllTopics;
@@ -170,6 +176,7 @@ function Dewey () {
     factory.getUsersForTopic = getUsersForTopic;
     factory.getTopic = getTopic;
     factory.getTopicsForUser = getTopicsForUser;
+    factory.getNodesAndLinks = getNodesAndLinks;
     return factory;
 
   }]);
@@ -178,7 +185,20 @@ function Dewey () {
   DeweyApp.controller('BaseController', ['$scope', '$location', '$http', 'DeweyFactory', function ($scope, $location, $http, DeweyFactory) {
 
     $scope.queryData = {};
-    $scope.deweyGraph;
+    $scope.deweyGraph = $scope.deweyGraph || DeweyGraph('#dewey-graph', null);
+
+    $scope.$watch('graphParams', function (newValue, oldValue) {
+      if (!newValue){
+        return;
+      }
+      $scope.renderGraph(newValue.type, newValue.id);
+    });
+
+    $scope.renderGraph = function (type, id) {
+      DeweyFactory.getNodesAndLinks(type, id, function () {
+        $scope.deweyGraph.render(DeweyFactory.nodesAndLinks);
+      });
+    };
 
     $scope.search = function () {
       if (event.keyCode == 13) {
@@ -224,8 +244,10 @@ function Dewey () {
     $scope.user = DeweyFactory.user;
     $scope.topicsForUser = DeweyFactory.topicsForUser;
     $scope.topicChoices = DeweyFactory.allTopics;
-    $scope.nodeType = 'users';
-    $scope.nodeId = $scope.user.id;
+    $scope.graphParams = {
+      type: 'users',
+      id: $scope.user.id
+    };
 
     $scope.updateTopics = function () {
       DeweyFactory.getTopicsForUser();
@@ -234,7 +256,8 @@ function Dewey () {
           $scope.topicsForUser = DeweyFactory.topicsForUser;
         });
       }, 500);
-      // TODO: redraw graph
+      // bug with updating graph
+      $scope.renderGraph($scope.graphParams.type, $scope.graphParams.id);
     };
 
     $scope.removeTopicFromUser = function ($event, $tagID) {
@@ -243,7 +266,6 @@ function Dewey () {
         id: $scope.user.id
       }).done(function (response) {
         $scope.updateTopics();
-        // TODO: redraw graph
       });
     };
 
@@ -253,7 +275,6 @@ function Dewey () {
         id: $scope.user.id
       }).done(function (response) {
         $scope.updateTopics();
-        // TODO: redraw graph
       }).fail(function (response) {
         alert('Fail to add topic to user - please retry.');
       });
@@ -270,18 +291,20 @@ function Dewey () {
     $scope.topic = DeweyFactory.topic;
     $scope.userChoices = DeweyFactory.allUsers;
     $scope.shouldShowAddUserToTopic = true;
-    $scope.nodeType = 'topics';
-    $scope.nodeId = $scope.topic.id;
+    $scope.graphParams = {
+      type: 'topics',
+      id: $scope.topic.id
+    };
 
     $scope.updateUsers = function () {
-      DeweyFactory.getUsers();
+      DeweyFactory.getUsersForTopic();
       $(typeahead).val('');
       setTimeout(function () {
         $scope.$apply(function () {
           $scope.usersForTopic = DeweyFactory.usersForTopic;
         });
       }, 500);
-      // TODO: update graph
+      $scope.renderGraph($scope.graphParams.type, $scope.graphParams.id);
     };
 
     $scope.removeUserFromTopic = function ($event, $userID) {
@@ -299,37 +322,12 @@ function Dewey () {
         id: $scope.topic.id
       }).done(function (response) {
         $scope.updateUsers();
-        // TODO: redraw graph
       }).fail(function (response) {
         alert('Fail to add user to topic - please retry.');
       });
     };
 
   }]);
-
-  // directive for data visualization
-  DeweyApp.directive('dwVisualization', function () {
-
-    var directiveDefinitionObject = {
-      restrict: 'E',
-      scope: {
-        url: '@'
-      },
-      link: function (scope, element, attrs) {
-        $.get(scope.url)
-          .success(function (data) {
-            if (!deweyGraph) {
-              deweyGraph = DeweyGraph('dw-visualization', data || { nodes: [],links: [] });
-            } else {
-              deweyGraph.render(data);
-            }
-          });
-      }
-    };
-
-    return directiveDefinitionObject;
-
-  });
 
   return DeweyApp;
 

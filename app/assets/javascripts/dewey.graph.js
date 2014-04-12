@@ -21,7 +21,7 @@ function DeweyGraph (selector, data) {
 
     // calculate width and height each time directive initiates
 		width = $(window).width();
-		height = $(window).height();	  
+		height = $(window).height();
 
 	  // svg containers
 	  d3.select(selector)
@@ -141,6 +141,9 @@ function DeweyGraph (selector, data) {
 	}
 
 	function render (newData) {
+    if (!d3.selectAll(selector)[0].length || !newData.nodes || !newData.links) {
+      return;
+    }
 		data = newData;
 		init();
 		createLinks();
