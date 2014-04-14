@@ -4,9 +4,38 @@ var Dewey = (function (Dewey) {
   Dewey.DeweyApp.controller('BaseController', ['$scope', '$location', '$http', 'DeweyFactory', function ($scope, $location, $http, DeweyFactory) {
 
     $scope.queryData = {};
-    $scope.nodesAndLinks = DeweyFactory.nodesAndLinks;
+ 
+    $scope.makeGraph = function () {
+      
+      $scope.graphWidth = 750;
+      $scope.graphHeight = 600;
+      $scope.graphNodes = DeweyFactory.graphNodes;
+      $scope.graphLinks = DeweyFactory.graphLinks;
+
+      _.each($scope.graphNodes, function (node) {
+        node.radius = (node.first_name) ? 10 : 60;
+      });
+
+      // apply force animations on graph
+      force = d3.layout
+        .force()
+        .charge(-1200)
+        .linkDistance(205)
+        .size([$scope.graphWidth, $scope.graphHeight]);
+
+      force.nodes($scope.graphNodes)
+        .links($scope.graphLinks)
+        .theta(1)
+        .on('tick', function () {
+          // updates the data bindings
+          $scope.$apply();
+        })
+        .start();
+
+    };
 
     $scope.upvote = function (link) {
+      debugger;
       $.post('/connections/' + link.connection.id + '/upvote', {
         id: link.connection.id,
         connection_type: link.connectionType
@@ -18,6 +47,7 @@ var Dewey = (function (Dewey) {
     };
 
     $scope.downvote = function(link) {
+      debugger;
       $.post('/connections/' + link.connection.id + '/downvote', {
         id: link.connection.id,
         connection_type: link.connectionType
@@ -33,6 +63,10 @@ var Dewey = (function (Dewey) {
         $location.path('/search/' + $scope.queryData.query);
       }
     };
+
+    (function () {
+      $scope.makeGraph();
+    })();
 
   }]);
 
@@ -80,8 +114,8 @@ var Dewey = (function (Dewey) {
           $scope.topicsForUser = DeweyFactory.topicsForUser;
         });
       }, 500);
-      DeweyFactory.getNodesAndLinks().then(function () {
-        $scope.nodesAndLinks = DeweyFactory.nodesAndLinks;
+      DeweyFactory.getGraphNodesAndLinks().then(function () {
+        $scope.makeGraph();
       });
     };
 
@@ -125,8 +159,8 @@ var Dewey = (function (Dewey) {
           $scope.usersForTopic = DeweyFactory.usersForTopic;
         });
       }, 500);
-      DeweyFactory.getNodesAndLinks().then(function () {
-        $scope.nodesAndLinks = DeweyFactory.nodesAndLinks;
+      DeweyFactory.getGraphNodesAndLinks().then(function () {
+        $scope.makeGraph();
       });
     };
 

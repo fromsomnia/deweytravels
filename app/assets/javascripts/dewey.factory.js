@@ -106,14 +106,15 @@ var Dewey = (function (Dewey) {
       return defer.promise;
     }
 
-    function getNodesAndLinks () {
+    function getGraphNodesAndLinks () {
       var defer = $q.defer(),
         params = $route.current.params,
         type = (params.topicId) ? 'topics' : 'users',
         id = params.topicId || params.userId;
       $http.get('/' + type + '/' + id + '/most_connected.json')
         .success(function (response) {
-          factory.nodesAndLinks = response;
+          factory.graphNodes = response.nodes;
+          factory.graphLinks = response.links;
           defer.resolve();
         });
       return defer.promise;
@@ -128,7 +129,7 @@ var Dewey = (function (Dewey) {
     factory.getUsersForTopic = getUsersForTopic;
     factory.getTopic = getTopic;
     factory.getTopicsForUser = getTopicsForUser;
-    factory.getNodesAndLinks = getNodesAndLinks;
+    factory.getGraphNodesAndLinks = getGraphNodesAndLinks;
     return factory;
 
   }]);

@@ -152,7 +152,42 @@
 
 		<!-- visualization directive -->
 		<script type="text/ng-template" id="/graph">
-			<dwy-graph data="{{nodesAndLinks}}"><dwy-graph>
+			<svg ng-attr-width="{{ graphWidth }}" ng-attr-height="{{ graphHeight }}" style="margin-left:450px">
+				<g class="graph-container">
+					<g class="links">
+						<g ng-repeat="link in graphLinks">
+							<line class="link" 
+								stroke-width="2" 
+								ng-attr-x1="{{ link.source.x }}"
+								ng-attr-y1="{{ link.source.y }}"
+								ng-attr-x2="{{ link.target.x }}"
+								ng-attr-y2="{{ link.target.y }}"></line>
+							<!--
+							<circle r="10"
+								style="cursor:pointer"
+								fill="#d6a239"
+								ng-attr-cx="{{ (link.source.x + link.target.x) / 2 }}"
+								ng-attr-cy="{{ (link.source.y + link.target.y) / 2 }}"
+							-->
+						</g>
+					</g>
+					<g class="nodes">
+						<g ng-repeat="node in graphNodes">
+							<a xlink:href="{{ (node.first_name) ? '#/users/' + node.id : '#/topics/' + node.id }}">
+								<circle class="node" 
+									ng-attr-r="{{ node.radius }}" 
+									ng-attr-fill="{{ (node.first_name) ? '#FFFF66' : '#00CC66' }}"
+									ng-attr-cx="{{ node.x }}"
+									ng-attr-cy="{{ node.y }}"></circle>
+							</a>
+							<text pointer-events="none"
+								ng-attr-x="{{ node.x }}"
+								ng-attr-y="{{ node.y }}"
+								text-anchor="middle">{{ (node.first_name) ? node.first_name + ' ' + node.last_name : node.title }}</text>
+						</g>
+					</g>
+				</g>
+			</svg>
 		</script>
 
 		<script src="/assets/angular.js"></script>
@@ -165,7 +200,5 @@
 		<script src="/assets/dewey.config.js"></script>
 		<script src="/assets/dewey.factory.js"></script>
 		<script src="/assets/dewey.controllers.js"></script>
-		<script src="/assets/dewey.directives.js"></script>
-		<script src="/assets/dewey.graph.js"></script>
 	</body>
 </html>

@@ -33,8 +33,8 @@ var Dewey = (function (Dewey) {
           getAllTopics: ['DeweyFactory', function (DeweyFactory) {
             return DeweyFactory.getAllTopics();
           }],
-          getNodesAndLinks: ['DeweyFactory', function (DeweyFactory) {
-            return DeweyFactory.getNodesAndLinks();
+          getGraphNodesAndLinks: ['DeweyFactory', function (DeweyFactory) {
+            return DeweyFactory.getGraphNodesAndLinks();
           }],
         }
       })
@@ -51,8 +51,8 @@ var Dewey = (function (Dewey) {
           getAllUsers: ['DeweyFactory', function (DeweyFactory) {
             return DeweyFactory.getAllUsers();
           }],
-          getNodesAndLinks: ['DeweyFactory', function (DeweyFactory) {
-            return DeweyFactory.getNodesAndLinks();
+          getGraphNodesAndLinks: ['DeweyFactory', function (DeweyFactory) {
+            return DeweyFactory.getGraphNodesAndLinks();
           }],
         }
       })
