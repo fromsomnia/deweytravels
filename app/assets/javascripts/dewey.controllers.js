@@ -12,30 +12,33 @@ var Dewey = (function (Dewey) {
       $scope.graphNodes = DeweyFactory.graphNodes;
       $scope.graphLinks = DeweyFactory.graphLinks;
 
-      _.each($scope.graphNodes, function (node) {
-        node.radius = (node.first_name) ? 10 : 60;
-      });
+      if ($scope.graphNodes) {
 
-      // apply force animations on graph
-      force = d3.layout
-        .force()
-        .charge(-1200)
-        .linkDistance(205)
-        .size([$scope.graphWidth, $scope.graphHeight]);
+        _.each($scope.graphNodes, function (node) {
+          node.radius = (node.first_name) ? 10 : 60;
+        });
 
-      force.nodes($scope.graphNodes)
-        .links($scope.graphLinks)
-        .theta(1)
-        .on('tick', function () {
-          // updates the data bindings
-          $scope.$apply();
-        })
-        .start();
+        // apply force animations on graph
+        force = d3.layout
+          .force()
+          .charge(-1200)
+          .linkDistance(205)
+          .size([$scope.graphWidth, $scope.graphHeight]);
+
+        force.nodes($scope.graphNodes)
+          .links($scope.graphLinks)
+          .theta(1)
+          .on('tick', function () {
+            // updates the data bindings
+            $scope.$apply();
+          })
+          .start();
+
+      }
 
     };
 
     $scope.upvote = function (link) {
-      debugger;
       $.post('/connections/' + link.connection.id + '/upvote', {
         id: link.connection.id,
         connection_type: link.connectionType
@@ -47,7 +50,6 @@ var Dewey = (function (Dewey) {
     };
 
     $scope.downvote = function(link) {
-      debugger;
       $.post('/connections/' + link.connection.id + '/downvote', {
         id: link.connection.id,
         connection_type: link.connectionType

@@ -105,7 +105,7 @@
           <div class="list-group-item">
 					  <div class="circular-image" style="background-image:url('/assets/plus.png')"></div>
 					  <div class="col-xs-10 result-text-container">
-              <input id="typeahead" type="text" class=" form-control" ng-model="selectedUser" placeholder="Add user" typeahead-on-select="addUserToTopic($item)" typeahead="user as user.first_name + user.last_name for user in user_choices | filter: $viewValue | limitTo: 8"  />
+              <input id="typeahead" type="text" class=" form-control" ng-model="selectedUser" placeholder="Add user" typeahead-on-select="addUserToTopic($item)" typeahead="user as user.first_name + user.last_name for user in user_choices | filter: $viewValue | limitTo: 8"/>
 					  </div>
           </div>
         </div>
@@ -146,7 +146,7 @@
           <a href="#/topics/{{ topic.id }}">{{ topic.title }}</a>
           <span ng-click="removeTopicFromUser($event, topic.id)" class="glyphicon glyphicon-remove"></span>
         </span>
-        <input id="typeahead" type="text"  ng-model="selectedTopic" placeholder="Add expertise" typeahead-on-select="addTopicToUser($item)" typeahead="topic as topic.title for topic in topic_choices | filter: $viewValue | limitTo: 8"  />
+        <input id="typeahead" type="text"  ng-model="selectedTopic" placeholder="Add expertise" typeahead-on-select="addTopicToUser($item)" typeahead="topic as topic.title for topic in topic_choices | filter: $viewValue | limitTo: 8"/>
 			</div>
 		</script>
 
@@ -156,19 +156,31 @@
 				<g class="graph-container">
 					<g class="links">
 						<g ng-repeat="link in graphLinks">
+						 	<line
+		            class="link"
+		            ng-attr-stroke-width="27"
+		            ng-attr-x1="{{ link.source.x }}"
+		            ng-attr-y1="{{ link.source.y }}"
+		            ng-attr-x2="{{ link.target.x }}"
+		            ng-attr-y2="{{ link.target.y }}"
+		            position="absolute"
+		            opacity="0"
+		            ng-mouseenter="link.show=true"
+		            ng-mouseleave="link.show=false"></line>
 							<line class="link" 
 								stroke-width="2" 
 								ng-attr-x1="{{ link.source.x }}"
 								ng-attr-y1="{{ link.source.y }}"
 								ng-attr-x2="{{ link.target.x }}"
 								ng-attr-y2="{{ link.target.y }}"></line>
-							<!--
-							<circle r="10"
-								style="cursor:pointer"
-								fill="#d6a239"
-								ng-attr-cx="{{ (link.source.x + link.target.x) / 2 }}"
-								ng-attr-cy="{{ (link.source.y + link.target.y) / 2 }}"
-							-->
+		          <foreignObject ng-if="link.connection"
+		            width="30"
+	            	height="30"
+		            ng-attr-x="{{ (link.source.x + link.target.x) / 2 }}"
+		            ng-attr-y="{{ (link.source.y + link.target.y) / 2 }}">
+			          <div ng-hide="link.is_upvoted" ng-click="upvote(link);" class="glyphicon glyphicon-thumbs-up"></div>
+			          <div ng-hide="link.is_downvoted" ng-click="downvote(link);" class="glyphicon glyphicon-thumbs-down"></div>
+		          </foreignObject>
 						</g>
 					</g>
 					<g class="nodes">
@@ -198,7 +210,7 @@
 		<script src="/assets/d3.v3.min.js"></script>
 		<script src="/assets/dewey.js"></script>
 		<script src="/assets/dewey.config.js"></script>
-		<script src="/assets/dewey.factory.js"></script>
+		<script src="/assets/dewey.service.js"></script>
 		<script src="/assets/dewey.controllers.js"></script>
 	</body>
 </html>
