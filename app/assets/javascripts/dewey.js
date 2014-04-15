@@ -277,7 +277,7 @@ function Dewey() {
   }]);
 
   // ...
-  DeweyApp.controller('LoginController', ['$scope', '$injector', '$location', 'localStorageService', 'DeweyFactory', function ($scope, $injector, $location, localStorageService, DeweyFactory) {
+  DeweyApp.controller('LoginController', ['$scope', '$injector', '$http', '$location', 'localStorageService', 'DeweyFactory', function ($scope, $injector, $http, $location, localStorageService, DeweyFactory) {
     $scope.loginData = {};
     $scope.googleLogin = function () {
       // TODO(veni): this client ID should be supplied from server - depending on the env.
@@ -285,26 +285,26 @@ function Dewey() {
               client_id: '592878661111-b53keflh2nk0q6eipf965c7srutnllr0.apps.googleusercontent.com', 
               scope: 'https://www.google.com/m8/feeds'},
               $scope.handleAuthResult);
+
     };
 
     $scope.handleAuthResult = function (authResult) {
-      gapi.client.load('oauth2', 'v2', function () {
-        gapi.client.oauth2.userinfo.get().execute(function(resp) {
-          console.log(resp);
-          var email = resp.email;
 
-          $scope.loginData.email = resp.email;
-          $scope.loginData.lastName = resp.family_name;
-          $scope.loginData.firstName = resp.given_name;
-          $scope.loginData.imageUrl = resp.picture;
-          $scope.loginData.googAccessToken = authResult.access_token;
-          $scope.loginData.googExpiresTime = Date.now() + authResult.expires_in * 1000;
-          $scope.showSocialcastForm = false;
-          $scope.showGoogleForm = true;
-          $scope.$apply();
+        gapi.client.load('oauth2', 'v2', function () {
+          gapi.client.oauth2.userinfo.get().execute(function(resp) {
+            var email = resp.email;
+
+            $scope.loginData.email = resp.email;
+            $scope.loginData.lastName = resp.family_name;
+            $scope.loginData.firstName = resp.given_name;
+            $scope.loginData.imageUrl = resp.picture;
+            $scope.loginData.googAccessToken = authResult.access_token;
+            $scope.loginData.googExpiresTime = Date.now() + authResult.expires_in * 1000;
+            $scope.showSocialcastForm = false;
+            $scope.showGoogleForm = true;
+            $scope.$apply();
+          });
         });
-      });
-
     }
 
     var token = localStorageService.get('dewey_auth_token');
@@ -312,8 +312,34 @@ function Dewey() {
       $location.path('/search');
     }
 
+    $scope.getGoogleContacts = function (accessToken, nextPath) {
+      $.getJSON('https://www.google.com/m8/feeds/contacts/default/full/?access_token=' + 
+                 accessToken + "&max-results=2000&alt=json&callback=?",
+                function(result) {
+        var contacts = [];
+        raw_entries = result['feed']['entry'];
+        raw_entries.forEach(function(element, index, array) {
+          var emails = element['gd$email'];
+          var email = '';
+          if (emails && emails.length > 0 && 'address' in emails[0])
+            email = emails[0]['address'];
+          contacts.push({ title: element['title']['$t'],
+                         email: email
+                        });
+        });
+
+        $http({
+          url: '/users/import_google_contacts.json',
+          method: "POST",
+          data: { contacts: contacts }
+        }).success(function(data, status, headers, config) {
+          $location.path(nextPath);
+        });
+      });
+    }
     // ...
     $scope.login = function () {
+
       $.post('/sessions/post_login.json', {
         email: $scope.loginData.email,
         password: $scope.loginData.password,
@@ -325,9 +351,13 @@ function Dewey() {
       }).done(function (response) {
         localStorageService.add('dewey_auth_token', response.auth_token);
 
-        $scope.$apply(function () {
+        if ($scope.loginData.googAccessToken) {
+          $scope.getGoogleContacts($scope.loginData.googAccessToken,
+                                   '/search');
+        } else {
           $location.path('/search');
-        });
+        }
+
       }).fail(function (response) {
         delete $window.sessionStorage.token;
         alert("Invalid Socialcast email and password - please retry.");

@@ -5,6 +5,7 @@ TeamDeweyWebsite::Application.routes.draw do
   get "users/index"
   get "about/team"
   get "graphs/search"
+  post "users/import_google_contacts"
 
   resources :graphs
 
@@ -16,8 +17,6 @@ TeamDeweyWebsite::Application.routes.draw do
     
     post "add_user"
     post "remove_user"
-
-
 
     resources :users
 

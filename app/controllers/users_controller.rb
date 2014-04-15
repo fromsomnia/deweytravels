@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-  before_action :authenticate
+  before_action :authenticate, except: [:import_google_contacts]
   before_action :set_user, only: [:show, :edit, :update, :destroy]
 
   # GET /users
@@ -143,6 +143,29 @@ class UsersController < ApplicationController
       format.html { redirect_to users_url }
       format.json { head :no_content }
     end
+  end
+
+  def import_google_contacts
+    contacts = params[:contacts]
+    contacts.each do |contact|
+      # This is a dumb heuristic to filter out
+      # bad contacts.
+      if (contact['title'].split.size == 2) && (contact['email'].include?('@'))
+        user = User.find_by_email(contact['email'])
+        if not user
+          user = User.new
+          contact['title'] = contact['title'].titleize
+          user.first_name = contact['title'].split[0]
+          user.last_name = contact['title'].split[1]
+          user.email = contact['email']
+          user.graph = Graph.find_by_domain('google.com')
+          user.save
+        end
+      end
+
+    end
+
+    render :nothing => true
   end
 
   private
