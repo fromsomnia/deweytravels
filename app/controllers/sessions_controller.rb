@@ -20,7 +20,7 @@ class SessionsController < ApplicationController
     if @user
       render json: {:auth_token => @user.auth_token}, status: :ok
     else
-      render :status => :unauthorized
+      render json: {}, :status => :unauthorized
     end
   end
 
