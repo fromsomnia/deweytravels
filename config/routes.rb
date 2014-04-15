@@ -1,5 +1,6 @@
 TeamDeweyWebsite::Application.routes.draw do
   get "sessions/login"
+  get "sessions/google_api"
   post "sessions/post_login"
   post "sessions/post_try_google_login"
   get "sessions/get_users"

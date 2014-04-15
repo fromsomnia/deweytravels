@@ -5,6 +5,15 @@ class SessionsController < ApplicationController
   def login
   end
 
+  def google_api
+    if (Rails.env == "development")
+      render json: {:client_id => '592878661111-b53keflh2nk0q6eipf965c7srutnllr0.apps.googleusercontent.com'}
+    elsif (Rails.env == "production")
+      render json: {:client_id => '1091102339818-6bbfsv82rj0rt81s00q2t2gcfsiuntd3.apps.googleusercontent.com'}
+    end
+    return
+  end
+
   def post_try_google_login
     email = params[:email]
     @user = User.find_by_email(email)

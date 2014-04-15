@@ -282,10 +282,13 @@ function Dewey() {
   // ...
   DeweyApp.controller('LoginController', ['$scope', '$injector', '$http', '$location', 'localStorageService', 'DeweyFactory', function ($scope, $injector, $http, $location, localStorageService, DeweyFactory) {
     $scope.loginData = {};
+
+    $.get('/sessions/google_api', function (response) {
+      $scope.client_id = response.client_id;
+    });
     $scope.googleLogin = function () {
-      // TODO(veni): this client ID should be supplied from server - depending on the env.
       gapi.auth.authorize({
-              client_id: '592878661111-b53keflh2nk0q6eipf965c7srutnllr0.apps.googleusercontent.com', 
+              client_id: $scope.client_id,
               scope: 'https://www.google.com/m8/feeds'},
               $scope.handleAuthResult);
 
