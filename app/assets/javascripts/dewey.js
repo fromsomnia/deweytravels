@@ -310,6 +310,13 @@ function Dewey() {
         });
     }
 
+    $scope.showSocialcastLogin = function () {
+      $scope.showSocialcastForm = !$scope.showSocialcastForm;
+      $scope.showGoogleForm = false;
+      $scope.loginData.googAccessToken = '';
+      $scope.loginData.googExpiresTime = '';
+    }
+
     var token = localStorageService.get('dewey_auth_token');
     if (token) {
       $location.path('/search');
@@ -340,6 +347,7 @@ function Dewey() {
         });
       });
     }
+
     // ...
     $scope.login = function () {
 
