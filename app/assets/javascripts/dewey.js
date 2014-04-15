@@ -112,15 +112,18 @@ function Dewey() {
 
         // prep data (fix later)
         response = _.map(response, function (obj) {
-          var val = obj['title'];
-          if (val) {
-            obj['first_name'] = val;
-            obj['category'] = 'topics';
-          } else {
+          if ('first_name' in obj) {
             obj['category'] = 'users';
+            obj['name'] = obj['first_name'] + " " + obj['last_name'];
+            if (!obj['department']) {
+              obj['department'] = obj['email']
+            }
+          } else {
+            obj['name'] = val;
+            obj['category'] = 'topics';
+            obj['department'] = 'topic';
           }
           if (!obj['image']) obj['image'] = 'picture_placeholder.png';
-          if (!obj['department']) obj['department'] = 'topic';
           return obj;
         });
 
