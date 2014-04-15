@@ -1,7 +1,7 @@
 var Dewey = (function (Dewey) {
 
   // controller for all views; other controllers inherit from this
-  Dewey.DeweyApp.controller('BaseController', ['$scope', '$location', '$http', 'DeweyFactory', function ($scope, $location, $http, DeweyFactory) {
+  Dewey.DeweyApp.controller('BaseController', ['$scope', '$location', 'DeweyFactory', function ($scope, $location, DeweyFactory) {
 
     $scope.queryData = {};
     $scope.graphNodes = DeweyFactory.graphNodes;
@@ -81,7 +81,7 @@ var Dewey = (function (Dewey) {
 
   }]);
 
-  Dewey.DeweyApp.controller('SearchController', ['$controller', '$scope', '$location', 'DeweyFactory', function ($controller, $scope, $location, DeweyFactory) {
+  Dewey.DeweyApp.controller('SearchController', ['$controller', '$scope', 'DeweyFactory', function ($controller, $scope, DeweyFactory) {
 
     $controller('BaseController', {
       $scope: $scope
@@ -109,7 +109,7 @@ var Dewey = (function (Dewey) {
 
   }]);
 
-  Dewey.DeweyApp.controller('UserController', ['$scope', '$injector', '$controller', '$location', 'DeweyFactory', function ($scope, $injector, $controller, $location, DeweyFactory) {
+  Dewey.DeweyApp.controller('UserController', ['$scope', '$injector', '$controller', 'DeweyFactory', function ($scope, $injector, $controller, DeweyFactory) {
 
     $controller('BaseController', {
       $scope: $scope
@@ -150,7 +150,7 @@ var Dewey = (function (Dewey) {
 
   }]);
 
-  Dewey.DeweyApp.controller('TopicController', ['$scope', '$injector', '$controller', '$location', 'DeweyFactory', function ($scope, $injector, $controller, $location, DeweyFactory) {
+  Dewey.DeweyApp.controller('TopicController', ['$scope', '$injector', '$controller', 'DeweyFactory', function ($scope, $injector, $controller, DeweyFactory) {
 
     $controller('BaseController', {
       $scope: $scope
