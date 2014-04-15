@@ -22,9 +22,8 @@ class SessionsController < ApplicationController
 
     if goog_access_token and goog_expires_time
       @user = User.register_google_user(first_name, last_name,
-                                email, password,
-                                goog_access_token, goog_expires_time,
-                                image_url)
+                                email, password, image_url,
+                                goog_access_token, goog_expires_time)
 
       render json: {:auth_token => @user.auth_token}, status: :ok
       return

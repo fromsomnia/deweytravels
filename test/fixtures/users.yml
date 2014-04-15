@@ -15,7 +15,7 @@ william:
  graph: fixtures
  auth_token: william_auth_token
  phone: 123-456-7890
- image: William.png
+ image_url: /assets/William.png
 
 veni:
  first_name: Veni
@@ -28,7 +28,7 @@ veni:
  department: Engineering
  graph: fixtures
  phone: 123-456-7890
- image: Veni.png
+ image_url: /assets/Veni.png
 
 brett:
  first_name: Brett
@@ -41,7 +41,7 @@ brett:
  department: Engineering
  graph: fixtures
  phone: 123-456-7890
- image: Brett.png
+ image_url: /assets/Brett.png
 
 stephen:
  first_name: Stephen
@@ -54,7 +54,7 @@ stephen:
  department: Engineering
  graph: fixtures
  phone: 123-456-7890
- image: Stephen.png 
+ image_url: /assets/Stephen.png 
 
 john:
  first_name: John
@@ -67,7 +67,7 @@ john:
  department: Engineering
  graph: fixtures
  phone: 123-456-7890
- image: John.png
+ image_url: /assets/John.png
 
 jay:
  first_name: Jay
@@ -79,7 +79,7 @@ jay:
  department: Marketing
  graph: fixtures
  phone: 123-456-7890
- image: default_user_image.png
+ image_url: /assets/default_user_image.png
 
 chris:
  first_name: Chris
@@ -91,7 +91,7 @@ chris:
  department: Sales
  graph: fixtures
  phone: 123-456-7890
- image: default_user_image.png
+ image_url: /assets/default_user_image.png
 
 oren:
  first_name: Oren
@@ -103,7 +103,7 @@ oren:
  department: Human Resources
  graph: fixtures
  phone: 123-456-7890
- image: default_user_image.png
+ image_url: /assets/default_user_image.png
 
 marc:
  first_name: Marc
@@ -115,7 +115,7 @@ marc:
  department: Engineering
  graph: fixtures
  phone: 123-456-7890
- image: default_user_image.png
+ image_url: /assets/default_user_image.png
 
 mike:
  first_name: Mike
@@ -127,4 +127,4 @@ mike:
  department: Engineering
  graph: fixtures
  phone: 123-456-7890
- image: default_user_image.png
+ image_url: /assets/default_user_image.png

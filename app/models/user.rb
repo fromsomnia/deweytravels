@@ -1,7 +1,7 @@
 require 'socialcast'
 class User < ActiveRecord::Base
-	attr_accessible :sc_user_id, :first_name, :last_name, :domain, :email, :phone, :username, :password, :position, :department, :image
-  before_create :set_auth_token
+	attr_accessible :sc_user_id, :first_name, :last_name, :domain, :email, :phone, :username, :password, :position, :department, :image_url
+  before_create :set_auth_token, :set_image_url
 
   belongs_to :graph
 
@@ -33,8 +33,7 @@ class User < ActiveRecord::Base
     new_user.graph = graph
     new_user.email = email
     new_user.password = password
-    # TODO(veni): uncomment when we change image to image_url
-    # new_user.image_url = image_url
+    new_user.image_url = image_url
     new_user.goog_access_token = goog_access_token
     new_user.goog_expires_time = goog_expires_time
     new_user.save
@@ -72,11 +71,8 @@ class User < ActiveRecord::Base
     names = sc_user['name'].split
     new_user.first_name = names[0]
     new_user.last_name = names[1]
-    new_user.image_16 = sc_user['avatars']['square16']
-    new_user.image_30 = sc_user['avatars']['square30']
-    new_user.image_70 = sc_user['avatars']['square70']
-    new_user.image_140 = sc_user['avatars']['square140']
-    new_user.phone = sc_user['contact_info']['office_phone']
+    print sc_user['avatars']['square30']
+    new_user.image_url = sc_user['avatars']['square30']
   
     sc_user['custom_fields'].each do |field|
       if field['id'] == 'title'
@@ -129,5 +125,13 @@ class User < ActiveRecord::Base
       begin
         self.auth_token = SecureRandom.hex
       end while self.class.exists?(auth_token: self.auth_token)
+    end
+
+    def set_image_url
+      return if image_url.present?
+
+      begin
+        self.image_url = '/assets/default_user_image.png'
+      end
     end
 end

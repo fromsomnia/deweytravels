@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140415013200) do
+ActiveRecord::Schema.define(version: 20140415054049) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -76,17 +76,13 @@ ActiveRecord::Schema.define(version: 20140415013200) do
     t.string  "password"
     t.string  "position"
     t.string  "department"
-    t.string  "image_16"
-    t.string  "image_30"
-    t.string  "image_70"
-    t.string  "image_140"
-    t.string  "image"
+    t.string  "image_url"
     t.string  "title"
     t.integer "sc_user_id"
     t.integer "graph_id"
     t.string  "auth_token"
     t.string  "goog_access_token"
-    t.integer "goog_expires_time"
+    t.integer "goog_expires_time", limit: 8
   end
 
   add_index "users", ["auth_token"], name: "index_users_on_auth_token", using: :btree

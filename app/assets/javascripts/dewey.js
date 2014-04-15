@@ -355,7 +355,10 @@ function Dewey() {
           $scope.getGoogleContacts($scope.loginData.googAccessToken,
                                    '/search');
         } else {
-          $location.path('/search');
+          $scope.$apply(function() {
+            $location.path('/search');
+          });
+
         }
 
       }).fail(function (response) {
