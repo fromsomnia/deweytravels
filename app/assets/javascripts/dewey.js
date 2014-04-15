@@ -296,16 +296,26 @@ function Dewey() {
         gapi.client.load('oauth2', 'v2', function () {
           gapi.client.oauth2.userinfo.get().execute(function(resp) {
             var email = resp.email;
+            
+            $.post('/sessions/post_try_google_login.json', {
+              email: email
+            }).done(function (response) {
+              localStorageService.add('dewey_auth_token', response.auth_token);
 
-            $scope.loginData.email = resp.email;
-            $scope.loginData.lastName = resp.family_name;
-            $scope.loginData.firstName = resp.given_name;
-            $scope.loginData.imageUrl = resp.picture;
-            $scope.loginData.googAccessToken = authResult.access_token;
-            $scope.loginData.googExpiresTime = Date.now() + authResult.expires_in * 1000;
-            $scope.showSocialcastForm = false;
-            $scope.showGoogleForm = true;
-            $scope.$apply();
+              $scope.$apply(function() {
+                $location.path('/search');
+              });
+            }).fail(function (response) {
+              $scope.loginData.email = resp.email;
+              $scope.loginData.lastName = resp.family_name;
+              $scope.loginData.firstName = resp.given_name;
+              $scope.loginData.imageUrl = resp.picture;
+              $scope.loginData.googAccessToken = authResult.access_token;
+              $scope.loginData.googExpiresTime = Date.now() + authResult.expires_in * 1000;
+              $scope.showSocialcastForm = false;
+              $scope.showGoogleForm = true;
+              $scope.$apply();
+            });
           });
         });
     }

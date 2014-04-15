@@ -5,6 +5,16 @@ class SessionsController < ApplicationController
   def login
   end
 
+  def post_try_google_login
+    email = params[:email]
+    @user = User.find_by_email(email)
+    if @user
+      render json: {:auth_token => @user.auth_token}, status: :ok
+    else
+      render :status => :unauthorized
+    end
+  end
+
   def post_login
     email = params[:email]
     password = params[:password]
