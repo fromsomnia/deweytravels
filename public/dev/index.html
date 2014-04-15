@@ -152,54 +152,56 @@
 
 		<!-- visualization directive -->
 		<script type="text/ng-template" id="/graph">
-			<svg ng-attr-width="{{ graphWidth }}" ng-attr-height="{{ graphHeight }}" style="margin-left:450px">
-				<g class="graph-container">
-					<g class="links">
-						<g ng-repeat="link in graphLinks">
-						 	<line
-		            class="link"
-		            ng-attr-stroke-width="27"
-		            ng-attr-x1="{{ link.source.x }}"
-		            ng-attr-y1="{{ link.source.y }}"
-		            ng-attr-x2="{{ link.target.x }}"
-		            ng-attr-y2="{{ link.target.y }}"
-		            position="absolute"
-		            opacity="0"
-		            ng-mouseenter="link.show=true"
-		            ng-mouseleave="link.show=false"></line>
-							<line class="link" 
-								stroke-width="2" 
-								ng-attr-x1="{{ link.source.x }}"
-								ng-attr-y1="{{ link.source.y }}"
-								ng-attr-x2="{{ link.target.x }}"
-								ng-attr-y2="{{ link.target.y }}"></line>
-		          <foreignObject ng-if="link.connection"
-		            width="30"
-	            	height="30"
-		            ng-attr-x="{{ (link.source.x + link.target.x) / 2 }}"
-		            ng-attr-y="{{ (link.source.y + link.target.y) / 2 }}">
-			          <div ng-hide="link.is_upvoted" ng-click="upvote(link);" class="glyphicon glyphicon-thumbs-up"></div>
-			          <div ng-hide="link.is_downvoted" ng-click="downvote(link);" class="glyphicon glyphicon-thumbs-down"></div>
-		          </foreignObject>
+			<div ng-controller="GraphController">
+				<svg ng-attr-width="{{ graphWidth }}" ng-attr-height="{{ graphHeight }}" style="margin-left:450px">
+					<g class="graph-container">
+						<g class="links">
+							<g ng-repeat="link in graphLinks">
+							 	<line
+			            class="link"
+			            ng-attr-stroke-width="27"
+			            ng-attr-x1="{{ link.source.x }}"
+			            ng-attr-y1="{{ link.source.y }}"
+			            ng-attr-x2="{{ link.target.x }}"
+			            ng-attr-y2="{{ link.target.y }}"
+			            position="absolute"
+			            opacity="0"
+			            ng-mouseenter="link.show=true"
+			            ng-mouseleave="link.show=false"></line>
+								<line class="link" 
+									stroke-width="2" 
+									ng-attr-x1="{{ link.source.x }}"
+									ng-attr-y1="{{ link.source.y }}"
+									ng-attr-x2="{{ link.target.x }}"
+									ng-attr-y2="{{ link.target.y }}"></line>
+			          <foreignObject ng-if="link.connection"
+			            width="30"
+		            	height="30"
+			            ng-attr-x="{{ (link.source.x + link.target.x) / 2 }}"
+			            ng-attr-y="{{ (link.source.y + link.target.y) / 2 }}">
+				          <div ng-hide="link.is_upvoted" ng-click="upvote(link);" class="glyphicon glyphicon-thumbs-up"></div>
+				          <div ng-hide="link.is_downvoted" ng-click="downvote(link);" class="glyphicon glyphicon-thumbs-down"></div>
+			          </foreignObject>
+							</g>
+						</g>
+						<g class="nodes">
+							<g ng-repeat="node in graphNodes">
+								<a xlink:href="{{ (node.first_name) ? '#/users/' + node.id : '#/topics/' + node.id }}">
+									<circle class="node" 
+										ng-attr-r="{{ node.radius }}" 
+										ng-attr-fill="{{ (node.first_name) ? '#FFFF66' : '#00CC66' }}"
+										ng-attr-cx="{{ node.x }}"
+										ng-attr-cy="{{ node.y }}"></circle>
+								</a>
+								<text pointer-events="none"
+									ng-attr-x="{{ node.x }}"
+									ng-attr-y="{{ node.y }}"
+									text-anchor="middle">{{ (node.first_name) ? node.first_name + ' ' + node.last_name : node.title }}</text>
+							</g>
 						</g>
 					</g>
-					<g class="nodes">
-						<g ng-repeat="node in graphNodes">
-							<a xlink:href="{{ (node.first_name) ? '#/users/' + node.id : '#/topics/' + node.id }}">
-								<circle class="node" 
-									ng-attr-r="{{ node.radius }}" 
-									ng-attr-fill="{{ (node.first_name) ? '#FFFF66' : '#00CC66' }}"
-									ng-attr-cx="{{ node.x }}"
-									ng-attr-cy="{{ node.y }}"></circle>
-							</a>
-							<text pointer-events="none"
-								ng-attr-x="{{ node.x }}"
-								ng-attr-y="{{ node.y }}"
-								text-anchor="middle">{{ (node.first_name) ? node.first_name + ' ' + node.last_name : node.title }}</text>
-						</g>
-					</g>
-				</g>
-			</svg>
+				</svg>
+			</div>
 		</script>
 
 		<script src="/assets/angular.js"></script>
