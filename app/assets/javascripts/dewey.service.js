@@ -121,15 +121,16 @@ var Dewey = (function (Dewey) {
     }
 
     // return public factory methods
-    var factory = {};
-    factory.getAllTopics = getAllTopics;
-    factory.getAllUsers = getAllUsers;
-    factory.getSearchResults = getSearchResults;
-    factory.getUser = getUser;
-    factory.getUsersForTopic = getUsersForTopic;
-    factory.getTopic = getTopic;
-    factory.getTopicsForUser = getTopicsForUser;
-    factory.getGraphNodesAndLinks = getGraphNodesAndLinks;
+    var factory = {
+      getAllTopics: getAllTopics,
+      getAllUsers: getAllUsers,
+      getSearchResults: getSearchResults,
+      getUser: getUser,
+      getUsersForTopic: getUsersForTopic,
+      getTopic: getTopic,
+      getTopicsForUser: getTopicsForUser,
+      getGraphNodesAndLinks: getGraphNodesAndLinks
+    };
     return factory;
 
   }]);
