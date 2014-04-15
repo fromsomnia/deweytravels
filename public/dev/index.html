@@ -4,88 +4,58 @@
 
 		<!-- allows responsive web design -->
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
-		<title>Dewey | Find the Right People </title>
 
-		<!-- stylesheets -->
+		<title>Dewey | Explore Company Expertise </title>
+
 		<link rel="stylesheet" type="text/css" href="/assets/bootstrap.css"/>
 		<link rel="stylesheet" type="text/css" href="/assets/dewey.css"/>
-    <style>
-      .link {
-        stroke: #ffffff;
-        stroke-opacity: .6;
-      }
-    </style>
 
 	</head>
 	<body data-ng-app="DeweyApp">
-		<!-- container -->
-    <div data-ng-view></div>
- 
-		<!-- login template -->
+
+		<!-- container; updates with angular routes -->
+		<div data-ng-view></div>
+
 		<script type="text/ng-template" id="/login">
-      <div id="main" class="container-fluid">
-  			<div class="col-xs-12"> 
-			    <div class="login col-xs-12">
-			    	<img id="logo" class="col-xs-12" src="/assets/logo_transparent.png">
-			    	<br>
-			    	<span class="mission col-xs-12">explore company expertise</span>
-			    	<br>
-			    	<input type="email" class="form-control" id="email" name="email" placeholder="email" ng-model="loginData.email">
-			    	<input type="password" class="form-control" id="password" name="password" placeholder="password" ng-model="loginData.password">
-			    	<button type="button" class="col-xs-12 btn btn-default btn-lg" ng-click='login()'>login</button>
-			    	<div class="col-xs-1"></div>
-			    </div>
-        </div>
-      </div>
+			<div id="main" class="col-xs-12">
+				<div class="login col-xs-12">
+					<img id="logo" class="col-xs-12" src="/assets/logo_transparent.png">
+					<br>
+					<span class="mission col-xs-12">explore company expertise</span>
+					<br>
+					<input type="email" class="form-control" id="email" name="email" placeholder="email" ng-model="loginData.email">
+					<input type="password" class="form-control" id="password" name="password" placeholder="password" ng-model="loginData.password">
+					<button type="button" class="col-xs-12 btn btn-default btn-lg" ng-click='login()'>login</button>
+					<div class="col-xs-1"></div>
+				</div>
+			</div>
 		</script>
 
-		<!-- search template -->
 		<script type="text/ng-template" id="/search">
-      <div id="main" class="container-fluid">
-  			<div class="col-xs-12"> 
-			    <div ng-include src="'/navigation'"></div>
-			    <div ng-include src="'/list'"></div>
-        </div>
-      </div>
+			<div id="main" class="col-xs-12">
+				<div ng-include src="'/navigation'"></div>
+				<div ng-include src="'/searchResults'"></div>
+			</div>
 		</script>
 
-		<!-- user template -->
 		<script type="text/ng-template" id="/user">
-      <div id="main" class="container-fluid">
-  			<div class="col-xs-12"> 
-  			  <div ng-include src="'/navigation'"></div>
-  			  <div ng-include src="'/user_profile'"></div>
-  			  <div ng-include src="'/tags'"></div>
-        </div>
-      </div>
-
-  	  <div ng-include src="'/graph'"></div>
+			<div id="main" class="col-xs-12">
+				<div ng-include src="'/navigation'"></div>
+				<div ng-include src="'/userProfile'"></div>
+				<div ng-include src="'/topicsForUser'"></div>
+			</div>
+			<div ng-include src="'/graph'"></div>
 		</script>
 
-		<!-- topic template -->
 		<script type="text/ng-template" id="/topic">
-
-      <div id="main" class="container-fluid">
-  			<div class="col-xs-12"> 
-			    <div ng-include src="'/navigation'"></div>
-			    <div ng-include src="'/topic_profile'"></div>
-			    <div ng-include src="'/list'"></div>
-        </div>
-      </div>
-
-  	  <div ng-include src="'/graph'"></div>
+			<div id="main" class="col-xs-12">
+				<div ng-include src="'/navigation'"></div>
+				<div ng-include src="'/topicProfile'"></div>
+				<div ng-include src="'/usersForTopic'"></div>
+			</div>
+			<div ng-include src="'/graph'"></div>
 		</script>
 
-		<script type="text/ng-template" id="/">
-		</script>
-		<script type="text/ng-template" id="/">
-		</script>
-		<script type="text/ng-template" id="/">
-		</script>
-		<script type="text/ng-template" id="/">
-		</script>
-
-		<!-- navigation template -->
 		<script type="text/ng-template" id="/navigation">
 			<nav class="nav col-xs-12">
 				<a href="#/search">
@@ -99,35 +69,51 @@
 			</nav>
 		</script>
 
-		<!-- list template -->
-		<script type="text/ng-template" id="/list">
+		<script type="text/ng-template" id="/searchResults">
 			<div class="list col-xs-12 list-group">
-				<div ng-repeat="result in results" class="list-group-item">
+
+				<div ng-repeat="result in searchResults" class="list-group-item">
 				  <a href="#/{{ result.category }}/{{ result.id }}">
 						<div class="circular-image" style="background-image:url('/assets/{{ result.image }}')"></div>
 				  	<div class="col-xs-10 result-text-container">
-					    <h4 class="list-group-item-heading">{{ result.first_name }}</h4>
-					    <p class="list-group-item-text">{{ result.department }}</p>
+					    <h4 class="list-group-item-heading">{{ result.name }}</h4>
+					    <p class="list-group-item-text">{{ result.description }}</p>
 				  	</div>
 				  </a>
-				  <div class="col-xs-2 pull-right">
-            <span ng-click="removeUserFromTopic($event, result.id)" class="glyphicon glyphicon-remove"></span>
-          </div>
-
 				</div>
-        <div ng-if="should_show_add_user_to_topic">
-          <div class="list-group-item">
-					  <div class="circular-image" style="background-image:url('/assets/plus.png')"></div>
-					  <div class="col-xs-10 result-text-container">
-              <input id="typeahead" type="text" class=" form-control" ng-model="selectedUser" placeholder="Add user" typeahead-on-select="addUserToTopic($item)" typeahead="user as user.first_name + user.last_name for user in user_choices | filter: $viewValue | limitTo: 8"  />
-					  </div>
-          </div>
-        </div>
+
 			</div>
 		</script>
 
-		<!-- user profile template -->
-		<script type="text/ng-template" id="/user_profile">
+		<script type="text/ng-template" id="/usersForTopic">
+			<div class="list col-xs-12 list-group">
+
+				<div ng-repeat="user in usersForTopic" class="list-group-item">
+				  <a href="#/{{ user.category }}/{{ user.id }}">
+						<div class="circular-image" style="background-image:url('/assets/{{ user.image }}')"></div>
+				  	<div class="col-xs-10 user-text-container">
+					    <h4 class="list-group-item-heading">{{ user.name }}</h4>
+					    <p class="list-group-item-text">{{ user.description }}</p>
+				  	</div>
+				  </a>
+				  <div class="col-xs-2" style="position: absolute; right: 10px;top: 20px;">
+            <span ng-click="removeUserFromTopic($event, user.id)" class="glyphicon glyphicon-remove"></span>
+          </div>
+				</div>
+
+        <div ng-if="shouldShowAddUserToTopic">
+          <div class="list-group-item">
+					  <div class="circular-image" style="background-image:url('/assets/plus.png')"></div>
+					  <div class="col-xs-10 result-text-container">
+              <input id="typeahead" type="text" class=" form-control" ng-model="selectedUser" placeholder="Add user" typeahead-on-select="addUserToTopic($item)" typeahead="user as user.first_name + user.last_name for user in user_choices | filter: $viewValue | limitTo: 8"/>
+					  </div>
+          </div>
+        </div>
+
+			</div>
+		</script>
+
+		<script type="text/ng-template" id="/userProfile">
 			<div class="profile col-xs-12">
 				<div class="circular-image" style="background-image:url('/assets/{{ user.image }}')"></div>
 				<div class="col-xs-12">
@@ -143,8 +129,7 @@
 			</div>
 		</script>
 
-		<!-- topic profile template -->
-		<script type="text/ng-template" id="/topic_profile">
+		<script type="text/ng-template" id="/topicProfile">
 			<div class="profile col-xs-12">
 				<div class="circular-image" style="background-image:url('{{ topic.freebase_image_url }}')"></div>
 				<div class="col-xs-12">
@@ -155,76 +140,69 @@
 			</div>
 		</script>
 
-		<!-- tags template -->
-		<script type="text/ng-template" id="/tags">
+		<script type="text/ng-template" id="/topicsForUser">
 			<div class="tags col-xs-12">
-        <span class="tag" ng-repeat="tag in topics">
-          <a href="#/topics/{{ tag.id }}">{{ tag.title }}</a>
-          <span ng-click="removeTopicFromUser($event, tag.id)" class="glyphicon glyphicon-remove"></span>
+        <span class="tag" ng-repeat="topic in topicsForUser">
+          <a href="#/topics/{{ topic.id }}">{{ topic.title }}</a>
+          <span ng-click="removeTopicFromUser($event, topic.id)" class="glyphicon glyphicon-remove"></span>
         </span>
-        <input id="typeahead" type="text"  ng-model="selectedTopic" placeholder="Add expertise" typeahead-on-select="addTopicToUser($item)" typeahead="topic as topic.title for topic in topic_choices | filter: $viewValue | limitTo: 8"  />
+        <input id="typeahead" type="text"  ng-model="selectedTopic" placeholder="Add expertise" typeahead-on-select="addTopicToUser($item)" typeahead="topic as topic.title for topic in topic_choices | filter: $viewValue | limitTo: 8"/>
 			</div>
 		</script>
 
-    <script type="text/ng-template" id="/graph">
-		<!-- graph -->
-    <div ng-controller="GraphController" style="margin-left: 500px">
-      <svg ng-attr-width="{{width}}"
-           ng-attr-height="{{height}}">
-        <g ng-repeat="link in links">
-
-		      <!-- bigger, hidden mouseover area -->
-          <line
-            class="link"
-            ng-attr-stroke-width="{{link.strokeWidth + 25}}"
-            ng-attr-x1="{{link.source.x}}"
-            ng-attr-y1="{{link.source.y}}"
-            ng-attr-x2="{{link.target.x}}"
-            ng-attr-y2="{{link.target.y}}"
-            position="absolute"
-            opacity="0"
-            ng-mouseenter="link.show=true"
-            ng-mouseleave="link.show=false">
-          </line>
-
-          <line
-            class="link"
-            ng-attr-stroke-width="{{link.strokeWidth}}"
-            ng-attr-x1="{{link.source.x}}"
-            ng-attr-y1="{{link.source.y}}"
-            ng-attr-x2="{{link.target.x}}"
-            ng-attr-y2="{{link.target.y}}">
-          </line>
-
-          <foreignObject ng-if="link.connection"
-             width="30"
-             height="30"
-             ng-attr-x="{{(link.source.x + link.target.x) / 2 - 50}}"
-             ng-attr-y="{{(link.source.y + link.target.y) / 2 - 50}}">
-           <div ng-hide="link.is_upvoted" ng-click="upvote(link);" class="glyphicon glyphicon-thumbs-up"></div>
-           <div ng-hide="link.is_downvoted" ng-click="downvote(link);" class="glyphicon glyphicon-thumbs-down"></div>
-          </foreignObject>
-        </g>
-
-        <g ng-repeat="node in nodes">
-          <a ng-xlink:href="{{node.href}}" xlink:href="">
-            <circle class="node"
-              ng-attr-r="{{node.radius}}"
-              ng-attr-fill="{{node.color}}"
-              ng-attr-cx="{{node.x}}"
-              ng-attr-cy="{{node.y}}">
-            </circle>
-          </a>
-          <text ng-attr-x="{{node.x}}"
-          	ng-attr-y="{{node.y}}"
-          	text-anchor="middle"
-          	pointer-events="none">{{node.name}}
-          </text>
-        </g>
-      </svg>
-    </div>
-    </script>
-		<!-- javascripts -->
+		<!-- visualization directive -->
+		<script type="text/ng-template" id="/graph">
+			<div ng-controller="GraphController">
+				<svg ng-attr-width="{{ graphWidth }}" ng-attr-height="{{ graphHeight }}" style="margin-left:450px">
+					<g class="graph-container">
+						<g class="links">
+							<g ng-repeat="link in graphLinks">
+							 	<line
+			            class="link"
+			            ng-attr-stroke-width="27"
+			            ng-attr-x1="{{ link.source.x }}"
+			            ng-attr-y1="{{ link.source.y }}"
+			            ng-attr-x2="{{ link.target.x }}"
+			            ng-attr-y2="{{ link.target.y }}"
+			            position="absolute"
+			            opacity="0"
+			            ng-mouseenter="link.show=true"
+			            ng-mouseleave="link.show=false"></line>
+								<line class="link" 
+									stroke-width="2" 
+									ng-attr-x1="{{ link.source.x }}"
+									ng-attr-y1="{{ link.source.y }}"
+									ng-attr-x2="{{ link.target.x }}"
+									ng-attr-y2="{{ link.target.y }}"></line>
+			          <foreignObject ng-if="link.connection"
+			            width="30"
+		            	height="30"
+			            ng-attr-x="{{ (link.source.x + link.target.x) / 2 }}"
+			            ng-attr-y="{{ (link.source.y + link.target.y) / 2 }}">
+				          <div ng-hide="link.is_upvoted" ng-click="upvote(link);" class="glyphicon glyphicon-thumbs-up"></div>
+				          <div ng-hide="link.is_downvoted" ng-click="downvote(link);" class="glyphicon glyphicon-thumbs-down"></div>
+			          </foreignObject>
+							</g>
+						</g>
+						<g class="nodes">
+							<g ng-repeat="node in graphNodes">
+								<a xlink:href="{{ (node.first_name) ? '#/users/' + node.id : '#/topics/' + node.id }}">
+									<circle class="node" 
+										ng-attr-r="{{ node.radius }}" 
+										ng-attr-fill="{{ (node.first_name) ? '#FFFF66' : '#00CC66' }}"
+										ng-attr-cx="{{ node.x }}"
+										ng-attr-cy="{{ node.y }}"></circle>
+								</a>
+								<text pointer-events="none"
+									ng-attr-x="{{ node.x }}"
+									ng-attr-y="{{ node.y }}"
+									text-anchor="middle">{{ (node.first_name) ? node.first_name + ' ' + node.last_name : node.title }}</text>
+							</g>
+						</g>
+					</g>
+				</svg>
+			</div>
+		</script>
 
 		<script src="/assets/angular.js"></script>
 		<script src="/assets/angular-route.js"></script>
@@ -233,9 +211,8 @@
 		<script src="/assets/underscore.js"></script>
 		<script src="/assets/d3.v3.min.js"></script>
 		<script src="/assets/dewey.js"></script>
-		<script>
-			// instantiate Dewey Angular app
-			var DeweyApp = Dewey();
-		</script>
+		<script src="/assets/dewey.config.js"></script>
+		<script src="/assets/dewey.service.js"></script>
+		<script src="/assets/dewey.controllers.js"></script>
 	</body>
 </html>
