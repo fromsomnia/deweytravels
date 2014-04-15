@@ -17,6 +17,30 @@ class User < ActiveRecord::Base
   has_many :user_action_votes, :foreign_key => "action_id"
   has_many :upvoted_actions, :through => :user_action_votes, :source => :action
 
+  def self.register_google_user(first_name, last_name, email, password, image_url,
+                                goog_access_token, goog_expires_time)
+
+    graph = Graph.find_by_domain('google.com')
+    if not graph
+      graph = Graph.new
+      graph.domain = 'google.com'
+      graph.save
+    end
+
+    new_user = User.new
+    new_user.first_name = first_name
+    new_user.last_name = last_name
+    new_user.graph = graph
+    new_user.email = email
+    new_user.password = password
+    # TODO(veni): uncomment when we change image to image_url
+    # new_user.image_url = image_url
+    new_user.goog_access_token = goog_access_token
+    new_user.goog_expires_time = goog_expires_time
+    new_user.save
+    return new_user
+  end
+
 	def peers
 		@peers = []
 		self.superiors.each do |boss|

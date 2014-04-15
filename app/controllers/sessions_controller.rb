@@ -8,9 +8,24 @@ class SessionsController < ApplicationController
   def post_login
     email = params[:email]
     password = params[:password]
-    
+    first_name = params[:first_name]
+    last_name = params[:last_name]
+    goog_access_token = params[:goog_access_token]
+    goog_expires_time = params[:goog_expires_time]
+    image_url = params[:image_url]
+
     @user = User.find_by_email_and_password(email, password)
     if @user
+      render json: {:auth_token => @user.auth_token}, status: :ok
+      return
+    end
+
+    if goog_access_token and goog_expires_time
+      @user = User.register_google_user(first_name, last_name,
+                                email, password,
+                                goog_access_token, goog_expires_time,
+                                image_url)
+
       render json: {:auth_token => @user.auth_token}, status: :ok
       return
     end
