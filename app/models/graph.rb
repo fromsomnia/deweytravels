@@ -42,15 +42,15 @@ class Graph < ActiveRecord::Base
 			self.users.each do |user|
         if user.first_name.downcase.starts_with?(search_query) or \
            user.last_name.downcase.starts_with?(search_query)
-					results << { :type => "user", :obj => user }
+					results << { "type" => "user", "obj" => user }
 				end
 			end
 			self.topics.each do |topic|
         if topic.title.downcase.starts_with?(search_query)
-					results << {:type => "topic", :obj => topic }
+					results << {"type" => "topic", "obj" => topic }
 				end
 			end
 		end
-		return results.to_json
+		return results
 	end
 end
