@@ -7,97 +7,73 @@ $blue: #25a0ca;
 $dark-blue: #1d7e9f;
 $font: "Trebuchet MS", Helvetica, sans-serif;
 
+/* html, body */
+
+html, body {
+	height: 100%;
+	width: 100%;
+}
+
 * {
 	font-family: $font;
 }
 
-body {
+.circular-image {
+	border-radius: 50%;
+	background-repeat: no-repeat;
+	background-position: center;
+	background-size: cover;
+}
+
+/* topbar */
+
+#top-bar {
+	position: fixed;
+	height: 5%;
 	background-color: $blue;
+	width: 100%;
 }
 
-/* main container */
+/* leftbar */
 
-#main {
-
-	background-color: $blue;
-	color: $white;
-	padding-top: 15px;
-	padding-bottom: 15px;
-	
-	.circular-image {
-		background-image: url('http://localhost:3000/assets/picture_placeholder.png');
-		border-radius: 50%;
-		background-repeat: no-repeat;
-		background-position: center;
-		background-size: cover;
-	}
-
-	@media (min-width: $mobile) {
-		width: 400px;
-		position: fixed;
-		top: 50px;
-		left: 50px;
-		max-height: 85%;
-		overflow: scroll;
-		border: 3px solid $white;
-	}
-	
+#left-bar {
+	overflow: scroll;
+	position: fixed;
+	top: 5%;
+	background: $blue;
+	height: 100%;
+	width: 25%;
 }
 
-/* list template */
+/* dataviz */
 
-.list {
-	
-	.list-group-item {
-		background-color: $blue;
-		color: $white;
-		border: none;
-		height: 63px;
-
-		.circular-image {
-			height: 42px;
-			width: 42px;
-			float: left;
-		}
-
-		.result-text-container {
-			width: auto;
-		}
-		
-		.list-group-item-heading, .list-group-item-text {
-			color: $white;
-		}
-
-		&:hover {
-			background-color: $dark-blue;
-			cursor: pointer;
-	  }
-	}
+#data-viz {
+	position: fixed;
+	top: 5%;
+	left: 25%;
+	height: 95%;
+	width: 75%;
+	background-color: $white;
 }
 
-/* login template */
+/* login */
 
-.login {
-
+#login {
 	text-align: center;
-
 	#email {
 		margin-top: 20px;
 	}
-
 	#password, #first_name, #last_name {
 		margin-top: 5px;
 	}
-
 	input {
 		display: inline;
 	}
-	
 	.mission {
 		font-size: 1.5em;
 		font-style: italic;
+		color: $white;
 	}
-
 	button {
 		margin-top: 5px;
 		background-color: $white;
@@ -106,124 +82,99 @@ body {
 			background-color: $gray;
 		}
 	}
-
 }
 
 /* navigation template */
 
-.nav {
+#nav {
 	height: 56px;
 	padding: 5px;
 	margin-bottom: 10px;
-
 	#logo {
-		height: 100%;
-		width: auto;
-		float: left
+		width: 18%;
+		max-width: 45px;
+		float: left;
 	}
-
 	#search {
-		background-color: $white;
-		color: $blue;
+		width: 75%;
+		input {
+			margin-left: 5%;
+			background-color: $white;
+			color: $blue;
+		}
+	}
+}
+
+/* list template */
+
+#list {
+	padding: 0px 5px;
+	.list-group-item {
+		background-color: $blue;
+		color: $white;
+		border: none;
+		height: 63px;
+		a {
+			text-decoration: none;
+		}
+		.circular-image {
+			height: 42px;
+			width: 42px;
+			float: left;
+			margin-right: 10px;
+		}
+		.user-text-container * {
+			width: 140px;
+			white-space: nowrap;
+			overflow: hidden;
+			text-overflow: ellipsis;
+		}
+		.list-group-item-heading, .list-group-item-text {
+			color: $white;
+		}
+		&:hover {
+			background-color: $dark-blue;
+			cursor: pointer;
+	  }
 	}
 }
 
 /* profile template */
 
-.profile {
-
+#profile {
 	text-align: center;
-
-	img {
-		border-radius: 50%;
-		-webkit-border-radius: 50%;
-		-moz-border-radius: 50%;
-	}
-
 	.circular-image {
 		width: 200px;
 		height: 200px;
 		margin: 0px auto;
+		border: 2px solid $white;
 	}
-
-	@media (max-width: $mobile) {
-
-		margin-bottom: 20px;
-
-		img {
-			margin-bottom: 20px;
-		}
-
-		.name {
-			font-size: 3em;
-		}
-
-		.description {
-			font-size: 2em;
-			font-style: italic;
-		}
-
-		.email {
-			font-size: 1.5em;
-		}
-
-		.phone {
-			font-size: 1.5em;
+	#information {
+		color: $white;
+		span {
+			display: block;
 		}
 	}
-
-	@media (min-width: $mobile) {
-
-		margin-bottom: 20px;
-
-		img {
-			width: 200px;
-			margin-bottom: 5px;
-		}
-
-		.name {
-			font-size: 2.5em;
-		}
-
-		.description {
-			font-size: 1.5em;
-			font-style: italic;
-		}
-
-		.email {
-			font-size: 1.2em;
-		}
-
-		.phone {
-			font-size: 1.2em;
-		}
-	}
-
 }
 
 /* tags template */
 
-.tags {
+#tags {
 	text-align: center;
-	
 	input, .tag {
-
 		font-size: 1.1em;
 		background-color: $white;
 		color: $blue;
 		display: inline-block;
 		border-radius: 3px;
-
 		@media (max-width: $mobile) {
 			padding: 15px;
 			margin: 3px;
 		}
-
 		@media (min-width: $mobile) {
 			padding: 5px 10px;
 			margin: 3px;
 		}
-
 		&:hover {
 			background-color: $gray;
 			cursor: pointer;
