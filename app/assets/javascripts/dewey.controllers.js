@@ -20,8 +20,6 @@ var Dewey = (function (Dewey) {
     $controller('BaseController', {
       $scope: $scope
     });
-    $scope.graphWidth = 750;
-    $scope.graphHeight = 600;
 
     $scope.$on('graphUpdated', function() {
       DeweyFactory.getGraphNodesAndLinks().then(function () {
@@ -33,6 +31,10 @@ var Dewey = (function (Dewey) {
 
     $scope.makeGraph = function () {
       if ($scope.graphNodes) {
+
+        $scope.graphWidth = $("#data-viz svg").width();
+        $scope.graphHeight = $("#data-viz svg").height();
+
         _.each($scope.graphNodes, function (node) {
           node.radius = (node.first_name) ? 10 : 60;
         });
