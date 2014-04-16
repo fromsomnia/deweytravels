@@ -49,6 +49,11 @@ GEM
     colorator (0.1)
     commander (4.1.6)
       highline (~> 1.6.11)
+    delayed_job (4.0.1)
+      activesupport (>= 3.0, < 4.2)
+    delayed_job_active_record (4.0.1)
+      activerecord (>= 3.0, < 4.2)
+      delayed_job (>= 3.0, < 4.1)
     erubis (2.7.0)
     excon (0.31.0)
     execjs (2.0.2)
@@ -194,6 +199,7 @@ DEPENDENCIES
   bloggy
   bootstrap-sass (~> 3.1.1)
   coffee-rails (~> 4.0.0)
+  delayed_job_active_record
   heroku
   httparty
   jbuilder (~> 1.2)
