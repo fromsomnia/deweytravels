@@ -23,13 +23,16 @@ var Dewey = (function (Dewey) {
   // factory as our model; calls the API for data
   Dewey.DeweyApp.factory('DeweyFactory', ['$http', '$q', '$route', function ($http, $q, $route) {
 
-    function prepareSearchResultData (results) {
-      return _.map(results, function (result) {
-        if (result.first_name && result.last_name) {
+    function prepareSearchResultData (response) {
+      return _.map(response, function (datum) {
+        var result;
+        if (datum.type == "user") {
+          result = datum.obj;
           result.category = 'users';
           result.name = result.first_name + ' ' + result.last_name;
           result.description = result.department || 'employee';
-        } else {
+        } else if (datum.type == "topic") {
+          result = datum.obj;
           result.category = 'topics';
           result.name = result.title;
           result.description = 'topic';

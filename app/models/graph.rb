@@ -40,16 +40,14 @@ class Graph < ActiveRecord::Base
 		if !query.blank? then
 			search_query = query.downcase
 			self.users.each do |user|
-				search_this = user.first_name + " " + user.last_name
-				search_this = search_this.downcase
-				if search_this.include?(search_query) then
-					results << user
+        if user.first_name.downcase.starts_with?(search_query) or \
+           user.last_name.downcase.starts_with?(search_query)
+					results << { :type => "user", :obj => user }
 				end
 			end
 			self.topics.each do |topic|
-				search_this = topic.title.downcase
-				if search_this.include?(search_query) then
-					results << topic
+        if topic.title.downcase.starts_with?(search_query)
+					results << {:type => "topic", :obj => topic }
 				end
 			end
 		end
