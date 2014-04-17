@@ -1,8 +1,8 @@
 var Dewey = (function (Dewey) {
 
-  Dewey.DeweyApp.config(function ($httpProvider) {
+  Dewey.DeweyApp.config(['$httpProvider', function ($httpProvider) {
     $httpProvider.interceptors.push('authInterceptor');
-  });
+  }]);
 
   Dewey.DeweyApp.config(['$routeProvider', function ($routeProvider) {
     // establish routes and resolve promises before displaying view
