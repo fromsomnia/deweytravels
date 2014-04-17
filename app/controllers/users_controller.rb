@@ -147,24 +147,7 @@ class UsersController < ApplicationController
 
   def import_google_contacts
     contacts = params[:contacts]
-    contacts.each do |contact|
-      # This is a dumb heuristic to filter out
-      # bad contacts.
-      if (contact['title'].split.size == 2) && (contact['email'].include?('@'))
-        user = User.find_by_email(contact['email'])
-        if not user
-          user = User.new
-          contact['title'] = contact['title'].titleize
-          user.first_name = contact['title'].split[0]
-          user.last_name = contact['title'].split[1]
-          user.email = contact['email']
-          user.graph = Graph.find_by_domain('google.com')
-          user.save
-        end
-      end
-
-    end
-
+    User.delay.import_google_contacts(contacts)
     render :nothing => true
   end
 
