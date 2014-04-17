@@ -22,5 +22,6 @@ module TeamDeweyWebsite
     # config.i18n.default_locale = :de
 
     config.i18n.enforce_available_locales = false
+    config.assets.js_compressor = Uglifier.new(mangle: false)
   end
 end
