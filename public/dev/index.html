@@ -82,7 +82,7 @@
 
 		<script type="text/ng-template" id="/searchResults">
 			<div id="list" class="col-xs-12 list-group">
-				<div ng-repeat="result in searchResults" class="list-group-item">
+				<div ng-repeat="result in searchResults | limitTo: 8" class="list-group-item">
 				  <a href="#/{{ result.category }}/{{ result.id }}">
 						<div class="circular-image" style="background-image:url('/assets/{{ result.image }}')"></div>
 				  	<div class="result-text-container">
@@ -91,6 +91,7 @@
 				  	</div>
 				  </a>
 				</div>
+				<a href="" class="action-link">view all</a>
 			</div>
 		</script>
 
@@ -101,6 +102,7 @@
 					<div ng-include src="'/navigation'"></div>
 					<div ng-include src="'/userProfile'"></div>
 					<div ng-include src="'/topicsForUser'"></div>
+					<div ng-include src="'/groups'"></div>
 				</div>
 				<div id="data-viz">
 					<div ng-include src="'/graph'"></div>
@@ -117,16 +119,43 @@
 					<span class="email">{{ user.email }}</span>
 					<span class="phone">{{ user.phone }}</span>
 				</div>
+				<a href="#/users/{{ user.id }}/edit" class="action-link">edit profile</a>
 			</div>
 		</script>
 
 		<script type="text/ng-template" id="/topicsForUser">
 			<div id="tags" class="col-xs-12">
-        <span class="tag" ng-repeat="topic in topicsForUser">
+        <span class="tag" ng-repeat="topic in topicsForUser | limitTo: 8">
           <a href="#/topics/{{ topic.id }}">{{ topic.title }}</a>
+          <!--
           <span ng-click="removeTopicFromUser($event, topic.id)" class="glyphicon glyphicon-remove"></span>
+          -->
         </span>
+        <!--
         <input id="typeahead" type="text"  ng-model="selectedTopic" placeholder="Add expertise" typeahead-on-select="addTopicToUser($item)" typeahead="topic as topic.title for topic in topic_choices | filter: $viewValue | limitTo: 8"/>
+        -->
+			</div>
+			<a href="" class="action-link">view all</a>
+		</script>
+
+		<script type="text/ng-template" id="/groups">
+			<div id="groups" class="col-xs-12">
+				<h3>GROUPS</h3>
+				<!--
+				<div id="list" class="col-xs-12 list-group">
+					<div ng-repeat="group in groups" class="list-group-item">
+					  <a href="#/group/{{ group.id }}">
+							<div class="circular-image" style="background-image:url('/assets/{{ group.image }}')"></div>
+					  	<div class="list-text-container">
+						    <h4 class="list-group-item-heading">{{ group.name }}</h4>
+						    <p class="list-group-item-text">{{ group.description }}</p>
+					  	</div>
+					  </a>
+					</div>
+				</div>
+				-->
+				<a href="#/users/{{ user.id }}/groups/create" class="action-link">create a new group</a>
+				<a href="#/users/{{ user.id }}/notifications" class="action-link">view notifications</a>
 			</div>
 		</script>
 
@@ -158,7 +187,7 @@
 		<script type="text/ng-template" id="/usersForTopic">
 			<div id="list" class="col-xs-12 list-group">
 
-				<div ng-repeat="user in usersForTopic" class="list-group-item">
+				<div ng-repeat="user in usersForTopic | limitTo: 5" class="list-group-item">
 				  <a href="#/{{ user.category }}/{{ user.id }}">
 						<div class="circular-image" style="background-image:url('/assets/{{ user.image }}')"></div>
 				  	<div class="user-text-container">
@@ -166,11 +195,15 @@
 					    <p class="list-group-item-text">{{ user.description }}</p>
 				  	</div>
 				  </a>
+				  <!--
 				  <div class="col-xs-2" style="position: absolute; right: 10px;top: 20px;">
             <span ng-click="removeUserFromTopic($event, user.id)" class="glyphicon glyphicon-remove"></span>
           </div>
+          -->
 				</div>
+				<a href="" class="action-link">view all</a>
 
+				<!--
         <div ng-if="shouldShowAddUserToTopic">
           <div class="list-group-item">
 					  <div class="circular-image" style="background-image:url('/assets/plus.png')"></div>
@@ -179,6 +212,7 @@
 					  </div>
           </div>
         </div>
+        -->
 
 			</div>
 		</script>
