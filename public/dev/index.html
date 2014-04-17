@@ -154,6 +154,21 @@
 			</div>
 		</script>
 
+		<script type="text/ng-template" id="/editUser">
+			<div id="main-view">
+				<div id="top-bar"></div>
+				<div id="left-bar">
+					<div ng-include src="'/navigation'"></div>
+					<div ng-include src="'/editUserProfile'"></div>
+					<div ng-include src="'/editTopicsForUser'"></div>
+					<div ng-include src="'/editGroups'"></div>
+				</div>
+				<div id="data-viz">
+					<div ng-include src="'/graph'"></div>
+				</div>
+			</div>
+		</script>
+
 		<script type="text/ng-template" id="/userProfile">
 			<div id="profile" class="col-xs-12">
 				<div class="circular-image" style="background-image:url('/assets/{{ user.image }}')"></div>
@@ -200,7 +215,7 @@
 					</div>
 				</div>
 				-->
-				<a href="#/users/{{ user.id }}/groups/create" class="action-link">create a new group</a>
+				<a href="#/groups/new" class="action-link">create a new group</a>
 				<a href="#/users/{{ user.id }}/notifications" class="action-link">view notifications</a>
 			</div>
 			-->
@@ -225,6 +240,58 @@
         </span>
       </div>
 
+		</script>
+
+		<script type="text/ng-template" id="/editUserProfile">
+			<div id="profile" class="col-xs-12">
+				<div class="input-group input-group-md col-xs-12">
+				  <input type="text" class="form-control" ng-model="user.first_name">
+				</div>
+				<div class="input-group input-group-md col-xs-12">
+				  <input type="text" class="form-control" ng-model="user.last_name">
+				</div>
+				<div class="input-group input-group-md col-xs-12">
+				  <input type="text" class="form-control" ng-model="user.position">
+				</div>
+				<div class="input-group input-group-md col-xs-12">
+				  <input type="text" class="form-control" ng-model="user.email">
+				</div>
+				<div class="input-group input-group-md col-xs-12">
+				  <input type="text" class="form-control" ng-model="user.phone">
+				</div>
+
+				<a href="#/users/{{ user.id }}/save" class="action-link">save profile</a>
+			</div>
+		</script>
+
+		<script type="text/ng-template" id="/editTopicsForUser">
+			<div id="tags" class="col-xs-12">
+        <span class="tag" ng-repeat="topic in topicsForUser | limitTo: 8">
+          <a href="#/topics/{{ topic.id }}">{{ topic.title }}</a>
+          <span ng-click="removeTopicFromUser($event, topic.id)" class="glyphicon glyphicon-remove"></span>
+        </span>
+        <input id="typeahead" type="text"  ng-model="selectedTopic" placeholder="Add expertise" typeahead-on-select="addTopicToUser($item)" typeahead="topic as topic.title for topic in topic_choices | filter: $viewValue | limitTo: 8"/>
+			</div>
+			<a href="" class="action-link">view all</a>
+		</script>
+
+		<script type="text/ng-template" id="/editGroups">
+			<div id="groups" class="col-xs-12">
+				<h3>GROUPS</h3>
+				<!--
+				<div id="list" class="col-xs-12 list-group">
+					<div ng-repeat="group in groups" class="list-group-item">
+					  <a href="#/group/{{ group.id }}">
+							<div class="circular-image" style="background-image:url('/assets/{{ group.image }}')"></div>
+					  	<div class="list-text-container">
+						    <h4 class="list-group-item-heading">{{ group.name }}</h4>
+						    <p class="list-group-item-text">{{ group.description }}</p>
+					  	</div>
+					  </a>
+					</div>
+				</div>
+				-->
+			</div>
 		</script>
 
 		<script type="text/ng-template" id="/topic">

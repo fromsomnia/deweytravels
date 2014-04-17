@@ -48,6 +48,24 @@ var Dewey = (function (Dewey) {
           }],
         }
       })
+      .when('/users/:userId/edit', {
+        controller: 'UserController',
+        templateUrl: '/editUser',
+        resolve: {
+          getUser: ['DeweyFactory', function (DeweyFactory) {
+            return DeweyFactory.getUser();
+          }],
+          getTopicsForUser: ['DeweyFactory', function (DeweyFactory) {
+            return DeweyFactory.getTopicsForUser();
+          }],
+          getAllTopics: ['DeweyFactory', function (DeweyFactory) {
+            return DeweyFactory.getAllTopics();
+          }],
+          getGraphNodesAndLinks: ['DeweyFactory', function (DeweyFactory) {
+            return DeweyFactory.getGraphNodesAndLinks();
+          }],
+        }
+      })
       .when('/topics/:topicId', {
         controller: 'TopicController',
         templateUrl: '/topic',
