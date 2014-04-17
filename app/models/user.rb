@@ -1,4 +1,5 @@
 require 'socialcast'
+
 class User < ActiveRecord::Base
 	attr_accessible :sc_user_id, :first_name, :last_name, :domain, :email, :phone, :username, :password, :position, :department, :image_url
   before_create :set_auth_token, :set_image_url

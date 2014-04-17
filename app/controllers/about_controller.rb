@@ -14,7 +14,7 @@ class AboutController < ApplicationController
                   "img_url" => "/assets/John.png" },
                    
                 { "name" => "Stephen Quinonez",
-                  "bio" => "Stephen is a Computer Science master student at Stanford University, with a bachelor in Philosophy.",
+                  "bio" => "Stephen is a Computer Science master's student at Stanford University, with a B.A. in Philosophy.",
                   "img_url" => "/assets/Stephen.png" },
 
                 { "name" => "Brett Solow",
