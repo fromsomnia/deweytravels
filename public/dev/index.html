@@ -399,6 +399,69 @@
 			</div>
 		</script>
 
+		<script type="text/ng-template" id="/createGroup">
+			<div id="main-view">
+				<div id="top-bar"></div>
+				<div id="left-bar">
+					<div id="group" class="col-xs-12">
+						<div class="input-group input-group-md col-xs-12">
+						  <input type="text" class="form-control" placeholder="Picture">
+						</div>
+						<br>
+						<div class="input-group input-group-md col-xs-12">
+						  <input type="text" class="form-control" placeholder="Group Name">
+						</div>
+						<br>
+						<div class="input-group input-group-md col-xs-12">
+						  <textarea class="form-control" rows="5" placeholder="Invite List"></textarea>
+						</div>
+						<br>
+						<div class="input-group input-group-md col-xs-12">
+						  <textarea type="text" class="form-control" rows="5" placeholder="Custom Message"></textarea>
+						</div>
+						<br>
+						<a href="#/groups/save" class="action-link">create group</a>
+					</div>
+				</div>
+				<div id="data-viz"></div>
+			</div>
+		</script>
+
+		<script type="text/ng-template" id="/notifications">
+			<div id="main-view">
+				<div id="top-bar"></div>
+				<div id="left-bar">
+					<div id="notifications">
+						<div id="profile" class="col-xs-12">
+							<div class="circular-image" style="background-image:url('{{ topic.freebase_image_url }}')"></div>
+							<div id="information" class="col-xs-12">
+								<span class="name">username</span>
+							</div>
+						</div>
+						<h4 class="message col-xs-12">You have been invited to the following groups:</h4>
+						<div id="list" class="col-xs-12 list-group">
+							<!--
+							<div ng-repeat="user in usersForTopic | limitTo: 5" class="list-group-item">
+							  <a href="#/{{ user.category }}/{{ user.id }}">
+									<div class="circular-image" style="background-image:url('/assets/{{ user.image }}')"></div>
+							  	<div class="user-text-container">
+								    <h4 class="list-group-item-heading">{{ user.name }}</h4>
+								    <p class="list-group-item-text">{{ user.description }}</p>
+							  	</div>
+							  </a>
+							  <div class="col-xs-2" style="position: absolute; right: 10px; top: 20px;">
+			            <span class="glyphicon glyphicon-remove"></span>
+			          </div>
+							</div>
+							-->
+							<a href="" class="action-link">view all</a>
+						</div>
+					</div>
+				</div>
+				<div id="data-viz"></div>
+			</div>
+		</script>
+
 		<!-- visualization directive -->
 		<script type="text/ng-template" id="/graph">
 			<div ng-controller="GraphController">
