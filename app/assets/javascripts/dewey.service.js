@@ -1,6 +1,7 @@
 var Dewey = (function (Dewey) {
 
-  Dewey.DeweyApp.factory('authInterceptor', function ($rootScope, $location, $q, localStorageService) {
+  Dewey.DeweyApp.factory('authInterceptor', ['$rootScope', '$location', '$q', 'localStorageService',
+                         function ($rootScope, $location, $q, localStorageService) {
     return {
       request: function (config) {
         config.headers = config.headers || {};
@@ -18,7 +19,7 @@ var Dewey = (function (Dewey) {
         return $q.reject(rejection);
       }
     };
-  });
+  }]);
 
   // factory as our model; calls the API for data
   Dewey.DeweyApp.factory('DeweyFactory', ['$http', '$q', '$route', function ($http, $q, $route) {
