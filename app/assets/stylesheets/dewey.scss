@@ -37,6 +37,7 @@ html, body {
 /* topbar */
 
 #top-bar {
+	z-index: 1;
 	position: fixed;
 	height: 5%;
 	background-color: $blue;
@@ -198,6 +199,23 @@ html, body {
 #groups {
 	color: $white;
 	text-align: center;
+}
+
+/* filters */
+
+#filters-container {
+	position: relative;
+	left: 25%;
+	button {
+		background-color: $blue;
+		color: $white;
+	}
+	ul {
+		background-color: $white;
+		li a:hover {
+			background-color: $gray;
+		}
+	}
 }
 
 /* graph template */
