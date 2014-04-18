@@ -100,16 +100,14 @@ var Dewey = (function (Dewey) {
     $scope.googleLogin = function () {
       gapi.auth.authorize({
               client_id: $scope.client_id,
-              scope: 'https://www.google.com/m8/feeds'},
+              scope: 'https://www.google.com/m8/feeds https://www.googleapis.com/auth/contacts https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/plus.me'},
               $scope.handleAuthResult);
 
     };
 
     $scope.handleAuthResult = function (authResult) {
-      console.log(authResult);
       gapi.client.load('oauth2', 'v2', function () {
         gapi.client.oauth2.userinfo.get().execute(function(resp) {
-          console.log(resp);
           var email = resp.email;
           
           $.post('/sessions/post_try_google_login.json', {
