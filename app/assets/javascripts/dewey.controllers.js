@@ -106,8 +106,10 @@ var Dewey = (function (Dewey) {
     };
 
     $scope.handleAuthResult = function (authResult) {
+      console.log(authResult);
       gapi.client.load('oauth2', 'v2', function () {
         gapi.client.oauth2.userinfo.get().execute(function(resp) {
+          console.log(resp);
           var email = resp.email;
           
           $.post('/sessions/post_try_google_login.json', {
