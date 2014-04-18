@@ -96,6 +96,7 @@ var Dewey = (function (Dewey) {
     $.get('/sessions/google_api', function (response) {
       $scope.client_id = response.client_id;
     });
+
     $scope.googleLogin = function () {
       gapi.auth.authorize({
               client_id: $scope.client_id,
@@ -141,7 +142,12 @@ var Dewey = (function (Dewey) {
 
     var token = localStorageService.get('dewey_auth_token');
     if (token) {
-      $location.path('/search');
+      $http({
+        url: '/sessions/get_auth_token',
+        method: "GET"
+      }).success(function(data, status, headers, config) {
+        $location.path('/search');
+      });
     }
 
     $scope.getGoogleContacts = function (accessToken, nextPath) {
