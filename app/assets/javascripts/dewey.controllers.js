@@ -55,31 +55,7 @@ var Dewey = (function (Dewey) {
       }
     };
 
-    $scope.upvote = function (link) {
-      $.post('/connections/' + link.connection.id + '/upvote', {
-        id: link.connection.id,
-        connection_type: link.connectionType
-      }).done(function(response) {
-        link.is_upvoted = true;
-        link.is_downvoted = false;
-        $scope.$apply();
-      });
-    };
-
-    $scope.downvote = function(link) {
-      $.post('/connections/' + link.connection.id + '/downvote', {
-        id: link.connection.id,
-        connection_type: link.connectionType
-      }).done(function(response) {
-        link.is_upvoted = false;
-        link.is_downvoted = true;
-        $scope.$apply();
-      });
-    };
-
-    $scope.$watch('graphNodes', function (newValue, oldValue) {
-      $scope.makeGraph();
-    });
+    $scope.makeGraph();
 
   }]);
 
