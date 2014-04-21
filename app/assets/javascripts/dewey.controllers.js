@@ -63,9 +63,7 @@ var Dewey = (function (Dewey) {
       }
     };
 
-    $scope.$watch('graphNodes', function (newValue, oldValue) {
-      $scope.makeGraph();
-    });
+    $scope.makeGraph();
 
   }]);
 
