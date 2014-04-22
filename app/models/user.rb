@@ -60,7 +60,11 @@ class User < ActiveRecord::Base
     return new_user
   end
 
+  # registers Dewey user
+  # if email is taken, returns nothing
+  # otherwise, returns new user
   def self.register_dewey_user(first_name, last_name, email, password)
+    # TODO: register dewey users to a different domain?
     graph = Graph.find_by_domain('fixtures')
     if not graph
       graph = Graph.new
@@ -68,10 +72,11 @@ class User < ActiveRecord::Base
       graph.save
     end
 
-    new_user = User.where(:email => email)
-    if(new_user)
-      # TODO: error, email already in use
+    new_user = User.where(:email => email).first
+    if new_user
       puts ("ERROR! Email in use.")
+      puts new_user.first_name
+      return
     end
     new_user = User.new
     new_user.first_name = first_name

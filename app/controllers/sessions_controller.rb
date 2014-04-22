@@ -41,13 +41,11 @@ class SessionsController < ApplicationController
 
     @user = User.find_by_email_and_password(email, password)
     if @user
-      puts ("found a user")
       render json: {:auth_token => @user.auth_token}, status: :ok
       return
     end
 
     if !goog_access_token.empty? and !goog_expires_time.empty?
-      puts ("google")
       @user = User.register_google_user(first_name, last_name,
                                 email, password, image_url,
                                 goog_access_token, goog_expires_time)
@@ -85,6 +83,10 @@ class SessionsController < ApplicationController
       render json: {:auth_token => @user.auth_token}, status: :ok
       return
     end
+
+    # error message for alert message in response, indicate error with status
+    render json: {:error_msg => "Error: email already in use."}, status: :internal_server_error
+    return
   end
 
   def logout

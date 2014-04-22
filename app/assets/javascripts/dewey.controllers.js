@@ -244,8 +244,7 @@ var Dewey = (function (Dewey) {
           $location.path('/search');
         });
       }).fail(function (response) {
-        delete $window.sessionStorage.token;
-        alert("Invalid Socialcast email and password - please retry.");
+        alert(response.error_msg);
       });
     }
   }]);
