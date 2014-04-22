@@ -1,4 +1,6 @@
 TeamDeweyWebsite::Application.routes.draw do
+  resources :groups
+
   get "sessions/login"
   get "sessions/google_api"
 
