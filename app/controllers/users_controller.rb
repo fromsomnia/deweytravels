@@ -20,12 +20,38 @@ class UsersController < ApplicationController
     end
   end
 
+  # Adds group to given user
+  # group_id as payload
   def add_group
-    #TODO WC
+    if params[:user_id].present? then
+      user = User.find(params[:user_id].to_i)
+      if params[:id].present? then
+        group = Group.find(params[:id])
+        if group != nil && user != nil then
+          if !user.groups.include? group then
+            user.groups << group
+          end
+        end
+      end
+    end
+    render :nothing => true
   end
 
+  # Removes group from given user
+  # group_id as payload
   def remove_group
-    #TODO WC
+    if params[:user_id].present? then
+      user = User.find(params[:user_id].to_i)
+      if params[:id].present? then
+        group = Group.find(params[:id])
+        if group != nil && user != nil then
+          if user.groups.include? group then
+            user.groups.delete(group)
+          end
+        end
+      end
+    end
+    render :nothing => true
   end
 
   def sort_by_degree(a, b)
