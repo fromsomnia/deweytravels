@@ -467,11 +467,11 @@
 			<div ng-controller="GraphController">
 				<svg>
 					<g class="graph-container">
-						<g class="primary" ng-repeat="node in graphNodes.slice(0,1)" ng-attr-transform="{{ 'translate(' + (graphWidth / 2) + ',' + (graphHeight / 2)  + ')'}}">
-							<circle ng-attr-r="{{ node.radius }}" fill="#1d9f7f"></circle>
-							<text dy="0.35em" style="font-size:1.2em" text-anchor="middle">{{ (node.first_name) ? node.first_name + ' ' + node.last_name : node.title }}</text>
+						<g class="primary" ng-attr-transform="{{ 'translate(' + primaryNode.x + ',' + primaryNode.y + ')'}}">
+							<circle ng-attr-r="{{ primaryNode.radius }}" fill="#1d9f7f"></circle>
+							<text dy="0.35em" style="font-size:1.2em" text-anchor="middle">{{ (primaryNode.first_name) ? primaryNode.first_name + ' ' + primaryNode.last_name : primaryNode.title }}</text>
 						</g>
-						<g class="outer" ng-repeat="node in graphNodes.slice(1)">
+						<g class="outer" ng-repeat="node in outerNodes" ng-attr-transform="{{ 'translate(' + node.x + ',' + node.y + ')' }}">
 							<circle ng-attr-r="{{ node.radius }}" fill="#25a0ca"></circle>
 							<text dy="0.35em" style="font-size:1.2em" text-anchor="middle">{{ (node.first_name) ? node.first_name + ' ' + node.last_name : node.title }}</text>
 						</g>
