@@ -35,11 +35,13 @@ var Dewey = (function (Dewey) {
       primaryNode.y = containerHeight / 2;
 
       var hypotenuse = primaryNode.radius + outerNodes[0].radius,
-        theta;
+        degrees,
+        radians;
       _.each(outerNodes, function (node, i) {
-        theta = 360 / (outerNodes.length + 1) * i;
-        node.x = hypotenuse * Math.cos(theta) + primaryNode.x;
-        node.y = hypotenuse * Math.sin(theta) + primaryNode.y;
+        degrees = 360 / (outerNodes.length) * i;
+        radians = degrees * Math.PI / 180;
+        node.x = primaryNode.x + hypotenuse * Math.cos(radians);
+        node.y = primaryNode.y + hypotenuse * Math.sin(radians);
       });
 
     }
@@ -52,10 +54,10 @@ var Dewey = (function (Dewey) {
         $scope.graphHeight = $('#data-viz svg').height();
 
         var primaryNode = $scope.graphNodes[0],
-          numberOfOuterNodes = 14,
+          numberOfOuterNodes = ($scope.graphNodes.length > 14) ? 14 : $scope.graphNodes.length,
           outerNodes = $scope.graphNodes.slice(1, 1 + numberOfOuterNodes),
           outerNodesPadding = 1,
-          primaryNodeRadius = 200,
+          primaryNodeRadius = 100,
           outerNodeRadius = primaryNodeRadius / (numberOfOuterNodes / Math.PI - 1);
 
         primaryNode.radius = primaryNodeRadius;
