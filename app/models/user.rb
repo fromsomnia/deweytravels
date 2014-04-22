@@ -135,24 +135,25 @@ class User < ActiveRecord::Base
     return true
   end
 
-  def self.register_or_login_user(sc, sc_user_id, domain, email, password)
-    if not Graph.find_by_domain(domain)
-      # TODO: This should move to background process at some point.
-      graph = Graph.new
-      graph.domain = domain
-      graph.save
+  # # no longer needed since Socialcast integration has been halted
+  # def self.register_or_login_user(sc, sc_user_id, domain, email, password)
+  #   if not Graph.find_by_domain(domain)
+  #     # TODO: This should move to background process at some point.
+  #     graph = Graph.new
+  #     graph.domain = domain
+  #     graph.save
 
-      # TODO: move to bg process
-      load_from_sc(sc, graph)
-    else
-      graph = Graph.find_by_domain(domain)
-    end
+  #     # TODO: move to bg process
+  #     load_from_sc(sc, graph)
+  #   else
+  #     graph = Graph.find_by_domain(domain)
+  #   end
 
-    user = User.where(:graph_id => graph.id, :sc_user_id => sc_user_id).first
-    user.email = email
-    user.password = password
-    return user
-  end
+  #   user = User.where(:graph_id => graph.id, :sc_user_id => sc_user_id).first
+  #   user.email = email
+  #   user.password = password
+  #   return user
+  # end
 
   private
     def set_auth_token

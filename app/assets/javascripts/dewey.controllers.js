@@ -92,6 +92,11 @@ var Dewey = (function (Dewey) {
 
   Dewey.DeweyApp.controller('LoginController', ['$scope', '$injector', '$location', '$http', 'localStorageService', 'DeweyFactory', function ($scope, $injector, $location, $http, localStorageService, DeweyFactory) {
     $scope.loginData = {};
+    $scope.googleLoginButton = true;
+    $scope.deweyLoginButton = true;
+    $scope.deweyRegisterButton = true;
+    $scope.showDeweyForm = false;
+    $scope.showDeweyRegisterForm = false;
 
     $.get('/sessions/google_api', function (response) {
       $scope.client_id = response.client_id;
@@ -125,7 +130,7 @@ var Dewey = (function (Dewey) {
             $scope.loginData.imageUrl = resp.picture;
             $scope.loginData.googAccessToken = authResult.access_token;
             $scope.loginData.googExpiresTime = Date.now() + authResult.expires_in * 1000;
-            $scope.showSocialcastForm = false;
+            $scope.showDeweyForm = false;
             $scope.showGoogleForm = true;
             $scope.$apply();
           });
@@ -133,11 +138,22 @@ var Dewey = (function (Dewey) {
       });
     }
 
-    $scope.showSocialcastLogin = function () {
-      $scope.showSocialcastForm = !$scope.showSocialcastForm;
+    $scope.showDeweyLogin = function () {
+      $scope.showDeweyForm = !$scope.showDeweyForm;
       $scope.showGoogleForm = false;
+      $scope.googleLoginButton = false;
+      $scope.deweyLoginButton = false;
+      $scope.deweyRegisterButton = false;
       $scope.loginData.googAccessToken = '';
       $scope.loginData.googExpiresTime = '';
+    }
+
+    $scope.showDeweyRegister = function () {
+      $scope.showDeweyRegisterForm = !$scope.showDeweyRegisterForm;
+      $scope.showGoogleForm = false;
+      $scope.googleLoginButton = false;
+      $scope.deweyLoginButton = false;
+      $scope.deweyRegisterButton = false;
     }
 
     var token = localStorageService.get('dewey_auth_token');
@@ -197,7 +213,6 @@ var Dewey = (function (Dewey) {
           $scope.$apply(function() {
             $location.path('/search');
           });
-
         }
 
       }).fail(function (response) {
@@ -205,6 +220,21 @@ var Dewey = (function (Dewey) {
         alert("Invalid Socialcast email and password - please retry.");
       });
     };
+
+    $scope.renderDefaultLogin = function () {
+      $scope.deweyLoginButton = true;
+      $scope.googleLoginButton = true;
+      $scope.deweyRegisterButton = true;
+      $scope.showDeweyForm = false;
+      $scope.showGoogleForm = false;
+      $scope.showDeweyRegisterForm = false;
+    }
+
+    $scope.register = function () {
+
+      
+    }
+
   }]);
 
   Dewey.DeweyApp.controller('LogoutController', ['$scope', '$injector', '$location', 'localStorageService', 'DeweyFactory', function ($scope, $injector, $location, localStorageService, DeweyFactory) {
