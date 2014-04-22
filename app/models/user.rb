@@ -64,7 +64,7 @@ class User < ActiveRecord::Base
     new_user = User.where(:email => email)
     if(new_user)
       # TODO: error, email already in use
-
+      puts ("ERROR! Email in use.")
     end
     new_user = User.new
     new_user.first_name = first_name
@@ -73,7 +73,7 @@ class User < ActiveRecord::Base
     new_user.password = password
     new_user.save
 
-    return user
+    return new_user
   end
 
 	def peers

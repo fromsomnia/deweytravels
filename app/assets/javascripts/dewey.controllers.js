@@ -219,7 +219,7 @@ var Dewey = (function (Dewey) {
         delete $window.sessionStorage.token;
         alert("Invalid Socialcast email and password - please retry.");
       });
-    };
+    }
 
     $scope.renderDefaultLogin = function () {
       $scope.deweyLoginButton = true;
@@ -231,10 +231,22 @@ var Dewey = (function (Dewey) {
     }
 
     $scope.register = function () {
-
-      
+      $.post('/sessions/register.json', {
+        email: $scope.loginData.email,
+        password: $scope.loginData.password,
+        image_url: $scope.loginData.imageUrl,
+        last_name: $scope.loginData.firstName,
+        first_name: $scope.loginData.lastName
+      }).done(function (response) {
+        localStorageService.add('dewey_auth_token', response.auth_token);
+        $scope.$apply(function() {
+          $location.path('/search');
+        });
+      }).fail(function (response) {
+        delete $window.sessionStorage.token;
+        alert("Invalid Socialcast email and password - please retry.");
+      });
     }
-
   }]);
 
   Dewey.DeweyApp.controller('LogoutController', ['$scope', '$injector', '$location', 'localStorageService', 'DeweyFactory', function ($scope, $injector, $location, localStorageService, DeweyFactory) {

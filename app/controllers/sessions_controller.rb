@@ -73,6 +73,18 @@ class SessionsController < ApplicationController
     # end
   end
 
+  def register
+    first_name = params[:first_name]
+    last_name = params[:last_name]
+    email = params[:email]
+    password = params[:password]
+    @user = User.register_dewey_user(first_name, last_name, email, password)
+    if @user
+      render json: {:auth_token => @user.auth_token}, status: :ok
+      return
+    end
+  end
+
   def logout
     sign_out
   end
