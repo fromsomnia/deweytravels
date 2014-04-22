@@ -7,6 +7,8 @@ class User < ActiveRecord::Base
 
   belongs_to :graph
 
+  has_and_belongs_to_many :groups
+
 	has_many :topic_user_connections, :foreign_key => "expert_id"
 	has_many :expertises, -> { uniq }, :through => :topic_user_connections, :source => :expertise
 
