@@ -1,5 +1,7 @@
 TeamDeweyWebsite::Application.routes.draw do
-  resources :groups
+  resources :groups do
+    resources :users
+  end
 
   get "sessions/login"
   get "sessions/google_api"
@@ -36,6 +38,7 @@ TeamDeweyWebsite::Application.routes.draw do
 
 
     resources :topics
+    resources :groups
 
   end
 
