@@ -340,35 +340,18 @@
 			</div>
 		</script>
 
-		<!-- visualization directive -->
+		<!-- visualization template -->
 		<script type="text/ng-template" id="/graph">
 			<div ng-controller="GraphController">
-				<svg ng-attr-width="100%" ng-attr-height="100%">
+				<svg>
 					<g class="graph-container">
-						<g class="links">
-							<g ng-repeat="link in graphLinks">
-								<line class="link" 
-									stroke-width="2" 
-									ng-attr-x1="{{ link.source.x }}"
-									ng-attr-y1="{{ link.source.y }}"
-									ng-attr-x2="{{ link.target.x }}"
-									ng-attr-y2="{{ link.target.y }}"></line>
-							</g>
+						<g class="primary" ng-repeat="node in graphNodes.slice(0,1)" ng-attr-transform="{{ 'translate(' + (graphWidth / 2) + ',' + (graphHeight / 2)  + ')'}}">
+							<circle ng-attr-r="{{ node.radius }}" fill="#1d9f7f"></circle>
+							<text dy="0.35em" style="font-size:1.2em" text-anchor="middle">{{ (node.first_name) ? node.first_name + ' ' + node.last_name : node.title }}</text>
 						</g>
-						<g class="nodes">
-							<g ng-repeat="node in graphNodes">
-								<a xlink:href="{{ (node.first_name) ? '#/users/' + node.id : '#/topics/' + node.id }}">
-									<circle class="node" 
-										ng-attr-r="{{ node.radius }}" 
-										ng-attr-fill="{{ (node.first_name) ? '#FFFF66' : '#00CC66' }}"
-										ng-attr-cx="{{ node.x }}"
-										ng-attr-cy="{{ node.y }}"></circle>
-								</a>
-								<text pointer-events="none"
-									ng-attr-x="{{ node.x }}"
-									ng-attr-y="{{ node.y }}"
-									text-anchor="middle">{{ (node.first_name) ? node.first_name + ' ' + node.last_name : node.title }}</text>
-							</g>
+						<g class="outer" ng-repeat="node in graphNodes.slice(1)">
+							<circle ng-attr-r="{{ node.radius }}" fill="#25a0ca"></circle>
+							<text dy="0.35em" style="font-size:1.2em" text-anchor="middle">{{ (node.first_name) ? node.first_name + ' ' + node.last_name : node.title }}</text>
 						</g>
 					</g>
 				</svg>
