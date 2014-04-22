@@ -4,7 +4,7 @@ class CreateGroups < ActiveRecord::Migration
 
     	t.column :title, :string
     	t.column :description, :string
-    	t.column :user_id, :integer
+    	t.column :creator_id, :integer
 
     end
   end

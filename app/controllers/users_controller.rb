@@ -20,6 +20,14 @@ class UsersController < ApplicationController
     end
   end
 
+  def add_group
+    #TODO WC
+  end
+
+  def remove_group
+    #TODO WC
+  end
+
   def sort_by_degree(a, b)
     if a != nil then
       if b != nil then

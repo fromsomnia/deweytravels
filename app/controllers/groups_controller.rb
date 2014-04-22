@@ -61,6 +61,14 @@ class GroupsController < ApplicationController
     end
   end
 
+  def add_user
+    #TODO WC
+  end
+
+  def remove_user
+    #TODO WC
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_group
