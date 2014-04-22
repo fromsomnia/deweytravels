@@ -54,24 +54,23 @@ class SessionsController < ApplicationController
       return
     end
 
-    sc = Socialcast.new(email, password)
-    status = sc.authenticate
+    # # don't need anymore since we aren't using socialcast login
+    # sc = Socialcast.new(email, password)
+    # status = sc.authenticate
 
-    if status['authentication-failure']
-      err = status['authentication-failure']
-      render json: err, status: :unauthorized
-    else
-      # TODO: figure out what to do if login belongs to > 1 community
-      info = status['communities'][0]
-      domain = info['subdomain']
-      sc_user_id = info['profile']['id']
-
-      # At this point, it will be a new user, because we check for
-      # existing users with this email above.
-      @user = User.register_or_login_user(sc, sc_user_id, domain, email, password)
-      UserMailer.delay.welcome_email(@user)
-      render json: {:auth_token => @user.auth_token}, status: :ok
-    end
+    # if status['authentication-failure']
+    #   err = status['authentication-failure']
+    #   render json: err, status: :unauthorized
+    # else
+    #   # TODO: figure out what to do if login belongs to > 1 community
+    #   info = status['communities'][0]
+    #   domain = info['subdomain']
+    #   sc_user_id = info['profile']['id']
+      
+    #   @user = User.register_or_login_user(sc, sc_user_id, domain, email, password)
+    #   UserMailer.delay.welcome_email(@user)
+    #   render json: {:auth_token => @user.auth_token}, status: :ok
+    # end
   end
 
   def logout

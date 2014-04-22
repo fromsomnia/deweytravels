@@ -60,6 +60,22 @@ class User < ActiveRecord::Base
     return new_user
   end
 
+  def self.register_dewey_user(first_name, last_name, email, password)
+    new_user = User.where(:email => email)
+    if(new_user)
+      # TODO: error, email already in use
+
+    end
+    new_user = User.new
+    new_user.first_name = first_name
+    new_user.last_name = last_name
+    new_user.email = email
+    new_user.password = password
+    new_user.save
+
+    return user
+  end
+
 	def peers
 		@peers = []
 		self.superiors.each do |boss|
