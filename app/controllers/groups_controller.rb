@@ -4,7 +4,21 @@ class GroupsController < ApplicationController
   # GET /groups
   # GET /groups.json
   def index
-    @groups = Group.all
+    @groups = []
+    if params[:user_id].present? then
+      user = User.find(params[:user_id].to_i)
+      if user != nil then
+        @groups = user.groups
+      else
+        @groups = Group.all
+      end
+    else
+      @groups = Group.all
+    end
+    respond_to do |format|
+      format.html { redirect_to users_url }
+      format.json { render json: @users }
+    end
   end
 
   # GET /groups/1
@@ -61,12 +75,38 @@ class GroupsController < ApplicationController
     end
   end
 
+  #Adds user to given group
+  #user_id as payload
   def add_user
-    #TODO WC
+    if params[:group_id].present? then
+      group = Group.find(params[:group_id].to_i)
+      if params[:id].present? then
+        user = User.find(params[:id])
+        if group != nil && user != nil then
+          if !group.users.include? user then
+            group.users << user
+          end
+        end
+      end
+    end
+    render :nothing => true
   end
 
+  #Removes user group given group
+  #user_id as payload
   def remove_user
-    #TODO WC
+    if params[:group_id].present? then
+      group = Group.find(params[:group_id].to_i)
+      if params[:id].present? then
+        user = User.find(params[:id])
+        if group != nil && user != nil then
+          if group.users.include? user then
+            group.users.delete(user)
+          end
+        end
+      end
+    end
+    render :nothing => true
   end
 
   private
