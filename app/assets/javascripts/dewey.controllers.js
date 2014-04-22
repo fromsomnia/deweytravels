@@ -37,29 +37,101 @@ var Dewey = (function (Dewey) {
       });
     });
 
+    function collide (alpha, nodes) {
+      var quadtree = d3.geom.quadtree(nodes),
+        padding = 1.5;
+      return function (d) {
+        var r = d.radius + padding,
+            nx1 = d.x - r,
+            nx2 = d.x + r,
+            ny1 = d.y - r,
+            ny2 = d.y + r;
+        quadtree.visit(function (quad, x1, y1, x2, y2) {
+          if (quad.point && (quad.point !== d)) {
+            var x = d.x - quad.point.x,
+                y = d.y - quad.point.y,
+                l = Math.sqrt(x * x + y * y),
+                r = d.radius + quad.point.radius + padding;
+            if (l < r) {
+              l = (l - r) / l * alpha;
+              d.x -= x *= l;
+              d.y -= y *= l;
+              quad.point.x += x;
+              quad.point.y += y;
+            }
+          }
+          return x1 > nx2 || x2 < nx1 || y1 > ny2 || y2 < ny1;
+        });
+      };
+    }
+
+    function cluster (alpha, cluster) {
+      if (!cluster) {
+        return function (d) { return; };
+      }
+      return function (d) {
+        if (cluster === d) return;
+        var x = d.x - cluster.x,
+            y = d.y - cluster.y,
+            l = Math.sqrt(x * x + y * y),
+            r = d.radius + cluster.radius;
+        if (l != r) {
+          l = (l - r) / l * alpha;
+          d.x -= x *= l;
+          d.y -= y *= l;
+          cluster.x += x;
+          cluster.y += y;
+        }
+      };
+    }
+
+    var isDataBinded = false;
+
     $scope.makeGraph = function () {
       if ($scope.graphNodes) {
 
-        $scope.graphWidth = $("#data-viz svg").width();
-        $scope.graphHeight = $("#data-viz svg").height();
+        $scope.graphWidth = $('#data-viz svg').width();
+        $scope.graphHeight = $('#data-viz svg').height();
 
+        $scope.graphNodes = $scope.graphNodes.slice(0,15)
         _.each($scope.graphNodes, function (node) {
-          node.radius = (node.first_name) ? 10 : 60;
+          node.radius = 100 / (($scope.graphNodes.length - 1) / 3.14 - 1) - 2;
         });
-        // apply force animations on graph
-        force = d3.layout
-          .force()
-          .charge(-1200)
-          .linkDistance(205)
-          .size([$scope.graphWidth, $scope.graphHeight]);
-        force.nodes($scope.graphNodes)
-          .links($scope.graphLinks)
-          .theta(1)
-          .on('tick', function () {
-            // updates the data bindings
-            $scope.$apply();
+        $scope.graphNodes[0].radius = 100;
+        $scope.graphNodes[0].x = $scope.graphWidth / 2;
+        $scope.graphNodes[0].y = $scope.graphHeight / 2;
+
+        d3.layout.force()
+          .nodes($scope.graphNodes.slice(1))
+          .size([$scope.graphWidth, $scope.graphHeight])
+          .gravity(0.1)
+          .charge(0.5)
+          .on('tick', function (e) {
+            if (!isDataBinded) {
+              d3.selectAll('svg .primary, svg .outer')
+                .data($scope.graphNodes)
+                .enter();
+            }
+
+            var count = 0;
+
+            d3.selectAll('svg .primary, svg .outer')
+              .each(cluster(e.alpha * e.alpha, $scope.graphNodes[0]))
+              .each(collide(0.5, $scope.graphNodes))
+              .each(function (d) {
+                if (!count) {
+                  d.x = $scope.graphWidth / 2;
+                  d.y = $scope.graphHeight / 2;
+                }
+                count++;
+              })
+              .attr('transform', function (d) {
+                return 'translate(' + d.x + ',' + d.y + ')';
+              });
+
           })
           .start();
+
       }
     };
 
