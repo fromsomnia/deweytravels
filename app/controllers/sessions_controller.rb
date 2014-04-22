@@ -90,6 +90,7 @@ class SessionsController < ApplicationController
     password = params[:password]
     @user = User.register_dewey_user(first_name, last_name, email, password)
     if @user
+      UserMailer.delay.welcome_email(@user)
       render json: {:auth_token => @user.auth_token}, status: :ok
       return
     end
