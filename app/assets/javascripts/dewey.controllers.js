@@ -216,8 +216,7 @@ var Dewey = (function (Dewey) {
         }
 
       }).fail(function (response) {
-        // what is this line supposed to do? it causes a javascript error
-        //delete $window.sessionStorage.token;
+        localStorageService.remove('dewey_auth_token');
         alert(response.responseJSON.error_msg);
       });
     }

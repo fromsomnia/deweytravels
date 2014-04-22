@@ -87,38 +87,4 @@ class UserTest < ActiveSupport::TestCase
     Graph.update_all_users_in_all_domains
     assert_equal(old_num + 2, User.all.length)
   end
-
-  # # no longer need since Socialcast is no longer supported
-  # test "register_or_login_user" do
-  #   old_num = User.all.length
-  #   Socialcast.any_instance.stubs(:get_users).returns(_get_socialcast_users('dewey'))
-
-  #   sc = Socialcast.new("dummy_email@email.com", "dummy_password")
-
-  #   # Test that registering a new user saves the email, password
-  #   # and grab other users in the socialcast instance
-  #   user = User.register_or_login_user(sc, 2, "dewey",
-  #                           "dummy_email@email.com", "dummy_password")
-
-  #   assert_equal(2, Graph.all.length)
-  #   assert_equal(old_num + 2, User.all.length)
-  #   assert_equal("dummy_password", user.password)
-  #   assert_equal("dummy_email@email.com", user.email)
-    
-  #   graph = Graph.find_by_domain("dewey")
-  #   assert graph
-  #   other_user = User.where(:graph_id => graph.id, :sc_user_id => 1).first
-  #   assert other_user
-
-  #   assert_equal("bot@socialcast.com", other_user.email)
-
-  #   # Test that logging in a previously saved user does not grab
-  #   # other (duplicate) users in the socialcast instance.
-
-  #   user = User.register_or_login_user(sc, 2, "dewey",
-  #                           "dummy_email@email.com", "dummy_password")
-
-  #   assert_equal(old_num + 2, User.all.length)
-  #   assert_equal(2, Graph.all.length)
-  # end
 end
