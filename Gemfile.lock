@@ -28,6 +28,7 @@ GEM
     addressable (2.3.5)
     arel (4.0.2)
     atomic (1.1.14)
+    bcrypt (3.1.7)
     blankslate (2.1.2.4)
     bloggy (0.3)
       jekyll (~> 1.4.2)
@@ -196,6 +197,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  bcrypt
   bloggy
   bootstrap-sass (~> 3.1.1)
   coffee-rails (~> 4.0.0)

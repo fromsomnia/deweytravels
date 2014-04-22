@@ -218,7 +218,7 @@ var Dewey = (function (Dewey) {
       }).fail(function (response) {
         // what is this line supposed to do? it causes a javascript error
         //delete $window.sessionStorage.token;
-        alert("Invalid email/password combination - please retry.");
+        alert(response.responseJSON.error_msg);
       });
     }
 
@@ -244,7 +244,7 @@ var Dewey = (function (Dewey) {
           $location.path('/search');
         });
       }).fail(function (response) {
-        alert(response.error_msg);
+        alert(response.responseJSON.error_msg);
       });
     }
   }]);

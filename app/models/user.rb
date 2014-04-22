@@ -3,6 +3,7 @@ require 'socialcast'
 class User < ActiveRecord::Base
 	attr_accessible :sc_user_id, :first_name, :last_name, :domain, :email, :phone, :username, :password, :position, :department, :image_url
   before_create :set_auth_token, :set_image_url
+  before_save :encrypt_password
 
   belongs_to :graph
 
@@ -75,7 +76,6 @@ class User < ActiveRecord::Base
     new_user = User.where(:email => email).first
     if new_user
       puts ("ERROR! Email in use.")
-      puts new_user.first_name
       return
     end
     new_user = User.new
@@ -182,6 +182,13 @@ class User < ActiveRecord::Base
 
       begin
         self.image_url = '/assets/default_user_image.png'
+      end
+    end
+    def encrypt_password
+      if password.present?
+        self.salt = BCrypt::Engine.generate_salt
+        self.password_enc = BCrypt::Engine.hash_secret(password, salt)
+        self.password = nil
       end
     end
 end

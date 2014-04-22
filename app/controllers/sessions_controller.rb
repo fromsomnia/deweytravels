@@ -39,9 +39,19 @@ class SessionsController < ApplicationController
     goog_expires_time = params[:goog_expires_time]
     image_url = params[:image_url]
 
-    @user = User.find_by_email_and_password(email, password)
+    @user = User.find_by_email(email)
+    puts "found user"
+    puts @user
     if @user
-      render json: {:auth_token => @user.auth_token}, status: :ok
+      salt = @user.salt
+      password_enc = BCrypt::Engine.hash_secret(password, salt)
+      if password_enc == @user.password_enc
+        render json: {:auth_token => @user.auth_token}, status: :ok
+      else
+        puts "incorrect password"
+        # error message for alert message in response, indicate error with status
+        render json: {:error_msg => "Error: incorrect password."}, status: :internal_server_error
+      end
       return
     end
 
