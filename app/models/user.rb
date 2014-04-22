@@ -75,7 +75,6 @@ class User < ActiveRecord::Base
 
     new_user = User.where(:email => email).first
     if new_user
-      puts ("ERROR! Email in use.")
       return
     end
     new_user = User.new
