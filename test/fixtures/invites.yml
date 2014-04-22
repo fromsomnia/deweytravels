@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  inviter_id: 
+  group_id: 
+  invite_code: MyString
+
+two:
+  inviter_id: 
+  group_id: 
+  invite_code: MyString
