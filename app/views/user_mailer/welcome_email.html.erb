@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
+  </head>
+  <body>
+    <h1>Welcome to Dewey, <%= @user.first_name %>!</h1>
+    <p>
+      In Dewey, you can collaboratively build a knowledge base about experts in your companies.
+    </p>
+
+    <p>
+      Three Steps to Get Started:
+    </p>
+    <p>
+      <ol>
+        <li><a href="<%= @login_url %>">Login</a> and explore your company's data.</li>
+        <li>Invite your friends</li>
+        <li>What do you know? Complete your profile</li>
+      </ol>
+    </p>
+
+    <p>Thanks for joining and have a great day!</p>
+  </body>
+</html>

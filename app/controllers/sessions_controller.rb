@@ -49,7 +49,7 @@ class SessionsController < ApplicationController
       @user = User.register_google_user(first_name, last_name,
                                 email, password, image_url,
                                 goog_access_token, goog_expires_time)
-
+      UserMailer.delay.welcome_email(@user)
       render json: {:auth_token => @user.auth_token}, status: :ok
       return
     end
@@ -65,9 +65,11 @@ class SessionsController < ApplicationController
       info = status['communities'][0]
       domain = info['subdomain']
       sc_user_id = info['profile']['id']
-      
-      @user = User.register_or_login_user(sc, sc_user_id, domain, email, password)
 
+      # At this point, it will be a new user, because we check for
+      # existing users with this email above.
+      @user = User.register_or_login_user(sc, sc_user_id, domain, email, password)
+      UserMailer.delay.welcome_email(@user)
       render json: {:auth_token => @user.auth_token}, status: :ok
     end
   end
