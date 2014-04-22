@@ -39,13 +39,21 @@ class SessionsController < ApplicationController
     goog_expires_time = params[:goog_expires_time]
     image_url = params[:image_url]
 
-    @user = User.find_by_email_and_password(email, password)
+    @user = User.find_by_email(email)
+
     if @user
-      render json: {:auth_token => @user.auth_token}, status: :ok
+      salt = @user.salt
+      password_enc = BCrypt::Engine.hash_secret(password, salt)
+      if password_enc == @user.password_enc
+        render json: {:auth_token => @user.auth_token}, status: :ok
+      else
+        # error message for alert message in response, indicate error with status
+        render json: {:error_msg => "Error: incorrect password."}, status: :internal_server_error
+      end
       return
     end
 
-    if goog_access_token and goog_expires_time
+    if !goog_access_token.empty? and !goog_expires_time.empty?
       @user = User.register_google_user(first_name, last_name,
                                 email, password, image_url,
                                 goog_access_token, goog_expires_time)
@@ -53,25 +61,23 @@ class SessionsController < ApplicationController
       render json: {:auth_token => @user.auth_token}, status: :ok
       return
     end
+  end
 
-    sc = Socialcast.new(email, password)
-    status = sc.authenticate
-
-    if status['authentication-failure']
-      err = status['authentication-failure']
-      render json: err, status: :unauthorized
-    else
-      # TODO: figure out what to do if login belongs to > 1 community
-      info = status['communities'][0]
-      domain = info['subdomain']
-      sc_user_id = info['profile']['id']
-
-      # At this point, it will be a new user, because we check for
-      # existing users with this email above.
-      @user = User.register_or_login_user(sc, sc_user_id, domain, email, password)
+  def register
+    first_name = params[:first_name]
+    last_name = params[:last_name]
+    email = params[:email]
+    password = params[:password]
+    @user = User.register_dewey_user(first_name, last_name, email, password)
+    if @user
       UserMailer.delay.welcome_email(@user)
       render json: {:auth_token => @user.auth_token}, status: :ok
+      return
     end
+
+    # error message for alert message in response, indicate error with status
+    render json: {:error_msg => "Error: email already in use."}, status: :internal_server_error
+    return
   end
 
   def logout

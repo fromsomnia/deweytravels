@@ -8,7 +8,9 @@ class CreateUsers < ActiveRecord::Migration
     	t.column :email, :string
         t.column :phone, :string
     	t.column :username, :string
-    	t.column :password, :string
+        t.column :password, :string
+    	t.column :password_enc, :string
+        t.column :salt, :string
     	t.column :position, :string
     	t.column :department, :string
         t.column :image_16, :string

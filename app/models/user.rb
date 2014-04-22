@@ -1,7 +1,9 @@
 require 'socialcast'
+
 class User < ActiveRecord::Base
 	attr_accessible :sc_user_id, :first_name, :last_name, :domain, :email, :phone, :username, :password, :position, :department, :image_url
   before_create :set_auth_token, :set_image_url
+  before_save :encrypt_password
 
   belongs_to :graph
 
@@ -56,6 +58,33 @@ class User < ActiveRecord::Base
     new_user.goog_access_token = goog_access_token
     new_user.goog_expires_time = goog_expires_time
     new_user.save
+    return new_user
+  end
+
+  # registers Dewey user
+  # if email is taken, returns nothing
+  # otherwise, returns new user
+  def self.register_dewey_user(first_name, last_name, email, password)
+    # TODO: register dewey users to a different domain?
+    graph = Graph.find_by_domain('fixtures')
+    if not graph
+      graph = Graph.new
+      graph.domain = 'fixtures'
+      graph.save
+    end
+
+    new_user = User.where(:email => email).first
+    if new_user
+      return
+    end
+    new_user = User.new
+    new_user.first_name = first_name
+    new_user.last_name = last_name
+    new_user.email = email
+    new_user.password = password
+    new_user.graph = graph
+    new_user.save
+
     return new_user
   end
 
@@ -118,25 +147,6 @@ class User < ActiveRecord::Base
     return true
   end
 
-  def self.register_or_login_user(sc, sc_user_id, domain, email, password)
-    if not Graph.find_by_domain(domain)
-      # TODO: This should move to background process at some point.
-      graph = Graph.new
-      graph.domain = domain
-      graph.save
-
-      # TODO: move to bg process
-      load_from_sc(sc, graph)
-    else
-      graph = Graph.find_by_domain(domain)
-    end
-
-    user = User.where(:graph_id => graph.id, :sc_user_id => sc_user_id).first
-    user.email = email
-    user.password = password
-    return user
-  end
-
   private
     def set_auth_token
       return if auth_token.present?
@@ -151,6 +161,13 @@ class User < ActiveRecord::Base
 
       begin
         self.image_url = '/assets/default_user_image.png'
+      end
+    end
+    def encrypt_password
+      if password.present?
+        self.salt = BCrypt::Engine.generate_salt
+        self.password_enc = BCrypt::Engine.hash_secret(password, salt)
+        self.password = nil
       end
     end
 end
