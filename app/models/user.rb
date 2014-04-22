@@ -61,6 +61,13 @@ class User < ActiveRecord::Base
   end
 
   def self.register_dewey_user(first_name, last_name, email, password)
+    graph = Graph.find_by_domain('fixtures')
+    if not graph
+      graph = Graph.new
+      graph.domain = 'fixtures'
+      graph.save
+    end
+
     new_user = User.where(:email => email)
     if(new_user)
       # TODO: error, email already in use
@@ -71,6 +78,7 @@ class User < ActiveRecord::Base
     new_user.last_name = last_name
     new_user.email = email
     new_user.password = password
+    new_user.graph = graph
     new_user.save
 
     return new_user

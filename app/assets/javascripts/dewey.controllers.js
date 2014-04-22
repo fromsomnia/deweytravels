@@ -105,9 +105,9 @@ var Dewey = (function (Dewey) {
     $scope.googleLogin = function () {
       gapi.auth.authorize({
               client_id: $scope.client_id,
-              scope: 'https://www.google.com/m8/feeds https://www.googleapis.com/auth/contacts https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/plus.me'},
-              $scope.handleAuthResult);
-
+              scope: 'https://www.google.com/m8/feeds https://www.googleapis.com/auth/contacts https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/plus.me'
+            },
+            $scope.handleAuthResult);
     };
 
     $scope.handleAuthResult = function (authResult) {
@@ -216,8 +216,9 @@ var Dewey = (function (Dewey) {
         }
 
       }).fail(function (response) {
-        delete $window.sessionStorage.token;
-        alert("Invalid Socialcast email and password - please retry.");
+        // what is this line supposed to do? it causes a javascript error
+        //delete $window.sessionStorage.token;
+        alert("Invalid email/password combination - please retry.");
       });
     }
 
@@ -235,8 +236,8 @@ var Dewey = (function (Dewey) {
         email: $scope.loginData.email,
         password: $scope.loginData.password,
         image_url: $scope.loginData.imageUrl,
-        last_name: $scope.loginData.firstName,
-        first_name: $scope.loginData.lastName
+        first_name: $scope.loginData.firstName,
+        last_name: $scope.loginData.lastName
       }).done(function (response) {
         localStorageService.add('dewey_auth_token', response.auth_token);
         $scope.$apply(function() {
