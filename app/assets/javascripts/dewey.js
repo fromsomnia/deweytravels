@@ -5,7 +5,6 @@ function Dewey () {
 	var DeweyApp = angular.module('DeweyApp', ['ngRoute', 'ui.bootstrap']);
 
 	// ...
-<<<<<<< HEAD
 	var BaseController = ['$scope', '$location', 'DeweyFactory', function ($scope, $location, DeweyFactory) {
 
 		// bind data to the $scope
@@ -19,42 +18,17 @@ function Dewey () {
 		$scope.queryData = {};
 
 		// search using API
-=======
-  var BaseController = ['$scope', '$location', 'DeweyFactory', function ($scope, $location, DeweyFactory) {
-
-  	// bind data to the $scope
-	  $scope.results = DeweyFactory.results;
-	  $scope.user = DeweyFactory.user;
-	  $scope.topic = DeweyFactory.topic;
-	  $scope.topics = DeweyFactory.topics;
-    $scope.topic_choices =  DeweyFactory.all_topics;
-	  $scope.nodes_links = DeweyFactory.nodes_links;
-	  $scope.loginData = {};
-	  $scope.queryData = {};
-
-	  // search using API
->>>>>>> applying personal style guide to javascript in dewey.js; we need more clarification comments in code, i think;
 		$scope.search = function () {
 			if (event.keyCode == 13) {
 				$location.path('/search/' + $scope.queryData.query);
 			}
 		};
-<<<<<<< HEAD
 	}];
 
 	// configuration
 	DeweyApp.config(['$routeProvider', function ($routeProvider) {
 
 	  // establish routes and resolve promises before displaying view
-=======
-
-  }];
-
-  // configuration
-	DeweyApp.config(['$routeProvider', function ($routeProvider) {
-
-		// establish routes and resolve promises before displaying view
->>>>>>> applying personal style guide to javascript in dewey.js; we need more clarification comments in code, i think;
 	  $routeProvider
 	  	// default view
 	    .when('/', {
@@ -251,13 +225,8 @@ function Dewey () {
 
 		// return public factory methods
 		var factory = {};
-<<<<<<< HEAD
 	    factory.getAllTopics = getAllTopics;
 	    factory.getAllUsers = getAllUsers;
-=======
-    factory.getAllTopics = getAllTopics;
-    factory.getAllUsers = getAllUsers;
->>>>>>> applying personal style guide to javascript in dewey.js; we need more clarification comments in code, i think;
 		factory.getResults = getResults;
 		factory.getUser = getUser;
 		factory.getUsers = getUsers;
@@ -267,7 +236,6 @@ function Dewey () {
 	  return factory;
   }]);
 
-<<<<<<< HEAD
 	// service that can be called from any controller to re-render the graph based on the new URL
 	DeweyApp.factory('GraphService', ['$rootScope', function ($rootScope) {
 		var factory = {};
@@ -281,19 +249,11 @@ function Dewey () {
 
 	// ...
   DeweyApp.controller('DeweyController', ['$scope', '$injector', '$location', 'DeweyFactory', function ($scope, $injector, $location, DeweyFactory) {
-=======
-	// ...
-  DeweyApp.controller('DeweyController', ['$scope', '$injector', '$location', 'DeweyFactory', function($scope, $injector, $location, DeweyFactory) {
->>>>>>> applying personal style guide to javascript in dewey.js; we need more clarification comments in code, i think;
     $injector.invoke(BaseController, this, {$scope: $scope, $location: $location, DeweyFactory: DeweyFactory});
   }]);
 
   // ...
-<<<<<<< HEAD
   DeweyApp.controller('LoginController', ['$scope', '$injector', '$location', 'DeweyFactory', 'GraphService', function ($scope, $injector, $location, DeweyFactory, GraphService) {
-=======
-  DeweyApp.controller('LoginController', ['$scope', '$injector', '$location', 'DeweyFactory', function($scope, $injector, $location, DeweyFactory) {
->>>>>>> applying personal style guide to javascript in dewey.js; we need more clarification comments in code, i think;
     $scope.loginData = {};
 	  $scope.login = function () {
 	  	$.post('/session/post_login', { 
@@ -309,17 +269,10 @@ function Dewey () {
 	    });
 	  };
   }]);
-<<<<<<< HEAD
 
   // ...
   DeweyApp.controller('UserController', ['$scope', '$injector', '$location', 'DeweyFactory', 'GraphService', function ($scope, $injector, $location, DeweyFactory, GraphService) {
 
-=======
-
-  // ...
-  DeweyApp.controller('UserController', ['$scope', '$injector', '$location', 'DeweyFactory', function($scope, $injector, $location, DeweyFactory) {
-
->>>>>>> applying personal style guide to javascript in dewey.js; we need more clarification comments in code, i think;
     $injector.invoke(BaseController, this, {$scope: $scope, $location: $location, DeweyFactory: DeweyFactory});
     $scope.topic_choices =  DeweyFactory.all_topics;
 
@@ -340,21 +293,12 @@ function Dewey () {
         alert("Fail to add topic to user - please retry.");
       });
     };
-<<<<<<< HEAD
     GraphService.renderGraph();
   }]);
 
   // ...
   DeweyApp.controller('TopicController', ['$scope', '$injector', '$location', 'DeweyFactory', 'GraphService', function ($scope, $injector, $location, DeweyFactory, GraphService) {
     $injector.invoke(BaseController, this, {$scope: $scope, $location: $location, DeweyFactory: DeweyFactory});
-=======
-    
-  }]);
-
-  // ...
-  DeweyApp.controller('TopicController', ['$scope', '$injector', '$location', 'DeweyFactory', function ($scope, $injector, $location, DeweyFactory) {
->>>>>>> applying personal style guide to javascript in dewey.js; we need more clarification comments in code, i think;
-
     $injector.invoke(BaseController, this, {$scope: $scope, $location: $location, DeweyFactory: DeweyFactory});
     $scope.user_choices = DeweyFactory.all_users;
     $scope.should_show_add_user_to_topic = true;
@@ -375,7 +319,6 @@ function Dewey () {
         alert("Fail to add user to topic - please retry.");
       });
     };
-<<<<<<< HEAD
     GraphService.renderGraph();
   }]);
 
@@ -450,12 +393,6 @@ function Dewey () {
 	});
 
 	// return DeweyApp as a result of function invocation
-=======
-
-  }]);
-
-  // return DeweyApp as a result of function invocation
->>>>>>> applying personal style guide to javascript in dewey.js; we need more clarification comments in code, i think;
 	return DeweyApp;
 
 };
