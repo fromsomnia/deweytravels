@@ -156,13 +156,15 @@ var Dewey = (function (Dewey) {
 
   }]);
 
-  Dewey.DeweyApp.controller('LoginController', ['$scope', '$injector', '$location', '$http', 'localStorageService', 'DeweyFactory', function ($scope, $injector, $location, $http, localStorageService, DeweyFactory) {
+  Dewey.DeweyApp.controller('LoginController', ['$scope', '$injector', '$location', '$http', '$analytics', 'localStorageService', 'DeweyFactory', function ($scope, $injector, $location, $http, $analytics, localStorageService, DeweyFactory) {
     $scope.loginData = {};
     $scope.facebookLoginButton = true;
 
     $scope.facebookLogin = function () {
+       $analytics.eventTrack('click_facebook_login_button');
        FB.login(function(response) {
          if (response.authResponse) {
+           $analytics.eventTrack('facebook_login_success');
             // may be used in the future for "autoupdate friends list in the background or in scheduler / cron" per Veni
             accessToken = response.authResponse.accessToken;
             FB.api('/me', {fields: ['first_name', 'last_name', 'email', 'picture.type(large)', 'locations']}, function(response) {
@@ -175,6 +177,8 @@ var Dewey = (function (Dewey) {
                 image_url: response.picture.data.url,
                 locations: response.locations
               }).done(function (response) {
+                $analytics.eventTrack('signup_user');
+
                 localStorageService.add('dewey_auth_token', response.auth_token);
                 FB.api('/me/friends', {fields: ['first_name', 'last_name', 'picture']}, function(fb_response) {
                   $http({
@@ -182,16 +186,19 @@ var Dewey = (function (Dewey) {
                     method: "POST",
                     data: { friends: fb_response.data }
                   }).success(function(null_response) {
+                    $analytics.eventTrack('login_user', { 'type': 'facebook' });
                     $location.path('/users/' + response.uid);
                   });
                 });
               }).fail(function (response) {
+                $analytics.eventTrack('signup_user_failed');
                 // TODO
               });
             });
 
 
          } else {
+           $analytics.eventTrack('facebook_login_failed');
            console.log('User cancelled login or did not fully authorize.');
          }
        }, {scope: 'email,user_status', return_scopes: true});
@@ -203,14 +210,16 @@ var Dewey = (function (Dewey) {
         url: '/sessions/get_auth_token',
         method: "GET"
       }).success(function(data, status, headers, config) {
+        $analytics.eventTrack('login_user', { 'type': 'auto_login' } );
         $location.path('/users/' + data.uid);
       });
     }
-
   }]);
 
   Dewey.DeweyApp.controller('LogoutController', ['$scope', '$injector', '$location', 'localStorageService', 'DeweyFactory', function ($scope, $injector, $location, localStorageService, DeweyFactory) {
     localStorageService.remove('dewey_auth_token');
+
+    $analytics.eventTrack('logout_user')
     $location.path('/');
   }]);
 
