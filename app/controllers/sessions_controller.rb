@@ -42,39 +42,6 @@ class SessionsController < ApplicationController
     return
   end
 
-  def post_login
-    email = params[:email]
-    password = params[:password]
-    first_name = params[:first_name]
-    last_name = params[:last_name]
-    goog_access_token = params[:goog_access_token]
-    goog_expires_time = params[:goog_expires_time]
-    image_url = params[:image_url]
-
-    @user = User.find_by_email(email)
-
-    if @user
-      salt = @user.salt
-      password_enc = BCrypt::Engine.hash_secret(password, salt)
-      if password_enc == @user.password_enc
-        render json: {:auth_token => @user.auth_token}, status: :ok
-      else
-        # error message for alert message in response, indicate error with status
-        render json: {:error_msg => "Error: incorrect password."}, status: :internal_server_error
-      end
-      return
-    end
-
-    if !goog_access_token.empty? and !goog_expires_time.empty?
-      @user = User.register_google_user(first_name, last_name,
-                                email, password, image_url,
-                                goog_access_token, goog_expires_time)
-      UserMailer.delay.welcome_email(@user)
-      render json: {:auth_token => @user.auth_token}, status: :ok
-      return
-    end
-  end
-
   def logout
     sign_out
   end

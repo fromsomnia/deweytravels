@@ -3,7 +3,6 @@ require 'socialcast'
 class User < ActiveRecord::Base
 	attr_accessible :sc_user_id, :first_name, :last_name, :domain, :email, :phone, :username, :password, :position, :department, :image_url
   before_create :set_auth_token, :set_image_url
-  before_save :encrypt_password
 
   belongs_to :graph
 
@@ -97,47 +96,6 @@ class User < ActiveRecord::Base
 		return curr_degree
 	end
 
-
-  # Returns a Dewey user instance from a Socialcast user instance
-  def self._user_from_sc_user(sc_user, graph)
-    new_user = User.where(:sc_user_id => sc_user['id'], :graph_id => graph.id).first
-    if (!new_user)
-      new_user = new
-    end
-    new_user.sc_user_id = sc_user['id']
-    new_user.email = sc_user['contact_info']['email']
-    new_user.graph = graph
-    names = sc_user['name'].split
-    new_user.first_name = names[0]
-    new_user.last_name = names[1]
-    print sc_user['avatars']['square30']
-    new_user.image_url = sc_user['avatars']['square30']
-  
-    sc_user['custom_fields'].each do |field|
-      if field['id'] == 'title'
-        new_user.title = field['value']
-      end
-    end
-    return new_user
-  end
-
-  # TODO(brett): should probably optimize with bulk insertion
-  def self.load_from_sc(sc, graph)
-    if sc
-      sc_users = sc.get_users
-      sc_users.each do |sc_user|
-        new_user = User._user_from_sc_user(sc_user, graph)
-        if not new_user
-          return false
-        end
-        new_user.save
-      end
-    else
-      return false
-    end
-    return true
-  end
-
   private
     def set_auth_token
       return if auth_token.present?
@@ -152,13 +110,6 @@ class User < ActiveRecord::Base
 
       begin
         self.image_url = '/assets/default_user_image.png'
-      end
-    end
-    def encrypt_password
-      if password.present?
-        self.salt = BCrypt::Engine.generate_salt
-        self.password_enc = BCrypt::Engine.hash_secret(password, salt)
-        self.password = nil
       end
     end
 end
