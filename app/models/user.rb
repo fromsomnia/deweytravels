@@ -60,7 +60,7 @@ class User < ActiveRecord::Base
     return new_user
   end
 
-  def self.register_facebook_user(id, first_name, last_name)
+  def self.register_facebook_user(id, first_name, last_name, image_url)
     # TODO: register facebook users to a different domain?
     graph = Graph.find_by_domain('fixtures')
     if not graph
@@ -73,6 +73,7 @@ class User < ActiveRecord::Base
     new_user.sc_user_id = id
     new_user.first_name = first_name
     new_user.last_name = last_name
+    new_user.image_url = image_url
     new_user.graph = graph
     new_user.save
     return new_user

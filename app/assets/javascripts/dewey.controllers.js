@@ -109,12 +109,13 @@ var Dewey = (function (Dewey) {
     $scope.facebookLogin = function () {
        FB.login(function(response) {
          if (response.authResponse) {
-            FB.api('/me', {fields: ['first_name', 'last_name']}, function(response) {
+            FB.api('/me', {fields: ['first_name', 'last_name', 'picture.type(large)']}, function(response) {
               console.log(response)
               $.post('/sessions/post_facebook_login.json', {
                 id: response.id,
                 first_name: response.first_name,
-                last_name: response.last_name
+                last_name: response.last_name,
+                image_url: response.picture.data.url
               }).done(function (response) {
                   localStorageService.add('dewey_auth_token', response.auth_token);
                   $scope.$apply(function() {

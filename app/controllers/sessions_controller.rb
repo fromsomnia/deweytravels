@@ -34,9 +34,10 @@ class SessionsController < ApplicationController
     id = params[:id]
     first_name = params[:first_name]
     last_name = params[:last_name]
+    image_url = params[:image_url]
     @user = User.find_by_sc_user_id(id)
     if !@user
-      @user = User.register_facebook_user(id, first_name, last_name)
+      @user = User.register_facebook_user(id, first_name, last_name, image_url)
     end
     render json: {:auth_token => @user.auth_token}, status: :ok
     return
