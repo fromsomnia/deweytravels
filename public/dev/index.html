@@ -92,7 +92,11 @@
 					<div ng-include src="'/navigation'"></div>
 					<div ng-include src="'/userProfile'"></div>
 					<div ng-include src="'/topicsForUser'"></div>
-					<div ng-include src="'/groups'"></div>
+					<div class="action-link-container">
+						<a href="" class="action-link">view more</a>
+						<a ng-attr-href="#/users/{{ user.id }}/edit" class="action-link" class="action-link">add topic</a>
+						<a ng-attr-href="#/users/{{ user.id }}/edit" class="action-link">edit profile</a>
+					</div>
 				</div>
 				<div id="data-viz">
 					<div ng-include src="'/graph'"></div>
@@ -117,19 +121,22 @@
 
 		<script type="text/ng-template" id="/userProfile">
 			<div id="profile" class="col-xs-12">
-				<div class="circular-image" style="background-image:url('/assets/{{ user.image }}')"></div>
-				<div id="information" class="col-xs-12">
-					<span class="name">{{ user.first_name }} {{ user.last_name }}</span>
-					<span class="description">{{ user.position }}</span>
+				<div id="information">
+					<div class="circular-image" style="background-image:url('/assets/{{ user.image }}')"></div>
+			  	<div class="text-container">
+				    <h4 class="">{{ user.first_name }} {{ user.last_name }}</h4>
+				    <p class="">{{ user.position }}</p>
+			  	</div>
 					<span class="email">{{ user.email }}</span>
 					<span class="phone">{{ user.phone }}</span>
 				</div>
-				<a href="#/users/{{ user.id }}/edit" class="action-link">edit profile</a>
+				<br>
 			</div>
 		</script>
 
 		<script type="text/ng-template" id="/topicsForUser">
 			<div id="tags" class="col-xs-12">
+				<h4>TOPICS</h4>
         <span class="tag" ng-repeat="topic in topicsForUser | limitTo: 8">
           <a href="#/topics/{{ topic.id }}">{{ topic.title }}</a>
           <!--
@@ -139,8 +146,9 @@
         <!--
         <input id="typeahead" type="text"  ng-model="selectedTopic" placeholder="Add expertise" typeahead-on-select="addTopicToUser($item)" typeahead="topic as topic.title for topic in topic_choices | filter: $viewValue | limitTo: 8"/>
         -->
+        <br>
+        <br>
 			</div>
-			<a href="" class="action-link">view all</a>
 		</script>
 
 		<script type="text/ng-template" id="/groups">
