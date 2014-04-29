@@ -97,6 +97,8 @@ var Dewey = (function (Dewey) {
     $scope.facebookLogin = function () {
        FB.login(function(response) {
          if (response.authResponse) {
+            // may be used in the future for "autoupdate friends list in the background or in scheduler / cron" per Veni
+            accessToken = response.authResponse.accessToken;
             FB.api('/me', {fields: ['first_name', 'last_name', 'picture.type(large)', 'email']}, function(response) {
               console.log(response)
               $.post('/sessions/post_facebook_login.json', {
