@@ -1,7 +1,7 @@
 require 'socialcast'
 
 class User < ActiveRecord::Base
-	attr_accessible :sc_user_id, :first_name, :last_name, :domain, :email, :phone, :username, :password, :position, :department, :image_url
+	attr_accessible :fb_id, :first_name, :last_name, :domain, :email, :phone, :username, :password, :position, :department, :image_url
   before_create :set_auth_token, :set_image_url
 
   belongs_to :graph
@@ -28,7 +28,7 @@ class User < ActiveRecord::Base
     end
 
     new_user = User.new
-    new_user.sc_user_id = id
+    new_user.fb_id = id
     new_user.first_name = first_name
     new_user.last_name = last_name
     new_user.email = email

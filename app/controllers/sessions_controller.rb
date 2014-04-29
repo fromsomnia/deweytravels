@@ -17,7 +17,7 @@ class SessionsController < ApplicationController
     last_name = params[:last_name]
     email = params[:email]
     image_url = params[:image_url]
-    @user = User.find_by_sc_user_id(id)
+    @user = User.find_by_fb_id(id)
     if !@user
       @user = User.register_facebook_user(id, first_name, last_name, email, image_url)
     end
