@@ -87,16 +87,6 @@ var Dewey = (function (Dewey) {
           }],
         }
       })
-      .when('/groups/new', {
-        controller: 'GroupController',
-        templateUrl: '/createGroup',
-        resolve: {}
-      })
-      .when('/users/:userId/notifications', {
-        controller: 'GroupController',
-        templateUrl: '/notifications',
-        resolve: {}
-      })
       .otherwise({
         redirectTo: '/'
       });

@@ -144,7 +144,11 @@
 					<div ng-include src="'/navigation'"></div>
 					<div ng-include src="'/userProfile'"></div>
 					<div ng-include src="'/topicsForUser'"></div>
-					<div ng-include src="'/groups'"></div>
+					<div class="action-link-container">
+						<a href="" class="action-link">view more</a>
+						<a href="" class="action-link" class="action-link">add topic</a>
+						<a ng-attr-href="#/users/{{ user.id }}/edit" class="action-link">edit profile</a>
+					</div>
 				</div>
 				<div id="data-viz">
 					<div ng-include src="'/graph'"></div>
@@ -159,7 +163,10 @@
 					<div ng-include src="'/navigation'"></div>
 					<div ng-include src="'/editUserProfile'"></div>
 					<div ng-include src="'/editTopicsForUser'"></div>
-					<div ng-include src="'/editGroups'"></div>
+					<div class="action-link-container">
+						<a href="#/users/{{ user.id }}/save" class="action-link">save changes</a>
+						<a href="" class="action-link">cancel</a>
+					</div>
 				</div>
 				<div id="data-viz">
 					<div ng-include src="'/graph'"></div>
@@ -186,17 +193,20 @@
 			<div id="tags" class="col-xs-12">
         <span class="tag" ng-repeat="topic in topicsForUser | limitTo: 8">
           <a href="#/topics/{{ topic.id }}">{{ topic.title }}</a>
-          <!--
-          <span ng-click="removeTopicFromUser($event, topic.id)" class="glyphicon glyphicon-remove"></span>
-          -->
         </span>
+<<<<<<< HEAD
         <!--
         <input id="typeahead" type="text"  ng-model="selectedTopic" placeholder="Add expertise" typeahead-on-select="addTopicToUser($item)" typeahead="topic as topic.title for topic in topic_choices | filter: $viewValue | limitTo: 8"/>
         -->
+=======
+        <br>
+        <br>
+>>>>>>> removed old, commented code; redesigned topic profile
 			</div>
 			<a href="" class="action-link">view all</a>
 		</script>
 
+<<<<<<< HEAD
 		<script type="text/ng-template" id="/groups">
 			<div id="groups" class="col-xs-12">
 				<h3>GROUPS</h3>
@@ -240,8 +250,10 @@
 
 		</script>
 
+=======
+>>>>>>> removed old, commented code; redesigned topic profile
 		<script type="text/ng-template" id="/editUserProfile">
-			<div id="profile" class="col-xs-12">
+			<div id="edit-profile" class="col-xs-12">
 				<div class="input-group input-group-md col-xs-12">
 				  <input type="text" class="form-control" ng-model="user.first_name">
 				</div>
@@ -257,38 +269,19 @@
 				<div class="input-group input-group-md col-xs-12">
 				  <input type="text" class="form-control" ng-model="user.phone">
 				</div>
-
-				<a href="#/users/{{ user.id }}/save" class="action-link">save profile</a>
+        <br>
 			</div>
 		</script>
 
 		<script type="text/ng-template" id="/editTopicsForUser">
-			<div id="tags" class="col-xs-12">
+			<div id="edit-tags" class="col-xs-12">
         <span class="tag" ng-repeat="topic in topicsForUser | limitTo: 8">
           <a href="#/topics/{{ topic.id }}">{{ topic.title }}</a>
           <span ng-click="removeTopicFromUser($event, topic.id)" class="glyphicon glyphicon-remove"></span>
         </span>
         <input id="typeahead" type="text"  ng-model="selectedTopic" placeholder="Add expertise" typeahead-on-select="addTopicToUser($item)" typeahead="topic as topic.title for topic in topic_choices | filter: $viewValue | limitTo: 8"/>
-			</div>
-			<a href="" class="action-link">view all</a>
-		</script>
-
-		<script type="text/ng-template" id="/editGroups">
-			<div id="groups" class="col-xs-12">
-				<h3>GROUPS</h3>
-				<!--
-				<div id="list" class="col-xs-12 list-group">
-					<div ng-repeat="group in groups" class="list-group-item">
-					  <a href="#/group/{{ group.id }}">
-							<div class="circular-image" style="background-image:url('/assets/{{ group.image }}')"></div>
-					  	<div class="list-text-container">
-						    <h4 class="list-group-item-heading">{{ group.name }}</h4>
-						    <p class="list-group-item-text">{{ group.description }}</p>
-					  	</div>
-					  </a>
-					</div>
-				</div>
-				-->
+        <br>
+        <br>
 			</div>
 		</script>
 
@@ -297,7 +290,7 @@
 				<div id="top-bar">
 					<div id="filters-container">
 						<div class="dropdown">
-							<button class="btn dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown">Location</button>
+							<button class="btn dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown">Stanford, CA</button>
 							  <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
 							    <li role="presentation"><a role="menuitem" tabindex="-1" href="">Stanford, CA</a></li>
 							    <li role="presentation"><a role="menuitem" tabindex="-1" href="">Berkeley, CA</a></li>
@@ -312,7 +305,11 @@
 					<div ng-include src="'/navigation'"></div>
 					<div ng-include src="'/topicProfile'"></div>
 					<div ng-include src="'/usersForTopic'"></div>
+<<<<<<< HEAD
 					<div ng-include src="'/userSuggestionsForTopic'"></div>
+=======
+					<div ng-include src="'/topicsForTopic'"></div>
+>>>>>>> removed old, commented code; redesigned topic profile
 				</div>
 				<div id="data-viz">
 					<div ng-include src="'/graph'"></div>
@@ -321,19 +318,23 @@
 		</script>
 
 		<script type="text/ng-template" id="/topicProfile">
+
 			<div id="profile" class="col-xs-12">
-				<div class="circular-image" style="background-image:url('{{ topic.freebase_image_url }}')"></div>
-				<div id="information" class="col-xs-12">
-					<span class="name">{{ topic.title }}</span> 
-					<br>
+				<div id="information">
+					<div class="circular-image" style="background-image:url('/assets/{{ topic.freebase_image_url }}')"></div>
+			  	<div class="text-container">
+				    <h4 class="">{{ topic.title }}</h4>
+			  	</div>
 					<span class="description">{{ topic.description }}</span>
 				</div>
+				<br>
 			</div>
 		</script>
 
 		<script type="text/ng-template" id="/usersForTopic">
 			<div id="list" class="col-xs-12 list-group">
 
+				<h4>USERS</h4>
 				<div ng-repeat="user in usersForTopic | limitTo: 5" class="list-group-item">
 				  <a href="#/{{ user.category }}/{{ user.id }}">
 						<div class="circular-image" style="background-image:url('/assets/{{ user.image }}')"></div>
@@ -341,12 +342,8 @@
 					    <h4 class="list-group-item-heading">{{ user.name }}</h4>
 				  	</div>
 				  </a>
-				  <!--
-				  <div class="col-xs-2" style="position: absolute; right: 10px;top: 20px;">
-            <span ng-click="removeUserFromTopic($event, user.id)" class="glyphicon glyphicon-remove"></span>
-          </div>
-          -->
 				</div>
+<<<<<<< HEAD
       </div>
 
     </script>
@@ -380,6 +377,13 @@
           </div>
         </div>
         -->
+=======
+				<div class="action-link-container">
+					<a href="" class="action-link">view more</a>
+					<a href="" class="action-link" class="action-link">add user</a>
+				</div>
+				<br>
+>>>>>>> removed old, commented code; redesigned topic profile
 
 			<div class="list col-xs-12 list-group">
         <h4>Add a Destination in  {{ topic.title }}?</h4>
@@ -397,66 +401,24 @@
 			</div>
 		</script>
 
-		<script type="text/ng-template" id="/createGroup">
-			<div id="main-view">
-				<div id="top-bar"></div>
-				<div id="left-bar">
-					<div id="group" class="col-xs-12">
-						<div class="input-group input-group-md col-xs-12">
-						  <input type="text" class="form-control" placeholder="Picture">
-						</div>
-						<br>
-						<div class="input-group input-group-md col-xs-12">
-						  <input type="text" class="form-control" placeholder="Group Name">
-						</div>
-						<br>
-						<div class="input-group input-group-md col-xs-12">
-						  <textarea class="form-control" rows="5" placeholder="Invite List"></textarea>
-						</div>
-						<br>
-						<div class="input-group input-group-md col-xs-12">
-						  <textarea type="text" class="form-control" rows="5" placeholder="Custom Message"></textarea>
-						</div>
-						<br>
-						<a href="#/groups/save" class="action-link">create group</a>
-					</div>
-				</div>
-				<div id="data-viz"></div>
-			</div>
-		</script>
+		<script type="text/ng-template" id="/topicsForTopic">
+			<div id="list" class="col-xs-12 list-group">
 
-		<script type="text/ng-template" id="/notifications">
-			<div id="main-view">
-				<div id="top-bar"></div>
-				<div id="left-bar">
-					<div id="notifications">
-						<div id="profile" class="col-xs-12">
-							<div class="circular-image" style="background-image:url('{{ topic.freebase_image_url }}')"></div>
-							<div id="information" class="col-xs-12">
-								<span class="name">username</span>
-							</div>
-						</div>
-						<h4 class="message col-xs-12">You have been invited to the following groups:</h4>
-						<div id="list" class="col-xs-12 list-group">
-							<!--
-							<div ng-repeat="user in usersForTopic | limitTo: 5" class="list-group-item">
-							  <a href="#/{{ user.category }}/{{ user.id }}">
-									<div class="circular-image" style="background-image:url('/assets/{{ user.image }}')"></div>
-							  	<div class="user-text-container">
-								    <h4 class="list-group-item-heading">{{ user.name }}</h4>
-								    <p class="list-group-item-text">{{ user.description }}</p>
-							  	</div>
-							  </a>
-							  <div class="col-xs-2" style="position: absolute; right: 10px; top: 20px;">
-			            <span class="glyphicon glyphicon-remove"></span>
-			          </div>
-							</div>
-							-->
-							<a href="" class="action-link">view all</a>
-						</div>
-					</div>
+				<h4>RELATED TOPICS</h4>
+				<div ng-repeat="topic in topicsForTopic | limitTo: 5" class="list-group-item">
+				  <a href="#/{{ topic.category }}/{{ topic.id }}">
+						<div class="circular-image" style="background-image:url('/assets/{{ topic.freebase_image_url }}')"></div>
+				  	<div class="user-text-container">
+					    <h4 class="list-group-item-heading">{{ topic.title }}</h4>
+					    <p class="list-group-item-text">{{ topic.description }}</p>
+				  	</div>
+				  </a>
 				</div>
-				<div id="data-viz"></div>
+				<div class="action-link-container">
+					<a href="" class="action-link">view more</a>
+					<a href="" class="action-link" class="action-link">add related topic</a>
+				</div>
+
 			</div>
 		</script>
 
