@@ -95,6 +95,7 @@ var Dewey = (function (Dewey) {
     $scope.googleLoginButton = true;
     $scope.deweyLoginButton = true;
     $scope.deweyRegisterButton = true;
+    $scope.facebookLoginButton = true;
     $scope.showDeweyForm = false;
     $scope.showDeweyRegisterForm = false;
 
@@ -109,6 +110,30 @@ var Dewey = (function (Dewey) {
             },
             $scope.handleAuthResult);
     };
+
+    $scope.facebookLogin = function () {
+       FB.login(function(response) {
+         if (response.authResponse) {
+            FB.api('/me', {fields: ['first_name', 'last_name']}, function(response) {
+              console.log(response)
+              $.post('/sessions/post_facebook_login.json', {
+                id: response.id,
+                first_name: response.first_name,
+                last_name: response.last_name
+              }).done(function (response) {
+                  localStorageService.add('dewey_auth_token', response.auth_token);
+                  $scope.$apply(function() {
+                    $location.path('/search');
+                  });
+              }).fail(function (response) {
+
+              });
+            });
+         } else {
+           console.log('User cancelled login or did not fully authorize.');
+         }
+       });
+    }
 
     $scope.handleAuthResult = function (authResult) {
       gapi.client.load('oauth2', 'v2', function () {

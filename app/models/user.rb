@@ -61,11 +61,8 @@ class User < ActiveRecord::Base
     return new_user
   end
 
-  # registers Dewey user
-  # if email is taken, returns nothing
-  # otherwise, returns new user
-  def self.register_dewey_user(first_name, last_name, email, password)
-    # TODO: register dewey users to a different domain?
+  def self.register_facebook_user(id, first_name, last_name)
+    # TODO: register facebook users to a different domain?
     graph = Graph.find_by_domain('fixtures')
     if not graph
       graph = Graph.new
@@ -73,18 +70,12 @@ class User < ActiveRecord::Base
       graph.save
     end
 
-    new_user = User.where(:email => email).first
-    if new_user
-      return
-    end
     new_user = User.new
+    new_user.sc_user_id = id
     new_user.first_name = first_name
     new_user.last_name = last_name
-    new_user.email = email
-    new_user.password = password
     new_user.graph = graph
     new_user.save
-
     return new_user
   end
 

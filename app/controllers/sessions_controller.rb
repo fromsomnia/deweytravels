@@ -30,6 +30,18 @@ class SessionsController < ApplicationController
     end
   end
 
+  def post_facebook_login
+    id = params[:id]
+    first_name = params[:first_name]
+    last_name = params[:last_name]
+    @user = User.find_by_sc_user_id(id)
+    if !@user
+      @user = User.register_facebook_user(id, first_name, last_name)
+    end
+    render json: {:auth_token => @user.auth_token}, status: :ok
+    return
+  end
+
   def post_login
     email = params[:email]
     password = params[:password]
@@ -61,23 +73,6 @@ class SessionsController < ApplicationController
       render json: {:auth_token => @user.auth_token}, status: :ok
       return
     end
-  end
-
-  def register
-    first_name = params[:first_name]
-    last_name = params[:last_name]
-    email = params[:email]
-    password = params[:password]
-    @user = User.register_dewey_user(first_name, last_name, email, password)
-    if @user
-      UserMailer.delay.welcome_email(@user)
-      render json: {:auth_token => @user.auth_token}, status: :ok
-      return
-    end
-
-    # error message for alert message in response, indicate error with status
-    render json: {:error_msg => "Error: email already in use."}, status: :internal_server_error
-    return
   end
 
   def logout
