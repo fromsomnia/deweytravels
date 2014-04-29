@@ -36,7 +36,19 @@
 
 		<script type="text/ng-template" id="/search">
 			<div id="main-view">
-				<div id="top-bar"></div>
+				<div id="top-bar">
+					<div id="filters-container">
+						<div class="dropdown">
+							<button class="btn dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown">All</button>
+							  <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
+							    <li role="presentation"><a role="menuitem" tabindex="-1" href="">Topics</a></li>
+							    <li role="presentation"><a role="menuitem" tabindex="-1" href="">Users</a></li>
+							    <li role="presentation"><a role="menuitem" tabindex="-1" href="">All</a></li>
+							  </ul>
+						  </button>
+						</div>
+					</div>
+				</div>
 				<div id="left-bar">
 					<div id="search">
 						<div ng-include src="'/navigation'"></div>
