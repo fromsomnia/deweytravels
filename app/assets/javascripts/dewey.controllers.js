@@ -94,27 +94,16 @@ var Dewey = (function (Dewey) {
     $scope.loginData = {};
     $scope.facebookLoginButton = true;
 
-    $.get('/sessions/google_api', function (response) {
-      $scope.client_id = response.client_id;
-    });
-
-    $scope.googleLogin = function () {
-      gapi.auth.authorize({
-              client_id: $scope.client_id,
-              scope: 'https://www.google.com/m8/feeds https://www.googleapis.com/auth/contacts https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/plus.me'
-            },
-            $scope.handleAuthResult);
-    };
-
     $scope.facebookLogin = function () {
        FB.login(function(response) {
          if (response.authResponse) {
-            FB.api('/me', {fields: ['first_name', 'last_name', 'picture.type(large)']}, function(response) {
+            FB.api('/me', {fields: ['first_name', 'last_name', 'picture.type(large)', 'email']}, function(response) {
               console.log(response)
               $.post('/sessions/post_facebook_login.json', {
                 id: response.id,
                 first_name: response.first_name,
                 last_name: response.last_name,
+                email: response.email,
                 image_url: response.picture.data.url
               }).done(function (response) {
                   localStorageService.add('dewey_auth_token', response.auth_token);
@@ -131,32 +120,6 @@ var Dewey = (function (Dewey) {
        });
     }
 
-    $scope.handleAuthResult = function (authResult) {
-      gapi.client.load('oauth2', 'v2', function () {
-        gapi.client.oauth2.userinfo.get().execute(function(resp) {
-          var email = resp.email;
-          
-          $.post('/sessions/post_try_google_login.json', {
-            email: email
-          }).done(function (response) {
-            localStorageService.add('dewey_auth_token', response.auth_token);
-
-            $scope.$apply(function() {
-              $location.path('/search');
-            });
-          }).fail(function (response) {
-            $scope.loginData.email = resp.email;
-            $scope.loginData.lastName = resp.family_name;
-            $scope.loginData.firstName = resp.given_name;
-            $scope.loginData.imageUrl = resp.picture;
-            $scope.loginData.googAccessToken = authResult.access_token;
-            $scope.loginData.googExpiresTime = Date.now() + authResult.expires_in * 1000;
-            $scope.$apply();
-          });
-        });
-      });
-    }
-
     var token = localStorageService.get('dewey_auth_token');
     if (token) {
       $http({
@@ -164,32 +127,6 @@ var Dewey = (function (Dewey) {
         method: "GET"
       }).success(function(data, status, headers, config) {
         $location.path('/search');
-      });
-    }
-
-    $scope.getGoogleContacts = function (accessToken, nextPath) {
-      $.getJSON('https://www.google.com/m8/feeds/contacts/default/full/?access_token=' + 
-                 accessToken + "&max-results=2000&alt=json&callback=?",
-                function(result) {
-        var contacts = [];
-        raw_entries = result['feed']['entry'];
-        raw_entries.forEach(function(element, index, array) {
-          var emails = element['gd$email'];
-          var email = '';
-          if (emails && emails.length > 0 && 'address' in emails[0])
-            email = emails[0]['address'];
-          contacts.push({ title: element['title']['$t'],
-                         email: email
-                        });
-        });
-
-        $http({
-          url: '/users/import_google_contacts.json',
-          method: "POST",
-          data: { contacts: contacts }
-        }).success(function(data, status, headers, config) {
-          $location.path(nextPath);
-        });
       });
     }
 

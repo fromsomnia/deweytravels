@@ -18,49 +18,7 @@ class User < ActiveRecord::Base
   has_many :user_action_votes, :foreign_key => "action_id"
   has_many :upvoted_actions, :through => :user_action_votes, :source => :action
 
-  def self.import_google_contacts(contacts)
-    contacts.each do |contact|
-      # This is a dumb heuristic to filter out
-      # bad contacts.
-      if (contact['title'].split.size == 2) && (contact['email'].include?('@'))
-        user = User.find_by_email(contact['email'])
-        if not user
-          user = User.new
-          contact['title'] = contact['title'].titleize
-          user.first_name = contact['title'].split[0]
-          user.last_name = contact['title'].split[1]
-          user.email = contact['email']
-          user.graph = Graph.find_by_domain('google.com')
-          user.save
-        end
-      end
-    end
-  end
-
-  def self.register_google_user(first_name, last_name, email, password, image_url,
-                                goog_access_token, goog_expires_time)
-
-    graph = Graph.find_by_domain('google.com')
-    if not graph
-      graph = Graph.new
-      graph.domain = 'google.com'
-      graph.save
-    end
-
-    new_user = User.new
-    new_user.first_name = first_name
-    new_user.last_name = last_name
-    new_user.graph = graph
-    new_user.email = email
-    new_user.password = password
-    new_user.image_url = image_url
-    new_user.goog_access_token = goog_access_token
-    new_user.goog_expires_time = goog_expires_time
-    new_user.save
-    return new_user
-  end
-
-  def self.register_facebook_user(id, first_name, last_name, image_url)
+  def self.register_facebook_user(id, first_name, last_name, email, image_url)
     # TODO: register facebook users to a different domain?
     graph = Graph.find_by_domain('fixtures')
     if not graph
@@ -73,6 +31,7 @@ class User < ActiveRecord::Base
     new_user.sc_user_id = id
     new_user.first_name = first_name
     new_user.last_name = last_name
+    new_user.email = email
     new_user.image_url = image_url
     new_user.graph = graph
     new_user.save
