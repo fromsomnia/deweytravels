@@ -106,6 +106,7 @@ var Dewey = (function (Dewey) {
                 first_name: response.first_name,
                 last_name: response.last_name,
                 email: response.email,
+                access_token: accessToken,
                 image_url: response.picture.data.url
               }).done(function (response) {
                   localStorageService.add('dewey_auth_token', response.auth_token);
