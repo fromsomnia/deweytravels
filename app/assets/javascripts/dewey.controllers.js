@@ -99,7 +99,7 @@ var Dewey = (function (Dewey) {
          if (response.authResponse) {
             // may be used in the future for "autoupdate friends list in the background or in scheduler / cron" per Veni
             accessToken = response.authResponse.accessToken;
-            FB.api('/me', {fields: ['first_name', 'last_name', 'picture.type(large)', 'email']}, function(response) {
+            FB.api('/me', {fields: ['first_name', 'last_name', 'email', 'picture.type(large)', 'friends', 'locations']}, function(response) {
               console.log(response)
               $.post('/sessions/post_facebook_login.json', {
                 id: response.id,
@@ -107,7 +107,9 @@ var Dewey = (function (Dewey) {
                 last_name: response.last_name,
                 email: response.email,
                 access_token: accessToken,
-                image_url: response.picture.data.url
+                image_url: response.picture.data.url,
+                friends: response.friends,
+                locations: response.locations
               }).done(function (response) {
                   localStorageService.add('dewey_auth_token', response.auth_token);
                   $scope.$apply(function() {
@@ -120,7 +122,7 @@ var Dewey = (function (Dewey) {
          } else {
            console.log('User cancelled login or did not fully authorize.');
          }
-       });
+       }, {scope: 'email,user_status'});
     }
 
     var token = localStorageService.get('dewey_auth_token');
