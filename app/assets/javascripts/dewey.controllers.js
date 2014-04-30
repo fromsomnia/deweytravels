@@ -53,27 +53,6 @@ var Dewey = (function (Dewey) {
       }
     };
 
-    $scope.upvote = function (link) {
-      $.post('/connections/' + link.connection.id + '/upvote', {
-        id: link.connection.id,
-        connection_type: link.connectionType
-      }).done(function(response) {
-        link.is_upvoted = true;
-        link.is_downvoted = false;
-        $scope.$apply();
-      });
-    };
-
-    $scope.downvote = function(link) {
-      $.post('/connections/' + link.connection.id + '/downvote', {
-        id: link.connection.id,
-        connection_type: link.connectionType
-      }).done(function(response) {
-        link.is_upvoted = false;
-        link.is_downvoted = true;
-        $scope.$apply();
-      });
-    };
 
     $scope.$watch('graphNodes', function (newValue, oldValue) {
       $scope.makeGraph();
@@ -122,7 +101,7 @@ var Dewey = (function (Dewey) {
          } else {
            console.log('User cancelled login or did not fully authorize.');
          }
-       }, {scope: 'email,user_status'});
+       }, {scope: 'email,user_status', return_scopes: true});
     }
 
     var token = localStorageService.get('dewey_auth_token');

@@ -1,5 +1,3 @@
-require 'action'
-
 class TopicTopicConnection < ActiveRecord::Base
 	belongs_to :supertopic, :class_name => "Topic"
 	belongs_to :subtopic, :class_name => "Topic"
@@ -14,10 +12,5 @@ class TopicTopicConnection < ActiveRecord::Base
   def graph
     supertopic.graph
   end
-
-  def action_class
-    AddTopicTopicConnectionAction
-  end
-  include ActionableObject
 end
 

@@ -48,8 +48,6 @@ class UsersController < ApplicationController
           @nodes << expertise
           link = { :source => 0,
                    :target => @nodes.size - 1,
-                   :is_upvoted => tuc.is_upvoted_by?(@current_user),
-                   :is_downvoted => tuc.is_downvoted_by?(@current_user),
                    :connection => tuc,
                    :connectionType => tuc.class.name}
           @links << link

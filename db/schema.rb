@@ -11,17 +11,10 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140430215251) do
+ActiveRecord::Schema.define(version: 20140430224345) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
-
-  create_table "actions", force: true do |t|
-    t.integer  "table_pkey"
-    t.string   "type"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
 
   create_table "delayed_jobs", force: true do |t|
     t.integer  "priority",   default: 0, null: false
@@ -52,7 +45,6 @@ ActiveRecord::Schema.define(version: 20140430215251) do
   create_table "topic_topic_connections", force: true do |t|
     t.integer "subtopic_id"
     t.integer "supertopic_id"
-    t.integer "action_id"
   end
 
   create_table "topic_user_connections", force: true do |t|
@@ -68,14 +60,6 @@ ActiveRecord::Schema.define(version: 20140430215251) do
 
   add_index "topics", ["graph_id", "title"], name: "index_topics_on_graph_id_and_title", unique: true, using: :btree
   add_index "topics", ["graph_id"], name: "index_topics_on_graph_id", using: :btree
-
-  create_table "user_action_votes", force: true do |t|
-    t.integer  "action_id"
-    t.integer  "user_id"
-    t.integer  "vote_value"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
 
   create_table "user_user_connections", force: true do |t|
     t.integer "superior_id"
