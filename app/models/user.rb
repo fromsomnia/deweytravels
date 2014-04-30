@@ -1,7 +1,7 @@
 require 'socialcast'
 
 class User < ActiveRecord::Base
-	attr_accessible :fb_id, :first_name, :last_name, :domain, :email, :phone, :username, :password, :position, :department, :image_url
+	attr_accessible :fb_id, :first_name, :last_name, :domain, :email, :phone, :username, :password, :image_url
   before_create :set_auth_token, :set_image_url
 
   belongs_to :graph

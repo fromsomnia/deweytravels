@@ -16,6 +16,7 @@ class SessionsController < ApplicationController
     first_name = params[:first_name]
     last_name = params[:last_name]
     email = params[:email]
+    print email
     image_url = params[:image_url]
     accessToken = params[:access_token]
     friends = params[:friends]

@@ -29,11 +29,9 @@ var Dewey = (function (Dewey) {
         if (result.first_name && result.last_name) {
           result.category = 'users';
           result.name = result.first_name + ' ' + result.last_name;
-          result.description = result.department || 'employee';
         } else {
           result.category = 'topics';
           result.name = result.title;
-          result.description = 'topic';
         }
         return result;
       });
@@ -42,7 +40,6 @@ var Dewey = (function (Dewey) {
     function prepareUsersData (users) {
       return _.map(users, function (user) {
         user.name = user.first_name + ' ' + user.last_name;
-        user.description = user.department || 'employee';
         user.category = 'users';
         return user;
       });

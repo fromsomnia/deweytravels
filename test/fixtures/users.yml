@@ -10,8 +10,6 @@ william:
  email: wchid+fixtures@stanford.edu
  username: william
  password: william
- position: Engineer
- department: Engineering
  graph: fixtures
  auth_token: william_auth_token
  phone: 123-456-7890
@@ -23,9 +21,7 @@ veni:
  email: veni+fixtures@stanford.edu
  username: veni
  password: veni
- position: Engineer
  auth_token: veni_auth_token
- department: Engineering
  graph: fixtures
  phone: 123-456-7890
  image_url: /assets/Veni.png
@@ -37,8 +33,6 @@ brett:
  username: brett
  password: brett
  auth_token: brett_auth_token
- position: Engineer
- department: Engineering
  graph: fixtures
  phone: 123-456-7890
  image_url: /assets/Brett.png
@@ -50,8 +44,6 @@ stephen:
  username: stephen
  password: stephen
  auth_token: stephen_auth_token
- position: Engineer
- department: Engineering
  graph: fixtures
  phone: 123-456-7890
  image_url: /assets/Stephen.png 
@@ -63,8 +55,6 @@ john:
  username: john
  password: john
  auth_token: john_auth_token
- position: Engineer
- department: Engineering
  graph: fixtures
  phone: 123-456-7890
  image_url: /assets/John.png
@@ -75,8 +65,6 @@ jay:
  email: borenstein+fixtures@cs.stanford.edu
  username: jay
  password: jay
- position: CEO
- department: Marketing
  graph: fixtures
  phone: 123-456-7890
  image_url: /assets/default_user_image.png
@@ -87,9 +75,6 @@ chris:
  email: csurowiec_99+fixtures@yahoo.com
  username: chris
  password: chris
- position: VP of Sales
- department: Sales
- graph: fixtures
  phone: 123-456-7890
  image_url: /assets/default_user_image.png
 
@@ -99,8 +84,6 @@ oren:
  email: oroot+fixtures@vmware.com
  username: oren
  password: oren
- position: Manager of HR
- department: Human Resources
  graph: fixtures
  phone: 123-456-7890
  image_url: /assets/default_user_image.png
@@ -111,8 +94,6 @@ marc:
  email: mfenner+fixtures@vmware.com
  username: marc
  password: marc
- position: Engineer
- department: Engineering
  graph: fixtures
  phone: 123-456-7890
  image_url: /assets/default_user_image.png
@@ -123,8 +104,6 @@ mike:
  email: mlouie+fixtures@vmware.com
  username: mike
  password: mike
- position: Engineer
- department: Engineering
  graph: fixtures
  phone: 123-456-7890
  image_url: /assets/default_user_image.png

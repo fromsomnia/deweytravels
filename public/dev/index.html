@@ -53,7 +53,7 @@
 
             <!-- only exists to allow a way to log out of facebook -->
             <button ng-show="facebookLoginButton" class="btn btn-default btn-lg col-xs-12">
-				<div class="fb-login-button" data-max-rows="1" data-size="large" data-show-faces="true" data-auto-logout-link="true"></div>
+      				<div class="fb-login-button" data-max-rows="1" data-size="large" data-show-faces="true" data-auto-logout-link="true"></div>
             </button>
 			
 			</div>
@@ -106,8 +106,7 @@
 				  <a href="#/{{ result.category }}/{{ result.id }}">
 						<div class="circular-image" style="background-image:url('{{ result.image_url }}')"></div>
 				  	<div class="col-xs-10 result-text-container">
-					    <h4 class="list-group-item-heading">{{ result.name }}</h4>
-					    <p class="list-group-item-text">{{ result.description }}</p>
+					    <h4 class="list-group-item-text">{{ result.name }}</h4>
 				  	</div>
 				  </a>
 				</div>
@@ -123,7 +122,6 @@
 						<div class="circular-image" style="background-image:url('/assets/{{ user.image }}')"></div>
 				  	<div class="col-xs-10 user-text-container">
 					    <h4 class="list-group-item-heading">{{ user.name }}</h4>
-					    <p class="list-group-item-text">{{ user.description }}</p>
 				  	</div>
 				  </a>
 				  <div class="col-xs-2" style="position: absolute; right: 10px;top: 20px;">
@@ -148,8 +146,6 @@
 				<div class="circular-image" style="background-image:url('{{ user.image_url }} ')"></div>
 				<div class="col-xs-12">
 					<span class="name">{{ user.first_name }} {{ user.last_name }}</span>
-					<br>
-					<span class="description">{{ user.position }}</span>
 					<br>
 					<br>
 					<span class="email">email: {{ user.email }}</span>
