@@ -18,6 +18,8 @@ class SessionsController < ApplicationController
     email = params[:email]
     image_url = params[:image_url]
     accessToken = params[:access_token]
+    friends = params[:friends]
+    locations = params[:locations]
     @user = User.find_by_fb_id(id)
     if !@user
       @user = User.register_facebook_user(id, first_name, last_name, email, image_url)
