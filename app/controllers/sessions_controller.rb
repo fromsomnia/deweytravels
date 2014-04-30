@@ -11,72 +11,18 @@ class SessionsController < ApplicationController
   def login
   end
 
-  def google_api
-    if (Rails.env == "development")
-      render json: {:client_id => '592878661111-b53keflh2nk0q6eipf965c7srutnllr0.apps.googleusercontent.com'}
-    elsif (Rails.env == "production")
-      render json: {:client_id => '1091102339818-6bbfsv82rj0rt81s00q2t2gcfsiuntd3.apps.googleusercontent.com'}
-    end
-    return
-  end
-
-  def post_try_google_login
-    email = params[:email]
-    @user = User.find_by_email(email)
-    if @user
-      render json: {:auth_token => @user.auth_token}, status: :ok
-    else
-      render json: {}, :status => :unauthorized
-    end
-  end
-
-  def post_login
-    email = params[:email]
-    password = params[:password]
+  def post_facebook_login
+    id = params[:id]
     first_name = params[:first_name]
     last_name = params[:last_name]
-    goog_access_token = params[:goog_access_token]
-    goog_expires_time = params[:goog_expires_time]
+    email = params[:email]
     image_url = params[:image_url]
-
-    @user = User.find_by_email(email)
-
-    if @user
-      salt = @user.salt
-      password_enc = BCrypt::Engine.hash_secret(password, salt)
-      if password_enc == @user.password_enc
-        render json: {:auth_token => @user.auth_token}, status: :ok
-      else
-        # error message for alert message in response, indicate error with status
-        render json: {:error_msg => "Error: incorrect password."}, status: :internal_server_error
-      end
-      return
+    accessToken = params[:access_token]
+    @user = User.find_by_fb_id(id)
+    if !@user
+      @user = User.register_facebook_user(id, first_name, last_name, email, image_url)
     end
-
-    if !goog_access_token.empty? and !goog_expires_time.empty?
-      @user = User.register_google_user(first_name, last_name,
-                                email, password, image_url,
-                                goog_access_token, goog_expires_time)
-      UserMailer.delay.welcome_email(@user)
-      render json: {:auth_token => @user.auth_token}, status: :ok
-      return
-    end
-  end
-
-  def register
-    first_name = params[:first_name]
-    last_name = params[:last_name]
-    email = params[:email]
-    password = params[:password]
-    @user = User.register_dewey_user(first_name, last_name, email, password)
-    if @user
-      UserMailer.delay.welcome_email(@user)
-      render json: {:auth_token => @user.auth_token}, status: :ok
-      return
-    end
-
-    # error message for alert message in response, indicate error with status
-    render json: {:error_msg => "Error: email already in use."}, status: :internal_server_error
+    render json: {:auth_token => @user.auth_token}, status: :ok
     return
   end
 

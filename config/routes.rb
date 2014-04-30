@@ -5,6 +5,7 @@ TeamDeweyWebsite::Application.routes.draw do
   get "sessions/get_auth_token"
   post "sessions/post_login"
   post "sessions/post_try_google_login"
+  post "sessions/post_facebook_login"
   post "sessions/register"
   get "sessions/get_users"
   get "users/index"

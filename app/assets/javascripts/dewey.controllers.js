@@ -92,68 +92,35 @@ var Dewey = (function (Dewey) {
 
   Dewey.DeweyApp.controller('LoginController', ['$scope', '$injector', '$location', '$http', 'localStorageService', 'DeweyFactory', function ($scope, $injector, $location, $http, localStorageService, DeweyFactory) {
     $scope.loginData = {};
-    $scope.googleLoginButton = true;
-    $scope.deweyLoginButton = true;
-    $scope.deweyRegisterButton = true;
-    $scope.showDeweyForm = false;
-    $scope.showDeweyRegisterForm = false;
+    $scope.facebookLoginButton = true;
 
-    $.get('/sessions/google_api', function (response) {
-      $scope.client_id = response.client_id;
-    });
+    $scope.facebookLogin = function () {
+       FB.login(function(response) {
+         if (response.authResponse) {
+            // may be used in the future for "autoupdate friends list in the background or in scheduler / cron" per Veni
+            accessToken = response.authResponse.accessToken;
+            FB.api('/me', {fields: ['first_name', 'last_name', 'picture.type(large)', 'email']}, function(response) {
+              console.log(response)
+              $.post('/sessions/post_facebook_login.json', {
+                id: response.id,
+                first_name: response.first_name,
+                last_name: response.last_name,
+                email: response.email,
+                access_token: accessToken,
+                image_url: response.picture.data.url
+              }).done(function (response) {
+                  localStorageService.add('dewey_auth_token', response.auth_token);
+                  $scope.$apply(function() {
+                    $location.path('/search');
+                  });
+              }).fail(function (response) {
 
-    $scope.googleLogin = function () {
-      gapi.auth.authorize({
-              client_id: $scope.client_id,
-              scope: 'https://www.google.com/m8/feeds https://www.googleapis.com/auth/contacts https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/plus.me'
-            },
-            $scope.handleAuthResult);
-    };
-
-    $scope.handleAuthResult = function (authResult) {
-      gapi.client.load('oauth2', 'v2', function () {
-        gapi.client.oauth2.userinfo.get().execute(function(resp) {
-          var email = resp.email;
-          
-          $.post('/sessions/post_try_google_login.json', {
-            email: email
-          }).done(function (response) {
-            localStorageService.add('dewey_auth_token', response.auth_token);
-
-            $scope.$apply(function() {
-              $location.path('/search');
+              });
             });
-          }).fail(function (response) {
-            $scope.loginData.email = resp.email;
-            $scope.loginData.lastName = resp.family_name;
-            $scope.loginData.firstName = resp.given_name;
-            $scope.loginData.imageUrl = resp.picture;
-            $scope.loginData.googAccessToken = authResult.access_token;
-            $scope.loginData.googExpiresTime = Date.now() + authResult.expires_in * 1000;
-            $scope.showDeweyForm = false;
-            $scope.showGoogleForm = true;
-            $scope.$apply();
-          });
-        });
-      });
-    }
-
-    $scope.showDeweyLogin = function () {
-      $scope.showDeweyForm = !$scope.showDeweyForm;
-      $scope.showGoogleForm = false;
-      $scope.googleLoginButton = false;
-      $scope.deweyLoginButton = false;
-      $scope.deweyRegisterButton = false;
-      $scope.loginData.googAccessToken = '';
-      $scope.loginData.googExpiresTime = '';
-    }
-
-    $scope.showDeweyRegister = function () {
-      $scope.showDeweyRegisterForm = !$scope.showDeweyRegisterForm;
-      $scope.showGoogleForm = false;
-      $scope.googleLoginButton = false;
-      $scope.deweyLoginButton = false;
-      $scope.deweyRegisterButton = false;
+         } else {
+           console.log('User cancelled login or did not fully authorize.');
+         }
+       });
     }
 
     var token = localStorageService.get('dewey_auth_token');
@@ -166,86 +133,6 @@ var Dewey = (function (Dewey) {
       });
     }
 
-    $scope.getGoogleContacts = function (accessToken, nextPath) {
-      $.getJSON('https://www.google.com/m8/feeds/contacts/default/full/?access_token=' + 
-                 accessToken + "&max-results=2000&alt=json&callback=?",
-                function(result) {
-        var contacts = [];
-        raw_entries = result['feed']['entry'];
-        raw_entries.forEach(function(element, index, array) {
-          var emails = element['gd$email'];
-          var email = '';
-          if (emails && emails.length > 0 && 'address' in emails[0])
-            email = emails[0]['address'];
-          contacts.push({ title: element['title']['$t'],
-                         email: email
-                        });
-        });
-
-        $http({
-          url: '/users/import_google_contacts.json',
-          method: "POST",
-          data: { contacts: contacts }
-        }).success(function(data, status, headers, config) {
-          $location.path(nextPath);
-        });
-      });
-    }
-
-    // ...
-    $scope.login = function () {
-
-      $.post('/sessions/post_login.json', {
-        email: $scope.loginData.email,
-        password: $scope.loginData.password,
-        image_url: $scope.loginData.imageUrl,
-        last_name: $scope.loginData.firstName,
-        first_name: $scope.loginData.lastName,
-        goog_access_token: $scope.loginData.googAccessToken,
-        goog_expires_time: $scope.loginData.googExpiresTime,
-      }).done(function (response) {
-        localStorageService.add('dewey_auth_token', response.auth_token);
-
-        if ($scope.loginData.googAccessToken) {
-          $scope.getGoogleContacts($scope.loginData.googAccessToken,
-                                   '/search');
-        } else {
-          $scope.$apply(function() {
-            $location.path('/search');
-          });
-        }
-
-      }).fail(function (response) {
-        localStorageService.remove('dewey_auth_token');
-        alert(response.responseJSON.error_msg);
-      });
-    }
-
-    $scope.renderDefaultLogin = function () {
-      $scope.deweyLoginButton = true;
-      $scope.googleLoginButton = true;
-      $scope.deweyRegisterButton = true;
-      $scope.showDeweyForm = false;
-      $scope.showGoogleForm = false;
-      $scope.showDeweyRegisterForm = false;
-    }
-
-    $scope.register = function () {
-      $.post('/sessions/register.json', {
-        email: $scope.loginData.email,
-        password: $scope.loginData.password,
-        image_url: $scope.loginData.imageUrl,
-        first_name: $scope.loginData.firstName,
-        last_name: $scope.loginData.lastName
-      }).done(function (response) {
-        localStorageService.add('dewey_auth_token', response.auth_token);
-        $scope.$apply(function() {
-          $location.path('/search');
-        });
-      }).fail(function (response) {
-        alert(response.responseJSON.error_msg);
-      });
-    }
   }]);
 
   Dewey.DeweyApp.controller('LogoutController', ['$scope', '$injector', '$location', 'localStorageService', 'DeweyFactory', function ($scope, $injector, $location, localStorageService, DeweyFactory) {
