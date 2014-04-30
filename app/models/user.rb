@@ -16,6 +16,24 @@ class User < ActiveRecord::Base
 	has_many :superiors, :through => :second_user_user_connections, :source => :superior
 
 
+  def self.add_facebook_friends(friends)
+    # TODO(veni): pending on william's work, this might go to a Friends class.
+    # TODO(veni): pending on william's work, create user_user_connections
+
+    friends.each do |friend|
+      id = friend[:id]
+      first_name = friend[:first_name]
+      last_name = friend[:last_name]
+      image_url = friend[:picture][:data][:url]
+
+      @user = User.find_by_fb_id(id)
+
+      if !@user
+        @user = User.register_facebook_user(id, first_name, last_name, nil, image_url)
+      end
+    end
+  end
+
   def self.register_facebook_user(id, first_name, last_name, email, image_url)
     # TODO: register facebook users to a different domain?
     graph = Graph.find_by_domain('fixtures')

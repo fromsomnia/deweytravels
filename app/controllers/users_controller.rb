@@ -34,6 +34,14 @@ class UsersController < ApplicationController
     end
   end
 
+  # POST
+  def add_friends
+    friends = params[:friends]
+    User.delay.add_facebook_friends(friends)
+
+    render json: {}, status: :ok
+  end
+
   #max_topics is in params
   #currently returns most connected USERS & TOPICS
   def most_connected
@@ -156,7 +164,7 @@ class UsersController < ApplicationController
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.
-    def user_params
-      params[:user]
-    end
+    # def user_params
+    #   params[:user]
+    # end
 end

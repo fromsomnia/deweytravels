@@ -53,7 +53,6 @@ var Dewey = (function (Dewey) {
       }
     };
 
-
     $scope.$watch('graphNodes', function (newValue, oldValue) {
       $scope.makeGraph();
     });
@@ -78,8 +77,7 @@ var Dewey = (function (Dewey) {
          if (response.authResponse) {
             // may be used in the future for "autoupdate friends list in the background or in scheduler / cron" per Veni
             accessToken = response.authResponse.accessToken;
-            FB.api('/me', {fields: ['first_name', 'last_name', 'email', 'picture.type(large)', 'friends', 'locations']}, function(response) {
-              console.log(response)
+            FB.api('/me', {fields: ['first_name', 'last_name', 'email', 'picture.type(large)', 'locations']}, function(response) {
               $.post('/sessions/post_facebook_login.json', {
                 id: response.id,
                 first_name: response.first_name,
@@ -87,17 +85,24 @@ var Dewey = (function (Dewey) {
                 email: response.email,
                 access_token: accessToken,
                 image_url: response.picture.data.url,
-                friends: response.friends,
                 locations: response.locations
               }).done(function (response) {
-                  localStorageService.add('dewey_auth_token', response.auth_token);
-                  $scope.$apply(function() {
+                localStorageService.add('dewey_auth_token', response.auth_token);
+                FB.api('/me/friends', {fields: ['first_name', 'last_name', 'picture']}, function(fb_response) {
+                  $http({
+                    url: '/users/add_friends.json',
+                    method: "POST",
+                    data: { friends: fb_response.data }
+                  }).success(function(null_response) {
                     $location.path('/search');
                   });
+                });
               }).fail(function (response) {
-
+                // TODO
               });
             });
+
+
          } else {
            console.log('User cancelled login or did not fully authorize.');
          }
