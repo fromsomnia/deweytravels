@@ -5,7 +5,8 @@ class SessionsController < ApplicationController
   before_action :authenticate, only: [:get_auth_token]
 
   def get_auth_token
-    render json: {:auth_token => @current_user.auth_token}, status: :ok
+    render json: {:uid => @current_user.id,
+                  :auth_token => @current_user.auth_token}, status: :ok
   end
 
   def login
@@ -24,7 +25,8 @@ class SessionsController < ApplicationController
     if !@user
       @user = User.register_facebook_user(id, first_name, last_name, email, image_url)
     end
-    render json: {:auth_token => @user.auth_token}, status: :ok
+    render json: {:auth_token => @user.auth_token,
+                  :uid => @user.id}, status: :ok
     return
   end
 

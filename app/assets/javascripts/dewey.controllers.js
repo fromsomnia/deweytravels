@@ -94,7 +94,7 @@ var Dewey = (function (Dewey) {
                     method: "POST",
                     data: { friends: fb_response.data }
                   }).success(function(null_response) {
-                    $location.path('/search');
+                    $location.path('/users/' + response.uid);
                   });
                 });
               }).fail(function (response) {
@@ -115,7 +115,7 @@ var Dewey = (function (Dewey) {
         url: '/sessions/get_auth_token',
         method: "GET"
       }).success(function(data, status, headers, config) {
-        $location.path('/search');
+        $location.path('/users/' + data.uid);
       });
     }
 
