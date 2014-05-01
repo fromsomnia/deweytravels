@@ -75,6 +75,7 @@
 				<div ng-include src="'/topicsForUser'"></div>
 			</div>
 			<div ng-include src="'/graph'"></div>
+
 		</script>
 
 		<script type="text/ng-template" id="/topic">
@@ -87,6 +88,7 @@
 			<div ng-include src="'/graph'"></div>
 		</script>
 
+		<!-- navigation template -->
 		<script type="text/ng-template" id="/navigation">
 			<nav class="nav col-xs-12">
 				<a href="#/search">
@@ -101,6 +103,7 @@
 		</script>
 
 		<script type="text/ng-template" id="/searchResults">
+
 			<div class="list col-xs-12 list-group">
 
 				<div ng-repeat="result in searchResults" class="list-group-item">
