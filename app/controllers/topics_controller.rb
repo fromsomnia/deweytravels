@@ -144,50 +144,20 @@ class TopicsController < ApplicationController
     @links = []
     if params[:topic_id].present? then
       topic = @current_graph.topics.find(params[:topic_id].to_i)
-      if topic != nil then
-        @nodes << topic
 
-        topic.topic_topic_connections.each do |ttc|
-          supertopic = ttc.supertopic
-          if !@nodes.include?(supertopic) then
-            @nodes << supertopic
-
-            link = { :id => @links.size,
-                     :source => 0,
-                     :target => @nodes.size - 1,
-                     :connection => ttc,
-                     :connectionType => ttc.class.name}
-            @links << link
-          end
-        end
-        topic.second_topic_topic_connections.each do |ttc|
-          subtopic = ttc.subtopic
-          if !@nodes.include?(subtopic) then
-            @nodes << subtopic
-            link = { :id => @links.size,
-                     :source => 0,
-                     :target => @nodes.size - 1,
-                     :connection => ttc,
-                     :connectionType => ttc.class.name}
-
-            @links << link
-          end
-        end
-        topic.topic_user_connections.each do |tuc|
-          expert = tuc.expert
-          @nodes << expert
-
-          link = { :id => @links.size,
-                   :source => 0,
-                   :target => @nodes.size - 1,
-                   :connection => tuc,
-                   :connectionType => tuc.class.name}
-          @links << link
-        end
-      end
+      @nodes += topic.subtopics
+      @nodes += topic.supertopics
+      @nodes += topic.experts
     end
     result = { :nodes => @nodes, :links => @links }
 
+    (0..@nodes.length - 1).each do |n|
+      link = { :source => @nodes.length,
+               :target => n }
+      @links << link
+    end
+    
+    @nodes << topic
     respond_to do |format|
       format.html { redirect_to @nodes }
       format.json { render json: result }

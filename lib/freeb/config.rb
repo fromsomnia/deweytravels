@@ -7,7 +7,7 @@ module Freeb
     end
 
     @settings = {
-      :api_key => nil,
+      :api_key => "AIzaSyDl1u_hC5PK3ZCJuXuBzYVxVzOBY_ODky8",
       :cache => {
         :is_active => true,
         :expires_in => 1.day
