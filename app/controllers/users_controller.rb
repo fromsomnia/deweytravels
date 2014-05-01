@@ -20,6 +20,20 @@ class UsersController < ApplicationController
     end
   end
 
+  def topic_suggestions
+    if params[:user_id].present? then
+      user = @current_graph.users.find(params[:user_id].to_i)
+      if params[:previous_suggestions].present? then
+        @topics = Topic.suggestions(user,
+                                    params[:previous_suggestions])
+      else
+        @topics = Topic.suggestions(user)
+      end
+
+      render json: @topics
+    end
+  end
+
   def sort_by_degree(a, b)
     if a != nil then
       if b != nil then

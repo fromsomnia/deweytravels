@@ -1,7 +1,8 @@
 var Dewey = (function (Dewey) {
 
   // controller for all views; other controllers inherit from this
-  Dewey.DeweyApp.controller('BaseController', ['$scope', '$location', 'DeweyFactory', function ($scope, $location, DeweyFactory) {
+  Dewey.DeweyApp.controller('BaseController', ['$rootScope', '$http', '$scope', '$location', 'DeweyFactory',
+                            function ($rootScope, $http, $scope, $location, DeweyFactory) {
 
     $scope.queryData = {};
     $scope.graphNodes = DeweyFactory.graphNodes;
@@ -12,7 +13,14 @@ var Dewey = (function (Dewey) {
         $location.path('/search/' + $scope.queryData.query);
       }
     };
-
+    if (!$rootScope.current_user_id) {
+      $http({
+        url: '/sessions/get_auth_token',
+        method: "GET"
+      }).success(function(data, status, headers, config) {
+        $rootScope.current_user_id = data.uid;
+      });
+    }
   }]);
 
   Dewey.DeweyApp.controller('GraphController', ['$scope', '$controller', 'DeweyFactory', function ($scope, $controller, DeweyFactory) {
@@ -175,12 +183,11 @@ var Dewey = (function (Dewey) {
     $scope.addTopicSuggestionToUser = function ($item, $index) {
       $scope.topicSuggestions.splice($item, 1);
       $http({
-        url: '/topics/suggestions',
+        url: '/users/' + $scope.user.id + '/topic_suggestions',
         data: { previous_suggestions: $scope.topicSuggestions },
         method: "GET",
       }).success(function (response) {
         $scope.topicSuggestions = response;
-        $scope.$apply();
       });
 
       $scope.addTopicToUser($item);
