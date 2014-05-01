@@ -66,8 +66,12 @@ var Dewey = (function (Dewey) {
           outerNodeRadius = primaryNodeRadius / (numberOfOuterNodes / Math.PI - 1);
 
         primaryNode.radius = primaryNodeRadius;
-        _.each(outerNodes, function (node) {
-          node.radius = outerNodeRadius;
+        _.each(outerNodes, function (node) {          
+          if (outerNodeRadius > primaryNodeRadius) {
+            node.radius = primaryNodeRadius * 2 / 3;
+          } else {
+            node.radius = outerNodeRadius;
+          }
         });
 
         setNodePositions(primaryNode, outerNodes, $scope.graphWidth, $scope.graphHeight);

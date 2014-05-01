@@ -272,12 +272,16 @@
 				<svg>
 					<g class="graph-container">
 						<g class="primary" ng-attr-transform="{{ 'translate(' + primaryNode.x + ',' + primaryNode.y + ')'}}">
-							<circle ng-attr-r="{{ primaryNode.radius }}" fill="#1d9f7f"></circle>
-							<text dy="0.35em" style="font-size:1.2em" text-anchor="middle">{{ (primaryNode.first_name) ? primaryNode.first_name + ' ' + primaryNode.last_name : primaryNode.title }}</text>
+							<a xlink:href="{{ (primaryNode.first_name) ? '#/users/' + primaryNode.id : '#/topics/' + primaryNode.id }}">
+								<circle ng-attr-r="{{ primaryNode.radius }}" fill="#1d9f7f"></circle>
+							</a>
+							<text pointer-events="none" dy="0.35em" style="font-size:1.2em" text-anchor="middle">{{ (primaryNode.first_name) ? primaryNode.first_name + ' ' + primaryNode.last_name : primaryNode.title }}</text>
 						</g>
 						<g class="outer" ng-repeat="node in outerNodes" ng-attr-transform="{{ 'translate(' + node.x + ',' + node.y + ')' }}">
-							<circle ng-attr-r="{{ node.radius }}" fill="#25a0ca"></circle>
-							<text dy="0.35em" style="font-size:1.2em" text-anchor="middle">{{ (node.first_name) ? node.first_name + ' ' + node.last_name : node.title }}</text>
+							<a xlink:href="{{ (node.first_name) ? '#/users/' + node.id : '#/topics/' + node.id }}">
+								<circle ng-attr-r="{{ node.radius }}" fill="#25a0ca"></circle>
+							</a>
+							<text pointer-events="none" dy="0.35em" style="font-size:1.2em" text-anchor="middle">{{ (node.first_name) ? node.first_name + ' ' + node.last_name : node.title }}</text>
 						</g>
 					</g>
 				</svg>
