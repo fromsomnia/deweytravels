@@ -53,28 +53,6 @@ var Dewey = (function (Dewey) {
       }
     };
 
-    $scope.upvote = function (link) {
-      $.post('/connections/' + link.connection.id + '/upvote', {
-        id: link.connection.id,
-        connection_type: link.connectionType
-      }).done(function(response) {
-        link.is_upvoted = true;
-        link.is_downvoted = false;
-        $scope.$apply();
-      });
-    };
-
-    $scope.downvote = function(link) {
-      $.post('/connections/' + link.connection.id + '/downvote', {
-        id: link.connection.id,
-        connection_type: link.connectionType
-      }).done(function(response) {
-        link.is_upvoted = false;
-        link.is_downvoted = true;
-        $scope.$apply();
-      });
-    };
-
     $scope.$watch('graphNodes', function (newValue, oldValue) {
       $scope.makeGraph();
     });
@@ -99,8 +77,7 @@ var Dewey = (function (Dewey) {
          if (response.authResponse) {
             // may be used in the future for "autoupdate friends list in the background or in scheduler / cron" per Veni
             accessToken = response.authResponse.accessToken;
-            FB.api('/me', {fields: ['first_name', 'last_name', 'email', 'picture.type(large)', 'friends', 'locations']}, function(response) {
-              console.log(response)
+            FB.api('/me', {fields: ['first_name', 'last_name', 'email', 'picture.type(large)', 'locations']}, function(response) {
               $.post('/sessions/post_facebook_login.json', {
                 id: response.id,
                 first_name: response.first_name,
@@ -108,21 +85,28 @@ var Dewey = (function (Dewey) {
                 email: response.email,
                 access_token: accessToken,
                 image_url: response.picture.data.url,
-                friends: response.friends,
                 locations: response.locations
               }).done(function (response) {
-                  localStorageService.add('dewey_auth_token', response.auth_token);
-                  $scope.$apply(function() {
-                    $location.path('/search');
+                localStorageService.add('dewey_auth_token', response.auth_token);
+                FB.api('/me/friends', {fields: ['first_name', 'last_name', 'picture']}, function(fb_response) {
+                  $http({
+                    url: '/users/add_friends.json',
+                    method: "POST",
+                    data: { friends: fb_response.data }
+                  }).success(function(null_response) {
+                    $location.path('/users/' + response.uid);
                   });
+                });
               }).fail(function (response) {
-
+                // TODO
               });
             });
+
+
          } else {
            console.log('User cancelled login or did not fully authorize.');
          }
-       }, {scope: 'email,user_status'});
+       }, {scope: 'email,user_status', return_scopes: true});
     }
 
     var token = localStorageService.get('dewey_auth_token');
@@ -131,7 +115,7 @@ var Dewey = (function (Dewey) {
         url: '/sessions/get_auth_token',
         method: "GET"
       }).success(function(data, status, headers, config) {
-        $location.path('/search');
+        $location.path('/users/' + data.uid);
       });
     }
 
@@ -142,7 +126,8 @@ var Dewey = (function (Dewey) {
     $location.path('/');
   }]);
 
-  Dewey.DeweyApp.controller('UserController', ['$scope', '$injector', '$controller', 'DeweyFactory', function ($scope, $injector, $controller, DeweyFactory) {
+  Dewey.DeweyApp.controller('UserController', ['$scope', '$injector', '$http', '$controller', 'DeweyFactory',
+                  function ($scope, $injector, $http, $controller, DeweyFactory) {
 
     $controller('BaseController', {
       $scope: $scope
@@ -162,28 +147,33 @@ var Dewey = (function (Dewey) {
     };
 
     $scope.removeTopicFromUser = function ($event, $tagID) {
-      $.post('/users/' + $scope.user.id + '/remove_topic', {
-        topic_id: $tagID,
-        id: $scope.user.id
-      }).done(function (response) {
+      $http({
+        url: '/users/' + $scope.user.id + '/remove_topic',
+        method: "POST",
+        data: {
+          topic_id: $tagID,
+          id: $scope.user.id }
+      }).success(function(response) {
         $scope.updateTopicsForUser();
       });
     };
 
     $scope.addTopicToUser = function ($item) {
-      $.post('/users/' + $scope.user.id + '/add_topic', {
-        topic_id: $item.id,
-        id: $scope.user.id
-      }).done(function (response) {
+      $http({
+        url: '/users/' + $scope.user.id + '/add_topic',
+        data: {
+          topic_id: $item.id,
+          id: $scope.user.id },
+        method: "POST",
+      }).success(function (response) {
         $scope.updateTopicsForUser();
-      }).fail(function (response) {
-        alert('Fail to add topic to user - please retry.');
       });
     };
 
   }]);
 
-  Dewey.DeweyApp.controller('TopicController', ['$scope', '$injector', '$controller', 'DeweyFactory', function ($scope, $injector, $controller, DeweyFactory) {
+  Dewey.DeweyApp.controller('TopicController', ['$scope', '$injector', '$controller', '$http', 'DeweyFactory',
+                            function ($scope, $injector, $controller, $http, DeweyFactory) {
 
     $controller('BaseController', {
       $scope: $scope
@@ -205,22 +195,26 @@ var Dewey = (function (Dewey) {
     };
 
     $scope.removeUserFromTopic = function ($event, $userID) {
-      $.post('/topics/' + $scope.topic.id + '/remove_user', {
-        user_id: $userID,
-        id: $scope.topic.id
-      }).done(function (response) {
+      $http({
+        url: '/topics/' + $scope.topic.id + '/remove_user',
+        data: {
+          user_id: $item.id,
+          id: $scope.topic.id },
+        method: "POST",
+      }).success(function (response) {
         $scope.updateUsersForTopic();
       });
     };
 
     $scope.addUserToTopic = function ($item) {
-      $.post('/topics/' + $scope.topic.id + '/add_user', {
-        user_id: $item.id,
-        id: $scope.topic.id
-      }).done(function (response) {
+      $http({
+        url: '/topics/' + $scope.topic.id + '/add_user',
+        data: {
+          user_id: $item.id,
+          id: $scope.topic.id },
+        method: "POST",
+      }).success(function (response) {
         $scope.updateUsersForTopic();
-      }).fail(function (response) {
-        alert('Fail to add user to topic - please retry.');
       });
     };
 

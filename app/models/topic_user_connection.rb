@@ -1,5 +1,3 @@
-require 'action'
-
 class TopicUserConnection < ActiveRecord::Base
 	# attr_accessible :
 
@@ -17,9 +15,4 @@ class TopicUserConnection < ActiveRecord::Base
   def graph
     expert.graph
   end
-
-  def action_class
-    AddTopicUserConnectionAction
-  end
-  include ActionableObject
 end

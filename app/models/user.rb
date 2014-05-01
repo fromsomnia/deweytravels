@@ -1,7 +1,7 @@
 require 'socialcast'
 
 class User < ActiveRecord::Base
-	attr_accessible :fb_id, :first_name, :last_name, :domain, :email, :phone, :username, :password, :position, :department, :image_url
+	attr_accessible :fb_id, :first_name, :last_name, :domain, :email, :phone, :username, :password, :image_url
   before_create :set_auth_token, :set_image_url
 
   belongs_to :graph
@@ -15,8 +15,24 @@ class User < ActiveRecord::Base
 	has_many :subordinates, :through => :user_user_connections, :source => :subordinate
 	has_many :superiors, :through => :second_user_user_connections, :source => :superior
 
-  has_many :user_action_votes, :foreign_key => "action_id"
-  has_many :upvoted_actions, :through => :user_action_votes, :source => :action
+
+  def add_facebook_friends(friends)
+    # TODO(veni): pending on william's work, this might go to a Friends class.
+
+    friends.each do |friend|
+      id = friend[:id]
+      first_name = friend[:first_name]
+      last_name = friend[:last_name]
+      image_url = friend[:picture][:data][:url]
+
+      @user = User.find_by_fb_id(id)
+
+      if !@user
+        @user = User.register_facebook_user(id, first_name, last_name, nil, image_url)
+        self.subordinates << @user
+      end
+    end
+  end
 
   def self.register_facebook_user(id, first_name, last_name, email, image_url)
     # TODO: register facebook users to a different domain?
@@ -50,6 +66,16 @@ class User < ActiveRecord::Base
 		return @peers
 	end
 
+  def friends
+    @friends = []
+    self.superiors.each do |boss|
+      @friends << boss
+    end
+    self.subordinates.each do |underling|
+      @friends << underling
+    end
+    @friends
+  end
 	def degree
 		curr_degree = 0
 		curr_degree = curr_degree + self.expertises.size

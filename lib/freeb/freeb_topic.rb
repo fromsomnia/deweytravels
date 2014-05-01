@@ -65,9 +65,8 @@ module Freeb
       
       mql = {
         "id" => get_property(:id),
-        property => nil
+        property => []
       }
-
       result = API.mqlread(mql)
       @raw_data[property] = result[property]
       return @raw_data[property]

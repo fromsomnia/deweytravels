@@ -9,6 +9,7 @@ TeamDeweyWebsite::Application.routes.draw do
   post "sessions/register"
   get "sessions/get_users"
   get "users/index"
+  post "users/add_friends"
   get "about/team"
   get "graphs/search"
   post "users/import_google_contacts"
@@ -30,6 +31,7 @@ TeamDeweyWebsite::Application.routes.draw do
 
   resources :users do
     post "add_topic"
+
     post "remove_topic"
     get "most_connected"
 
@@ -37,12 +39,6 @@ TeamDeweyWebsite::Application.routes.draw do
     resources :topics
 
   end
-
-  resources :connections do
-    post "upvote"
-    post "downvote"
-  end
-
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".

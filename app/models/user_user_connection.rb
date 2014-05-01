@@ -15,9 +15,4 @@ class UserUserConnection < ActiveRecord::Base
   def graph
     superior.graph
   end
-
-  def action_class
-    AddUserUserConnectionAction
-  end
-  include ActionableObject
 end
