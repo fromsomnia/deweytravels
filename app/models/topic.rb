@@ -14,6 +14,21 @@ class Topic < ActiveRecord::Base
 	has_many :second_topic_topic_connections, :class_name => "TopicTopicConnection", :foreign_key => "subtopic_id"
 	has_many :subtopics, :through => :topic_topic_connections, :source => :subtopic
 
+
+  def self.from_freebase_topic(freebase_topic)
+    default_graph = Graph.find_by_domain('fixtures')
+    topic = Topic.find_by_title(freebase_topic.name)
+    if !topic
+      topic = Topic.new
+      topic.image_url = freebase_topic.image_url
+      topic.title = freebase_topic.name
+      topic.graph = default_graph
+      topic.freebase_id = freebase_topic.mid
+      topic.save
+    end
+    topic
+  end
+
   def self.seed
     default_graph = Graph.find_by_domain('fixtures')
     root = Topic.find_by_title('World')
@@ -21,54 +36,46 @@ class Topic < ActiveRecord::Base
       root = Topic.new
       root.title = 'World'
       root.graph = default_graph
-      root.save
+      root.set_image_from_freebase
     end
 
     continents = Freeb.const_get(:API).search(:type => "/location/continent", :limit => 200)
+    continent_topics = []
     continents.each do |continent|
-      continent_topic = Topic.find_by_title(continent.name)
-      if !continent_topic
-        continent_topic = Topic.new
-        continent_topic.image_url = continent.image_url
-        continent_topic.title = continent.name
-        continent_topic.graph = default_graph
-        continent_topic.save
-      end
+      continent_topic = Topic.from_freebase_topic(continent)
 
+      continent_topics << continent_topic
       if !root.subtopics.include?(continent_topic) 
         root.subtopics << continent_topic
       end
     end
 
-    countries = Freeb.const_get(:API).search({:type => "/location/country",
-                              :fips10_4 => {:value => nil, :optional => false}, :limit => 200})
+    continent_topics.each do |continent_topic|
+      filter_str = "(all type:country (any part_of:" + continent_topic.freebase_id + "))"
+      countries = Freeb.const_get(:API).search(:filter => filter_str, :limit => 25)
 
-    countries.each do |country|
-      country_topic = Topic.find_by_title(country.name)
+      countries.each do |country|
+        country_topic = Topic.from_freebase_topic(country)
 
-      if !country_topic
-        continent_name = ""
-        continent_guesses = country.get_property("/location/location/containedby")
-        continent_guesses.each do |continent_str|
-          continent_freeb = Freeb.const_get(:API).search(:type => "/location/continent", :query => continent_str)
-          if continent_freeb  and continent_freeb[0] and continent_freeb[0].name == continent_str
-            continent_name = continent_freeb[0].name
-            break
-          end
-        end
-
-        country_topic = Topic.new
-        country_topic.title = country.name
-        country_topic.graph = default_graph
-        country_topic.image_url = country.image_url
-        country_topic.save
-
-        continent_topic = Topic.find_by_title(continent_name)
-        if continent_topic && (continent_topic != country_topic) && !continent_topic.subtopics.include?(country_topic)
+        if !continent_topic.subtopics.include?(country_topic) && (country_topic != continent_topic)
           continent_topic.subtopics << country_topic
         end
+
+        if country_topic.subtopics.length > 0
+          next
+        end
+
+        filter_str = "(all type:city (any part_of:" + country_topic.freebase_id + "))"
+        cities = Freeb.const_get(:API).search(:filter => filter_str, :limit => 10)
+
+        cities.each do |city|
+          city_topic = Topic.from_freebase_topic(city)
+
+          if !country_topic.subtopics.include?(city_topic) && (city_topic != country_topic)
+            country_topic.subtopics << city_topic
+          end
+        end
       end
-      sleep 0.2
     end
   end
 
@@ -114,6 +121,7 @@ class Topic < ActiveRecord::Base
   def set_image_from_freebase
     freebase_topics = Freeb.const_get(:API).search(:query => "#{self.title}")
     if freebase_topics and freebase_topics[0]
+      self.freebase_id = freebase_topics[0].id
       self.image_url = freebase_topics[0].image_url
       self.save
     end
