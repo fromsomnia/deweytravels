@@ -1,4 +1,6 @@
 TeamDeweyWebsite::Application.routes.draw do
+  resources :friendships
+
   get "sessions/login"
   get "sessions/google_api"
 

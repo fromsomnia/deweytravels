@@ -1,7 +1,6 @@
 class TopicTopicConnection < ActiveRecord::Base
 	belongs_to :supertopic, :class_name => "Topic"
 	belongs_to :subtopic, :class_name => "Topic"
-  validate :in_same_graph, on: :create
 
   def in_same_graph
     if supertopic.graph.id != subtopic.graph.id

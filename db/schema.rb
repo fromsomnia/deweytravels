@@ -32,15 +32,17 @@ ActiveRecord::Schema.define(version: 20140501204533) do
 
   add_index "delayed_jobs", ["priority", "run_at"], name: "delayed_jobs_priority", using: :btree
 
+  create_table "friendships", force: true do |t|
+    t.integer "user_id"
+    t.integer "friend_id"
+    t.boolean "accepted",  default: false
+  end
+
   create_table "graphs", force: true do |t|
     t.string "domain"
   end
 
   add_index "graphs", ["domain"], name: "index_graphs_on_domain", unique: true, using: :btree
-
-  create_table "networks", force: true do |t|
-    t.string "domain"
-  end
 
   create_table "topic_topic_connections", force: true do |t|
     t.integer "subtopic_id"

@@ -1,8 +1,13 @@
 require 'socialcast'
 
 class User < ActiveRecord::Base
+<<<<<<< HEAD
 	attr_accessible :fb_id, :first_name, :last_name, :domain, :email, :phone, :username, :password, :image_url
   before_create :set_auth_token, :set_image_url
+=======
+	attr_accessible :fb_id, :first_name, :last_name, :domain, :email, :phone, :username, :password, :position, :department, :image_url
+  #before_create :set_auth_token, :set_image_url
+>>>>>>> friendships
 
   belongs_to :graph
 
@@ -30,6 +35,81 @@ class User < ActiveRecord::Base
       if !@user
         @user = User.register_facebook_user(id, first_name, last_name, nil, image_url)
         self.subordinates << @user
+      end
+    end
+  end
+
+  has_many :friendships
+
+  def getFriends
+    friends = []
+    self.friendships.each do |friendship|
+      if friendship.accepted then
+        friends << User.find(friendship.friend_id)
+      end
+    end
+    return friends
+  end
+
+  def getFriendRequests
+    requests = []
+    Friendship.where(friend_id: self.id ).to_a.each do |friendship|
+      if !friendship.accepted then
+        requests << User.find(friendship.user_id)
+      end
+    end
+    return requests
+  end
+
+  def addFriend(friend_id)
+    friend = User.find(friend_id)
+    friends = self.getFriends
+    if !friend.nil? then
+      if !friends.include?(friend) then
+        self.friendships.create({:friend_id => friend_id, :accepted => true})
+      end
+      if !friends.include?(self) then
+        User.find(friend_id).friendships.create({:friend_id => self.id, :accepted => true})
+      end
+    end
+  end
+
+  #complete if already requested on other side
+  def requestFriend(request_id)
+    friend = User.find(request_id)
+    requests = self.getFriendRequests
+    if friend then
+      if !requests.include?(friend) then
+        self.friendships.create({:friend_id => request_id, :accepted => true})
+      end
+    end
+  end
+
+  def confirmFriendRequest(request_id)
+    user = User.find(request_id)
+    if user then
+      friendships = user.friendships
+      if friendships then
+        friendship = friendships.find_by_friend_id(self.id)
+        if friendship then
+          friendship.accepted = true
+          user.friends << self
+          user.friendships.find_by_friend_id(self.id).accepted = true
+        end
+      end
+    end
+  end
+
+  def removeFriend(remove_id)
+    friend = User.find(remove_id)
+    if friend then
+      if self.friends.include?(friend) then
+        self.friends.delete(friend)
+        self.friendships.find_by_friend_id(friend.id)
+      end
+      if friend.friends.include?(friend) then
+        friend.friends.delete(friend)
+        friend.friendships.find_by_friend_id(self.id)
       end
     end
   end

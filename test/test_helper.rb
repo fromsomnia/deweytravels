@@ -14,7 +14,7 @@ class ActiveSupport::TestCase
   # -- they do not yet inherit this setting
   # fixtures :graphs, :topics, :users, :topic_user_connections, :topic_topic_connections, :user_user_connections
   
-  fixtures :all
+  fixtures :users
 
   # Add more helper methods to be used by all tests here...
 end
