@@ -119,7 +119,7 @@
 
 				<div ng-repeat="user in usersForTopic" class="list-group-item">
 				  <a href="#/{{ user.category }}/{{ user.id }}">
-						<div class="circular-image" style="background-image:url('/assets/{{ user.image }}')"></div>
+						<div class="circular-image" style="background-image:url('{{ user.image_url }}')"></div>
 				  	<div class="col-xs-10 user-text-container">
 					    <h4 class="list-group-item-heading">{{ user.name }}</h4>
 				  	</div>
@@ -133,7 +133,7 @@
           <div class="list-group-item">
 					  <div class="circular-image" style="background-image:url('/assets/plus.png')"></div>
 					  <div class="col-xs-10 result-text-container">
-              <input id="typeahead" type="text" class=" form-control" ng-model="selectedUser" placeholder="Add user" typeahead-on-select="addUserToTopic($item)" typeahead="user as user.first_name + user.last_name for user in user_choices | filter: $viewValue | limitTo: 8"/>
+              <input id="typeahead" type="text" class=" form-control" ng-model="selectedUser" placeholder="Add user" typeahead-on-select="addUserToTopic($item)" typeahead="user as user.first_name + ' ' + user.last_name for user in userChoices | filter: $viewValue | limitTo: 8"/>
 					  </div>
           </div>
         </div>
@@ -170,7 +170,7 @@
           <a href="#/topics/{{ topic.id }}">{{ topic.title }}</a>
           <span ng-click="removeTopicFromUser($event, topic.id)" class="glyphicon glyphicon-remove"></span>
         </span>
-        <input id="typeahead" type="text"  ng-model="selectedTopic" placeholder="Add places" typeahead-on-select="addTopicToUser($item)" typeahead="topic as topic.title for topic in topic_choices | filter: $viewValue | limitTo: 8"/>
+        <input id="typeahead" type="text"  ng-model="selectedTopic" placeholder="Add places" typeahead-on-select="addTopicToUser($item)" typeahead="topic as topic.title for topic in topicChoices | filter: $viewValue | limitTo: 8"/>
 			</div>
 		</script>
 
