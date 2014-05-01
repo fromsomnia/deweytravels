@@ -82,6 +82,7 @@
 				<div ng-include src="'/navigation'"></div>
 				<div ng-include src="'/topicProfile'"></div>
 				<div ng-include src="'/usersForTopic'"></div>
+				<div ng-include src="'/userSuggestionsForTopic'"></div>
 			</div>
 			<div ng-include src="'/graph'"></div>
 		</script>
@@ -124,10 +125,31 @@
 					    <h4 class="list-group-item-heading">{{ user.name }}</h4>
 				  	</div>
 				  </a>
+
 				  <div class="col-xs-2" style="position: absolute; right: 10px;top: 20px;">
             <span ng-click="removeUserFromTopic($event, user.id)" class="glyphicon glyphicon-remove"></span>
           </div>
 				</div>
+      </div>
+
+    </script>
+
+    <script type="text/ng-template" id="/userSuggestionsForTopic">
+
+			<div class="list col-xs-12 list-group">
+        <h4>Have Your Friends Been to {{ topic.title }}?</h4>
+				<div ng-repeat="user in userSuggestions" class="list-group-item">
+				  <a href="#/{{ user.category }}/{{ user.id }}">
+						<div class="circular-image" style="background-image:url('{{ user.image_url }}')"></div>
+				  	<div class="col-xs-10 user-text-container">
+					    <h4 class="list-group-item-heading">{{ user.first_name }} {{ user.last_name }}</h4>
+				  	</div>
+				  </a>
+
+				  <div class="col-xs-2" style="position: absolute; right: 10px;top: 20px;">
+            <span ng-click="addUserSuggestionToTopic(user, $index)" class="glyphicon glyphicon-check"></span>
+          </div>
+        </div>
 
         <div ng-if="shouldShowAddUserToTopic">
           <div class="list-group-item">

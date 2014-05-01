@@ -51,7 +51,6 @@ class UsersController < ApplicationController
   # POST
   def add_friends
     friends = params[:friends]
-    print @current_user
     @current_user.delay.add_facebook_friends(friends)
 
     render json: {}, status: :ok
@@ -80,7 +79,6 @@ class UsersController < ApplicationController
     @nodes << user
 
     @result = { :nodes => @nodes, :links => @links }
-    print @result
     respond_to do |format|
       format.html { redirect_to @nodes }
       format.json { render json: @result }

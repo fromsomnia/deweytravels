@@ -23,6 +23,7 @@ TeamDeweyWebsite::Application.routes.draw do
     get "most_connected"
     get "related"
     
+    get "user_suggestions"
     post "add_user"
     post "remove_user"
 

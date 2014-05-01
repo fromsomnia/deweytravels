@@ -201,6 +201,8 @@ var Dewey = (function (Dewey) {
     $controller('BaseController', {
       $scope: $scope
     });
+
+    $scope.userSuggestions = DeweyFactory.userSuggestions;
     $scope.usersForTopic = DeweyFactory.usersForTopic;
     $scope.topic = DeweyFactory.topic;
     $scope.userChoices = DeweyFactory.allUsers;
@@ -241,6 +243,18 @@ var Dewey = (function (Dewey) {
       });
     };
 
+    $scope.addUserSuggestionToTopic = function ($item, $index) {
+      $scope.userSuggestions.splice($item, 1);
+      $http({
+        url: '/topics/' + $scope.topic.id + '/user_suggestions',
+        data: { previous_suggestions: $scope.userSuggestions },
+        method: "GET",
+      }).success(function (response) {
+        $scope.userSuggestions = response;
+      });
+
+      $scope.addUserToTopic($item);
+    };
   }]);
 
 	return Dewey;
