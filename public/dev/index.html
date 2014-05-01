@@ -148,7 +148,7 @@
 					<span class="name">{{ user.first_name }} {{ user.last_name }}</span>
 					<br>
 					<br>
-					<span class="email">email: {{ user.email }}</span>
+					<span class="email" ng-show="user.email">email: {{ user.email }}</span>
 				</div>
 			</div>
 		</script>
@@ -165,11 +165,23 @@
 		</script>
 
 		<script type="text/ng-template" id="/topicsForUser">
-			<div class="tags col-xs-12">
+			<div class="tags col-xs-12" ng-show="topicsForUser">
+        <span ng-show="current_user_id == user.id">Places You've Been To:</span>
+        <span ng-show="current_user_id != user.id">Places {{user.first_name}}'s Been To:</span>
         <span class="tag" ng-repeat="topic in topicsForUser">
           <a href="#/topics/{{ topic.id }}">{{ topic.title }}</a>
           <span ng-click="removeTopicFromUser($event, topic.id)" class="glyphicon glyphicon-remove"></span>
         </span>
+      </div>
+
+			<div class="tags col-xs-12">
+        <span ng-show="current_user_id == user.id">Have You Been To:</span>
+        <span ng-show="current_user_id != user.id">Has {{user.first_name}} Been To:</span>
+        <span class="tag" ng-repeat="topic in topicSuggestions">
+          <a href="#/topics/{{ topic.id }}">{{ topic.title }}</a>
+          <span ng-click="addTopicSuggestionToUser(topic, $topic)" class="glyphicon glyphicon-check"></span>
+        </span>
+
         <input id="typeahead" type="text"  ng-model="selectedTopic" placeholder="Add places" typeahead-on-select="addTopicToUser($item)" typeahead="topic as topic.title for topic in topicChoices | filter: $viewValue | limitTo: 8"/>
 			</div>
 		</script>
