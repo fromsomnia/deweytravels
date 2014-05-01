@@ -174,6 +174,15 @@ var Dewey = (function (Dewey) {
 
     $scope.addTopicSuggestionToUser = function ($item, $index) {
       $scope.topicSuggestions.splice($item, 1);
+      $http({
+        url: '/topics/suggestions',
+        data: { previous_suggestions: $scope.topicSuggestions },
+        method: "GET",
+      }).success(function (response) {
+        $scope.topicSuggestions = response;
+        $scope.$apply();
+      });
+
       $scope.addTopicToUser($item);
     };
 

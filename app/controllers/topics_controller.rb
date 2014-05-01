@@ -22,7 +22,12 @@ class TopicsController < ApplicationController
   end
 
   def suggestions
-    @topics = Topic.suggestions(@current_user)
+    if params[:previous_suggestions].present? then
+      @topics = Topic.suggestions(@current_user,
+                                  params[:previous_suggestions])
+    else
+      @topics = Topic.suggestions(@current_user)
+    end
     render json: @topics
   end
 
