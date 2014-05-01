@@ -85,6 +85,66 @@ class UsersController < ApplicationController
     end
   end
 
+  #Gets friends of given user
+  def friends
+    @friends = []
+    if params[:id].present? then
+      @friends = User.find(params[:id].to_i).getFriends
+    end
+    respond_to do |format|
+      format.html { redirect_to @friends }
+      format.json { render json: @friends }
+    end
+  end
+
+  #Gets friend requests for give user
+  def friend_requests
+    @friends = []
+    if params[:id].present? then
+      @friends = User.find(params[:id].to_i).getFriendRequests
+    end
+    respond_to do |format|
+      format.html { redirect_to @friends }
+      format.json { render json: @friends }
+    end
+  end
+
+  #Adds friend to given user
+  #friend_id as payload
+  def add_friend
+    if params[:friend_id].present? && params[:id].present? then
+      User.find(params[:id].to_i).addFriend(params[:friend_id].to_i)
+    end
+    render :nothing => true
+  end
+
+  #Removes given friend from given user
+  #friend_id as payload
+  def remove_friend
+    if params[:friend_id].present? && params[:id].present? then
+      User.find(params[:id].to_i).removeFriend(params[:friend_id].to_i)
+    end
+    render :nothing => true
+  end
+
+  #Requests friend for given user
+  #friend_id as payload
+  def request_friend
+    if params[:friend_id].present? && params[:id].present? then
+      User.find(params[:id].to_i).requestFriend(params[:friend_id].to_i)
+    end
+    render :nothing => true
+  end
+
+  #Confirms friend request for given user and given friend
+  #friend_id as payload
+  def confirm_friend_request
+    if params[:friend_id].present? && params[:id].present? then
+      User.find(params[:id].to_i).confirmFriendRequest(params[:friend_id].to_i)
+    end
+    render :nothing => true
+  end
+
   #Adds topic to given user
   #topic_id as payload
   def add_topic
