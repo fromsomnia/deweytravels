@@ -14,7 +14,9 @@ class FriendshipTest < ActiveSupport::TestCase
   	marc = users(:marc)
   	mike = users(:mike)
 
-  	puts "each number of friends"
+  	puts "Each person's initial number of friends"
+  	puts "-------------------------"
+
   	assert_equal(william.getFriends.length , 0)
   	puts "william: " + william.getFriends.length.to_s
   	assert_equal(veni.getFriends.length , 0)
@@ -31,15 +33,19 @@ class FriendshipTest < ActiveSupport::TestCase
   	puts "jay: " + jay.getFriends.length.to_s
   	assert_equal(chris.getFriends.length , 0)
   	puts "chris: " + chris.getFriends.length.to_s
-  	assert_equal(marc.getFriends.length , 0)
+  	assert_equal(marc.getFriends.length , 1)
   	puts "marc: " + marc.getFriends.length.to_s
-  	assert_equal(mike.getFriends.length , 0)
+  	assert_equal(mike.getFriends.length , 1)
   	puts "mike: " + mike.getFriends.length.to_s
 
   	puts ""
+  	puts "Veni requests William as a friend"
+  	puts "------------------------"
 
   	veni.requestFriend(william.id)
-  	puts "william friends: " + william.friendships.length.to_s
+  	william.reload
+  	veni.reload
+  	puts "william friends: " + william.getFriends.length.to_s
   	puts "william requests: " + william.getFriendRequests.length.to_s
   	friend = william.getFriendRequests[0]
   	puts "     requested by: " + friend.first_name
@@ -47,8 +53,12 @@ class FriendshipTest < ActiveSupport::TestCase
   	puts "veni requests: " + veni.getFriendRequests.length.to_s
 
   	puts ""
+  	puts "Veni adds Jay as a friend (no request process)"
+  	puts "-------------------------"
 
   	veni.addFriend(jay.id)
+  	jay.reload
+  	veni.reload
   	puts "jay friends: " + jay.getFriends.length.to_s
   	puts "jay requests: " + jay.getFriendRequests.length.to_s
   	friend = jay.getFriends[0]
@@ -59,8 +69,13 @@ class FriendshipTest < ActiveSupport::TestCase
   	puts "veni's friend: " + friend.first_name
 
   	#Check for null users!!!
+  	puts""
+  	puts"William confirms Veni's friend request"
+  	puts"---------------------------"
 
   	william.confirmFriendRequest(veni.id)
+  	william.reload
+  	veni.reload
   	puts "william friends: " + william.getFriends.length.to_s
   	puts "william requests: " + william.getFriendRequests.length.to_s
   	friend = william.getFriends[0]
@@ -68,12 +83,18 @@ class FriendshipTest < ActiveSupport::TestCase
   	puts "veni friends: " + veni.getFriends.length.to_s
   	friend = veni.getFriends[0]
   	friend2 = veni.getFriends[1]
-  	puts "veni's friends: " + friend.first_name + " " + friend.first_name
+  	puts "veni's friends: " + friend.first_name + " " + friend2.first_name
   	puts "veni's requests: " + veni.getFriendRequests.length.to_s
-  	friend = jay.getFriend[0]
+  	friend = jay.getFriends[0]
   	puts "jay's friend: " + friend.first_name
 
+  	puts""
+  	puts"Veni deletes Jay as a friend"
+  	puts"----------------------------"
+
   	veni.removeFriend(jay.id)
+  	veni.reload
+  	jay.reload
   	puts "veni's friends: " + veni.getFriends.length.to_s
   	friend = veni.getFriends[0]
   	puts "veni's friend: " + friend.first_name
@@ -82,6 +103,5 @@ class FriendshipTest < ActiveSupport::TestCase
   	friend = william.getFriends[0]
   	puts "william's friend: " + friend.first_name
 
-  #   assert true
   end
 end

@@ -40,36 +40,46 @@ class User < ActiveRecord::Base
   end
 
   has_many :friendships
+  has_many :second_friendships, :class_name => "Friendship", :foreign_key => "friend_id"
 
   def getFriends
-    friends = []
+    @friends = []
     self.friendships.each do |friendship|
       if friendship.accepted then
-        friends << User.find(friendship.friend_id)
+        @friends << friendship.friend
       end
     end
-    return friends
+    return @friends
   end
 
   def getFriendRequests
-    requests = []
+    @requests = []
     Friendship.where(friend_id: self.id ).to_a.each do |friendship|
       if !friendship.accepted then
-        requests << User.find(friendship.user_id)
+        @requests << friendship.user
       end
     end
-    return requests
+    return @requests
   end
 
   def addFriend(friend_id)
     friend = User.find(friend_id)
     friends = self.getFriends
+    friend_friends = friend.getFriends
     if !friend.nil? then
       if !friends.include?(friend) then
-        self.friendships.create({:friend_id => friend_id, :accepted => true})
+        new_friendship = Friendship.new
+        new_friendship.friend = friend
+        new_friendship.user = self
+        new_friendship.accepted = true
+        new_friendship.save(:validate => false)
       end
-      if !friends.include?(self) then
-        User.find(friend_id).friendships.create({:friend_id => self.id, :accepted => true})
+      if !friend_friends.include?(self) then
+        new_friendship = Friendship.new
+        new_friendship.friend = self
+        new_friendship.user = friend
+        new_friendship.accepted = true
+        new_friendship.save(:validate => false)
       end
     end
   end
@@ -80,7 +90,11 @@ class User < ActiveRecord::Base
     requests = self.getFriendRequests
     if friend then
       if !requests.include?(friend) then
-        self.friendships.create({:friend_id => request_id, :accepted => true})
+        new_friendship = Friendship.new
+        new_friendship.friend = friend
+        new_friendship.user = self
+        new_friendship.accepted = false
+        new_friendship.save(:validate => false)
       end
     end
   end
@@ -93,8 +107,13 @@ class User < ActiveRecord::Base
         friendship = friendships.find_by_friend_id(self.id)
         if friendship then
           friendship.accepted = true
-          user.friends << self
-          user.friendships.find_by_friend_id(self.id).accepted = true
+          friendship.save(:validate => false)
+
+          new_friendship = Friendship.new
+          new_friendship.user = self
+          new_friendship.friend = user
+          new_friendship.accepted = true
+          new_friendship.save(:validate => false)
         end
       end
     end
@@ -103,13 +122,11 @@ class User < ActiveRecord::Base
   def removeFriend(remove_id)
     friend = User.find(remove_id)
     if friend then
-      if self.friends.include?(friend) then
-        self.friends.delete(friend)
-        self.friendships.find_by_friend_id(friend.id)
-      end
-      if friend.friends.include?(friend) then
-        friend.friends.delete(friend)
-        friend.friendships.find_by_friend_id(self.id)
+      friendship = self.friendships.find_by_friend_id(remove_id)
+      if self.friendships.include?(friendship) then
+        self.friendships.delete(friendship)
+        second_friendship = friend.friendships.find_by_friend_id(self.id)
+        friend.friendships.delete(second_friendship)
       end
     end
   end
