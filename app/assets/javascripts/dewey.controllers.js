@@ -207,6 +207,7 @@ var Dewey = (function (Dewey) {
     $scope.topic = DeweyFactory.topic;
     $scope.userChoices = DeweyFactory.allUsers;
     $scope.shouldShowAddUserToTopic = true;
+    $scope.newTopic = {};
 
     $scope.updateUsersForTopic = function () {
       $injector.get('$rootScope').$broadcast('graphUpdated');
@@ -255,6 +256,41 @@ var Dewey = (function (Dewey) {
 
       $scope.addUserToTopic($item);
     };
+
+   $scope.updateTopics = function () {
+      $injector.get('$rootScope').$broadcast('graphUpdated');
+      //TODO: make newly added topics always show instead of
+      // just most connected
+      DeweyFactory.getGraphNodesAndLinks();
+      $('#new-topic').val('');
+      setTimeout(function () {
+        $scope.$apply(function () {
+          $scope.graphNodes = DeweyFactory.graphNodes;
+          $scope.graphLinks = DeweyFactory.graphLinks;
+        });
+      }, 500);
+    };
+
+    $scope.addSubtopicToTopic = function () {
+      if (event.keyCode == 13) {
+        $http({
+          url: '/topics.json',
+          data: {
+            topic: {
+              parent_id: $scope.topic.id,
+              title: $scope.newTopic.title
+            }
+          },
+          method: "POST",
+        }).success(function (response) {
+          $scope.updateTopics();
+        });
+      }
+    };
+
+      
+
+
   }]);
 
 	return Dewey;

@@ -20,6 +20,7 @@ TeamDeweyWebsite::Application.routes.draw do
   resources :topics do
     post "add_connection"
     post "remove_connection"
+    post "create"
     get "most_connected"
     get "related"
     

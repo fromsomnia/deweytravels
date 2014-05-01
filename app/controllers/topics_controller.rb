@@ -220,15 +220,22 @@ class TopicsController < ApplicationController
   def create
     # Note from veni to implementor: don't forget to make this
     # domain spec.
-    @topic = Topic.new(topic_params)
-
-    respond_to do |format|
-      if @topic.save
-        format.html { redirect_to @topic, notice: 'Topic was successfully created.' }
-        format.json { render action: 'show', status: :created, location: @topic }
-      else
-        format.html { render action: 'new' }
-        format.json { render json: @topic.errors, status: :unprocessable_entity }
+   if topic_params[:parent_id].present? then
+      super_topic = @current_graph.topics.find(topic_params[:parent_id])
+      if super_topic != nil && !super_topic.subtopics.map{|topic| topic.title}.include?(topic_params[:title]) then
+        @topic = Topic.new
+        @topic.title = topic_params[:title]
+        @topic.graph = super_topic.graph
+        respond_to do |format|
+          if @topic.save
+            @topic.supertopics << super_topic
+            format.html { redirect_to @topic, notice: 'Topic was successfully created.' }
+            format.json { render json: @topic }
+          else
+            format.html { render action: 'new' }
+            format.json { render json: @topic.errors, status: :unprocessable_entity }
+          end
+        end
       end
     end
   end
