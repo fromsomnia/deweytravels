@@ -9,6 +9,8 @@ TeamDeweyWebsite::Application.routes.draw do
   post "sessions/register"
   get "sessions/get_users"
   get "users/index"
+  get "topics/suggestions"
+
   post "users/add_friends"
   get "about/team"
   get "graphs/search"

@@ -43,6 +43,9 @@ var Dewey = (function (Dewey) {
           getGraphNodesAndLinks: ['DeweyFactory', function (DeweyFactory) {
             return DeweyFactory.getGraphNodesAndLinks();
           }],
+          getTopicSuggestions: ['DeweyFactory', function(DeweyFactory) {
+            return DeweyFactory.getTopicSuggestions();
+          }],
         }
       })
       .when('/topics/:topicId', {

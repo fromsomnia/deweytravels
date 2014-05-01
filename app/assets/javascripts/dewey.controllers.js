@@ -132,6 +132,7 @@ var Dewey = (function (Dewey) {
     $controller('BaseController', {
       $scope: $scope
     });
+    $scope.topicSuggestions = DeweyFactory.topicSuggestions;
     $scope.user = DeweyFactory.user;
     $scope.topicsForUser = DeweyFactory.topicsForUser;
     $scope.topicChoices = DeweyFactory.allTopics;
@@ -145,6 +146,7 @@ var Dewey = (function (Dewey) {
         });
       }, 500);
     };
+
 
     $scope.removeTopicFromUser = function ($event, $tagID) {
       $http({
@@ -168,6 +170,11 @@ var Dewey = (function (Dewey) {
       }).success(function (response) {
         $scope.updateTopicsForUser();
       });
+    };
+
+    $scope.addTopicSuggestionToUser = function ($item, $index) {
+      $scope.topicSuggestions.splice($item, 1);
+      $scope.addTopicToUser($item);
     };
 
   }]);

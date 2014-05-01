@@ -21,6 +21,11 @@ class TopicsController < ApplicationController
     end
   end
 
+  def suggestions
+    @topics = Topic.suggestions(@current_user)
+    render json: @topics
+  end
+
   # GET /topics/1
   # GET /topics/1.json
   def show

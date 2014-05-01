@@ -78,6 +78,21 @@ class Topic < ActiveRecord::Base
     end
   end
 
+  def self.suggestions(user)
+    @topics = []
+    @topics.append(Topic.find_by_title('World'))
+    @topics += @topics[0].subtopics
+    @topics += Topic.all.sample(5)
+    @topics -= user.expertises
+    @topics = @topics.uniq
+
+    while @topics.length < 5 do
+      @topics += Topic.all.sample(5)
+      @topics = (@topics - user.expertises).uniq
+    end
+    @topics
+  end
+
 	def related
 		@related = []
 		self.supertopics.each do |top|
