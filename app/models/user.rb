@@ -16,9 +16,8 @@ class User < ActiveRecord::Base
 	has_many :superiors, :through => :second_user_user_connections, :source => :superior
 
 
-  def self.add_facebook_friends(friends)
+  def add_facebook_friends(friends)
     # TODO(veni): pending on william's work, this might go to a Friends class.
-    # TODO(veni): pending on william's work, create user_user_connections
 
     friends.each do |friend|
       id = friend[:id]
@@ -30,6 +29,7 @@ class User < ActiveRecord::Base
 
       if !@user
         @user = User.register_facebook_user(id, first_name, last_name, nil, image_url)
+        self.subordinates << @user
       end
     end
   end
@@ -66,6 +66,16 @@ class User < ActiveRecord::Base
 		return @peers
 	end
 
+  def friends
+    @friends = []
+    self.superiors.each do |boss|
+      @friends << boss
+    end
+    self.subordinates.each do |underling|
+      @friends << underling
+    end
+    @friends
+  end
 	def degree
 		curr_degree = 0
 		curr_degree = curr_degree + self.expertises.size

@@ -37,7 +37,8 @@ class UsersController < ApplicationController
   # POST
   def add_friends
     friends = params[:friends]
-    User.delay.add_facebook_friends(friends)
+    print @current_user
+    @current_user.delay.add_facebook_friends(friends)
 
     render json: {}, status: :ok
   end
@@ -47,32 +48,27 @@ class UsersController < ApplicationController
   def most_connected
     @nodes = []
     @links = []
+
     if params[:user_id].present? then
       user = @current_graph.users.find(params[:user_id].to_i)
       if user != nil then
-        @nodes << user
-        user.topic_user_connections.each do |tuc|
-          expertise = tuc.expertise
-          @nodes << expertise
-          link = { :source => 0,
-                   :target => @nodes.size - 1,
-                   :connection => tuc,
-                   :connectionType => tuc.class.name}
-          @links << link
-        end
-
-        user.peers.each do |peer|
-          @nodes << peer 
-          link = { :source => 0,
-                   :target => @nodes.size - 1,
-                   :connection => nil }
-          @links << link
-        end
+        @nodes += user.expertises
+        @nodes += user.friends
       end
     end
 
-    @result = { :nodes => @nodes, :links => @links }
+    @nodes = @nodes.sample(20)
 
+    (0..@nodes.length - 1).each do |n|
+      link = { :source => @nodes.length,
+               :target => n }
+      @links << link
+    end
+    
+    @nodes << user
+
+    @result = { :nodes => @nodes, :links => @links }
+    print @result
     respond_to do |format|
       format.html { redirect_to @nodes }
       format.json { render json: @result }
