@@ -53,11 +53,9 @@ class UsersController < ApplicationController
       user = @current_graph.users.find(params[:user_id].to_i)
       if user != nil then
         @nodes += user.expertises
-        @nodes += user.friends
+        @nodes += user.friends.sample(20)
       end
     end
-
-    @nodes = @nodes.sample(20)
 
     (0..@nodes.length - 1).each do |n|
       link = { :source => @nodes.length,
