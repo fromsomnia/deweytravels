@@ -88,7 +88,7 @@ class User < ActiveRecord::Base
   def requestFriend(request_id)
     friend = User.find(request_id)
     requests = self.getFriendRequests
-    if friend then
+    if !friend.nil? then
       if !requests.include?(friend) then
         new_friendship = Friendship.new
         new_friendship.friend = friend
@@ -101,27 +101,25 @@ class User < ActiveRecord::Base
 
   def confirmFriendRequest(request_id)
     user = User.find(request_id)
-    if user then
+    if !user.nil? then
       friendships = user.friendships
-      if friendships then
-        friendship = friendships.find_by_friend_id(self.id)
-        if friendship then
-          friendship.accepted = true
-          friendship.save(:validate => false)
+      friendship = friendships.find_by_friend_id(self.id)
+      if !friendship.nil? then
+        friendship.accepted = true
+        friendship.save(:validate => false)
 
-          new_friendship = Friendship.new
-          new_friendship.user = self
-          new_friendship.friend = user
-          new_friendship.accepted = true
-          new_friendship.save(:validate => false)
-        end
+        new_friendship = Friendship.new
+        new_friendship.user = self
+        new_friendship.friend = user
+        new_friendship.accepted = true
+        new_friendship.save(:validate => false)
       end
     end
   end
 
   def removeFriend(remove_id)
     friend = User.find(remove_id)
-    if friend then
+    if !friend.nil? then
       friendship = self.friendships.find_by_friend_id(remove_id)
       if self.friendships.include?(friendship) then
         self.friendships.delete(friendship)
