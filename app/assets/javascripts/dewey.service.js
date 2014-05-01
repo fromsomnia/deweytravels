@@ -100,6 +100,17 @@ var Dewey = (function (Dewey) {
       return defer.promise;
     }
 
+    function getUserSuggestions () {
+      var defer = $q.defer(),
+        params = $route.current.params;
+      $http.get('/topics/' + params.topicId + '/user_suggestions.json')
+        .success(function (response) {
+          factory.userSuggestions = response;
+          defer.resolve();
+        });
+      return defer.promise;
+    }
+
     function getAllTopics () {
       var defer = $q.defer(),
         params = $route.current.params;
@@ -157,7 +168,8 @@ var Dewey = (function (Dewey) {
       getTopic: getTopic,
       getTopicsForUser: getTopicsForUser,
       getGraphNodesAndLinks: getGraphNodesAndLinks,
-      getTopicSuggestions: getTopicSuggestions
+      getTopicSuggestions: getTopicSuggestions,
+      getUserSuggestions: getUserSuggestions
     };
     return factory;
 

@@ -257,6 +257,20 @@ class TopicsController < ApplicationController
     end
   end
 
+  def user_suggestions
+    if params[:topic_id].present? then
+      topic = @current_graph.topics.find(params[:topic_id].to_i)
+      if params[:previous_suggestions].present? then
+        @users = User.suggestions(topic,
+                                    params[:previous_suggestions])
+      else
+        @users = User.suggestions(topic)
+      end
+
+      render json: @users
+    end
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_topic

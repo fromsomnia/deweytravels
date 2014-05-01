@@ -64,6 +64,9 @@ var Dewey = (function (Dewey) {
           getGraphNodesAndLinks: ['DeweyFactory', function (DeweyFactory) {
             return DeweyFactory.getGraphNodesAndLinks();
           }],
+          getUserSuggestions: ['DeweyFactory', function(DeweyFactory) {
+            return DeweyFactory.getUserSuggestions();
+          }],
         }
       })
       .otherwise({

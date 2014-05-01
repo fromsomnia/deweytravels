@@ -82,6 +82,18 @@ class User < ActiveRecord::Base
 		return curr_degree
 	end
 
+  def self.suggestions(topic, previous_suggestions=[])
+    @users = previous_suggestions
+    iter = 0
+
+    while ((@users.length < 5) && (iter < 10))do
+      @users += User.all.sample(5)
+      @users = (@users - topic.experts).uniq
+      iter += 1
+    end
+    @users
+  end
+
   private
     def set_auth_token
       return if auth_token.present?
