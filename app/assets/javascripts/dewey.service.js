@@ -103,7 +103,6 @@ var Dewey = (function (Dewey) {
     function getUserSuggestions () {
       var defer = $q.defer(),
         params = $route.current.params;
-      console.log('getUserSuggestions');
       $http.get('/topics/' + params.topicId + '/user_suggestions.json')
         .success(function (response) {
           factory.userSuggestions = response;

@@ -260,7 +260,6 @@ class TopicsController < ApplicationController
   def user_suggestions
     if params[:topic_id].present? then
       topic = @current_graph.topics.find(params[:topic_id].to_i)
-      print params[:previous_suggestions]
       if params[:previous_suggestions].present? then
         @users = User.suggestions(topic,
                                     params[:previous_suggestions])
