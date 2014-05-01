@@ -74,6 +74,7 @@ class Topic < ActiveRecord::Base
           cont.subtopics << country_topic
         end
       end
+      sleep 0.2
     end
   end
 
