@@ -39,8 +39,8 @@ var Dewey = (function (Dewey) {
 
     function setNodePositions (primaryNode, outerNodes, containerWidth, containerHeight) {
 
-      primaryNode.x = containerWidth / 2;
-      primaryNode.y = containerHeight / 2;
+      primaryNode.targetX = containerWidth / 2;
+      primaryNode.targetY = containerHeight / 2;
 
       var hypotenuse = primaryNode.radius + outerNodes[0].radius,
         degrees,
@@ -48,10 +48,15 @@ var Dewey = (function (Dewey) {
       _.each(outerNodes, function (node, i) {
         degrees = 360 / (outerNodes.length) * i;
         radians = degrees * Math.PI / 180;
-        node.x = primaryNode.x + hypotenuse * Math.cos(radians);
-        node.y = primaryNode.y + hypotenuse * Math.sin(radians);
+        node.targetX = primaryNode.targetX + hypotenuse * Math.cos(radians);
+        node.targetY = primaryNode.targetY + hypotenuse * Math.sin(radians);
       });
 
+    }
+
+    function orbit (node, step) {
+      node.x += (node.targetX - node.x) / step;
+      node.y += (node.targetY - node.y) / step;
     }
 
     $scope.makeGraph = function () {
@@ -74,6 +79,29 @@ var Dewey = (function (Dewey) {
         });
 
         setNodePositions(primaryNode, outerNodes, $scope.graphWidth, $scope.graphHeight);
+
+        (function () {
+          var nodes = $scope.graphNodes,
+            w = $scope.graphWidth,
+            h = $scope.graphHeight;
+          var force = d3.layout.force()
+              .gravity(0.05)
+              .charge(function (d, i) { 
+                return i ? 0 : -2000; 
+              })
+              .nodes(nodes)
+              .size([w, h]);
+          force.start();
+          force.on('tick', function (e) {         
+            var q = d3.geom.quadtree(nodes),
+                i = 0,
+                n = nodes.length;
+            while (++i < n) {
+              orbit(nodes[i], 100);
+            }
+            $scope.$apply();
+          });
+        })();
 
         $scope.primaryNode = primaryNode;
         $scope.outerNodes = outerNodes;
