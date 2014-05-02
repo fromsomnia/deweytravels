@@ -46,11 +46,16 @@ class FriendshipTest < ActiveSupport::TestCase
   	william.reload
   	veni.reload
   	puts "william friends: " + william.getFriends.length.to_s
+    assert_equal(william.getFriends.length, 0, "William should have 0 friends at the moment")
   	puts "william requests: " + william.getFriendRequests.length.to_s
+    assert_equal(william.getFriendRequests.length, 1, "William should have 1 friend request")
   	friend = william.getFriendRequests[0]
   	puts "     requested by: " + friend.first_name
+    assert_equal(friend.first_name, "Veni", "William's single friend request should be from Veni")
   	puts "veni friends: " + veni.getFriends.length.to_s
+    assert_equal(veni.getFriendRequests.length, 0, "Veni should have no current friends")
   	puts "veni requests: " + veni.getFriendRequests.length.to_s
+    assert_equal(veni.getFriendRequests.length, 0, "Veni should have no pending friend requests")
 
   	puts ""
   	puts "Veni adds Jay as a friend (no request process)"
@@ -60,13 +65,19 @@ class FriendshipTest < ActiveSupport::TestCase
   	jay.reload
   	veni.reload
   	puts "jay friends: " + jay.getFriends.length.to_s
+    assert_equal(jay.getFriends.length, 1, "Jay should have 1 friend, namely Veni")
   	puts "jay requests: " + jay.getFriendRequests.length.to_s
+    assert_equal(jay.getFriendRequests.length, 0, "Jay should have no pending friend requests")
   	friend = jay.getFriends[0]
   	puts "jay's friend: " + friend.first_name
+    assert_equal(friend.first_name, "Veni", "Jay should have Veni as his only friend")
   	puts "veni friends: " + veni.getFriends.length.to_s
+    assert_equal(veni.getFriends.length, 1, "Veni should have a single friend, namely Jay")
   	puts "veni requests: " + veni.getFriendRequests.length.to_s
+    assert_equal(veni.getFriendRequests.length, 0, "Veni should have no pending friend requests")
   	friend = veni.getFriends[0]
   	puts "veni's friend: " + friend.first_name
+    assert_equal(friend.first_name, "Jay", "Veni's only friend should be Jay")
 
   	#Check for null users!!!
   	puts""
@@ -77,16 +88,23 @@ class FriendshipTest < ActiveSupport::TestCase
   	william.reload
   	veni.reload
   	puts "william friends: " + william.getFriends.length.to_s
+    assert_equal(william.getFriends.length, 1, "William should now have 1 friend")
   	puts "william requests: " + william.getFriendRequests.length.to_s
+    assert_equal(william.getFriendRequests.length, 0, "William should no longer have any friend requests")
   	friend = william.getFriends[0]
   	puts "william's friend: " + friend.first_name
+    assert_equal(friend.first_name, "Veni", "William's only friend should be Veni")
   	puts "veni friends: " + veni.getFriends.length.to_s
+    assert_equal(veni.getFriends.length, 2, "Veni should now have 2 friends")
   	friend = veni.getFriends[0]
   	friend2 = veni.getFriends[1]
   	puts "veni's friends: " + friend.first_name + " " + friend2.first_name
+    assert_equal(friend.first_name + " " + friend2.first_name, "Jay William", "Veni should now be friends with Jay and William")
   	puts "veni's requests: " + veni.getFriendRequests.length.to_s
+    assert_equal(veni.getFriendRequests.length, 0, "Veni should not have any pending friend requests")
   	friend = jay.getFriends[0]
   	puts "jay's friend: " + friend.first_name
+    assert_equal(friend.first_name, "Veni", "Jay should still be friends with only Veni")
 
   	puts""
   	puts"Veni deletes Jay as a friend"
@@ -96,12 +114,17 @@ class FriendshipTest < ActiveSupport::TestCase
   	veni.reload
   	jay.reload
   	puts "veni's friends: " + veni.getFriends.length.to_s
+    assert_equal(veni.getFriends.length, 1, "Veni should now have 1 friend")
   	friend = veni.getFriends[0]
   	puts "veni's friend: " + friend.first_name
+    assert_equal(friend.first_name, "William", "Veni's only friend should be William")
   	puts "jay's friends: " + jay.getFriends.length.to_s
+    assert_equal(jay.getFriends.length, 0, "Jay should no longer have any friends")
   	puts "william's friends: " + william.getFriends.length.to_s
+    assert_equal(william.getFriends.length, 1, "William should still have 1 friend")
   	friend = william.getFriends[0]
   	puts "william's friend: " + friend.first_name
+    assert_equal(friend.first_name, "Veni", "William's only friend should still be Veni")
 
   end
 end
