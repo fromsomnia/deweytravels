@@ -1,13 +1,8 @@
 require 'socialcast'
 
 class User < ActiveRecord::Base
-<<<<<<< HEAD
 	attr_accessible :fb_id, :first_name, :last_name, :domain, :email, :phone, :username, :password, :image_url
   before_create :set_auth_token, :set_image_url
-=======
-	attr_accessible :fb_id, :first_name, :last_name, :domain, :email, :phone, :username, :password, :position, :department, :image_url
-  #before_create :set_auth_token, :set_image_url
->>>>>>> friendships
 
   belongs_to :graph
 
@@ -42,7 +37,7 @@ class User < ActiveRecord::Base
   has_many :friendships
   has_many :second_friendships, :class_name => "Friendship", :foreign_key => "friend_id"
 
-  def getFriends
+  def get_friends
     @friends = []
     self.friendships.each do |friendship|
       if friendship.accepted then
@@ -52,7 +47,7 @@ class User < ActiveRecord::Base
     return @friends
   end
 
-  def getFriendRequests
+  def get_friend_requests
     @requests = []
     Friendship.where(friend_id: self.id ).to_a.each do |friendship|
       if !friendship.accepted then
@@ -62,10 +57,10 @@ class User < ActiveRecord::Base
     return @requests
   end
 
-  def addFriend(friend_id)
+  def add_friend(friend_id)
     friend = User.find(friend_id)
-    friends = self.getFriends
-    friend_friends = friend.getFriends
+    friends = self.get_friends
+    friend_friends = friend.get_friends
     if !friend.nil? then
       if !friends.include?(friend) then
         new_friendship = Friendship.new
@@ -84,10 +79,10 @@ class User < ActiveRecord::Base
     end
   end
 
-  #complete if already requested on other side
-  def requestFriend(request_id)
+  # TODO: complete if already requested on other side
+  def request_friend(request_id)
     friend = User.find(request_id)
-    requests = self.getFriendRequests
+    requests = self.get_friend_requests
     if !friend.nil? then
       if !requests.include?(friend) then
         new_friendship = Friendship.new
@@ -99,7 +94,7 @@ class User < ActiveRecord::Base
     end
   end
 
-  def confirmFriendRequest(request_id)
+  def confirm_friend_request(request_id)
     user = User.find(request_id)
     if !user.nil? then
       friendships = user.friendships
@@ -117,7 +112,7 @@ class User < ActiveRecord::Base
     end
   end
 
-  def removeFriend(remove_id)
+  def remove_friend(remove_id)
     friend = User.find(remove_id)
     if !friend.nil? then
       friendship = self.friendships.find_by_friend_id(remove_id)

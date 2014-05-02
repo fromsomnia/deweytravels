@@ -2,6 +2,7 @@ require 'freeb/api'
 
 class Topic < ActiveRecord::Base
 	attr_accessible :title, :image_url, :freebase_image_url
+  after_create :set_image
   belongs_to :graph
 
 	has_many :topic_user_connections, :foreign_key => "expertise_id"

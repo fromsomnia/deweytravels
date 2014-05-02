@@ -56,8 +56,8 @@ class UsersController < ApplicationController
     render json: {}, status: :ok
   end
 
-  #max_topics is in params
-  #currently returns most connected USERS & TOPICS
+  # max_topics is in params
+  # currently returns most connected USERS & TOPICS
   def most_connected
     @nodes = []
     @links = []
@@ -85,11 +85,11 @@ class UsersController < ApplicationController
     end
   end
 
-  #Gets friends of given user
-  def friends
+  # Gets friends of given user
+  def get_friends
     @friends = []
     if params[:id].present? then
-      @friends = User.find(params[:id].to_i).getFriends
+      @friends = User.find(params[:id].to_i).get_friends
     end
     respond_to do |format|
       format.html { redirect_to @friends }
@@ -97,11 +97,11 @@ class UsersController < ApplicationController
     end
   end
 
-  #Gets friend requests for give user
+  # Gets friend requests for give user
   def friend_requests
     @friends = []
     if params[:id].present? then
-      @friends = User.find(params[:id].to_i).getFriendRequests
+      @friends = User.find(params[:id].to_i).get_friend_requests
     end
     respond_to do |format|
       format.html { redirect_to @friends }
@@ -109,44 +109,44 @@ class UsersController < ApplicationController
     end
   end
 
-  #Adds friend to given user
-  #friend_id as payload
+  # Adds friend to given user
+  # friend_id as payload
   def add_friend
     if params[:friend_id].present? && params[:id].present? then
-      User.find(params[:id].to_i).addFriend(params[:friend_id].to_i)
+      User.find(params[:id].to_i).add_friend(params[:friend_id].to_i)
     end
     render :nothing => true
   end
 
-  #Removes given friend from given user
-  #friend_id as payload
+  # Removes given friend from given user
+  # friend_id as payload
   def remove_friend
     if params[:friend_id].present? && params[:id].present? then
-      User.find(params[:id].to_i).removeFriend(params[:friend_id].to_i)
+      User.find(params[:id].to_i).remove_friend(params[:friend_id].to_i)
     end
     render :nothing => true
   end
 
-  #Requests friend for given user
-  #friend_id as payload
+  # Requests friend for given user
+  # friend_id as payload
   def request_friend
     if params[:friend_id].present? && params[:id].present? then
-      User.find(params[:id].to_i).requestFriend(params[:friend_id].to_i)
+      User.find(params[:id].to_i).request_friend(params[:friend_id].to_i)
     end
     render :nothing => true
   end
 
-  #Confirms friend request for given user and given friend
-  #friend_id as payload
+  # Confirms friend request for given user and given friend
+  # friend_id as payload
   def confirm_friend_request
     if params[:friend_id].present? && params[:id].present? then
-      User.find(params[:id].to_i).confirmFriendRequest(params[:friend_id].to_i)
+      User.find(params[:id].to_i).confirm_friend_request(params[:friend_id].to_i)
     end
     render :nothing => true
   end
 
-  #Adds topic to given user
-  #topic_id as payload
+  # Adds topic to given user
+  # topic_id as payload
   def add_topic
     if params[:topic_id].present? then
       topic = @current_graph.topics.find(params[:topic_id].to_i)
@@ -158,8 +158,8 @@ class UsersController < ApplicationController
     render :nothing => true
   end
 
-  #Adds topic to given user
-  #topic_id as payload
+  # Adds topic to given user
+  # topic_id as payload
   def remove_topic
     puts params[:id]
     if params[:topic_id].present? && params[:id].present? then
