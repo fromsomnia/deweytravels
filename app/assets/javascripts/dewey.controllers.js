@@ -1,8 +1,7 @@
 var Dewey = (function (Dewey) {
 
   // controller for all views; other controllers inherit from this
-  Dewey.DeweyApp.controller('BaseController', ['$rootScope', '$http', '$scope', '$location', 'DeweyFactory',
-                            function ($rootScope, $http, $scope, $location, DeweyFactory) {
+  Dewey.DeweyApp.controller('BaseController', ['$rootScope', '$http', '$scope', '$location', 'DeweyFactory', function ($rootScope, $http, $scope, $location, DeweyFactory) {
 
     $scope.queryData = {};
     $scope.graphNodes = DeweyFactory.graphNodes;
@@ -66,20 +65,58 @@ var Dewey = (function (Dewey) {
         $scope.graphWidth = $('#data-viz svg').width();
         $scope.graphHeight = $('#data-viz svg').height();
 
+        // reorders graph nodes so that the first node is the center node
+        (function () {
+          var index;
+          if ($scope.user) {
+            _.each($scope.graphNodes, function (node, i) {
+              if (node.first_name === $scope.user.first_name
+                && node.last_name === $scope.user.last_name)
+              {
+                index = i;
+              }
+            });
+          } else if ($scope.topic) {
+            _.each($scope.graphNodes, function (node, i) {
+              if (node.title === $scope.topic.title)
+              {
+                index = i;
+              }
+            });
+          }
+          var restOfNodes = (function () {
+            return $scope.graphNodes.slice(0, index).concat($scope.graphNodes.slice(index + 1));
+          })();
+          $scope.graphNodes = [$scope.graphNodes[index]].concat(restOfNodes);
+        })();
+
+        // set categories for nodes
+        (function () {
+          _.each($scope.graphNodes, function (node) {
+            if (node.title) {
+              node.category = 'topic';
+            } else if (node.first_name && node.last_name) {
+              node.category = 'user';
+            }
+          });
+        })();
+
         var primaryNode = $scope.graphNodes[0],
-          numberOfOuterNodes = ($scope.graphNodes.length > 14) ? 14 : $scope.graphNodes.length,
+          numberOfOuterNodes = ($scope.graphNodes.length > 14) ? 14 : $scope.graphNodes.length - 1,
           outerNodes = $scope.graphNodes.slice(1, 1 + numberOfOuterNodes),
           outerNodesPadding = 1,
           primaryNodeRadius = 100,
           outerNodeRadius = primaryNodeRadius / (numberOfOuterNodes / Math.PI - 1);
 
         primaryNode.radius = primaryNodeRadius;
-        _.each(outerNodes, function (node) {          
-          if (outerNodeRadius > primaryNodeRadius) {
-            node.radius = primaryNodeRadius * 2 / 3;
-          } else {
-            node.radius = outerNodeRadius;
-          }
+
+        if (outerNodeRadius > primaryNodeRadius || outerNodeRadius < 0) {
+        // if (outerNodeRadius > primaryNodeRadius) {
+          outerNodeRadius = primaryNodeRadius * 2 / 3;
+        }
+
+        _.each(outerNodes, function (node) {
+          node.radius = outerNodeRadius;
         });
 
         setNodePositions(primaryNode, outerNodes, $scope.graphWidth, $scope.graphHeight);
@@ -183,8 +220,7 @@ var Dewey = (function (Dewey) {
     $location.path('/');
   }]);
 
-  Dewey.DeweyApp.controller('UserController', ['$scope', '$injector', '$http', '$controller', 'DeweyFactory',
-                  function ($scope, $injector, $http, $controller, DeweyFactory) {
+  Dewey.DeweyApp.controller('UserController', ['$scope', '$injector', '$http', '$controller', 'DeweyFactory', function ($scope, $injector, $http, $controller, DeweyFactory) {
 
     $controller('BaseController', {
       $scope: $scope
@@ -244,8 +280,7 @@ var Dewey = (function (Dewey) {
 
   }]);
 
-  Dewey.DeweyApp.controller('TopicController', ['$scope', '$injector', '$controller', '$http', 'DeweyFactory',
-                            function ($scope, $injector, $controller, $http, DeweyFactory) {
+  Dewey.DeweyApp.controller('TopicController', ['$scope', '$injector', '$controller', '$http', 'DeweyFactory', function ($scope, $injector, $controller, $http, DeweyFactory) {
 
     $controller('BaseController', {
       $scope: $scope

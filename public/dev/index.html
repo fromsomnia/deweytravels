@@ -28,10 +28,9 @@
 
 		<!-- logout template -->
 		<script type="text/ng-template" id="/logout">
-
 			<div id="main-view">
-				<div ng-include src="'/topBar'"></div>
-				<div ng-include src="'/leftBar'">
+				<div id="top-bar"></div>
+				<div id="left-bar">
 	  			<div class="col-xs-12"> 
 				    <div class="login col-xs-12">
 				    	<img id="logo" class="col-xs-12" src="/assets/logo_transparent.png">
@@ -41,56 +40,25 @@
 				    </div>
 	        </div>
 				</div>
-				<div ng-include src="'/dataViz'"></div>
+				<div id="data-viz"></div>
 		</script>
 
 		<script type="text/ng-template" id="/login">
-			<div id="main-view">
-				<div ng-include src="'/topBar'"></div>
-				<div ng-include src="'/leftBar'">
-	  			<div class="col-xs-12"> 
-				    <div class="login col-xs-12">
-				    	<img id="logo" class="col-xs-12" src="/assets/logo_transparent.png">
-				    	<br>
-				    	<span class="mission col-xs-12">explore where your friends have been</span>
-	            <button ng-show="facebookLoginButton" ng-click="facebookLogin()" class="btn btn-default btn-lg col-xs-12">
-	            	login with facebook
-	            </button>
 
-	            <!-- only exists to allow a way to log out of facebook -->
-	            <button ng-show="facebookLoginButton" class="btn btn-default btn-lg col-xs-12">
-	      				<div class="fb-login-button" data-max-rows="1" data-size="large" data-show-faces="true" data-auto-logout-link="true"></div>
-	            </button>
-						</div>
-	        </div>
-				</div>
-				<div ng-include src="'/dataViz'"></div>
-			</div>
-		</script>
-
-		<script type="text/ng-template" id="/topBar">
-			<div id="top-bar">topbar</div>
-		</script>
-
-		<script type="text/ng-template" id="/leftBar">
-			<div id="left-bar">leftbar</div>
-		</script>
-
-		<script type="text/ng-template" id="/dataViz">
-			<div id="data-viz">dataviz</div>
-		</script>
-
-		<script type="text/ng-template" id="/login">
 			<div id="main-view">
 				<div id="top-bar"></div>
 				<div id="left-bar">
 					<div id="login" class="col-xs-12">
 						<img id="logo" class="col-xs-12" src="/assets/logo_transparent.png">
 						<br>
-						<input type="email" class="form-control" id="email" name="email" placeholder="email" ng-model="loginData.email">
-						<input type="password" class="form-control" id="password" name="password" placeholder="password" ng-model="loginData.password">
-						<button type="button" class="col-xs-12 btn btn-default btn-lg" ng-click='login()'>login</button>
-						<div class="col-xs-1"></div>
+			    	<span class="mission col-xs-12">explore where your friends have been</span>
+            <button ng-show="facebookLoginButton" ng-click="facebookLogin()" class="btn btn-default btn-lg col-xs-12">
+            	login with facebook
+            </button>
+            <!-- only exists to allow a way to log out of facebook -->
+            <button ng-show="facebookLoginButton" class="btn btn-default btn-lg col-xs-12">
+      				<div class="fb-login-button" data-max-rows="1" data-size="large" data-show-faces="true" data-auto-logout-link="true"></div>
+            </button>
 					</div>
 				</div>
 				<div id="data-viz"></div>
@@ -126,7 +94,7 @@
 			<div id="list" class="col-xs-12 list-group">
 				<div ng-repeat="result in searchResults | limitTo: 8" class="list-group-item">
 				  <a href="#/{{ result.category }}/{{ result.id }}">
-						<div class="circular-image" style="background-image:url('/assets/{{ result.image }}')"></div>
+						<div class="circular-image" style="background-image:url('{{ result.image_url }}')"></div>
 				  	<div class="result-text-container">
 					    <h4 class="list-group-item-heading">{{ result.name }}</h4>
 					    <p class="list-group-item-text">{{ result.description }}</p>
@@ -146,26 +114,6 @@
 					<div ng-include src="'/topicsForUser'"></div>
 					<div class="action-link-container">
 						<a href="" class="action-link">view more</a>
-						<a href="" class="action-link" class="action-link">add topic</a>
-						<a ng-attr-href="#/users/{{ user.id }}/edit" class="action-link">edit profile</a>
-					</div>
-				</div>
-				<div id="data-viz">
-					<div ng-include src="'/graph'"></div>
-				</div>
-			</div>
-		</script>
-
-		<script type="text/ng-template" id="/editUser">
-			<div id="main-view">
-				<div id="top-bar"></div>
-				<div id="left-bar">
-					<div ng-include src="'/navigation'"></div>
-					<div ng-include src="'/editUserProfile'"></div>
-					<div ng-include src="'/editTopicsForUser'"></div>
-					<div class="action-link-container">
-						<a href="#/users/{{ user.id }}/save" class="action-link">save changes</a>
-						<a href="" class="action-link">cancel</a>
 					</div>
 				</div>
 				<div id="data-viz">
@@ -176,112 +124,35 @@
 
 		<script type="text/ng-template" id="/userProfile">
 			<div id="profile" class="col-xs-12">
-				<div class="circular-image" style="background-image:url('/assets/{{ user.image }}')"></div>
-				<div id="information" class="col-xs-12">
+				<div id="information">
+					<div class="circular-image" style="background-image:url('{{ user.image_url }} ')"></div>
 					<span class="name">{{ user.first_name }} {{ user.last_name }}</span>
 					<span class="description">{{ user.position }}</span>
 					<span class="email">{{ user.email }}</span>
-					<span class="phone">{{ user.phone }}</span>
 				</div>
-				<a href="#/users/{{ user.id }}/edit" class="action-link">edit profile</a>
 			</div>
 		</script>
 
 		<script type="text/ng-template" id="/topicsForUser">
-
-			<!--
 			<div id="tags" class="col-xs-12">
-        <span class="tag" ng-repeat="topic in topicsForUser | limitTo: 8">
-          <a href="#/topics/{{ topic.id }}">{{ topic.title }}</a>
-        </span>
-<<<<<<< HEAD
-        <!--
-        <input id="typeahead" type="text"  ng-model="selectedTopic" placeholder="Add expertise" typeahead-on-select="addTopicToUser($item)" typeahead="topic as topic.title for topic in topic_choices | filter: $viewValue | limitTo: 8"/>
-        -->
-=======
-        <br>
-        <br>
->>>>>>> removed old, commented code; redesigned topic profile
-			</div>
-			<a href="" class="action-link">view all</a>
-		</script>
+				<div ng-show="topicsForUser">
+	        <span ng-show="current_user_id == user.id">Places You've Been To:</span>
+	        <span ng-show="current_user_id != user.id">Places {{user.first_name}}'s Been To:</span>
+	        <span class="tag" ng-repeat="topic in topicsForUser">
+	          <a href="#/topics/{{ topic.id }}">{{ topic.title }}</a>
+	          <span ng-click="removeTopicFromUser($event, topic.id)" class="glyphicon glyphicon-remove"></span>
+	        </span>
+	      </div>
+				<div>
+	        <span ng-show="current_user_id == user.id">Have You Been To:</span>
+	        <span ng-show="current_user_id != user.id">Has {{user.first_name}} Been To:</span>
+	        <span class="tag" ng-repeat="topic in topicSuggestions">
+	          <a href="#/topics/{{ topic.id }}">{{ topic.title }}</a>
+	          <span ng-click="addTopicSuggestionToUser(topic, $topic)" class="glyphicon glyphicon-check"></span>
+	        </span>
 
-<<<<<<< HEAD
-		<script type="text/ng-template" id="/groups">
-			<div id="groups" class="col-xs-12">
-				<h3>GROUPS</h3>
-				<!--
-				<div id="list" class="col-xs-12 list-group">
-					<div ng-repeat="group in groups" class="list-group-item">
-					  <a href="#/group/{{ group.id }}">
-							<div class="circular-image" style="background-image:url('/assets/{{ group.image }}')"></div>
-					  	<div class="list-text-container">
-						    <h4 class="list-group-item-heading">{{ group.name }}</h4>
-						    <p class="list-group-item-text">{{ group.description }}</p>
-					  	</div>
-					  </a>
-					</div>
+	        <input id="typeahead" type="text"  ng-model="selectedTopic" placeholder="Add places" typeahead-on-select="addTopicToUser($item)" typeahead="topic as topic.title for topic in topicChoices | filter: $viewValue | limitTo: 8"/>
 				</div>
-				-->
-				<a href="#/groups/new" class="action-link">create a new group</a>
-				<a href="#/users/{{ user.id }}/notifications" class="action-link">view notifications</a>
-			</div>
-			-->
-
-			<div id="tags" class="col-xs-12">
-        <span ng-show="current_user_id == user.id">Have You Been To:</span>
-        <span ng-show="current_user_id != user.id">Has {{user.first_name}} Been To:</span>
-        <span class="tag" ng-repeat="topic in topicSuggestions">
-          <a href="#/topics/{{ topic.id }}">{{ topic.title }}</a>
-          <span ng-click="addTopicSuggestionToUser(topic, $topic)" class="glyphicon glyphicon-check"></span>
-        </span>
-
-        <input id="typeahead" type="text"  ng-model="selectedTopic" placeholder="Add places" typeahead-on-select="addTopicToUser($item)" typeahead="topic as topic.title for topic in topicChoices | filter: $viewValue | limitTo: 8"/>
-			</div>
-
-			<div id="tags" class="col-xs-12">
-        <span ng-show="current_user_id == user.id">Places You've Been To:</span>
-        <span ng-show="current_user_id != user.id">Places {{user.first_name}}'s Been To:</span>
-        <span class="tag" ng-repeat="topic in topicsForUser">
-          <a href="#/topics/{{ topic.id }}">{{ topic.title }}</a>
-          <span ng-click="removeTopicFromUser($event, topic.id)" class="glyphicon glyphicon-remove"></span>
-        </span>
-      </div>
-
-		</script>
-
-=======
->>>>>>> removed old, commented code; redesigned topic profile
-		<script type="text/ng-template" id="/editUserProfile">
-			<div id="edit-profile" class="col-xs-12">
-				<div class="input-group input-group-md col-xs-12">
-				  <input type="text" class="form-control" ng-model="user.first_name">
-				</div>
-				<div class="input-group input-group-md col-xs-12">
-				  <input type="text" class="form-control" ng-model="user.last_name">
-				</div>
-				<div class="input-group input-group-md col-xs-12">
-				  <input type="text" class="form-control" ng-model="user.position">
-				</div>
-				<div class="input-group input-group-md col-xs-12">
-				  <input type="text" class="form-control" ng-model="user.email">
-				</div>
-				<div class="input-group input-group-md col-xs-12">
-				  <input type="text" class="form-control" ng-model="user.phone">
-				</div>
-        <br>
-			</div>
-		</script>
-
-		<script type="text/ng-template" id="/editTopicsForUser">
-			<div id="edit-tags" class="col-xs-12">
-        <span class="tag" ng-repeat="topic in topicsForUser | limitTo: 8">
-          <a href="#/topics/{{ topic.id }}">{{ topic.title }}</a>
-          <span ng-click="removeTopicFromUser($event, topic.id)" class="glyphicon glyphicon-remove"></span>
-        </span>
-        <input id="typeahead" type="text"  ng-model="selectedTopic" placeholder="Add expertise" typeahead-on-select="addTopicToUser($item)" typeahead="topic as topic.title for topic in topic_choices | filter: $viewValue | limitTo: 8"/>
-        <br>
-        <br>
 			</div>
 		</script>
 
@@ -305,11 +176,8 @@
 					<div ng-include src="'/navigation'"></div>
 					<div ng-include src="'/topicProfile'"></div>
 					<div ng-include src="'/usersForTopic'"></div>
-<<<<<<< HEAD
-					<div ng-include src="'/userSuggestionsForTopic'"></div>
-=======
 					<div ng-include src="'/topicsForTopic'"></div>
->>>>>>> removed old, commented code; redesigned topic profile
+					<div ng-include src="'/userSuggestionsForTopic'"></div>
 				</div>
 				<div id="data-viz">
 					<div ng-include src="'/graph'"></div>
@@ -318,10 +186,9 @@
 		</script>
 
 		<script type="text/ng-template" id="/topicProfile">
-
 			<div id="profile" class="col-xs-12">
 				<div id="information">
-					<div class="circular-image" style="background-image:url('/assets/{{ topic.freebase_image_url }}')"></div>
+					<div class="circular-image" style="background-image:url('{{ topic.image_url }}')"></div>
 			  	<div class="text-container">
 				    <h4 class="">{{ topic.title }}</h4>
 			  	</div>
@@ -333,77 +200,58 @@
 
 		<script type="text/ng-template" id="/usersForTopic">
 			<div id="list" class="col-xs-12 list-group">
-
 				<h4>USERS</h4>
-				<div ng-repeat="user in usersForTopic | limitTo: 5" class="list-group-item">
-				  <a href="#/{{ user.category }}/{{ user.id }}">
-						<div class="circular-image" style="background-image:url('/assets/{{ user.image }}')"></div>
+				<div ng-repeat="user in usersForTopic" class="list-group-item">
+				  <a href="#/users/{{ user.id }}">
+						<div class="circular-image" style="background-image:url('{{ user.image_url }}')"></div>
 				  	<div class="user-text-container">
 					    <h4 class="list-group-item-heading">{{ user.name }}</h4>
 				  	</div>
 				  </a>
+				  <div class="col-xs-2" style="position: absolute; right: 10px;top: 20px;">
+            <span ng-click="removeUserFromTopic($event, user.id)" class="glyphicon glyphicon-remove"></span>
+          </div>
 				</div>
-<<<<<<< HEAD
       </div>
-
     </script>
 
     <script type="text/ng-template" id="/userSuggestionsForTopic">
-
-			<div class="list col-xs-12 list-group">
+			<div id="list" class="col-xs-12 list-group">
         <h4>Have Your Friends Been to {{ topic.title }}?</h4>
 				<div ng-repeat="user in userSuggestions" class="list-group-item">
-				  <a href="#/{{ user.category }}/{{ user.id }}">
+				  <a href="#/users/{{ user.id }}">
 						<div class="circular-image" style="background-image:url('{{ user.image_url }}')"></div>
-				  	<div class="col-xs-10 user-text-container">
+				  	<div class="user-text-container">
 					    <h4 class="list-group-item-heading">{{ user.first_name }} {{ user.last_name }}</h4>
 				  	</div>
 				  </a>
-
 				  <div class="col-xs-2" style="position: absolute; right: 10px;top: 20px;">
             <span ng-click="addUserSuggestionToTopic(user, $index)" class="glyphicon glyphicon-check"></span>
           </div>
         </div>
-
-				<a href="" class="action-link">view all</a>
-				
-				<!--
         <div ng-if="shouldShowAddUserToTopic">
           <div class="list-group-item">
 					  <div class="circular-image" style="background-image:url('/assets/plus.png')"></div>
-					  <div class="col-xs-10 result-text-container">
-              <input id="typeahead" type="text" class=" form-control" ng-model="selectedUser" placeholder="Add user" typeahead-on-select="addUserToTopic($item)" typeahead="user as user.first_name + ' ' + user.last_name for user in userChoices | filter: $viewValue | limitTo: 8"/>
+					  <div class="result-text-container">
+              <input id="typeahead" type="text" class=" form-control" ng-model="selectedUser" placeholder="Add user" typeahead-on-select="addUserToTopic($item)" typeahead="user as user.first_name + ' ' + user.last_name for user in userChoices | filter: $viewValue | limitTo: 8" style="width:140px"/>
 					  </div>
           </div>
         </div>
-        -->
-=======
-				<div class="action-link-container">
-					<a href="" class="action-link">view more</a>
-					<a href="" class="action-link" class="action-link">add user</a>
+				<div class="list list-group">
+	        <h4>Add a Destination in  {{ topic.title }}?</h4>
+					<div class="list-group-item">
+						<div class="circular-image" style="background-image:url('/assets/plus.png')"></div>
+						<div class=" result-text-container">
+							<input id="new-topic" type="text" class="form-control" placeholder="Add a destination" ng-keyup="addSubtopicToTopic()" ng-model="newTopic.title" style="width:140px" />
+						</div>
+						</div>
+					</div>
 				</div>
-				<br>
->>>>>>> removed old, commented code; redesigned topic profile
-
-			<div class="list col-xs-12 list-group">
-        <h4>Add a Destination in  {{ topic.title }}?</h4>
-
-        		<div class="list-group-item">
-        		<div class="circular-image" style="background-image:url('/assets/plus.png')"></div>
-        							  <div class="col-xs-10 result-text-container">
-
-
-			<input id="new-topic" type="text" class="form-control" placeholder="Add a destination" ng-keyup="addSubtopicToTopic()" ng-model="newTopic.title" />
-			</div>
-		</div>
-</div>
-
 			</div>
 		</script>
 
 		<script type="text/ng-template" id="/topicsForTopic">
 			<div id="list" class="col-xs-12 list-group">
-
 				<h4>RELATED TOPICS</h4>
 				<div ng-repeat="topic in topicsForTopic | limitTo: 5" class="list-group-item">
 				  <a href="#/{{ topic.category }}/{{ topic.id }}">
@@ -416,9 +264,8 @@
 				</div>
 				<div class="action-link-container">
 					<a href="" class="action-link">view more</a>
-					<a href="" class="action-link" class="action-link">add related topic</a>
+					<a href="" class="action-link">add related topic</a>
 				</div>
-
 			</div>
 		</script>
 
@@ -429,13 +276,13 @@
 					<g class="graph-container">
 						<g class="primary" ng-attr-transform="{{ 'translate(' + primaryNode.x + ',' + primaryNode.y + ')'}}">
 							<a xlink:href="{{ (primaryNode.first_name) ? '#/users/' + primaryNode.id : '#/topics/' + primaryNode.id }}">
-								<circle ng-attr-r="{{ primaryNode.radius }}" fill="#1d9f7f"></circle>
+								<circle ng-attr-r="{{ primaryNode.radius }}" ng-attr-fill="{{ (primaryNode.category === 'user' ) ? '#1d9f7f' : '#25a0ca' }}" stroke="#ffffbf" stroke-width="10"></circle>
 							</a>
 							<text pointer-events="none" dy="0.35em" style="font-size:1.2em" text-anchor="middle">{{ (primaryNode.first_name) ? primaryNode.first_name + ' ' + primaryNode.last_name : primaryNode.title }}</text>
 						</g>
 						<g class="outer" ng-repeat="node in outerNodes" ng-attr-transform="{{ 'translate(' + node.x + ',' + node.y + ')' }}">
 							<a xlink:href="{{ (node.first_name) ? '#/users/' + node.id : '#/topics/' + node.id }}">
-								<circle ng-attr-r="{{ node.radius }}" fill="#25a0ca"></circle>
+								<circle ng-attr-r="{{ node.radius }}" ng-attr-fill="{{ (node.category === 'user' ) ? '#1d9f7f' : '#25a0ca' }}" ></circle>
 							</a>
 							<text pointer-events="none" dy="0.35em" style="font-size:1.2em" text-anchor="middle">{{ (node.first_name) ? node.first_name + ' ' + node.last_name : node.title }}</text>
 						</g>
