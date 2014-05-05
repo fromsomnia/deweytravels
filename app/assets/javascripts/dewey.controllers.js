@@ -372,9 +372,6 @@ var Dewey = (function (Dewey) {
       }
     };
 
-      
-
-
   }]);
 
   Dewey.DeweyApp.controller('GroupController', ['$scope', '$injector', '$controller', 'DeweyFactory', function ($scope, $injector, $controller, DeweyFactory) {
@@ -384,7 +381,6 @@ var Dewey = (function (Dewey) {
     });
 
   }]);
-
 
 	return Dewey;
 
