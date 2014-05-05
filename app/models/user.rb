@@ -96,6 +96,7 @@ class User < ActiveRecord::Base
 
   def confirm_friend_request(request_id)
     user = User.find(request_id)
+    print user
     if !user.nil? then
       friendships = user.friendships
       friendship = friendships.find_by_friend_id(self.id)
