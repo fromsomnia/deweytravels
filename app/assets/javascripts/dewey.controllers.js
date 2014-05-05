@@ -111,7 +111,6 @@ var Dewey = (function (Dewey) {
         primaryNode.radius = primaryNodeRadius;
 
         if (outerNodeRadius > primaryNodeRadius || outerNodeRadius < 0) {
-        // if (outerNodeRadius > primaryNodeRadius) {
           outerNodeRadius = primaryNodeRadius * 2 / 3;
         }
 
