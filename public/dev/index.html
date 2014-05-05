@@ -5,11 +5,7 @@
 		<!-- allows responsive web design -->
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<<<<<<< HEAD
 		<title>Dewey | Explore Where Your Friends Have Been </title>
-=======
-		<title>Dewey </title>
->>>>>>> 9fde930569f0b8147231a917072c44ddb0716616
 
 		<link rel="stylesheet" type="text/css" href="/assets/bootstrap.css"/>
 		<link rel="stylesheet" type="text/css" href="/assets/dewey.css"/>
@@ -30,7 +26,6 @@
 		<!-- container; updates with angular routes -->
 		<div data-ng-view></div>
 
-<<<<<<< HEAD
 		<!-- logout template -->
 		<script type="text/ng-template" id="/logout">
 			<div id="main-view">
@@ -44,29 +39,11 @@
 				    	<br>
 				    </div>
 	        </div>
-=======
-		<script type="text/ng-template" id="/login">
-			<div id="main-view">
-				<div id="top-bar"></div>
-				<div id="left-bar">
-					<div id="login" class="col-xs-12">
-						<img id="logo" class="col-xs-12" src="/assets/logo_transparent.png">
-						<br>
-						<input type="email" class="form-control" id="email" name="email" placeholder="email" ng-model="loginData.email">
-						<input type="password" class="form-control" id="password" name="password" placeholder="password" ng-model="loginData.password">
-						<button type="button" class="col-xs-12 btn btn-default btn-lg" ng-click='login()'>login</button>
-						<div class="col-xs-1"></div>
-					</div>
-				</div>
-				<div id="data-viz"></div>
->>>>>>> 9fde930569f0b8147231a917072c44ddb0716616
 				</div>
 				<div id="data-viz"></div>
 		</script>
 
-<<<<<<< HEAD
 		<script type="text/ng-template" id="/login">
-
 			<div id="main-view">
 				<div id="top-bar"></div>
 				<div id="left-bar">
@@ -90,10 +67,6 @@
 
 		<script type="text/ng-template" id="/search">
 			<div id="main-view">
-				<div id="top-bar"></div>
-=======
-		<script type="text/ng-template" id="/search">
-			<div id="main-view">
 				<div id="top-bar">
 					<div id="filters-container">
 						<div class="dropdown">
@@ -107,7 +80,6 @@
 						</div>
 					</div>
 				</div>
->>>>>>> 9fde930569f0b8147231a917072c44ddb0716616
 				<div id="left-bar">
 					<div id="search">
 						<div ng-include src="'/navigation'"></div>
@@ -133,11 +105,7 @@
 			<div id="list" class="col-xs-12 list-group">
 				<div ng-repeat="result in searchResults | limitTo: 8" class="list-group-item">
 				  <a href="#/{{ result.category }}/{{ result.id }}">
-<<<<<<< HEAD
 						<div class="circular-image" style="background-image:url('{{ result.image_url }}')"></div>
-=======
-						<div class="circular-image" style="background-image:url('/assets/{{ result.image }}')"></div>
->>>>>>> 9fde930569f0b8147231a917072c44ddb0716616
 				  	<div class="result-text-container">
 					    <h4 class="list-group-item-heading">{{ result.name }}</h4>
 					    <p class="list-group-item-text">{{ result.description }}</p>
@@ -145,7 +113,6 @@
 				  </a>
 				</div>
 				<a href="" class="action-link">view all</a>
-<<<<<<< HEAD
 			</div>
 		</script>
 
@@ -290,64 +257,11 @@
 						</div>
 						</div>
 					</div>
-=======
-			</div>
-		</script>
-
-		<script type="text/ng-template" id="/user">
-			<div id="main-view">
-				<div id="top-bar"></div>
-				<div id="left-bar">
-					<div ng-include src="'/navigation'"></div>
-					<div ng-include src="'/userProfile'"></div>
-					<div ng-include src="'/topicsForUser'"></div>
-					<div class="action-link-container">
-						<a href="" class="action-link">view more</a>
-						<a href="" class="action-link" class="action-link">add topic</a>
-						<a ng-attr-href="#/users/{{ user.id }}/edit" class="action-link">edit profile</a>
-					</div>
-				</div>
-				<div id="data-viz">
-					<div ng-include src="'/graph'"></div>
-				</div>
-			</div>
-		</script>
-
-		<script type="text/ng-template" id="/editUser">
-			<div id="main-view">
-				<div id="top-bar"></div>
-				<div id="left-bar">
-					<div ng-include src="'/navigation'"></div>
-					<div ng-include src="'/editUserProfile'"></div>
-					<div ng-include src="'/editTopicsForUser'"></div>
-					<div class="action-link-container">
-						<a href="#/users/{{ user.id }}/save" class="action-link">save changes</a>
-						<a href="" class="action-link">cancel</a>
-					</div>
-				</div>
-				<div id="data-viz">
-					<div ng-include src="'/graph'"></div>
-				</div>
-			</div>
-		</script>
-
-		<script type="text/ng-template" id="/userProfile">
-			<div id="profile" class="col-xs-12">
-				<div id="information">
-					<div class="circular-image" style="background-image:url('/assets/{{ user.image }}')"></div>
-			  	<div class="text-container">
-				    <h4 class="">{{ user.first_name }} {{ user.last_name }}</h4>
-				    <p class="">{{ user.position }}</p>
-			  	</div>
-					<span class="email">{{ user.email }}</span>
-					<span class="phone">{{ user.phone }}</span>
->>>>>>> 9fde930569f0b8147231a917072c44ddb0716616
 				</div>
 				<br>
 			</div>
 		</script>
 
-<<<<<<< HEAD
 		<script type="text/ng-template" id="/topicsForTopic">
 			<div id="list" class="col-xs-12 list-group">
 				<h4>RELATED TOPICS</h4>
@@ -363,26 +277,6 @@
 				<div class="action-link-container">
 					<a href="" class="action-link">view more</a>
 					<a href="" class="action-link">add related topic</a>
-=======
-		<script type="text/ng-template" id="/topicsForUser">
-			<div id="tags" class="col-xs-12">
-				<h4>TOPICS</h4>
-        <span class="tag" ng-repeat="topic in topicsForUser | limitTo: 8">
-          <a href="#/topics/{{ topic.id }}">{{ topic.title }}</a>
-        </span>
-        <br>
-        <br>
-			</div>
-		</script>
-
-		<script type="text/ng-template" id="/editUserProfile">
-			<div id="edit-profile" class="col-xs-12">
-				<div class="input-group input-group-md col-xs-12">
-				  <input type="text" class="form-control" ng-model="user.first_name">
-				</div>
-				<div class="input-group input-group-md col-xs-12">
-				  <input type="text" class="form-control" ng-model="user.last_name">
->>>>>>> 9fde930569f0b8147231a917072c44ddb0716616
 				</div>
 				<div class="input-group input-group-md col-xs-12">
 				  <input type="text" class="form-control" ng-model="user.position">
@@ -397,106 +291,6 @@
 			</div>
 		</script>
 
-<<<<<<< HEAD
-=======
-		<script type="text/ng-template" id="/editTopicsForUser">
-			<div id="edit-tags" class="col-xs-12">
-        <span class="tag" ng-repeat="topic in topicsForUser | limitTo: 8">
-          <a href="#/topics/{{ topic.id }}">{{ topic.title }}</a>
-          <span ng-click="removeTopicFromUser($event, topic.id)" class="glyphicon glyphicon-remove"></span>
-        </span>
-        <input id="typeahead" type="text"  ng-model="selectedTopic" placeholder="Add expertise" typeahead-on-select="addTopicToUser($item)" typeahead="topic as topic.title for topic in topic_choices | filter: $viewValue | limitTo: 8"/>
-        <br>
-        <br>
-			</div>
-		</script>
-
-		<script type="text/ng-template" id="/topic">
-			<div id="main-view">
-				<div id="top-bar">
-					<div id="filters-container">
-						<div class="dropdown">
-							<button class="btn dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown">Stanford, CA</button>
-							  <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
-							    <li role="presentation"><a role="menuitem" tabindex="-1" href="">Stanford, CA</a></li>
-							    <li role="presentation"><a role="menuitem" tabindex="-1" href="">Berkeley, CA</a></li>
-							    <li role="presentation"><a role="menuitem" tabindex="-1" href="">San Francisco, CA</a></li>
-							    <li role="presentation"><a role="menuitem" tabindex="-1" href="">San Jose, CA</a></li>
-							  </ul>
-						  </button>
-						</div>
-					</div>
-				</div>
-				<div id="left-bar">
-					<div ng-include src="'/navigation'"></div>
-					<div ng-include src="'/topicProfile'"></div>
-					<div ng-include src="'/usersForTopic'"></div>
-					<div ng-include src="'/topicsForTopic'"></div>
-				</div>
-				<div id="data-viz">
-					<div ng-include src="'/graph'"></div>
-				</div>
-			</div>
-		</script>
-
-		<script type="text/ng-template" id="/topicProfile">
-
-			<div id="profile" class="col-xs-12">
-				<div id="information">
-					<div class="circular-image" style="background-image:url('/assets/{{ topic.freebase_image_url }}')"></div>
-			  	<div class="text-container">
-				    <h4 class="">{{ topic.title }}</h4>
-			  	</div>
-					<span class="description">{{ topic.description }}</span>
-				</div>
-				<br>
-			</div>
-		</script>
-
-		<script type="text/ng-template" id="/usersForTopic">
-			<div id="list" class="col-xs-12 list-group">
-
-				<h4>USERS</h4>
-				<div ng-repeat="user in usersForTopic | limitTo: 5" class="list-group-item">
-				  <a href="#/{{ user.category }}/{{ user.id }}">
-						<div class="circular-image" style="background-image:url('/assets/{{ user.image }}')"></div>
-				  	<div class="user-text-container">
-					    <h4 class="list-group-item-heading">{{ user.name }}</h4>
-					    <p class="list-group-item-text">{{ user.description }}</p>
-				  	</div>
-				  </a>
-				</div>
-				<div class="action-link-container">
-					<a href="" class="action-link">view more</a>
-					<a href="" class="action-link" class="action-link">add user</a>
-				</div>
-				<br>
-
-			</div>
-		</script>
-
-		<script type="text/ng-template" id="/topicsForTopic">
-			<div id="list" class="col-xs-12 list-group">
-
-				<h4>RELATED TOPICS</h4>
-				<div ng-repeat="topic in topicsForTopic | limitTo: 5" class="list-group-item">
-				  <a href="#/{{ topic.category }}/{{ topic.id }}">
-						<div class="circular-image" style="background-image:url('/assets/{{ topic.freebase_image_url }}')"></div>
-				  	<div class="user-text-container">
-					    <h4 class="list-group-item-heading">{{ topic.title }}</h4>
-					    <p class="list-group-item-text">{{ topic.description }}</p>
-				  	</div>
-				  </a>
-				</div>
-				<div class="action-link-container">
-					<a href="" class="action-link">view more</a>
-					<a href="" class="action-link" class="action-link">add related topic</a>
-				</div>
-
-			</div>
-		</script>
-
->>>>>>> 9fde930569f0b8147231a917072c44ddb0716616
 		<!-- visualization template -->
 		<script type="text/ng-template" id="/graph">
 			<div ng-controller="GraphController">
@@ -504,21 +298,13 @@
 					<g class="graph-container">
 						<g class="primary" ng-attr-transform="{{ 'translate(' + primaryNode.x + ',' + primaryNode.y + ')'}}">
 							<a xlink:href="{{ (primaryNode.first_name) ? '#/users/' + primaryNode.id : '#/topics/' + primaryNode.id }}">
-<<<<<<< HEAD
 								<circle ng-attr-r="{{ primaryNode.radius }}" ng-attr-fill="{{ (primaryNode.category === 'user' ) ? '#1d9f7f' : '#25a0ca' }}" stroke="#ffffbf" stroke-width="10"></circle>
-=======
-								<circle ng-attr-r="{{ primaryNode.radius }}" fill="#1d9f7f"></circle>
->>>>>>> 9fde930569f0b8147231a917072c44ddb0716616
 							</a>
 							<text pointer-events="none" dy="0.35em" style="font-size:1.2em" text-anchor="middle">{{ (primaryNode.first_name) ? primaryNode.first_name + ' ' + primaryNode.last_name : primaryNode.title }}</text>
 						</g>
 						<g class="outer" ng-repeat="node in outerNodes" ng-attr-transform="{{ 'translate(' + node.x + ',' + node.y + ')' }}">
 							<a xlink:href="{{ (node.first_name) ? '#/users/' + node.id : '#/topics/' + node.id }}">
-<<<<<<< HEAD
 								<circle ng-attr-r="{{ node.radius }}" ng-attr-fill="{{ (node.category === 'user' ) ? '#1d9f7f' : '#25a0ca' }}" ></circle>
-=======
-								<circle ng-attr-r="{{ node.radius }}" fill="#25a0ca"></circle>
->>>>>>> 9fde930569f0b8147231a917072c44ddb0716616
 							</a>
 							<text pointer-events="none" dy="0.35em" style="font-size:1.2em" text-anchor="middle">{{ (node.first_name) ? node.first_name + ' ' + node.last_name : node.title }}</text>
 						</g>
