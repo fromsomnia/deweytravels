@@ -244,7 +244,7 @@
           <div class="list-group-item">
 					  <div class="circular-image" style="background-image:url('/assets/plus.png')"></div>
 					  <div class="result-text-container">
-              <input id="typeahead" type="text" class=" form-control" ng-model="selectedUser" placeholder="Add user" typeahead-on-select="addUserToTopic($item)" typeahead="user as user.first_name + ' ' + user.last_name for user in userChoices | filter: $viewValue | limitTo: 8" style="width:140px"/>
+              <input id="typeahead" type="text" class=" form-control" ng-model="selectedUser" placeholder="Add user" typeahead-on-select="addUserToTopic($item)" typeahead="user as user.name for user in userChoices | filter: {name: $viewValue} | limitTo: 8" style="width:140px"/>
 					  </div>
           </div>
         </div>

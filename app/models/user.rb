@@ -15,6 +15,13 @@ class User < ActiveRecord::Base
 	has_many :subordinates, :through => :user_user_connections, :source => :subordinate
 	has_many :superiors, :through => :second_user_user_connections, :source => :superior
 
+  def name
+    return first_name + ' ' + last_name
+  end
+
+  def attributes
+    super.merge('name' => self.name)
+  end
 
   def add_facebook_friends(friends)
     # TODO(veni): pending on william's work, this might go to a Friends class.
