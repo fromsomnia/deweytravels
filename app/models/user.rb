@@ -34,6 +34,96 @@ class User < ActiveRecord::Base
     end
   end
 
+  has_many :friendships
+  has_many :second_friendships, :class_name => "Friendship", :foreign_key => "friend_id"
+
+  def get_friends
+    @friends = []
+    self.friendships.each do |friendship|
+      if friendship.accepted then
+        @friends << friendship.friend
+      end
+    end
+    return @friends
+  end
+
+  def get_friend_requests
+    @requests = []
+    Friendship.where(friend_id: self.id ).to_a.each do |friendship|
+      if !friendship.accepted then
+        @requests << friendship.user
+      end
+    end
+    return @requests
+  end
+
+  def add_friend(friend_id)
+    friend = User.find(friend_id)
+    friends = self.get_friends
+    friend_friends = friend.get_friends
+    if !friend.nil? then
+      if !friends.include?(friend) then
+        new_friendship = Friendship.new
+        new_friendship.friend = friend
+        new_friendship.user = self
+        new_friendship.accepted = true
+        new_friendship.save(:validate => false)
+      end
+      if !friend_friends.include?(self) then
+        new_friendship = Friendship.new
+        new_friendship.friend = self
+        new_friendship.user = friend
+        new_friendship.accepted = true
+        new_friendship.save(:validate => false)
+      end
+    end
+  end
+
+  # TODO: complete if already requested on other side
+  def request_friend(request_id)
+    friend = User.find(request_id)
+    requests = self.get_friend_requests
+    if !friend.nil? then
+      if !requests.include?(friend) then
+        new_friendship = Friendship.new
+        new_friendship.friend = friend
+        new_friendship.user = self
+        new_friendship.accepted = false
+        new_friendship.save(:validate => false)
+      end
+    end
+  end
+
+  def confirm_friend_request(request_id)
+    user = User.find(request_id)
+    if !user.nil? then
+      friendships = user.friendships
+      friendship = friendships.find_by_friend_id(self.id)
+      if !friendship.nil? then
+        friendship.accepted = true
+        friendship.save(:validate => false)
+
+        new_friendship = Friendship.new
+        new_friendship.user = self
+        new_friendship.friend = user
+        new_friendship.accepted = true
+        new_friendship.save(:validate => false)
+      end
+    end
+  end
+
+  def remove_friend(remove_id)
+    friend = User.find(remove_id)
+    if !friend.nil? then
+      friendship = self.friendships.find_by_friend_id(remove_id)
+      if self.friendships.include?(friendship) then
+        self.friendships.delete(friendship)
+        second_friendship = friend.friendships.find_by_friend_id(self.id)
+        friend.friendships.delete(second_friendship)
+      end
+    end
+  end
+
   def self.register_facebook_user(id, first_name, last_name, email, image_url)
     # TODO: register facebook users to a different domain?
     graph = Graph.find_by_domain('fixtures')

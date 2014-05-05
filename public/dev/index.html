@@ -2,7 +2,6 @@
 <html>
 	<head>
 
-		<!-- allows responsive web design -->
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 		<title>Dewey | Explore Where Your Friends Have Been </title>
@@ -11,6 +10,7 @@
 		<link rel="stylesheet" type="text/css" href="/assets/dewey.css"/>
 
 	</head>
+
 	<body data-ng-app="DeweyApp">
 		<div id="fb-root"></div>
 
@@ -75,6 +75,7 @@
 				<div ng-include src="'/topicsForUser'"></div>
 			</div>
 			<div ng-include src="'/graph'"></div>
+
 		</script>
 
 		<script type="text/ng-template" id="/topic">
@@ -101,6 +102,7 @@
 		</script>
 
 		<script type="text/ng-template" id="/searchResults">
+
 			<div class="list col-xs-12 list-group">
 
 				<div ng-repeat="result in searchResults" class="list-group-item">
@@ -274,6 +276,9 @@
     	<script src="/assets/angular-local-storage.js "></script>
 		<script src="/assets/underscore.js"></script>
 		<script src="/assets/d3.v3.min.js"></script>
+
+
+		<!-- Angular javascript -->
 		<script src="/assets/dewey.js"></script>
 		<script src="/assets/dewey.config.js"></script>
 		<script src="/assets/dewey.service.js"></script>
