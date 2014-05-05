@@ -4,8 +4,6 @@ class FriendshipTest < ActiveSupport::TestCase
   test "test request friends functionality" do
     user1 = User.first
     user2 = User.last
-    print user1
-    print user2
 
     user1.request_friend(user2.id)
     assert_equal(user2.get_friends.length, 0)
