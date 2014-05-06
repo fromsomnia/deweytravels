@@ -100,14 +100,8 @@ class User < ActiveRecord::Base
 
   def self.suggestions(topic, current_user, previous_suggestions=[])
     @users = previous_suggestions
-    iter = 0
-
-    while ((@users.length < 5) && (iter < 10))do
-      @users += current_user.friends.sample(5)
-      @users = (@users - topic.experts).uniq
-      iter += 1
-    end
-    @users
+    @users += (current_user.friends - topic.experts - previous_suggestions).uniq.sample(5)
+    @users.sample(5)
   end
 
   private

@@ -83,11 +83,12 @@ class Topic < ActiveRecord::Base
   def self.suggestions(user, previous_suggestions=[])
     @topics = previous_suggestions
     @topics.append(Topic.find_by_title('World'))
-    while @topics.length < 5 do
+    iter = 0
+    while @topics.length < 5 and iter < 5 do
       user.expertises.each do |topic|
         @topics += topic.subtopics.sample(5)
       end
-
+      iter += 1
       @topics = (@topics - user.expertises).uniq
     end
     @topics.sample(5)
