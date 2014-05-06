@@ -9,7 +9,7 @@ class UsersController < ApplicationController
     if params[:topic_id].present? then
       topic = @current_graph.topics.find(params[:topic_id].to_i)
       if topic != nil then
-        @users = topic.experts
+        @users = (topic.experts & (@current_user.friends | [@current_user]))
       end
     else
       @users = User.all
@@ -177,7 +177,6 @@ class UsersController < ApplicationController
   # Adds topic to given user
   # topic_id as payload
   def remove_topic
-    puts params[:id]
     if params[:topic_id].present? && params[:id].present? then
       user = @current_graph.users.find(params[:id])
       topic = @current_graph.topics.find(params[:topic_id].to_i)

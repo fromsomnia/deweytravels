@@ -144,7 +144,7 @@ class TopicsController < ApplicationController
       topic = @current_graph.topics.find(params[:topic_id].to_i)
       @nodes += topic.subtopics
       @nodes += topic.supertopics
-      @nodes += topic.experts
+      @nodes += (topic.experts & (@current_user.friends | [@current_user]))
     end
     result = { :nodes => @nodes, :links => @links }
 
