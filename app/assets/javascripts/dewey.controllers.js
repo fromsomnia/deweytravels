@@ -228,6 +228,14 @@ var Dewey = (function (Dewey) {
     $scope.user = DeweyFactory.user;
     $scope.topicsForUser = DeweyFactory.topicsForUser;
     $scope.topicChoices = DeweyFactory.allTopics;
+    $scope.sendFacebookMessage = function () {
+      console.log($scope.user);
+      FB.ui({
+        method: 'send',
+        to: $scope.user.fb_id,
+        link: 'http://team-dewey-website.herokuapp.com/dev'
+      });
+    };
 
     $scope.updateTopicsForUser = function () {
       $injector.get('$rootScope').$broadcast('graphUpdated');
