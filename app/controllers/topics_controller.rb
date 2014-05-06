@@ -34,8 +34,6 @@ class TopicsController < ApplicationController
 
   # GET /topics/new
   def new
-    # Note from veni to implementor: don't forget to make this
-    # domain spec.
     @topic = Topic.new
   end
 
@@ -268,9 +266,10 @@ class TopicsController < ApplicationController
       topic = @current_graph.topics.find(params[:topic_id].to_i)
       if params[:previous_suggestions].present? then
         @users = User.suggestions(topic,
+                                    @current_user,
                                     params[:previous_suggestions])
       else
-        @users = User.suggestions(topic)
+        @users = User.suggestions(topic, @current_user)
       end
 
       render json: @users

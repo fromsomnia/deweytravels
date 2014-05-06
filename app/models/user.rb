@@ -123,12 +123,12 @@ class User < ActiveRecord::Base
 		return curr_degree
 	end
 
-  def self.suggestions(topic, previous_suggestions=[])
+  def self.suggestions(topic, current_user, previous_suggestions=[])
     @users = previous_suggestions
     iter = 0
 
     while ((@users.length < 5) && (iter < 10))do
-      @users += User.all.sample(5)
+      @users += current_user.friends.sample(5)
       @users = (@users - topic.experts).uniq
       iter += 1
     end
