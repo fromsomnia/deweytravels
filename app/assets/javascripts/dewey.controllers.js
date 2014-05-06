@@ -1,8 +1,7 @@
 var Dewey = (function (Dewey) {
 
   // controller for all views; other controllers inherit from this
-  Dewey.DeweyApp.controller('BaseController', ['$rootScope', '$http', '$scope', '$location', 'DeweyFactory',
-                            function ($rootScope, $http, $scope, $location, DeweyFactory) {
+  Dewey.DeweyApp.controller('BaseController', ['$rootScope', '$http', '$scope', '$location', 'DeweyFactory', function ($rootScope, $http, $scope, $location, DeweyFactory) {
 
     $scope.queryData = {};
     $scope.graphNodes = DeweyFactory.graphNodes;
@@ -28,8 +27,6 @@ var Dewey = (function (Dewey) {
     $controller('BaseController', {
       $scope: $scope
     });
-    $scope.graphWidth = 750;
-    $scope.graphHeight = 600;
 
     $scope.$on('graphUpdated', function() {
       DeweyFactory.getGraphNodesAndLinks().then(function () {
@@ -39,31 +36,119 @@ var Dewey = (function (Dewey) {
       });
     });
 
+    function setNodePositions (primaryNode, outerNodes, containerWidth, containerHeight) {
+
+      primaryNode.targetX = containerWidth / 2;
+      primaryNode.targetY = containerHeight / 2;
+
+      var hypotenuse = primaryNode.radius + outerNodes[0].radius,
+        degrees,
+        radians;
+      _.each(outerNodes, function (node, i) {
+        degrees = 360 / (outerNodes.length) * i;
+        radians = degrees * Math.PI / 180;
+        node.targetX = primaryNode.targetX + hypotenuse * Math.cos(radians);
+        node.targetY = primaryNode.targetY + hypotenuse * Math.sin(radians);
+      });
+
+    }
+
+    function orbit (node, step) {
+      node.x += (node.targetX - node.x) / step;
+      node.y += (node.targetY - node.y) / step;
+    }
+
     $scope.makeGraph = function () {
+
       if ($scope.graphNodes) {
-        _.each($scope.graphNodes, function (node) {
-          node.radius = (node.first_name) ? 10 : 60;
+
+        $scope.graphWidth = $('#data-viz svg').width();
+        $scope.graphHeight = $('#data-viz svg').height();
+
+        // reorders graph nodes so that the first node is the center node
+        (function () {
+          var index;
+          if ($scope.user) {
+            _.each($scope.graphNodes, function (node, i) {
+              if (node.first_name === $scope.user.first_name
+                && node.last_name === $scope.user.last_name)
+              {
+                index = i;
+              }
+            });
+          } else if ($scope.topic) {
+            _.each($scope.graphNodes, function (node, i) {
+              if (node.title === $scope.topic.title)
+              {
+                index = i;
+              }
+            });
+          }
+          var restOfNodes = (function () {
+            return $scope.graphNodes.slice(0, index).concat($scope.graphNodes.slice(index + 1));
+          })();
+          $scope.graphNodes = [$scope.graphNodes[index]].concat(restOfNodes);
+        })();
+
+        // set categories for nodes
+        (function () {
+          _.each($scope.graphNodes, function (node) {
+            if (node.title) {
+              node.category = 'topic';
+            } else if (node.first_name && node.last_name) {
+              node.category = 'user';
+            }
+          });
+        })();
+
+        var primaryNode = $scope.graphNodes[0],
+          numberOfOuterNodes = ($scope.graphNodes.length > 14) ? 14 : $scope.graphNodes.length - 1,
+          outerNodes = $scope.graphNodes.slice(1, 1 + numberOfOuterNodes),
+          outerNodesPadding = 1,
+          primaryNodeRadius = 100,
+          outerNodeRadius = primaryNodeRadius / (numberOfOuterNodes / Math.PI - 1);
+
+        primaryNode.radius = primaryNodeRadius;
+
+        if (outerNodeRadius > primaryNodeRadius || outerNodeRadius < 0) {
+          outerNodeRadius = primaryNodeRadius * 2 / 3;
+        }
+
+        _.each(outerNodes, function (node) {
+          node.radius = outerNodeRadius;
         });
-        // apply force animations on graph
-        force = d3.layout
-          .force()
-          .charge(-1200)
-          .linkDistance(205)
-          .size([$scope.graphWidth, $scope.graphHeight]);
-        force.nodes($scope.graphNodes)
-          .links($scope.graphLinks)
-          .theta(1)
-          .on('tick', function () {
-            // updates the data bindings
+
+        setNodePositions(primaryNode, outerNodes, $scope.graphWidth, $scope.graphHeight);
+
+        (function () {
+          var nodes = $scope.graphNodes,
+            w = $scope.graphWidth,
+            h = $scope.graphHeight;
+          var force = d3.layout.force()
+              .gravity(0.05)
+              .charge(function (d, i) { 
+                return i ? 0 : -2000; 
+              })
+              .nodes(nodes)
+              .size([w, h]);
+          force.start();
+          force.on('tick', function (e) {         
+            var q = d3.geom.quadtree(nodes),
+                i = 0,
+                n = nodes.length;
+            while (++i < n) {
+              orbit(nodes[i], 100);
+            }
             $scope.$apply();
-          })
-          .start();
+          });
+        })();
+
+        $scope.primaryNode = primaryNode;
+        $scope.outerNodes = outerNodes;
       }
     };
 
-    $scope.$watch('graphNodes', function (newValue, oldValue) {
-      $scope.makeGraph();
-    });
+    $scope.makeGraph();
 
   }]);
 
@@ -134,8 +219,7 @@ var Dewey = (function (Dewey) {
     $location.path('/');
   }]);
 
-  Dewey.DeweyApp.controller('UserController', ['$scope', '$injector', '$http', '$controller', 'DeweyFactory',
-                  function ($scope, $injector, $http, $controller, DeweyFactory) {
+  Dewey.DeweyApp.controller('UserController', ['$scope', '$injector', '$http', '$controller', 'DeweyFactory', function ($scope, $injector, $http, $controller, DeweyFactory) {
 
     $controller('BaseController', {
       $scope: $scope
@@ -195,8 +279,7 @@ var Dewey = (function (Dewey) {
 
   }]);
 
-  Dewey.DeweyApp.controller('TopicController', ['$scope', '$injector', '$controller', '$http', 'DeweyFactory',
-                            function ($scope, $injector, $controller, $http, DeweyFactory) {
+  Dewey.DeweyApp.controller('TopicController', ['$scope', '$injector', '$controller', '$http', 'DeweyFactory', function ($scope, $injector, $controller, $http, DeweyFactory) {
 
     $controller('BaseController', {
       $scope: $scope
@@ -288,8 +371,13 @@ var Dewey = (function (Dewey) {
       }
     };
 
-      
+  }]);
 
+  Dewey.DeweyApp.controller('GroupController', ['$scope', '$injector', '$controller', 'DeweyFactory', function ($scope, $injector, $controller, DeweyFactory) {
+
+    $controller('BaseController', {
+      $scope: $scope
+    });
 
   }]);
 
