@@ -89,7 +89,7 @@ class UsersController < ApplicationController
   def get_friends
     @friends = []
     if params[:id].present? then
-      @friends = User.find(params[:id].to_i).get_friends
+      @friends = User.find(params[:id]).friends
     end
     respond_to do |format|
       format.html { redirect_to @friends }
@@ -101,7 +101,7 @@ class UsersController < ApplicationController
   def friend_requests
     @friends = []
     if params[:id].present? then
-      @friends = User.find(params[:id].to_i).get_friend_requests
+      @friends = User.find(params[:id].to_i).friend_requests
     end
     respond_to do |format|
       format.html { redirect_to @friends }
@@ -113,7 +113,11 @@ class UsersController < ApplicationController
   # friend_id as payload
   def add_friend
     if params[:friend_id].present? && params[:id].present? then
-      User.find(params[:id].to_i).add_friend(params[:friend_id].to_i)
+      friend = User.find(params[:friend_id])
+      user = User.find(params[:id])
+      if user and friend then
+        user.add_friend(friend)
+      end
     end
     render :nothing => true
   end
@@ -122,7 +126,11 @@ class UsersController < ApplicationController
   # friend_id as payload
   def remove_friend
     if params[:friend_id].present? && params[:id].present? then
-      User.find(params[:id].to_i).remove_friend(params[:friend_id].to_i)
+      friend = User.find(params[:friend_id])
+      user = User.find(params[:id])
+      if user and friend then
+        user.remove_friend(friend)
+      end
     end
     render :nothing => true
   end
@@ -131,7 +139,11 @@ class UsersController < ApplicationController
   # friend_id as payload
   def request_friend
     if params[:friend_id].present? && params[:id].present? then
-      User.find(params[:id].to_i).request_friend(params[:friend_id].to_i)
+      friend = User.find(params[:friend_id])
+      user = User.find(params[:id])
+      if user and friend then
+        user.request_friend(friend)
+      end
     end
     render :nothing => true
   end
@@ -140,7 +152,11 @@ class UsersController < ApplicationController
   # friend_id as payload
   def confirm_friend_request
     if params[:friend_id].present? && params[:id].present? then
-      User.find(params[:id].to_i).confirm_friend_request(params[:friend_id].to_i)
+      friend = User.find(params[:friend_id])
+      user = User.find(params[:id])
+      if user and friend then
+        user.confirm_friend_request(friend)
+      end
     end
     render :nothing => true
   end
