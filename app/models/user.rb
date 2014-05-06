@@ -28,7 +28,9 @@ class User < ActiveRecord::Base
 
       if !@user
         @user = User.register_facebook_user(id, first_name, last_name, nil, image_url)
-        self.subordinates << @user
+        self.add_friend(@user)
+      elsif !self.friends.include?(@user)
+        self.add_friend(@user)
       end
     end
   end
