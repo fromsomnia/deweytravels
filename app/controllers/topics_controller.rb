@@ -51,7 +51,7 @@ class TopicsController < ApplicationController
   def add_user
     if params[:id].present? then
       current_topic = @current_graph.topics.find(params[:id])
-      user = @current_graph.users.find(params[:user_id])
+      user = @current_graph.users.find(params[:user_id].to_i)
       if current_topic != nil && user != nil then
         current_topic.experts << user
       end
@@ -64,7 +64,7 @@ class TopicsController < ApplicationController
   def remove_user
      if params[:id].present? then
       current_topic = @current_graph.topics.find(params[:id])
-      user = @current_graph.users.find(params[:user_id])
+      user = @current_graph.users.find(params[:user_id].to_i)
       if current_topic != nil && user != nil then
         current_topic.experts.delete(user)
       end

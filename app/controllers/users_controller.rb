@@ -86,79 +86,18 @@ class UsersController < ApplicationController
   end
 
   # Gets friends of given user
-  def get_friends
+  def friends
     @friends = []
     if params[:id].present? then
-      @friends = User.find(params[:id]).friends
+      user = User.find(params[:id].to_i)
+      if user then
+        @friends = user.friends
+      end
     end
     respond_to do |format|
       format.html { redirect_to @friends }
       format.json { render json: @friends }
     end
-  end
-
-  # Gets friend requests for give user
-  def friend_requests
-    @friends = []
-    if params[:id].present? then
-      @friends = User.find(params[:id].to_i).friend_requests
-    end
-    respond_to do |format|
-      format.html { redirect_to @friends }
-      format.json { render json: @friends }
-    end
-  end
-
-  # Adds friend to given user
-  # friend_id as payload
-  def add_friend
-    if params[:friend_id].present? && params[:id].present? then
-      friend = User.find(params[:friend_id])
-      user = User.find(params[:id])
-      if user and friend then
-        user.add_friend(friend)
-      end
-    end
-    render :nothing => true
-  end
-
-  # Removes given friend from given user
-  # friend_id as payload
-  def remove_friend
-    if params[:friend_id].present? && params[:id].present? then
-      friend = User.find(params[:friend_id])
-      user = User.find(params[:id])
-      if user and friend then
-        user.remove_friend(friend)
-      end
-    end
-    render :nothing => true
-  end
-
-  # Requests friend for given user
-  # friend_id as payload
-  def request_friend
-    if params[:friend_id].present? && params[:id].present? then
-      friend = User.find(params[:friend_id])
-      user = User.find(params[:id])
-      if user and friend then
-        user.request_friend(friend)
-      end
-    end
-    render :nothing => true
-  end
-
-  # Confirms friend request for given user and given friend
-  # friend_id as payload
-  def confirm_friend_request
-    if params[:friend_id].present? && params[:id].present? then
-      friend = User.find(params[:friend_id])
-      user = User.find(params[:id])
-      if user and friend then
-        user.confirm_friend_request(friend)
-      end
-    end
-    render :nothing => true
   end
 
   # Adds topic to given user
@@ -166,7 +105,7 @@ class UsersController < ApplicationController
   def add_topic
     if params[:topic_id].present? then
       topic = @current_graph.topics.find(params[:topic_id].to_i)
-      user = @current_graph.users.find(params[:id])
+      user = @current_graph.users.find(params[:id].to_i)
       if topic != nil && user != nil then
         user.expertises << topic
       end
@@ -178,7 +117,7 @@ class UsersController < ApplicationController
   # topic_id as payload
   def remove_topic
     if params[:topic_id].present? && params[:id].present? then
-      user = @current_graph.users.find(params[:id])
+      user = @current_graph.users.find(params[:id].to_i)
       topic = @current_graph.topics.find(params[:topic_id].to_i)
       if topic != nil && user!= nil then
         if user.expertises.include? topic then
@@ -192,7 +131,7 @@ class UsersController < ApplicationController
   # GET /users/1
   # GET /users/1.json
   def show
-    @user = @current_graph.users.find(params[:id])
+    @user = @current_graph.users.find(params[:id].to_i)
     respond_to do |format|
       format.html { redirect_to user_url }
       format.json { render json: @user }
@@ -201,7 +140,7 @@ class UsersController < ApplicationController
 
   # GET /users/1/edit
   def edit
-    @user = @current_graph.users.find(params[:id])
+    @user = @current_graph.users.find(params[:id].to_i)
     respond_to do |format|
       format.html { redirect_to edit_user_url }
       format.json { render json: @user }
@@ -241,7 +180,7 @@ class UsersController < ApplicationController
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_user
-      @user = @current_graph.users.find(params[:id])
+      @user = @current_graph.users.find(params[:id].to_i)
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.
