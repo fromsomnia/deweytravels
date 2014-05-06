@@ -34,8 +34,6 @@ class TopicsController < ApplicationController
 
   # GET /topics/new
   def new
-    # Note from veni to implementor: don't forget to make this
-    # domain spec.
     @topic = Topic.new
   end
 
@@ -53,7 +51,7 @@ class TopicsController < ApplicationController
   def add_user
     if params[:id].present? then
       current_topic = @current_graph.topics.find(params[:id])
-      user = @current_graph.users.find(params[:user_id])
+      user = @current_graph.users.find(params[:user_id].to_i)
       if current_topic != nil && user != nil then
         current_topic.experts << user
       end
@@ -66,7 +64,7 @@ class TopicsController < ApplicationController
   def remove_user
      if params[:id].present? then
       current_topic = @current_graph.topics.find(params[:id])
-      user = @current_graph.users.find(params[:user_id])
+      user = @current_graph.users.find(params[:user_id].to_i)
       if current_topic != nil && user != nil then
         current_topic.experts.delete(user)
       end
@@ -146,7 +144,7 @@ class TopicsController < ApplicationController
       topic = @current_graph.topics.find(params[:topic_id].to_i)
       @nodes += topic.subtopics
       @nodes += topic.supertopics
-      @nodes += topic.experts
+      @nodes += (topic.experts & (@current_user.friends | [@current_user]))
     end
     result = { :nodes => @nodes, :links => @links }
 
@@ -268,9 +266,10 @@ class TopicsController < ApplicationController
       topic = @current_graph.topics.find(params[:topic_id].to_i)
       if params[:previous_suggestions].present? then
         @users = User.suggestions(topic,
+                                    @current_user,
                                     params[:previous_suggestions])
       else
-        @users = User.suggestions(topic)
+        @users = User.suggestions(topic, @current_user)
       end
 
       render json: @users

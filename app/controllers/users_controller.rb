@@ -9,7 +9,7 @@ class UsersController < ApplicationController
     if params[:topic_id].present? then
       topic = @current_graph.topics.find(params[:topic_id].to_i)
       if topic != nil then
-        @users = topic.experts
+        @users = (topic.experts & (@current_user.friends | [@current_user]))
       end
     else
       @users = User.all
@@ -86,63 +86,18 @@ class UsersController < ApplicationController
   end
 
   # Gets friends of given user
-  def get_friends
+  def friends
     @friends = []
     if params[:id].present? then
-      @friends = User.find(params[:id].to_i).get_friends
+      user = User.find(params[:id].to_i)
+      if user then
+        @friends = user.friends
+      end
     end
     respond_to do |format|
       format.html { redirect_to @friends }
       format.json { render json: @friends }
     end
-  end
-
-  # Gets friend requests for give user
-  def friend_requests
-    @friends = []
-    if params[:id].present? then
-      @friends = User.find(params[:id].to_i).get_friend_requests
-    end
-    respond_to do |format|
-      format.html { redirect_to @friends }
-      format.json { render json: @friends }
-    end
-  end
-
-  # Adds friend to given user
-  # friend_id as payload
-  def add_friend
-    if params[:friend_id].present? && params[:id].present? then
-      User.find(params[:id].to_i).add_friend(params[:friend_id].to_i)
-    end
-    render :nothing => true
-  end
-
-  # Removes given friend from given user
-  # friend_id as payload
-  def remove_friend
-    if params[:friend_id].present? && params[:id].present? then
-      User.find(params[:id].to_i).remove_friend(params[:friend_id].to_i)
-    end
-    render :nothing => true
-  end
-
-  # Requests friend for given user
-  # friend_id as payload
-  def request_friend
-    if params[:friend_id].present? && params[:id].present? then
-      User.find(params[:id].to_i).request_friend(params[:friend_id].to_i)
-    end
-    render :nothing => true
-  end
-
-  # Confirms friend request for given user and given friend
-  # friend_id as payload
-  def confirm_friend_request
-    if params[:friend_id].present? && params[:id].present? then
-      User.find(params[:id].to_i).confirm_friend_request(params[:friend_id].to_i)
-    end
-    render :nothing => true
   end
 
   # Adds topic to given user
@@ -150,7 +105,7 @@ class UsersController < ApplicationController
   def add_topic
     if params[:topic_id].present? then
       topic = @current_graph.topics.find(params[:topic_id].to_i)
-      user = @current_graph.users.find(params[:id])
+      user = @current_graph.users.find(params[:id].to_i)
       if topic != nil && user != nil then
         user.expertises << topic
       end
@@ -161,9 +116,8 @@ class UsersController < ApplicationController
   # Adds topic to given user
   # topic_id as payload
   def remove_topic
-    puts params[:id]
     if params[:topic_id].present? && params[:id].present? then
-      user = @current_graph.users.find(params[:id])
+      user = @current_graph.users.find(params[:id].to_i)
       topic = @current_graph.topics.find(params[:topic_id].to_i)
       if topic != nil && user!= nil then
         if user.expertises.include? topic then
@@ -177,7 +131,7 @@ class UsersController < ApplicationController
   # GET /users/1
   # GET /users/1.json
   def show
-    @user = @current_graph.users.find(params[:id])
+    @user = @current_graph.users.find(params[:id].to_i)
     respond_to do |format|
       format.html { redirect_to user_url }
       format.json { render json: @user }
@@ -186,7 +140,7 @@ class UsersController < ApplicationController
 
   # GET /users/1/edit
   def edit
-    @user = @current_graph.users.find(params[:id])
+    @user = @current_graph.users.find(params[:id].to_i)
     respond_to do |format|
       format.html { redirect_to edit_user_url }
       format.json { render json: @user }
@@ -226,7 +180,7 @@ class UsersController < ApplicationController
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_user
-      @user = @current_graph.users.find(params[:id])
+      @user = @current_graph.users.find(params[:id].to_i)
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.

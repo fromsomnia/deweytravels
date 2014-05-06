@@ -27,8 +27,12 @@ module Freeb
     end
 
     def self.get_image(id)
-      url = "#{@base_url}topic#{id}?filter=/common/topic/image&limit=1"
-      result = get_result(url, nil)
+      url = "#{@base_url}topic#{id}"
+      params = {
+        "limit" => 1,
+        "filter" => "/common/topic/image"
+      }
+      result = get_result(url, params)
       unless result['property'].blank? or result['property']['/common/topic/image'].blank?
         return result['property']['/common/topic/image']['values'][0]['id']
       end
@@ -58,26 +62,11 @@ module Freeb
     end
 
     def self.get_result(url, params={})
-      unless params.nil?
-        # params[:key] = Config.settings[:api_key] unless Config.settings[:api_key].blank?
-        url = "#{url}?#{params.to_query}"
-      end
-      # if Config.settings[:cache][:is_active]
-      #   cache_key = cache_key_for_url(url)
-      #   result = Rails.cache.read(cache_key)
-      #   if result
-      #     log "Read cache for #{url}"
-      #     result
-      #   else
-      #     result = get_uncached_result(url)
-      #     Rails.cache.write(cache_key, result, :expires_in => Config.settings[:cache][:expires_in])
-      #     log "Wrote cache for #{url}"
-      #     result
-      #   end
-      # else
+      params[:key] = "AIzaSyBkoufuKh0rimMiJLjkKenQy9GDP9FudUE"
+      # Config.settings[:api_key] unless Config.settings[:api_key].blank?
+      url = "#{url}?#{params.to_query}"
       log "Url: #{url}"
       get_uncached_result(url)
-      # end
     end
 
     def self.get_uncached_result(url)

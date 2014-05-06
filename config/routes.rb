@@ -1,13 +1,6 @@
 TeamDeweyWebsite::Application.routes.draw do
   resources :friendships do
     get "friends"
-    get "friend_requests"
-
-    post "add_friend"
-    post "remove_friend"
-    post "request_friend"
-    post "confirm_friend_request"
-
   end
 
   get "sessions/login"
