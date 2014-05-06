@@ -144,7 +144,6 @@ class TopicsController < ApplicationController
     @links = []
     if params[:topic_id].present? then
       topic = @current_graph.topics.find(params[:topic_id].to_i)
-
       @nodes += topic.subtopics
       @nodes += topic.supertopics
       @nodes += topic.experts
