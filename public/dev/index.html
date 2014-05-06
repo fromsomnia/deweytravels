@@ -162,6 +162,7 @@
 	          <a href="#/topics/{{ topic.id }}">{{ topic.title }}</a>
 	          <span ng-click="addTopicSuggestionToUser(topic, $topic)" class="glyphicon glyphicon-check"></span>
 	        </span>
+          <span ng-click="shuffleTopicSuggestionsToUser()" class="tag">Shuffle Suggestions</span>
 
 	        <input id="typeahead" type="text"  ng-model="selectedTopic" placeholder="Add places" typeahead-on-select="addTopicToUser($item)" typeahead="topic as topic.title for topic in topicChoices | filter: $viewValue | limitTo: 8"/>
 				</div>

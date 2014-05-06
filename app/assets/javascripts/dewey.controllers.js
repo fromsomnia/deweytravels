@@ -272,6 +272,15 @@ var Dewey = (function (Dewey) {
       });
     };
 
+    $scope.shuffleTopicSuggestionsToUser = function () {
+      $http({
+        url: '/users/' + $scope.user.id + '/topic_suggestions',
+        method: "GET",
+      }).success(function (response) {
+        $scope.topicSuggestions = response;
+      });
+    };
+
     $scope.addTopicSuggestionToUser = function ($item, $index) {
       $scope.topicSuggestions.splice($item, 1);
       $http({
