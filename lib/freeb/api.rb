@@ -63,7 +63,6 @@ module Freeb
 
     def self.get_result(url, params={})
       params[:key] = "AIzaSyBkoufuKh0rimMiJLjkKenQy9GDP9FudUE"
-      # Config.settings[:api_key] unless Config.settings[:api_key].blank?
       url = "#{url}?#{params.to_query}"
       log "Url: #{url}"
       get_uncached_result(url)
