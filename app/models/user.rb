@@ -40,8 +40,6 @@ class User < ActiveRecord::Base
   has_many :received_friendship_requests,  -> { where(:accepted => false).uniq },
             :class_name => "Friendship", :foreign_key => "friend_id"
 
-  has_many :second_friendships, :class_name => "Friendship", :foreign_key => "user_id"
-
 
   has_many :friends, :through => :friendships, :source => :friend
   has_many :friend_requesters, :through => :received_friendship_requests, :source => :user
