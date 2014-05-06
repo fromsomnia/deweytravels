@@ -35,44 +35,25 @@ class User < ActiveRecord::Base
     end
   end
 
-  has_many :friendships
-  has_many :second_friendships, :class_name => "Friendship", :foreign_key => "friend_id"
+  has_many :friendships,  -> { where(:accepted => true).uniq },
+           :class_name => "Friendship", :foreign_key => "user_id"
+  has_many :received_friendship_requests,  -> { where(:accepted => false).uniq },
+            :class_name => "Friendship", :foreign_key => "friend_id"
 
-  def friends
-    Friendship.where(:user_id => self.id, :accepted => true).map(&:friend)
-  end
+  has_many :second_friendships, :class_name => "Friendship", :foreign_key => "user_id"
 
-  def friend_requests
-    Friendship.where(:friend_id => self.id, :accepted => false).map(&:user)
-  end
+
+  has_many :friends, :through => :friendships, :source => :friend
+  has_many :friend_requesters, :through => :received_friendship_requests, :source => :user
 
   def add_friend(friend)
-    if !self.friends.include?(friend) then
-      new_friendship = Friendship.new
-      new_friendship.friend = friend
-      new_friendship.user = self
-      new_friendship.accepted = true
-      new_friendship.save(:validate => false)
-    end
-
-    if !friend.friends.include?(self) then
-      new_friendship = Friendship.new
-      new_friendship.friend = self
-      new_friendship.user = friend
-      new_friendship.accepted = true
-      new_friendship.save(:validate => false)
-    end
+    self.friends << friend
+    friend.friends << self
   end
 
   # TODO: complete if already requested on other side
   def request_friend(requested)
-    if !self.friends.include?(requested) and !self.friend_requests.include?(requested)
-      new_friendship = Friendship.new
-      new_friendship.friend = requested
-      new_friendship.user = self
-      new_friendship.accepted = false
-      new_friendship.save(:validate => false)
-    end
+    requested.friend_requesters << self
   end
 
   def confirm_friend_request(requester)
@@ -81,11 +62,7 @@ class User < ActiveRecord::Base
       request.accepted = true
       request.save(:validate => false)
 
-      new_friendship = Friendship.new
-      new_friendship.user = self
-      new_friendship.friend = requester
-      new_friendship.accepted = true
-      new_friendship.save(:validate => false)
+      self.friends << requester
     end
   end
 

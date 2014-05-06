@@ -8,18 +8,18 @@ class FriendshipTest < ActiveSupport::TestCase
     user1.request_friend(user2)
 
     assert_equal(user2.friends.length, 0)
-    assert_equal(user2.friend_requests.length, 1)
+    assert_equal(user2.friend_requesters.length, 1)
 
-  	friend = user2.friend_requests[0]
+  	friend = user2.friend_requesters[0]
     assert_equal(friend, user1)
-    assert_equal(friend.friend_requests.length, 0)
+    assert_equal(friend.friend_requesters.length, 0)
 
   	user2.confirm_friend_request(user1)
 
     user1.reload
     user2.reload
 
-    assert_equal(user2.friend_requests.length, 0)
+    assert_equal(user2.friend_requesters.length, 0)
     assert_equal(user1.friends.length, 1)
     assert_equal(user2.friends.length, 1)
     assert_equal(user2.friends[0], user1)
@@ -34,13 +34,13 @@ class FriendshipTest < ActiveSupport::TestCase
     user1.reload
     user2.reload
     assert_equal(user2.friends.length, 1)
-    assert_equal(user2.friend_requests.length, 0)
+    assert_equal(user2.friend_requesters.length, 0)
 
   	friend = user2.friends[0]
 
     assert_equal(friend, user1)
     assert_equal(user1.friends.length, 1)
-    assert_equal(user1.friend_requests.length, 0)
+    assert_equal(user1.friend_requesters.length, 0)
     assert_equal(user1.friends[0], user2)
   end
 
