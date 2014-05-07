@@ -33,21 +33,28 @@ var Dewey = (function (Dewey) {
     });
     reloadGraph();
 
-    function setNodePositions (primaryNode, outerNodes, containerWidth, containerHeight) {
-
-      primaryNode.targetX = containerWidth / 2;
-      primaryNode.targetY = containerHeight / 2;
-
-      var hypotenuse = primaryNode.radius + outerNodes[0].radius,
-        degrees,
-        radians;
-      _.each(outerNodes, function (node, i) {
-        degrees = 360 / (outerNodes.length) * i;
-        radians = degrees * Math.PI / 180;
-        node.targetX = primaryNode.targetX + hypotenuse * Math.cos(radians);
-        node.targetY = primaryNode.targetY + hypotenuse * Math.sin(radians);
+    function setNodePositions (clusters, width, height) {
+      var center = {
+        x: width / 2,
+        y: height / 2
+      };
+      clusters.forEach(function (cluster, i) {
+        if (i === 0) {
+          cluster.primaryNode.targetX = center.x;
+          cluster.primaryNode.targetY = center.y;
+        } else {
+          // set primary nodes for other clusters
+        }
+        var hypotenuse = cluster.primaryNode.radius + cluster.outerNodes[0].radius,
+          degrees,
+          radians;
+        cluster.outerNodes.forEach(function (node, i) {
+          degrees = 360 / (cluster.outerNodes.length) * i;
+          radians = degrees * Math.PI / 180;
+          node.targetX = cluster.primaryNode.targetX + hypotenuse * Math.cos(radians);
+          node.targetY = cluster.primaryNode.targetY + hypotenuse * Math.sin(radians);
+        });
       });
-
     }
 
     function orbit (node, step) {
@@ -55,106 +62,97 @@ var Dewey = (function (Dewey) {
       node.y += (node.targetY - node.y) / step;
     }
 
+    // reorders graph nodes so that the first node is the center node
+    function sortNodes (nodes) {
+      var index;
+      if ($scope.user) {
+        _.each(nodes, function (node, i) {
+          if (node.first_name === $scope.user.first_name
+            && node.last_name === $scope.user.last_name)
+          {
+            index = i;
+          }
+        });
+      } else if ($scope.topic) {
+        _.each(nodes, function (node, i) {
+          if (node.title === $scope.topic.title)
+          {
+            index = i;
+          }
+        });
+      }
+      var restOfNodes = (function () {
+        return nodes.slice(0, index).concat(nodes.slice(index + 1));
+      })();
+      return [nodes[index]].concat(restOfNodes);
+    }
+
+    function setCategoriesForNodes (nodes) {
+      nodes.forEach(function (node) {
+       if (node.title) {
+          node.category = 'topic';
+        } else if (node.first_name && node.last_name) {
+          node.category = 'user';
+        }
+      });
+    }
+
+    function animateNodes (nodes, width, height) {
+      var force = d3.layout.force()
+          .gravity(0.05)
+          .charge(function (d, i) { 
+            return i ? 0 : -2000; 
+          })
+          .nodes(nodes)
+          .size([width, height]);
+      force.start();
+      force.on('tick', function (e) {         
+        var q = d3.geom.quadtree(nodes),
+            i = 0,
+            n = nodes.length;
+        while (++i < n) {
+          orbit(nodes[i], 100);
+        }
+        $scope.$apply();
+      });
+    }
+
     $scope.makeGraph = function () {
       if ($scope.graphNodes) {
 
-        $scope.graphWidth = $('#data-viz svg').width();
-        $scope.graphHeight = $('#data-viz svg').height();
-
-        // reorders graph nodes so that the first node is the center node
-        (function () {
-          var index;
-          if ($scope.user) {
-            _.each($scope.graphNodes, function (node, i) {
-              if (node.first_name === $scope.user.first_name
-                && node.last_name === $scope.user.last_name)
-              {
-                index = i;
-              }
-            });
-          } else if ($scope.topic) {
-            _.each($scope.graphNodes, function (node, i) {
-              if (node.title === $scope.topic.title)
-              {
-                index = i;
-              }
-            });
-          }
-          var restOfNodes = (function () {
-            return $scope.graphNodes.slice(0, index).concat($scope.graphNodes.slice(index + 1));
-          })();
-          $scope.graphNodes = [$scope.graphNodes[index]].concat(restOfNodes);
-        })();
-
-        // set categories for nodes
-        (function () {
-          _.each($scope.graphNodes, function (node) {
-            if (node.title) {
-              node.category = 'topic';
-            } else if (node.first_name && node.last_name) {
-              node.category = 'user';
-            }
-          });
-        })();
-
-        // var primaryNode = $scope.graphNodes[0],
-        //   numberOfOuterNodes = ($scope.graphNodes.length > 14) ? 14 : $scope.graphNodes.length - 1,
-        //   outerNodes = $scope.graphNodes.slice(1, 1 + numberOfOuterNodes),
-        //   outerNodesPadding = 1,
-        //   primaryNodeRadius = 100,
-        //   outerNodeRadius = primaryNodeRadius / (numberOfOuterNodes / Math.PI - 1);
+        var nodes = sortNodes($scope.graphNodes);
+        setCategoriesForNodes(nodes);
 
         var maxOuterNodes = 14, 
-          numberOfOuterNodes = ($scope.graphNodes.length > maxOuterNodes) ? maxOuterNodes : $scope.graphNodes.length - 1,
+          numberOfOuterNodes = (nodes.length > maxOuterNodes) ? maxOuterNodes : nodes.length - 1,
           outerNodesPadding = 1,
           primaryNodeRadius = 100,
-          outerNodeRadius = primaryNodeRadius / (numberOfOuterNodes / Math.PI - 1);
+          outerNodeRadius = (function () {
+            var radius = primaryNodeRadius / (numberOfOuterNodes / Math.PI - 1);
+            if (radius > primaryNodeRadius || radius < 0) {
+              radius = primaryNodeRadius * 2 / 3;
+            }
+            return radius;
+          })();
+
+        $scope.graphWidth = $('#data-viz svg').width();
+        $scope.graphHeight = $('#data-viz svg').height();
         $scope.clusters = [];
         $scope.clusters[0] = {
-          primaryNode: $scope.graphNodes[0],
-          outerNodes: $scope.graphNodes.slice(1, 1 + numberOfOuterNodes)
+          primaryNode: nodes[0],
+          outerNodes: nodes.slice(1, 1 + numberOfOuterNodes)
         };
 
-        $scope.clusters[0].primaryNode.radius = primaryNodeRadius;
-        // primaryNode.radius = primaryNodeRadius;
-
-        if (outerNodeRadius > primaryNodeRadius || outerNodeRadius < 0) {
-          outerNodeRadius = primaryNodeRadius * 2 / 3;
-        }
-
-        // _.each(outerNodes, function (node) {
-        _.each($scope.clusters[0].outerNodes, function (node) {
-          node.radius = outerNodeRadius;
+        $scope.clusters.forEach(function (cluster) {
+          cluster.primaryNode.radius = primaryNodeRadius;
+          cluster.outerNodes.forEach(function (node) {
+            node.radius = outerNodeRadius;
+          });
         });
 
-        // setNodePositions(primaryNode, outerNodes, $scope.graphWidth, $scope.graphHeight);
-        setNodePositions($scope.clusters[0].primaryNode, $scope.clusters[0].outerNodes, $scope.graphWidth, $scope.graphHeight);
+        setNodePositions($scope.clusters, $scope.graphWidth, $scope.graphHeight);
+        animateNodes(nodes, $scope.graphWidth, $scope.graphHeight);
 
-        (function () {
-          var nodes = $scope.graphNodes,
-            w = $scope.graphWidth,
-            h = $scope.graphHeight;
-          var force = d3.layout.force()
-              .gravity(0.05)
-              .charge(function (d, i) { 
-                return i ? 0 : -2000; 
-              })
-              .nodes(nodes)
-              .size([w, h]);
-          force.start();
-          force.on('tick', function (e) {         
-            var q = d3.geom.quadtree(nodes),
-                i = 0,
-                n = nodes.length;
-            while (++i < n) {
-              orbit(nodes[i], 100);
-            }
-            $scope.$apply();
-          });
-        })();
-
-        // $scope.primaryNode = primaryNode;
-        // $scope.outerNodes = outerNodes;
       }
     };
 
