@@ -71,7 +71,12 @@ var Dewey = (function (Dewey) {
   }]);
   Dewey.DeweyApp.run(['$rootScope', 'currentUser', function($rootScope, currentUser) {
     currentUser.get(function(data) {
-      $rootScope.current_user_id = data.uid;
+      if (data.uid)
+        $rootScope.isLoggedIn = true; 
+        $rootScope.currentUserId = data.uid;
+      else {
+        $rootScope.isLoggedIn = false;  
+      }
     });
   }]);
 	return Dewey;

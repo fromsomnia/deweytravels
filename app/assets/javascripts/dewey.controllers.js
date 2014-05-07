@@ -319,7 +319,7 @@ var Dewey = (function (Dewey) {
       $scope.topicsForTopic = DeweyFactory.topicsForTopic;
     });
 
-    if ($rootScope.current_user_id) {
+    if ($rootScope.isLoggedIn) {
       DeweyFactory.getUsersForTopic().then(function() {
         $scope.usersForTopic = DeweyFactory.usersForTopic;
       });

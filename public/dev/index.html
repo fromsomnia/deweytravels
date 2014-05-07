@@ -156,16 +156,16 @@
 		<script type="text/ng-template" id="/topicsForUser">
 			<div id="tags" class="col-xs-12">
 				<div ng-show="topicsForUser">
-	        <span ng-show="current_user_id == user.id">Places You've Been To:</span>
-	        <span ng-show="current_user_id != user.id">Places {{user.first_name}}'s Been To:</span>
+	        <span ng-show="currentUserId == user.id">Places You've Been To:</span>
+	        <span ng-show="currentUserId != user.id">Places {{user.first_name}}'s Been To:</span>
 	        <span class="tag" ng-repeat="topic in topicsForUser">
 	          <a href="#/topics/{{ topic.id }}">{{ topic.title }}</a>
 	          <span ng-click="removeTopicFromUser($event, topic.id)" class="glyphicon glyphicon-remove"></span>
 	        </span>
 	      </div>
 				<div>
-	        <span ng-show="current_user_id == user.id">Have You Been To:</span>
-	        <span ng-show="current_user_id != user.id">Has {{user.first_name}} Been To:</span>
+	        <span ng-show="currentUserId == user.id">Have You Been To:</span>
+	        <span ng-show="currentUserId != user.id">Has {{user.first_name}} Been To:</span>
 	        <span class="tag" ng-repeat="topic in topicSuggestions">
 	          <a href="#/topics/{{ topic.id }}">{{ topic.title }}</a>
 	          <span ng-click="addTopicSuggestionToUser(topic, $topic)" class="glyphicon glyphicon-check"></span>
@@ -182,7 +182,7 @@
 				<div id="top-bar">
 					<div id="filters-container">
 						<div class="dropdown">
-							<button ng-show="current_user_id" class="btn dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown">Stanford, CA</button>
+							<button ng-show="isLoggedIn" class="btn dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown">Stanford, CA</button>
 							  <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
 							    <li role="presentation"><a role="menuitem" tabindex="-1" href="">Stanford, CA</a></li>
 							    <li role="presentation"><a role="menuitem" tabindex="-1" href="">Berkeley, CA</a></li>
@@ -197,11 +197,11 @@
 					<div ng-include src="'/navigation'"></div>
 					<div ng-include src="'/topicProfile'"></div>
 
-					<div ng-show="current_user_id" ng-include src="'/usersForTopic'"></div>
+					<div ng-show="isLoggedIn" ng-include src="'/usersForTopic'"></div>
 					<div ng-include src="'/topicsForTopic'"></div>
-					<div ng-show="current_user_id" ng-include src="'/userSuggestionsForTopic'"></div>
+					<div ng-show="isLoggedIn" ng-include src="'/userSuggestionsForTopic'"></div>
 
-          <div ng-hide="current_user_id" ng-include src="'/callToSignupInTopic'"></div>
+          <div ng-hide="isLoggedIn" ng-include src="'/callToSignupInTopic'"></div>
 				</div>
 				<div id="data-viz">
 					<div ng-include src="'/graph'"></div>
@@ -288,7 +288,7 @@
 
 		<script type="text/ng-template" id="/topicsForTopic">
 			<div id="list" class="col-xs-12 list-group">
-				<h4 ng-show="current_user_id">RELATED TOPICS</h4>
+				<h4 ng-show="isLoggedIn">RELATED TOPICS</h4>
 				<div ng-repeat="topic in topicsForTopic | limitTo: 5" class="list-group-item">
 				  <a href="#/topics/{{ topic.id }}">
 						<div class="circular-image" style="background-image:url('{{ topic.image_url }}')"></div>
@@ -297,7 +297,7 @@
 				  	</div>
 				  </a>
 				</div>
-				<div ng-show="current_user_id" class="action-link-container">
+				<div ng-show="isLoggedIn" class="action-link-container">
 					<a href="" class="action-link">view more</a>
 					<a href="" class="action-link">add related topic</a>
 				</div>
