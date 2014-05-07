@@ -43,6 +43,14 @@
 				<div id="data-viz"></div>
 		</script>
 
+    <script type="text/ng-template" id="/facebookLoginButton">
+      <div>
+        <button ng-show="facebookLoginButton" ng-click="facebookLogin()" class="btn btn-default btn-lg col-xs-12">
+        	Signup with Facebook
+        </button>
+      </div>
+    </script>
+
 		<script type="text/ng-template" id="/login">
 			<div id="main-view">
 				<div id="top-bar"></div>
@@ -174,7 +182,7 @@
 				<div id="top-bar">
 					<div id="filters-container">
 						<div class="dropdown">
-							<button class="btn dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown">Stanford, CA</button>
+							<button ng-show="current_user_id" class="btn dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown">Stanford, CA</button>
 							  <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
 							    <li role="presentation"><a role="menuitem" tabindex="-1" href="">Stanford, CA</a></li>
 							    <li role="presentation"><a role="menuitem" tabindex="-1" href="">Berkeley, CA</a></li>
@@ -188,9 +196,12 @@
 				<div id="left-bar">
 					<div ng-include src="'/navigation'"></div>
 					<div ng-include src="'/topicProfile'"></div>
-					<div ng-include src="'/usersForTopic'"></div>
+
+					<div ng-show="current_user_id" ng-include src="'/usersForTopic'"></div>
 					<div ng-include src="'/topicsForTopic'"></div>
-					<div ng-include src="'/userSuggestionsForTopic'"></div>
+					<div ng-show="current_user_id" ng-include src="'/userSuggestionsForTopic'"></div>
+
+          <div ng-hide="current_user_id" ng-include src="'/callToSignupInTopic'"></div>
 				</div>
 				<div id="data-viz">
 					<div ng-include src="'/graph'"></div>
@@ -198,6 +209,17 @@
 			</div>
 		</script>
 
+    <script type="text/ng-template" id="/callToSignupInTopic">
+      <div class="signup-call-header">
+        <h3><a href="#" ng-click="facebookLogin()">Signup with Facebook</a></h3>
+      </div>
+      <div class="signup-call-body">
+        30 people on Dewey have been to {{ topic.title }}. 
+        <b><a href="#" ng-click="facebookLogin()">
+        	Signup with Facebook to see where your friends have been.
+        </a></b>
+      </div>
+    </script>
 		<script type="text/ng-template" id="/topicProfile">
 			<div id="profile" class="col-xs-12">
 				<div id="information">
@@ -266,17 +288,16 @@
 
 		<script type="text/ng-template" id="/topicsForTopic">
 			<div id="list" class="col-xs-12 list-group">
-				<h4>RELATED TOPICS</h4>
+				<h4 ng-show="current_user_id">RELATED TOPICS</h4>
 				<div ng-repeat="topic in topicsForTopic | limitTo: 5" class="list-group-item">
-				  <a href="#/{{ topic.category }}/{{ topic.id }}">
-						<div class="circular-image" style="background-image:url('/assets/{{ topic.freebase_image_url }}')"></div>
+				  <a href="#/topics/{{ topic.id }}">
+						<div class="circular-image" style="background-image:url('{{ topic.image_url }}')"></div>
 				  	<div class="user-text-container">
-					    <h4 class="list-group-item-heading">{{ topic.title }}</h4>
-					    <p class="list-group-item-text">{{ topic.description }}</p>
+					    <h4 class="list-group-item-content">{{ topic.title }}</h4>
 				  	</div>
 				  </a>
 				</div>
-				<div class="action-link-container">
+				<div ng-show="current_user_id" class="action-link-container">
 					<a href="" class="action-link">view more</a>
 					<a href="" class="action-link">add related topic</a>
 				</div>

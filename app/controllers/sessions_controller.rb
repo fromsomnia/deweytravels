@@ -2,7 +2,7 @@ require 'socialcast'
 require 'pp'
 
 class SessionsController < ApplicationController
-  before_action :authenticate, only: [:get_auth_token]
+  before_action :authenticate_without_401, only: [:get_auth_token]
 
   def get_auth_token
     render json: {:uid => @current_user.id,

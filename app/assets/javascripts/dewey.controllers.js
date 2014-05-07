@@ -156,7 +156,7 @@ var Dewey = (function (Dewey) {
 
   }]);
 
-  Dewey.DeweyApp.controller('LoginController', ['$scope', '$injector', '$location', '$http', 'localStorageService', 'DeweyFactory', function ($scope, $injector, $location, $http, localStorageService, DeweyFactory) {
+  Dewey.DeweyApp.controller('BaseLoginController', ['$scope', '$injector', '$location', '$http', 'localStorageService', 'DeweyFactory', function ($scope, $injector, $location, $http, localStorageService, DeweyFactory) {
     $scope.loginData = {};
     $scope.facebookLoginButton = true;
 
@@ -196,6 +196,12 @@ var Dewey = (function (Dewey) {
          }
        }, {scope: 'email,user_status', return_scopes: true});
     }
+  }]);
+
+  Dewey.DeweyApp.controller('LoginController', ['$scope', '$controller', '$injector', '$location', '$http', 'localStorageService', 'DeweyFactory', function ($scope, $controller, $injector, $location, $http, localStorageService, DeweyFactory) {
+    $controller('BaseLoginController', {
+      $scope: $scope
+    });
 
     var token = localStorageService.get('dewey_auth_token');
     if (token) {
@@ -301,24 +307,31 @@ var Dewey = (function (Dewey) {
 
   }]);
 
-  Dewey.DeweyApp.controller('TopicController', ['$scope', '$injector', '$controller', '$http', 'DeweyFactory', function ($scope, $injector, $controller, $http, DeweyFactory) {
+  Dewey.DeweyApp.controller('TopicController', ['$scope', '$rootScope', '$injector', '$controller', '$http', 'DeweyFactory',
+                 function ($scope, $rootScope, $injector, $controller, $http, DeweyFactory) {
     $controller('BaseController', {
       $scope: $scope
     });
 
     $scope.topic = DeweyFactory.topic;
 
-    DeweyFactory.getUsersForTopic().then(function() {
-      $scope.usersForTopic = DeweyFactory.usersForTopic;
+    DeweyFactory.getTopicsForTopic().then(function() {
+      $scope.topicsForTopic = DeweyFactory.topicsForTopic;
     });
 
-    DeweyFactory.getAllUsers().then(function () {
-      $scope.userChoices = DeweyFactory.allUsers;
-    });
+    if ($rootScope.current_user_id) {
+      DeweyFactory.getUsersForTopic().then(function() {
+        $scope.usersForTopic = DeweyFactory.usersForTopic;
+      });
+
+      DeweyFactory.getAllUsers().then(function () {
+        $scope.userChoices = DeweyFactory.allUsers;
+      });
  
-    DeweyFactory.getUserSuggestions().then(function () {
-      $scope.userSuggestions = DeweyFactory.userSuggestions;
-    });
+      DeweyFactory.getUserSuggestions().then(function () {
+        $scope.userSuggestions = DeweyFactory.userSuggestions;
+      });
+    }
 
     $scope.shouldShowAddUserToTopic = true;
     $scope.newTopic = {};

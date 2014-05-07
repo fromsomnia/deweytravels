@@ -1,5 +1,6 @@
 class TopicsController < ApplicationController
-  before_action :authenticate
+  before_action :authenticate, except: [:show, :related, :most_connected]
+  before_action :authenticate_without_401, only: [:show, :related, :most_connected]
   before_action :set_topic, only: [:show, :edit, :update, :destroy]
 
 
@@ -24,7 +25,6 @@ class TopicsController < ApplicationController
   # GET /topics/1
   # GET /topics/1.json
   def show
-    @topic = @current_graph.topics.find(params[:id])
     respond_to do |format|
       format.html { redirect_to topic_url }
       format.json { render json: @topic }
@@ -75,13 +75,13 @@ class TopicsController < ApplicationController
   #returns related topics (same parents)
   def related
     @topics = []
-    if params[:id].present? then
-      topic = @current_graph.topics.find(params[:id].to_i)
-      if topic != nil then
+    if params[:topic_id].present? then
+      topic = Topic.find(params[:topic_id].to_i)
+      if topic then
         topic.supertopics.each do |supertopic|
           supertopic.subtopics.each do |tiq|
-            if !related.include?(tiq) then
-              related << tiq
+            if !@topics.include?(tiq) then
+              @topics << tiq
             end
           end
         end
@@ -141,10 +141,12 @@ class TopicsController < ApplicationController
     @nodes = []
     @links = []
     if params[:topic_id].present? then
-      topic = @current_graph.topics.find(params[:topic_id].to_i)
+      topic = Topic.find(params[:topic_id].to_i)
       @nodes += topic.subtopics
       @nodes += topic.supertopics
-      @nodes += (topic.experts & (@current_user.friends | [@current_user]))
+      if @current_user then
+        @nodes += (topic.experts & (@current_user.friends | [@current_user]))
+      end
     end
     result = { :nodes => @nodes, :links => @links }
 
@@ -279,7 +281,7 @@ class TopicsController < ApplicationController
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_topic
-      @topic = @current_graph.topics.find(params[:id])
+      @topic = Topic.find(params[:id])
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.
