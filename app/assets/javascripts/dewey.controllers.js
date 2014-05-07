@@ -97,24 +97,38 @@ var Dewey = (function (Dewey) {
           });
         })();
 
-        var primaryNode = $scope.graphNodes[0],
-          numberOfOuterNodes = ($scope.graphNodes.length > 14) ? 14 : $scope.graphNodes.length - 1,
-          outerNodes = $scope.graphNodes.slice(1, 1 + numberOfOuterNodes),
+        // var primaryNode = $scope.graphNodes[0],
+        //   numberOfOuterNodes = ($scope.graphNodes.length > 14) ? 14 : $scope.graphNodes.length - 1,
+        //   outerNodes = $scope.graphNodes.slice(1, 1 + numberOfOuterNodes),
+        //   outerNodesPadding = 1,
+        //   primaryNodeRadius = 100,
+        //   outerNodeRadius = primaryNodeRadius / (numberOfOuterNodes / Math.PI - 1);
+
+        var maxOuterNodes = 14, 
+          numberOfOuterNodes = ($scope.graphNodes.length > maxOuterNodes) ? maxOuterNodes : $scope.graphNodes.length - 1,
           outerNodesPadding = 1,
           primaryNodeRadius = 100,
           outerNodeRadius = primaryNodeRadius / (numberOfOuterNodes / Math.PI - 1);
+        $scope.clusters = [];
+        $scope.clusters[0] = {
+          primaryNode: $scope.graphNodes[0],
+          outerNodes: $scope.graphNodes.slice(1, 1 + numberOfOuterNodes)
+        };
 
-        primaryNode.radius = primaryNodeRadius;
+        $scope.clusters[0].primaryNode.radius = primaryNodeRadius;
+        // primaryNode.radius = primaryNodeRadius;
 
         if (outerNodeRadius > primaryNodeRadius || outerNodeRadius < 0) {
           outerNodeRadius = primaryNodeRadius * 2 / 3;
         }
 
-        _.each(outerNodes, function (node) {
+        // _.each(outerNodes, function (node) {
+        _.each($scope.clusters[0].outerNodes, function (node) {
           node.radius = outerNodeRadius;
         });
 
-        setNodePositions(primaryNode, outerNodes, $scope.graphWidth, $scope.graphHeight);
+        // setNodePositions(primaryNode, outerNodes, $scope.graphWidth, $scope.graphHeight);
+        setNodePositions($scope.clusters[0].primaryNode, $scope.clusters[0].outerNodes, $scope.graphWidth, $scope.graphHeight);
 
         (function () {
           var nodes = $scope.graphNodes,
@@ -139,8 +153,8 @@ var Dewey = (function (Dewey) {
           });
         })();
 
-        $scope.primaryNode = primaryNode;
-        $scope.outerNodes = outerNodes;
+        // $scope.primaryNode = primaryNode;
+        // $scope.outerNodes = outerNodes;
       }
     };
 
