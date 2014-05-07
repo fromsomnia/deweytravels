@@ -220,22 +220,25 @@ var Dewey = (function (Dewey) {
     $location.path('/');
   }]);
 
-  Dewey.DeweyApp.controller('UserController', ['$scope', '$injector', '$http', '$controller', 'DeweyFactory', function ($scope, $injector, $http, $controller, DeweyFactory) {
+  Dewey.DeweyApp.controller('UserController', ['$scope', '$rootScope', '$injector', '$http', '$controller', 'DeweyFactory',
+                function ($scope, $rootScope, $injector, $http, $controller, DeweyFactory) {
 
     $controller('BaseController', {
       $scope: $scope
     });
 
-    DeweyFactory.getTopicsForUser().then(function() {
-      $scope.topicsForUser = DeweyFactory.topicsForUser;
-    });
+    if ($rootScope.isLoggedIn) {
+      DeweyFactory.getTopicsForUser().then(function() {
+        $scope.topicsForUser = DeweyFactory.topicsForUser;
+      });
 
-    DeweyFactory.getAllTopics().then(function() {
-      $scope.topicChoices = DeweyFactory.allTopics;
-    });
-    DeweyFactory.getTopicSuggestions().then(function() {
-      $scope.topicSuggestions = DeweyFactory.topicSuggestions;
-    });
+      DeweyFactory.getAllTopics().then(function() {
+        $scope.topicChoices = DeweyFactory.allTopics;
+      });
+      DeweyFactory.getTopicSuggestions().then(function() {
+        $scope.topicSuggestions = DeweyFactory.topicSuggestions;
+      });
+    }
 
     $scope.user = DeweyFactory.user;
 

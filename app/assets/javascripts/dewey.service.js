@@ -85,7 +85,6 @@ var Dewey = (function (Dewey) {
       $http.get('/topics/' + params.topicId + '/related.json')
         .success(function (response) {
           factory.topicsForTopic = prepareUsersData(response);
-          console.log(factory.topicsForTopic);
           defer.resolve();
         });
       return defer.promise;
