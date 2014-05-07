@@ -12,14 +12,6 @@ var Dewey = (function (Dewey) {
         $location.path('/search/' + $scope.queryData.query);
       }
     };
-    if (!$rootScope.current_user_id) {
-      $http({
-        url: '/sessions/get_auth_token',
-        method: "GET"
-      }).success(function(data, status, headers, config) {
-        $rootScope.current_user_id = data.uid;
-      });
-    }
   }]);
 
   Dewey.DeweyApp.controller('GraphController', ['$scope', '$controller', 'DeweyFactory', function ($scope, $controller, DeweyFactory) {
@@ -28,13 +20,18 @@ var Dewey = (function (Dewey) {
       $scope: $scope
     });
 
-    $scope.$on('graphUpdated', function() {
+    function reloadGraph () {
       DeweyFactory.getGraphNodesAndLinks().then(function () {
         $scope.graphNodes = DeweyFactory.graphNodes;
         $scope.graphLinks = DeweyFactory.graphLinks;
+
         $scope.makeGraph();
       });
+    };
+    $scope.$on('graphUpdated', function() {
+      reloadGraph();
     });
+    reloadGraph();
 
     function setNodePositions (primaryNode, outerNodes, containerWidth, containerHeight) {
 
@@ -59,7 +56,6 @@ var Dewey = (function (Dewey) {
     }
 
     $scope.makeGraph = function () {
-
       if ($scope.graphNodes) {
 
         $scope.graphWidth = $('#data-viz svg').width();
@@ -148,7 +144,6 @@ var Dewey = (function (Dewey) {
       }
     };
 
-    $scope.makeGraph();
 
   }]);
 
@@ -224,10 +219,20 @@ var Dewey = (function (Dewey) {
     $controller('BaseController', {
       $scope: $scope
     });
-    $scope.topicSuggestions = DeweyFactory.topicSuggestions;
+
+    DeweyFactory.getTopicsForUser().then(function() {
+      $scope.topicsForUser = DeweyFactory.topicsForUser;
+    });
+
+    DeweyFactory.getAllTopics().then(function() {
+      $scope.topicChoices = DeweyFactory.allTopics;
+    });
+    DeweyFactory.getTopicSuggestions().then(function() {
+      $scope.topicSuggestions = DeweyFactory.topicSuggestions;
+    });
+
     $scope.user = DeweyFactory.user;
-    $scope.topicsForUser = DeweyFactory.topicsForUser;
-    $scope.topicChoices = DeweyFactory.allTopics;
+
     $scope.sendFacebookMessage = function () {
       console.log($scope.user);
       FB.ui({
@@ -297,15 +302,24 @@ var Dewey = (function (Dewey) {
   }]);
 
   Dewey.DeweyApp.controller('TopicController', ['$scope', '$injector', '$controller', '$http', 'DeweyFactory', function ($scope, $injector, $controller, $http, DeweyFactory) {
-
     $controller('BaseController', {
       $scope: $scope
     });
 
-    $scope.userSuggestions = DeweyFactory.userSuggestions;
-    $scope.usersForTopic = DeweyFactory.usersForTopic;
     $scope.topic = DeweyFactory.topic;
-    $scope.userChoices = DeweyFactory.allUsers;
+
+    DeweyFactory.getUsersForTopic().then(function() {
+      $scope.usersForTopic = DeweyFactory.usersForTopic;
+    });
+
+    DeweyFactory.getAllUsers().then(function () {
+      $scope.userChoices = DeweyFactory.allUsers;
+    });
+ 
+    DeweyFactory.getUserSuggestions().then(function () {
+      $scope.userSuggestions = DeweyFactory.userSuggestions;
+    });
+
     $scope.shouldShowAddUserToTopic = true;
     $scope.newTopic = {};
 

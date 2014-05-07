@@ -1,4 +1,16 @@
 var Dewey = (function (Dewey) {
+  Dewey.DeweyApp.factory('currentUser', ['$http', function ($http) {
+    var currentUser = {}
+    currentUser.get = function (callback) {
+      $http({
+        url: '/sessions/get_auth_token',
+        method: "GET"
+      }).success(function(data, status, headers, config) {
+        callback(data);
+      });
+    };
+    return currentUser;
+  }]);
 
   Dewey.DeweyApp.factory('authInterceptor', ['$rootScope', '$location', '$q', 'localStorageService',
                          function ($rootScope, $location, $q, localStorageService) {
