@@ -162,47 +162,63 @@ var Dewey = (function (Dewey) {
 
     $scope.facebookLogin = function () {
        $analytics.eventTrack('click_facebook_login_button');
+
        FB.login(function(response) {
          if (response.authResponse) {
-           $analytics.eventTrack('facebook_login_success');
-            // may be used in the future for "autoupdate friends list in the background or in scheduler / cron" per Veni
-            accessToken = response.authResponse.accessToken;
-            FB.api('/me', {fields: ['first_name', 'last_name', 'email', 'picture.type(large)', 'locations']}, function(response) {
-              $.post('/sessions/post_facebook_login.json', {
-                id: response.id,
-                first_name: response.first_name,
-                last_name: response.last_name,
-                email: response.email,
-                access_token: accessToken,
-                image_url: response.picture.data.url,
-                locations: response.locations
-              }).done(function (response) {
-                $analytics.eventTrack('signup_user');
-
-                localStorageService.add('dewey_auth_token', response.auth_token);
-                FB.api('/me/friends', {fields: ['first_name', 'last_name', 'picture']}, function(fb_response) {
-                  $http({
-                    url: '/users/add_friends.json',
-                    method: "POST",
-                    data: { friends: fb_response.data }
-                  }).success(function(null_response) {
-                    $analytics.eventTrack('login_user', { 'type': 'facebook' });
-                    $location.path('/users/' + response.uid);
-                  });
-                });
-              }).fail(function (response) {
-                $analytics.eventTrack('signup_user_failed');
-                // TODO
-              });
+          console.log(response.authResponse);
+          $analytics.eventTrack('facebook_login_success');
+          var authToken = response.authResponse.accessToken;
+          $.post('/sessions/post_try_facebook_login.json', {
+            id: response.authResponse.userID
+          }).done(function (response) {
+            $scope.$apply(function () {
+              $scope.loginDeweyUser(response.auth_token, response.uid, { 'type': 'facebook' });
             });
-
-
+          }).fail(function(response) {
+            $scope.signupFacebookUser(authToken);
+          });
          } else {
            $analytics.eventTrack('facebook_login_failed');
            console.log('User cancelled login or did not fully authorize.');
          }
        }, {scope: 'email,user_status', return_scopes: true});
-    }
+    };
+
+    $scope.loginDeweyUser = function (authToken, deweyUid, analyticsPayload) {
+      localStorageService.add('dewey_auth_token', authToken);
+      $analytics.eventTrack('login_user', analyticsPayload);
+      $location.path('/users/' + deweyUid);
+    };
+
+    $scope.signupFacebookUser = function (accessToken) {
+      FB.api('/me', {fields: ['first_name', 'last_name', 'email', 'picture.type(large)', 'locations']}, function(response) {
+        $.post('/sessions/post_facebook_login.json', {
+          id: response.id,
+          first_name: response.first_name,
+          last_name: response.last_name,
+          email: response.email,
+          access_token: accessToken,
+          image_url: response.picture.data.url,
+          locations: response.locations
+        }).done(function (response) {
+          $analytics.eventTrack('signup_user');
+
+          localStorageService.add('dewey_auth_token', response.auth_token);
+          FB.api('/me/friends', {fields: ['first_name', 'last_name', 'picture']}, function(fb_response) {
+            $http({
+              url: '/users/add_friends.json',
+              method: "POST",
+              data: { friends: fb_response.data }
+            }).success(function(null_response) {
+              $scope.loginDeweyUser(response.auth_token, response.uid, { 'type': 'facebook' })
+            });
+          });
+        }).fail(function (response) {
+          $analytics.eventTrack('signup_user_failed');
+          // TODO
+        });
+      });
+    };
 
     var token = localStorageService.get('dewey_auth_token');
     if (token) {
@@ -210,13 +226,12 @@ var Dewey = (function (Dewey) {
         url: '/sessions/get_auth_token',
         method: "GET"
       }).success(function(data, status, headers, config) {
-        $analytics.eventTrack('login_user', { 'type': 'auto_login' } );
-        $location.path('/users/' + data.uid);
+        $scope.loginDeweyUser(token, data.uid, { 'type': 'auto_login' });
       });
     }
   }]);
 
-  Dewey.DeweyApp.controller('LogoutController', ['$scope', '$injector', '$location', 'localStorageService', 'DeweyFactory', function ($scope, $injector, $location, localStorageService, DeweyFactory) {
+  Dewey.DeweyApp.controller('LogoutController', ['$scope', '$analytics', '$injector', '$location', 'localStorageService', 'DeweyFactory', function ($scope, $analytics, $injector, $location, localStorageService, DeweyFactory) {
     localStorageService.remove('dewey_auth_token');
 
     $analytics.eventTrack('logout_user')
@@ -243,7 +258,6 @@ var Dewey = (function (Dewey) {
     $scope.user = DeweyFactory.user;
 
     $scope.sendFacebookMessage = function () {
-      console.log($scope.user);
       FB.ui({
         method: 'send',
         to: $scope.user.fb_id,

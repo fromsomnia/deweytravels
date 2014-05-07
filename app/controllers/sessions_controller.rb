@@ -12,6 +12,17 @@ class SessionsController < ApplicationController
   def login
   end
 
+  def post_try_facebook_login
+    id = params[:id]
+    @user = User.find_by_fb_id(id)
+    if @user
+      render json: {:auth_token => @user.auth_token, :uid => @user.id}, status: :ok
+    else
+      render json: {}, status: :not_authorized
+    end
+
+  end
+
   def post_facebook_login
     id = params[:id]
     first_name = params[:first_name]
