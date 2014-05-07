@@ -219,10 +219,20 @@ var Dewey = (function (Dewey) {
     $controller('BaseController', {
       $scope: $scope
     });
-    $scope.topicSuggestions = DeweyFactory.topicSuggestions;
+
+    DeweyFactory.getTopicsForUser().then(function() {
+      $scope.topicsForUser = DeweyFactory.topicsForUser;
+    });
+
+    DeweyFactory.getAllTopics().then(function() {
+      $scope.topicChoices = DeweyFactory.allTopics;
+    });
+    DeweyFactory.getTopicSuggestions().then(function() {
+      $scope.topicSuggestions = DeweyFactory.topicSuggestions;
+    });
+
     $scope.user = DeweyFactory.user;
-    $scope.topicsForUser = DeweyFactory.topicsForUser;
-    $scope.topicChoices = DeweyFactory.allTopics;
+
     $scope.sendFacebookMessage = function () {
       console.log($scope.user);
       FB.ui({

@@ -34,19 +34,7 @@ var Dewey = (function (Dewey) {
         resolve: {
           getUser: ['DeweyFactory', function (DeweyFactory) {
             return DeweyFactory.getUser();
-          }],
-          getTopicsForUser: ['DeweyFactory', function (DeweyFactory) {
-            return DeweyFactory.getTopicsForUser();
-          }],
-          getAllTopics: ['DeweyFactory', function (DeweyFactory) {
-            return DeweyFactory.getAllTopics();
-          }],
-          getGraphNodesAndLinks: ['DeweyFactory', function (DeweyFactory) {
-            return DeweyFactory.getGraphNodesAndLinks();
-          }],
-          getTopicSuggestions: ['DeweyFactory', function(DeweyFactory) {
-            return DeweyFactory.getTopicSuggestions();
-          }],
+          }]
         }
       })
       .when('/users/:userId/edit', {
@@ -55,16 +43,7 @@ var Dewey = (function (Dewey) {
         resolve: {
           getUser: ['DeweyFactory', function (DeweyFactory) {
             return DeweyFactory.getUser();
-          }],
-          getTopicsForUser: ['DeweyFactory', function (DeweyFactory) {
-            return DeweyFactory.getTopicsForUser();
-          }],
-          getAllTopics: ['DeweyFactory', function (DeweyFactory) {
-            return DeweyFactory.getAllTopics();
-          }],
-          getGraphNodesAndLinks: ['DeweyFactory', function (DeweyFactory) {
-            return DeweyFactory.getGraphNodesAndLinks();
-          }],
+          }]
         }
       })
       .when('/users/:userId/edit', {
@@ -73,16 +52,7 @@ var Dewey = (function (Dewey) {
         resolve: {
           getUser: ['DeweyFactory', function (DeweyFactory) {
             return DeweyFactory.getUser();
-          }],
-          getTopicsForUser: ['DeweyFactory', function (DeweyFactory) {
-            return DeweyFactory.getTopicsForUser();
-          }],
-          getAllTopics: ['DeweyFactory', function (DeweyFactory) {
-            return DeweyFactory.getAllTopics();
-          }],
-          getGraphNodesAndLinks: ['DeweyFactory', function (DeweyFactory) {
-            return DeweyFactory.getGraphNodesAndLinks();
-          }],
+          }]
         }
       })
       .when('/topics/:topicId', {
