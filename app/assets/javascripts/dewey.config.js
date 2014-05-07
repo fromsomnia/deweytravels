@@ -4,7 +4,8 @@ var Dewey = (function (Dewey) {
     $httpProvider.interceptors.push('authInterceptor');
   }]);
 
-  Dewey.DeweyApp.config(['$routeProvider', function ($routeProvider) {
+  Dewey.DeweyApp.config(['$routeProvider',
+                 function ($routeProvider) {
     // establish routes and resolve promises before displaying view
     $routeProvider
       .when('/', {
@@ -90,19 +91,7 @@ var Dewey = (function (Dewey) {
         resolve: {
           getTopic: ['DeweyFactory', function (DeweyFactory) {
             return DeweyFactory.getTopic();
-          }],
-          getUsersForTopic: ['DeweyFactory', function (DeweyFactory) {
-            return DeweyFactory.getUsersForTopic();
-          }],
-          getAllUsers: ['DeweyFactory', function (DeweyFactory) {
-            return DeweyFactory.getAllUsers();
-          }],
-          getGraphNodesAndLinks: ['DeweyFactory', function (DeweyFactory) {
-            return DeweyFactory.getGraphNodesAndLinks();
-          }],
-          getUserSuggestions: ['DeweyFactory', function(DeweyFactory) {
-            return DeweyFactory.getUserSuggestions();
-          }],
+          }]
         }
       })
       .otherwise({
@@ -110,7 +99,11 @@ var Dewey = (function (Dewey) {
       });
 
   }]);
-
+  Dewey.DeweyApp.run(['$rootScope', 'currentUser', function($rootScope, currentUser) {
+    currentUser.get(function(data) {
+      $rootScope.current_user_id = data.uid;
+    });
+  }]);
 	return Dewey;
 	
 })(Dewey);
