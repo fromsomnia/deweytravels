@@ -238,7 +238,8 @@ var Dewey = (function (Dewey) {
     $location.path('/');
   }]);
 
-  Dewey.DeweyApp.controller('UserController', ['$scope', '$injector', '$http', '$controller', 'DeweyFactory', function ($scope, $injector, $http, $controller, DeweyFactory) {
+  Dewey.DeweyApp.controller('UserController', ['$scope', '$analytics', '$injector', '$http', '$controller', 'DeweyFactory',
+                            function ($scope, $analytics, $injector, $http, $controller, DeweyFactory) {
 
     $controller('BaseController', {
       $scope: $scope
@@ -301,6 +302,7 @@ var Dewey = (function (Dewey) {
     };
 
     $scope.shuffleTopicSuggestionsToUser = function () {
+      $analytics.eventTrack('shuffle_topic_suggestions_to_user', { 'uid': $scope.user.id });
       $http({
         url: '/users/' + $scope.user.id + '/topic_suggestions',
         method: "GET",
@@ -310,6 +312,8 @@ var Dewey = (function (Dewey) {
     };
 
     $scope.addTopicSuggestionToUser = function ($item, $index) {
+      $analytics.eventTrack('add_topic_suggestion_to_user',
+                            { 'uid': $scope.user.id, 'tid': $item.id });
       $scope.topicSuggestions.splice($item, 1);
       $http({
         url: '/users/' + $scope.user.id + '/topic_suggestions',
@@ -324,7 +328,8 @@ var Dewey = (function (Dewey) {
 
   }]);
 
-  Dewey.DeweyApp.controller('TopicController', ['$scope', '$injector', '$controller', '$http', 'DeweyFactory', function ($scope, $injector, $controller, $http, DeweyFactory) {
+  Dewey.DeweyApp.controller('TopicController', ['$scope', '$analytics', '$injector', '$controller', '$http', 'DeweyFactory',
+                  function ($scope, $analytics, $injector, $controller, $http, DeweyFactory) {
     $controller('BaseController', {
       $scope: $scope
     });
@@ -383,6 +388,9 @@ var Dewey = (function (Dewey) {
 
     $scope.addUserSuggestionToTopic = function ($item, $index) {
       $scope.userSuggestions.splice($item, 1);
+
+      $analytics.eventTrack('add_user_suggestion_to_topic',
+                            { 'uid': $item.id, 'tid': $scope.topic.id });
       $http({
         url: '/topics/' + $scope.topic.id + '/user_suggestions',
         data: { previous_suggestions: $scope.userSuggestions },
