@@ -2,7 +2,7 @@ require 'socialcast'
 require 'pp'
 
 class SessionsController < ApplicationController
-  before_action :authenticate, only: [:get_auth_token]
+  before_action :authenticate_without_401, only: [:get_auth_token]
 
   def mixpanel_id
     if (Rails.env == "development")
