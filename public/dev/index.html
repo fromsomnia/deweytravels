@@ -3,6 +3,9 @@
 	<head>
 
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<meta property="og:image" content="http://linktoyourimage.com/image.jpg" />
+		<meta property="og:title" content="This will be the title displayed!" />
+		<meta property="og:description" content="This will be the description that shows below the title!" />
 
 		<title>Dewey | Explore Where Your Friends Have Been </title>
 
@@ -72,10 +75,6 @@
             <button ng-show="facebookLoginButton" ng-click="facebookLogin()" class="btn btn-default btn-lg col-xs-12">
             	login with facebook
             </button>
-            <!-- only exists to allow a way to log out of facebook -->
-            <button ng-show="facebookLoginButton" class="btn btn-default btn-lg col-xs-12">
-      				<div class="fb-login-button" data-max-rows="1" data-size="large" data-show-faces="true" data-auto-logout-link="true"></div>
-            </button>
 					</div>
 				</div>
 				<div id="data-viz"></div>
@@ -133,10 +132,14 @@
 				<a href="" class="action-link">view all</a>
 			</div>
 		</script>
-
+		<script type="text/ng-template" id="/fblogout">
+		<button ng-click="facebookLogout()" class="btn btn-default"
+					style="height:20px;text-size:10px;float:right;line-height:5px;">log out</button>
+		</script>
 		<script type="text/ng-template" id="/user">
 			<div id="main-view">
-				<div id="top-bar"></div>
+				<div id="top-bar"><div ng-include src="'/fblogout'"></div>
+				</div>
 				<div id="left-bar">
 					<div ng-include src="'/navigation'"></div>
 					<div ng-include src="'/userProfile'"></div>
@@ -191,7 +194,7 @@
 
 		<script type="text/ng-template" id="/topic">
 			<div id="main-view">
-				<div id="top-bar">
+				<div id="top-bar"><div ng-include src="'/fblogout'"></div>
 					<div id="filters-container">
 						<div class="dropdown">
 							<button ng-show="isLoggedIn" class="btn dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown">Stanford, CA</button>
