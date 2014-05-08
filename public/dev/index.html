@@ -36,6 +36,16 @@
 		  fjs.parentNode.insertBefore(js, fjs);
 		}(document, 'script', 'facebook-jssdk'));</script>
 
+		<!-- required for facebook share button -->
+		<div id="fb-root"></div>
+		<script>(function(d, s, id) {
+		  var js, fjs = d.getElementsByTagName(s)[0];
+		  if (d.getElementById(id)) return;
+		  js = d.createElement(s); js.id = id;
+		  js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&appId=1387319571552620&version=v2.0";
+		  fjs.parentNode.insertBefore(js, fjs);
+		}(document, 'script', 'facebook-jssdk'));</script>
+
 		<!-- container; updates with angular routes -->
 		<div data-ng-view></div>
 
@@ -132,13 +142,14 @@
 				<a href="" class="action-link">view all</a>
 			</div>
 		</script>
-		<script type="text/ng-template" id="/fblogout">
+		<script type="text/ng-template" id="/navbarbuttons">
 		<button ng-click="facebookLogout()" class="btn btn-default"
 					style="height:20px;text-size:10px;float:right;line-height:5px;">log out</button>
+		<div class="fb-share-button" data-href="http://team-dewey-website.herokuapp.com/dev" data-type="button" style="float:right;margin-right:5px;"></div>
 		</script>
 		<script type="text/ng-template" id="/user">
 			<div id="main-view">
-				<div id="top-bar"><div ng-include src="'/fblogout'"></div>
+				<div id="top-bar"><div ng-include src="'/navbarbuttons'"></div>
 				</div>
 				<div id="left-bar">
 					<div ng-include src="'/navigation'"></div>
@@ -194,7 +205,7 @@
 
 		<script type="text/ng-template" id="/topic">
 			<div id="main-view">
-				<div id="top-bar"><div ng-include src="'/fblogout'"></div>
+				<div id="top-bar"><div ng-include src="'/navbarbuttons'"></div>
 					<div id="filters-container">
 						<div class="dropdown">
 							<button ng-show="isLoggedIn" class="btn dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown">Stanford, CA</button>
