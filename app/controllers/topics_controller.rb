@@ -46,13 +46,18 @@ class TopicsController < ApplicationController
     end
   end
 
-  #Adds user to given topic
-  #user_id as payload
+  # Adds user to given topic
+  # user_id as payload
   def add_user
     if params[:id].present? then
       current_topic = @current_graph.topics.find(params[:id])
       user = @current_graph.users.find(params[:user_id].to_i)
       if current_topic != nil && user != nil then
+        mixpanel.track 'add_user_to_topic', {
+          :uid => user.id,
+          :tid => current_topic.id,
+          :topic_name => current_topic.title
+        }
         current_topic.experts << user
       end
     end
