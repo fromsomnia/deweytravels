@@ -156,46 +156,71 @@ var Dewey = (function (Dewey) {
 
   }]);
 
-  Dewey.DeweyApp.controller('BaseLoginController', ['$scope', '$injector', '$location', '$http', 'localStorageService', 'DeweyFactory', function ($scope, $injector, $location, $http, localStorageService, DeweyFactory) {
+  Dewey.DeweyApp.controller('BaseLoginController',
+                  ['$scope', '$analytics', '$injector', '$location', '$http', 'localStorageService', 'DeweyFactory',
+                  function ($scope, $analytics, $injector, $location, $http, localStorageService, DeweyFactory) {
     $scope.loginData = {};
     $scope.facebookLoginButton = true;
 
     $scope.facebookLogin = function () {
+       $analytics.eventTrack('click_facebook_login_button');
+
        FB.login(function(response) {
          if (response.authResponse) {
-            // may be used in the future for "autoupdate friends list in the background or in scheduler / cron" per Veni
-            accessToken = response.authResponse.accessToken;
-            FB.api('/me', {fields: ['first_name', 'last_name', 'email', 'picture.type(large)', 'locations']}, function(response) {
-              $.post('/sessions/post_facebook_login.json', {
-                id: response.id,
-                first_name: response.first_name,
-                last_name: response.last_name,
-                email: response.email,
-                access_token: accessToken,
-                image_url: response.picture.data.url,
-                locations: response.locations
-              }).done(function (response) {
-                localStorageService.add('dewey_auth_token', response.auth_token);
-                FB.api('/me/friends', {fields: ['first_name', 'last_name', 'picture']}, function(fb_response) {
-                  $http({
-                    url: '/users/add_friends.json',
-                    method: "POST",
-                    data: { friends: fb_response.data }
-                  }).success(function(null_response) {
-                    $location.path('/users/' + response.uid);
-                  });
-                });
-              }).fail(function (response) {
-                // TODO
-              });
+          console.log(response.authResponse);
+          $analytics.eventTrack('facebook_login_success');
+          var authToken = response.authResponse.accessToken;
+          $.post('/sessions/post_try_facebook_login.json', {
+            id: response.authResponse.userID
+          }).done(function (response) {
+            $scope.$apply(function () {
+              $scope.loginDeweyUser(response.auth_token, response.uid, { 'type': 'facebook' });
             });
-
-
+          }).fail(function(response) {
+            $scope.signupFacebookUser(authToken);
+          });
          } else {
+           $analytics.eventTrack('facebook_login_failed');
            console.log('User cancelled login or did not fully authorize.');
          }
        }, {scope: 'email,user_status', return_scopes: true});
-    }
+    };
+
+    $scope.loginDeweyUser = function (authToken, deweyUid, analyticsPayload) {
+      localStorageService.add('dewey_auth_token', authToken);
+      $analytics.eventTrack('login_user', analyticsPayload);
+      $location.path('/users/' + deweyUid);
+    };
+
+    $scope.signupFacebookUser = function (accessToken) {
+      FB.api('/me', {fields: ['first_name', 'last_name', 'email', 'picture.type(large)', 'locations']}, function(response) {
+        $.post('/sessions/post_facebook_login.json', {
+          id: response.id,
+          first_name: response.first_name,
+          last_name: response.last_name,
+          email: response.email,
+          access_token: accessToken,
+          image_url: response.picture.data.url,
+          locations: response.locations
+        }).done(function (response) {
+          $analytics.eventTrack('signup_user');
+
+          localStorageService.add('dewey_auth_token', response.auth_token);
+          FB.api('/me/friends', {fields: ['first_name', 'last_name', 'picture']}, function(fb_response) {
+            $http({
+              url: '/users/add_friends.json',
+              method: "POST",
+              data: { friends: fb_response.data }
+            }).success(function(null_response) {
+              $scope.loginDeweyUser(response.auth_token, response.uid, { 'type': 'facebook' })
+            });
+          });
+        }).fail(function (response) {
+          $analytics.eventTrack('signup_user_failed');
+          // TODO
+        });
+      });
+    };
   }]);
 
   Dewey.DeweyApp.controller('LoginController', ['$scope', '$controller', '$injector', '$location', '$http', 'localStorageService', 'DeweyFactory', function ($scope, $controller, $injector, $location, $http, localStorageService, DeweyFactory) {
@@ -209,19 +234,21 @@ var Dewey = (function (Dewey) {
         url: '/sessions/get_auth_token',
         method: "GET"
       }).success(function(data, status, headers, config) {
-        $location.path('/users/' + data.uid);
+        $scope.loginDeweyUser(token, data.uid, { 'type': 'auto_login' });
       });
     }
-
   }]);
 
-  Dewey.DeweyApp.controller('LogoutController', ['$scope', '$injector', '$location', 'localStorageService', 'DeweyFactory', function ($scope, $injector, $location, localStorageService, DeweyFactory) {
+  Dewey.DeweyApp.controller('LogoutController', ['$scope', '$analytics', '$injector', '$location', 'localStorageService', 'DeweyFactory', function ($scope, $analytics, $injector, $location, localStorageService, DeweyFactory) {
     localStorageService.remove('dewey_auth_token');
+
+    $analytics.eventTrack('logout_user')
     $location.path('/');
   }]);
 
-  Dewey.DeweyApp.controller('UserController', ['$scope', '$rootScope', '$injector', '$http', '$controller', 'DeweyFactory',
-                function ($scope, $rootScope, $injector, $http, $controller, DeweyFactory) {
+  Dewey.DeweyApp.controller('UserController',
+                        ['$scope', '$rootScope', '$analytics', '$injector', '$http', '$controller', 'DeweyFactory',
+                         function ($scope, $rootScope, $analytics, $injector, $http, $controller, DeweyFactory) {
 
     $controller('BaseController', {
       $scope: $scope
@@ -243,7 +270,6 @@ var Dewey = (function (Dewey) {
     $scope.user = DeweyFactory.user;
 
     $scope.sendFacebookMessage = function () {
-      console.log($scope.user);
       FB.ui({
         method: 'send',
         to: $scope.user.fb_id,
@@ -287,6 +313,7 @@ var Dewey = (function (Dewey) {
     };
 
     $scope.shuffleTopicSuggestionsToUser = function () {
+      $analytics.eventTrack('shuffle_topic_suggestions_to_user', { 'uid': $scope.user.id });
       $http({
         url: '/users/' + $scope.user.id + '/topic_suggestions',
         method: "GET",
@@ -296,6 +323,8 @@ var Dewey = (function (Dewey) {
     };
 
     $scope.addTopicSuggestionToUser = function ($item, $index) {
+      $analytics.eventTrack('add_topic_suggestion_to_user',
+                            { 'uid': $scope.user.id, 'tid': $item.id });
       $scope.topicSuggestions.splice($item, 1);
       $http({
         url: '/users/' + $scope.user.id + '/topic_suggestions',
@@ -310,8 +339,9 @@ var Dewey = (function (Dewey) {
 
   }]);
 
-  Dewey.DeweyApp.controller('TopicController', ['$scope', '$rootScope', '$injector', '$controller', '$http', 'DeweyFactory',
-                 function ($scope, $rootScope, $injector, $controller, $http, DeweyFactory) {
+  Dewey.DeweyApp.controller('TopicController',
+                ['$scope', '$analytics', '$rootScope', '$injector', '$controller', '$http', 'DeweyFactory',
+                 function ($scope, $analytics, $rootScope, $injector, $controller, $http, DeweyFactory) {
     $controller('BaseController', {
       $scope: $scope
     });
@@ -376,6 +406,9 @@ var Dewey = (function (Dewey) {
 
     $scope.addUserSuggestionToTopic = function ($item, $index) {
       $scope.userSuggestions.splice($item, 1);
+
+      $analytics.eventTrack('add_user_suggestion_to_topic',
+                            { 'uid': $item.id, 'tid': $scope.topic.id });
       $http({
         url: '/topics/' + $scope.topic.id + '/user_suggestions',
         data: { previous_suggestions: $scope.userSuggestions },

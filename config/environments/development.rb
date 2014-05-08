@@ -36,4 +36,6 @@ TeamDeweyWebsite::Application.configure do
     :domain         => 'heroku.com',
     :enable_starttls_auto => true
   }
+
+  config.mixpanel_token = '1b59612a39ff701927e1df658130eb88'
 end

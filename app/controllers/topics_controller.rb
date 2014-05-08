@@ -46,13 +46,18 @@ class TopicsController < ApplicationController
     end
   end
 
-  #Adds user to given topic
-  #user_id as payload
+  # Adds user to given topic
+  # user_id as payload
   def add_user
     if params[:id].present? then
       current_topic = @current_graph.topics.find(params[:id])
       user = @current_graph.users.find(params[:user_id].to_i)
       if current_topic != nil && user != nil then
+        mixpanel.track 'add_user_to_topic', {
+          :uid => user.id,
+          :tid => current_topic.id,
+          :topic_name => current_topic.title
+        }
         current_topic.experts << user
       end
     end
@@ -66,6 +71,12 @@ class TopicsController < ApplicationController
       current_topic = @current_graph.topics.find(params[:id])
       user = @current_graph.users.find(params[:user_id].to_i)
       if current_topic != nil && user != nil then
+        mixpanel.track 'remove_user_from_topic', {
+          :uid => user.id,
+          :tid => current_topic.id,
+          :topic_name => current_topic.title
+        }
+
         current_topic.experts.delete(user)
       end
     end
@@ -168,6 +179,11 @@ class TopicsController < ApplicationController
       topic = @current_graph.topics.find(params[:id].to_i)
       subtopic = @current_graph.topics.find(params[:topic_id2].to_i)
       if topic != nil && subtopic != nil then
+        mixpanel.track 'add_subtopic', {
+          :supertopic_id => topic.id,
+          :subtopic_id => subtopic.id,
+          :supertopic_name => topic.title,
+          :subtopic_name => subtopic.title }
         topic.subtopics << subtopic
       end
     end
@@ -180,6 +196,11 @@ class TopicsController < ApplicationController
       topic = @current_graph.topics.find(params[:id].to_i)
       supertopic = @current_graph.topics.find(params[:topic_id2].to_i)
       if topic != nil && supertopic != nil then
+        mixpanel.track 'add_supertopic', {
+          :subtopic_id => topic.id,
+          :supertopic_id => supertopic.id,
+          :subtopic_name => topic.title,
+          :supertopic_name => supertopic.title }
         topic.supertopics << supertopic
       end
     end
@@ -193,6 +214,11 @@ class TopicsController < ApplicationController
       subtopic = @current_graph.topics.find(params[:topic_id2].to_i)
       if topic != nil && subtopic != nil then
         if topic.subtopics.include?(subtopic) then
+          mixpanel.track 'remove_subtopic', {
+            :supertopic_id => topic.id,
+            :subtopic_id => subtopic.id,
+            :supertopic_name => topic.title,
+            :subtopic_name => subtopic.title }
           topic.subtopics.delete(subtopic)
         end
       end
@@ -207,6 +233,12 @@ class TopicsController < ApplicationController
       to_remove = @current_graph.topics.find(params[:topic_id2].to_i)
       if current_topic != nil && to_remove != nil then
         if current_topic.supertopics.include?(to_remove) then
+
+          mixpanel.track 'remove_supertopic', {
+            :subtopic_id => current_topic.id,
+            :supertopic_id => to_remove.id,
+            :subtopic_name => current_topic.title,
+            :supertopic_name => to_remove.title }
           current_topic.supertopics.delete(to_remove)
         end
       end
@@ -227,6 +259,12 @@ class TopicsController < ApplicationController
         @topic.graph = super_topic.graph
         respond_to do |format|
           if @topic.save
+
+            mixpanel.track 'create_topic', {
+              :topic_id => @topic.id,
+              :topic_name => @topic.title,
+              :supertopic_id => @super_topic.id,
+              :supertopic_name => @super_topic.title }
             @topic.supertopics << super_topic
             format.html { redirect_to @topic, notice: 'Topic was successfully created.' }
             format.json { render json: @topic }
