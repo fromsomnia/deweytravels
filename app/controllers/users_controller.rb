@@ -52,6 +52,10 @@ class UsersController < ApplicationController
   def add_friends
     friends = params[:friends]
     @current_user.delay.add_facebook_friends(friends)
+    mixpanel.track 'add_facebook_friends', {
+          :uid => @current_user.id,
+          :num_friends => friends.length
+        }
 
     render json: {}, status: :ok
   end
@@ -107,6 +111,12 @@ class UsersController < ApplicationController
       topic = @current_graph.topics.find(params[:topic_id].to_i)
       user = @current_graph.users.find(params[:id].to_i)
       if topic != nil && user != nil then
+
+        mixpanel.track 'add_topic_to_user', {
+            :uid => @current_user.id,
+            :tid => topic.id,
+            :topic_name => topic.title
+          }
         user.expertises << topic
       end
     end
@@ -121,6 +131,12 @@ class UsersController < ApplicationController
       topic = @current_graph.topics.find(params[:topic_id].to_i)
       if topic != nil && user!= nil then
         if user.expertises.include? topic then
+
+          mixpanel.track 'remove_topic_from_user', {
+              :uid => user.id,
+              :tid => topic.id,
+              :topic_name => topic.title
+            }
           user.expertises.delete(topic)
         end
       end
