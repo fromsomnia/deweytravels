@@ -1,6 +1,7 @@
 class UsersController < ApplicationController
-  before_action :authenticate, except: [:import_google_contacts]
-  before_action :set_user, only: [:show, :edit, :update, :destroy]
+  before_action :authenticate, except: [:import_google_contacts, :show, :most_connected]
+  before_action :authenticate_without_401, only: [:show, :most_connected]
+  before_action :set_user, only: [:edit, :update, :destroy]
 
   # GET /users
   # GET /users.json
@@ -63,7 +64,7 @@ class UsersController < ApplicationController
     @links = []
 
     if params[:user_id].present? then
-      user = @current_graph.users.find(params[:user_id].to_i)
+      user = User.find(params[:user_id].to_i)
       if user != nil then
         @nodes += user.expertises
         @nodes += user.friends.sample(20)
@@ -131,7 +132,10 @@ class UsersController < ApplicationController
   # GET /users/1
   # GET /users/1.json
   def show
-    @user = @current_graph.users.find(params[:id].to_i)
+    @user = User.find(params[:id].to_i)
+    if !@current_user then
+      @user.email = nil
+    end
     respond_to do |format|
       format.html { redirect_to user_url }
       format.json { render json: @user }

@@ -43,6 +43,14 @@
 				<div id="data-viz"></div>
 		</script>
 
+    <script type="text/ng-template" id="/facebookLoginButton">
+      <div>
+        <button ng-show="facebookLoginButton" ng-click="facebookLogin()" class="btn btn-default btn-lg col-xs-12">
+        	Signup with Facebook
+        </button>
+      </div>
+    </script>
+
 		<script type="text/ng-template" id="/login">
 			<div id="main-view">
 				<div id="top-bar"></div>
@@ -123,9 +131,11 @@
 					<div ng-include src="'/navigation'"></div>
 					<div ng-include src="'/userProfile'"></div>
 					<div ng-include src="'/topicsForUser'"></div>
-					<div class="action-link-container">
+					<div ng-show="isLoggedIn" class="action-link-container">
 						<a href="" class="action-link">view more</a>
 					</div>
+
+          <div ng-hide="isLoggedIn" ng-include src="'/callToSignupInUser'"></div>
 				</div>
 				<div id="data-viz">
 					<div ng-include src="'/graph'"></div>
@@ -138,26 +148,26 @@
 				<div id="information">
 					<div class="circular-image" style="background-image:url('{{ user.image_url }}')"></div>
 					<span class="name">{{ user.first_name }} {{ user.last_name }}</span>
-					<span class="description">{{ user.position }}</span>
-					<span class="email">{{ user.email }}</span>
-					<button ng-click="sendFacebookMessage()" class="btn btn-default btn-med">message via fb</button>
+					<span ng-show="isLoggedIn" class="description">{{ user.position }}</span>
+					<span ng-show="isLoggedIn" class="email">{{ user.email }}</span>
+					<button ng-show="isLoggedIn" ng-click="sendFacebookMessage()" class="btn btn-default btn-med">message via fb</button>
 				</div>
 			</div>
 		</script>
 
 		<script type="text/ng-template" id="/topicsForUser">
 			<div id="tags" class="col-xs-12">
-				<div ng-show="topicsForUser">
-	        <span ng-show="current_user_id == user.id">Places You've Been To:</span>
-	        <span ng-show="current_user_id != user.id">Places {{user.first_name}}'s Been To:</span>
+				<div ng-show="topicsForUser && isLoggedIn">
+	        <span ng-show="currentUserId == user.id">Places You've Been To:</span>
+	        <span ng-show="currentUserId != user.id">Places {{user.first_name}}'s Been To:</span>
 	        <span class="tag" ng-repeat="topic in topicsForUser">
 	          <a href="#/topics/{{ topic.id }}">{{ topic.title }}</a>
 	          <span ng-click="removeTopicFromUser($event, topic.id)" class="glyphicon glyphicon-remove"></span>
 	        </span>
 	      </div>
-				<div>
-	        <span ng-show="current_user_id == user.id">Have You Been To:</span>
-	        <span ng-show="current_user_id != user.id">Has {{user.first_name}} Been To:</span>
+				<div ng-show="isLoggedIn">
+	        <span ng-show="currentUserId == user.id">Have You Been To:</span>
+	        <span ng-show="currentUserId != user.id">Has {{user.first_name}} Been To:</span>
 	        <span class="tag" ng-repeat="topic in topicSuggestions">
 	          <a href="#/topics/{{ topic.id }}">{{ topic.title }}</a>
 	          <span ng-click="addTopicSuggestionToUser(topic, $topic)" class="glyphicon glyphicon-check"></span>
@@ -174,7 +184,7 @@
 				<div id="top-bar">
 					<div id="filters-container">
 						<div class="dropdown">
-							<button class="btn dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown">Stanford, CA</button>
+							<button ng-show="isLoggedIn" class="btn dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown">Stanford, CA</button>
 							  <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
 							    <li role="presentation"><a role="menuitem" tabindex="-1" href="">Stanford, CA</a></li>
 							    <li role="presentation"><a role="menuitem" tabindex="-1" href="">Berkeley, CA</a></li>
@@ -188,9 +198,12 @@
 				<div id="left-bar">
 					<div ng-include src="'/navigation'"></div>
 					<div ng-include src="'/topicProfile'"></div>
-					<div ng-include src="'/usersForTopic'"></div>
+
+					<div ng-show="isLoggedIn" ng-include src="'/usersForTopic'"></div>
 					<div ng-include src="'/topicsForTopic'"></div>
-					<div ng-include src="'/userSuggestionsForTopic'"></div>
+					<div ng-show="isLoggedIn" ng-include src="'/userSuggestionsForTopic'"></div>
+
+          <div ng-hide="isLoggedIn" ng-include src="'/callToSignupInTopic'"></div>
 				</div>
 				<div id="data-viz">
 					<div ng-include src="'/graph'"></div>
@@ -198,6 +211,31 @@
 			</div>
 		</script>
 
+    <script type="text/ng-template" id="/callToSignupInUser">
+      <div class="signup-call" ng-controller="BaseLoginController">
+        <div class="signup-call-header">
+          <h3><a href="#" ng-click="facebookLogin()">Signup with Facebook</a></h3>
+        </div>
+        <div class="signup-call-body">
+          {{ user.name }} has been to 30 places.
+          <b><a href="#" ng-click="facebookLogin()">
+          	Signup with Facebook to see where your friends have been.
+          </a></b>
+        </div>
+      </div>
+    </script>
+
+    <script type="text/ng-template" id="/callToSignupInTopic">
+      <div class="signup-call-header" ng-controller="BaseLoginController">
+        <h3><a href="#" ng-click="facebookLogin()">Signup with Facebook</a></h3>
+      </div>
+      <div class="signup-call-body">
+        30 people on Dewey have been to {{ topic.title }}. 
+        <b><a href="#" ng-click="facebookLogin()">
+        	Signup with Facebook to see where your friends have been.
+        </a></b>
+      </div>
+    </script>
 		<script type="text/ng-template" id="/topicProfile">
 			<div id="profile" class="col-xs-12">
 				<div id="information">
@@ -266,17 +304,16 @@
 
 		<script type="text/ng-template" id="/topicsForTopic">
 			<div id="list" class="col-xs-12 list-group">
-				<h4>RELATED TOPICS</h4>
+				<h4 ng-show="isLoggedIn">RELATED TOPICS</h4>
 				<div ng-repeat="topic in topicsForTopic | limitTo: 5" class="list-group-item">
-				  <a href="#/{{ topic.category }}/{{ topic.id }}">
-						<div class="circular-image" style="background-image:url('/assets/{{ topic.freebase_image_url }}')"></div>
+				  <a href="#/topics/{{ topic.id }}">
+						<div class="circular-image" style="background-image:url('{{ topic.image_url }}')"></div>
 				  	<div class="user-text-container">
-					    <h4 class="list-group-item-heading">{{ topic.title }}</h4>
-					    <p class="list-group-item-text">{{ topic.description }}</p>
+					    <h4 class="list-group-item-content">{{ topic.title }}</h4>
 				  	</div>
 				  </a>
 				</div>
-				<div class="action-link-container">
+				<div ng-show="isLoggedIn" class="action-link-container">
 					<a href="" class="action-link">view more</a>
 					<a href="" class="action-link">add related topic</a>
 				</div>

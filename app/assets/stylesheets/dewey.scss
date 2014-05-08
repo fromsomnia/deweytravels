@@ -143,6 +143,11 @@ html, body {
 			overflow: hidden;
 			text-overflow: ellipsis;
 		}
+
+    h4 {
+			text-align: left;
+    }
+
 		.list-group-item-heading, .list-group-item-text {
 			text-align: left;
 			color: $white;
@@ -292,4 +297,23 @@ html, body {
 			color: $blue;
 		}
 	}
+}
+
+.signup-call-header {
+  min-height: 16.428571429px;
+  padding: 15px;
+  border-bottom: 1px solid #e5e5e5;
+
+  a {
+    color: white;
+  }
+}
+
+.signup-call-body {
+  position: relative;
+  padding: 20px;
+
+  a {
+    color: white;
+  }
 }
