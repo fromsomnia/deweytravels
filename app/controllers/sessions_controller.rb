@@ -4,6 +4,14 @@ require 'pp'
 class SessionsController < ApplicationController
   before_action :authenticate, only: [:get_auth_token]
 
+  def mixpanel_id
+    if (Rails.env == "development")
+      render json: {:mixpanel_id => "1b59612a39ff701927e1df658130eb88" }, status: :ok
+    else
+      render json: {:mixpanel_id => "1dab72d89b67a9cdbea1cb8292f2d554" }, status: :ok
+    end
+  end
+
   def get_auth_token
     render json: {:uid => @current_user.id,
                   :auth_token => @current_user.auth_token}, status: :ok
