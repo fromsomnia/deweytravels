@@ -12,6 +12,12 @@ var Dewey = (function (Dewey) {
         $location.path('/search/' + $scope.queryData.query);
       }
     };
+    $scope.facebookLogout = function () {
+      FB.logout(function(response) {
+        // logs out of facebook, then logs out of Dewey
+        $location.path('/logout');
+      });
+    };
   }]);
 
   Dewey.DeweyApp.controller('GraphController', ['$scope', '$controller', 'DeweyFactory', function ($scope, $controller, DeweyFactory) {
