@@ -44,10 +44,6 @@ ActiveRecord::Schema.define(version: 20140505163325) do
 
   add_index "graphs", ["domain"], name: "index_graphs_on_domain", unique: true, using: :btree
 
-  create_table "networks", force: true do |t|
-    t.string "domain"
-  end
-
   create_table "topic_topic_connections", force: true do |t|
     t.integer "subtopic_id"
     t.integer "supertopic_id"

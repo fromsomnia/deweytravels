@@ -138,20 +138,16 @@ class TopicsController < ApplicationController
     @nodes = []
     @links = []
 
-    if !params[:id].present? then
-      if params[:user_id].present? && params[:topic_id].present? then
-        user = User.find(params[:user_id].to_i)
-        topic = Topic.find(params[:topic_id].to_i)
-        @nodes += (user.expertises & topic.subtopics)
-      end
-    else
-      if params[:topic_id].present? then
-        topic = Topic.find(params[:topic_id].to_i)
-        @nodes += topic.subtopics
-        @nodes += topic.supertopics
-        if @current_user then
-          @nodes += (topic.experts & (@current_user.friends | [@current_user]))
-        end
+    if params[:user_id].present? && params[:topic_id].present? then
+      user = User.find(params[:user_id].to_i)
+      topic = Topic.find(params[:topic_id].to_i)
+      @nodes += (user.expertises & topic.subtopics)
+    elsif params[:topic_id].present? then
+      topic = Topic.find(params[:topic_id].to_i)
+      @nodes += topic.subtopics
+      @nodes += topic.supertopics
+      if @current_user then
+        @nodes += (topic.experts & (@current_user.friends | [@current_user]))
       end
     end
     result = { :nodes => @nodes, :links => @links }
