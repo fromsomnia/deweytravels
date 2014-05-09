@@ -137,12 +137,23 @@ class TopicsController < ApplicationController
   def most_connected
     @nodes = []
     @links = []
-    if params[:topic_id].present? then
-      topic = Topic.find(params[:topic_id].to_i)
-      @nodes += topic.subtopics
-      @nodes += topic.supertopics
-      if @current_user then
-        @nodes += (topic.experts & (@current_user.friends | [@current_user]))
+    topics = []
+
+    if !params[:id].present? then
+      if params[:user_id].present? && params[:topic_id].present? then
+        user = User.find(params[:user_id].to_i)
+        topic = Topic.find(params[:topic_id].to_i)
+        topics += user.expertises
+        @nodes += (topics & topic.subtopics)
+      end
+    else
+      if params[:topic_id].present? then
+        topic = Topic.find(params[:topic_id].to_i)
+        @nodes += topic.subtopics
+        @nodes += topic.supertopics
+        if @current_user then
+          @nodes += (topic.experts & (@current_user.friends | [@current_user]))
+        end
       end
     end
     result = { :nodes => @nodes, :links => @links }
