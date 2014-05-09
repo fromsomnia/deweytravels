@@ -93,9 +93,22 @@ class User < ActiveRecord::Base
   end
 
 	def degree
-		curr_degree = 0
-		curr_degree = curr_degree + self.expertises.size
-		return curr_degree
+    degrees = [0, 0, 0, 0, 0]
+    self.topics.each do |topic|
+      index = topic.degree
+      degrees[index] = degrees[index] + 1
+    end
+    if degrees[1] > 1
+      return 0
+    elsif degrees[2] >1
+      return 1
+    elsif degrees[3] > 1
+      return 2
+    elsif degrees[4] >= 1
+      return 3
+    else
+      return 0
+    end
 	end
 
   def self.sort_by_degree(a, b)
