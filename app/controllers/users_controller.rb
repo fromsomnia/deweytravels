@@ -62,8 +62,13 @@ class UsersController < ApplicationController
     if params[:user_id].present? then
       user = User.find(params[:user_id].to_i)
       if user != nil then
-        @nodes += user.expertises.where("degree = ?", user.degree)
-        @nodes += user.friends.sample(max_users)
+        degree = user.degree
+        user.expertises.each do |expertise|
+          if expertise.degree == degree then
+            @nodes << expertise
+          end
+        end
+        @nodes += user.friends.sample(20)
       end
     end
 
