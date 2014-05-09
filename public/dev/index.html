@@ -37,6 +37,7 @@
 		}(document, 'script', 'facebook-jssdk'));</script>
 
 		<!-- required for facebook share button -->
+		<div id="fb-root"></div>
 		<script>(function(d, s, id) {
 		  var js, fjs = d.getElementsByTagName(s)[0];
 		  if (d.getElementById(id)) return;
@@ -143,8 +144,13 @@
 		</script>
 		<script type="text/ng-template" id="/navbarbuttons">
 		<button ng-click="facebookLogout()" class="btn btn-default"
-					style="height:20px;text-size:10px;float:right;line-height:5px;">log out</button>
-		<div class="fb-share-button" data-href="http://team-dewey-website.herokuapp.com/dev" data-type="button" style="float:right;margin-right:5px;"></div>
+				style="height:5%;text-size:10px;float:right;line-height:5px;z-index:2;position:relative;">
+			log out
+		</button>
+		<button ng-click="facebookShare()" class="btn btn-default"
+				style="height:5%;text-size:10px;float:right;line-height:5px;z-index:2;position:relative;">
+			share on fb
+		</button>
 		</script>
 		<script type="text/ng-template" id="/user">
 			<div id="main-view">

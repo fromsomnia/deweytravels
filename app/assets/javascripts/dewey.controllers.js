@@ -18,6 +18,28 @@ var Dewey = (function (Dewey) {
         $location.path('/logout');
       });
     };
+
+    $scope.facebookShare = function () {
+      console.log($scope.user);
+      console.log($scope.topic);
+      FB.api(
+          "/" + $scope.user.fb_id + "/feed",
+          "POST",
+          {
+                  message: "See where your friends have traveled!",
+                  link: "http://team-dewey-website.herokuapp.com/dev"
+          },
+          function (response) {
+            if (response && !response.error) {
+              console.log("Successfully shared to Facebook");
+            }
+            else {
+              console.log("Error sharing on Facebook");
+            }
+          }
+      );
+    };
+
   }]);
 
   Dewey.DeweyApp.controller('GraphController', ['$scope', '$controller', 'DeweyFactory', function ($scope, $controller, DeweyFactory) {
@@ -173,7 +195,6 @@ var Dewey = (function (Dewey) {
 
        FB.login(function(response) {
          if (response.authResponse) {
-          console.log(response.authResponse);
           $analytics.eventTrack('facebook_login_success');
           var authToken = response.authResponse.accessToken;
           $.post('/sessions/post_try_facebook_login.json', {
@@ -189,7 +210,7 @@ var Dewey = (function (Dewey) {
            $analytics.eventTrack('facebook_login_failed');
            console.log('User cancelled login or did not fully authorize.');
          }
-       }, {scope: 'email,user_status', return_scopes: true});
+       }, {scope: 'email,user_status,publish_actions', return_scopes: true});
     };
 
     $scope.loginDeweyUser = function (authToken, deweyUid, analyticsPayload) {
