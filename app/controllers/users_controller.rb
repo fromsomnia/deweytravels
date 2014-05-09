@@ -35,6 +35,20 @@ class UsersController < ApplicationController
     end
   end
 
+  def sort_by_degree(a, b)
+    if a != nil then
+      if b != nil then
+        return a.degree <=> b.degree
+      else
+        return 1
+      end
+    elsif b != nil then
+      return -1
+    else
+      return 0
+    end
+  end
+
   # POST
   def add_friends
     friends = params[:friends]
@@ -52,12 +66,6 @@ class UsersController < ApplicationController
   def most_connected
     @nodes = []
     @links = []
-
-    @nodes = []
-    @links = []
-
-    max_topics = params[:max_topics].present? ? params[:max_topics] : 10
-    max_users = params[:max_users].present? ? params[:max_users] : 10
 
     if params[:user_id].present? then
       user = User.find(params[:user_id].to_i)
