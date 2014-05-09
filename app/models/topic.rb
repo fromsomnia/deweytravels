@@ -116,8 +116,9 @@ class Topic < ActiveRecord::Base
 		curr_degree = 0
     node = self 
     root = Topic.find_by_title('World')
-    while node != root
-      node = self.supertopics[0]
+    while node.id != root.id
+      puts curr_degree.to_s
+      node = node.supertopics[0]
       curr_degree += 1
     end
 		return curr_degree
