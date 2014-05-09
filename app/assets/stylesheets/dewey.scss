@@ -244,9 +244,16 @@ html, body {
 
 /* graph template */
 
-.link {
-  stroke: #ffffff;
-  stroke-opacity: .6;
+.graph-container {
+	.link {
+	  stroke: #ffffff;
+	  stroke-opacity: .6;
+	}
+	text:hover {
+		pointer-events: all;
+		text-decoration: underline;
+		cursor: pointer;
+	}
 }
 
 /* action links */

@@ -164,6 +164,16 @@ var Dewey = (function (Dewey) {
           });
         });
 
+        $scope.expandNode = function () {
+          // add another cluster to visualization
+          console.log('expand node!');
+        };
+
+        $scope.viewAll = function () {
+          // show all nodes
+          console.log('view all');
+        };
+
         setNodePositions($scope.clusters, $scope.graphWidth, $scope.graphHeight);
         animateNodes(nodes.concat(otherNodes), $scope.graphWidth, $scope.graphHeight);
 
