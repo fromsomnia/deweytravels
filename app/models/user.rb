@@ -93,10 +93,37 @@ class User < ActiveRecord::Base
   end
 
 	def degree
-		curr_degree = 0
-		curr_degree = curr_degree + self.expertises.size
-		return curr_degree
+    degrees = [0, 0, 0, 0, 0]
+    self.expertises.each do |topic|
+      index = topic.degree
+      degrees[index] = degrees[index] + 1
+    end
+    if degrees[1] > 1
+      return 1
+    elsif degrees[2] >1
+      return 2
+    elsif degrees[3] > 1
+      return 3
+    elsif degrees[4] >= 1
+      return 4
+    else
+      return 0
+    end
 	end
+
+  def self.sort_by_degree(a, b)
+    if a != nil then
+      if b != nil then
+        return a.degree <=> b.degree
+      else
+        return 1
+      end
+    elsif b != nil then
+      return -1
+    else
+      return 0
+    end
+  end
 
   def self.suggestions(topic, current_user, previous_suggestions=[])
     @users = previous_suggestions

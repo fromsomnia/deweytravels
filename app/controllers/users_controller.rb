@@ -67,11 +67,22 @@ class UsersController < ApplicationController
     @nodes = []
     @links = []
 
+    @nodes = []
+    @links = []
+
+    max_topics = params[:max_topics].present? ? params[:max_topics] : 10
+    max_users = params[:max_users].present? ? params[:max_users] : 10
+
     if params[:user_id].present? then
       user = User.find(params[:user_id].to_i)
       if user != nil then
-        @nodes += user.expertises
-        @nodes += user.friends.sample(20)
+        degree = user.degree
+        user.expertises.each do |expertise|
+          if expertise.degree == degree then
+            @nodes << expertise
+          end
+        end
+        @nodes += user.friends.sample(max_users)
       end
     end
 
