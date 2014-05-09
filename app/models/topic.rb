@@ -114,9 +114,12 @@ class Topic < ActiveRecord::Base
 
 	def degree
 		curr_degree = 0
-		curr_degree = curr_degree + self.subtopics.size
-		curr_degree = curr_degree + self.supertopics.size
-		curr_degree = curr_degree + self.experts.size
+    node = self 
+    root = Topic.find_by_title('World')
+    while node != root
+      node = self.supertopics[0]
+      curr_degree += 1
+    end
 		return curr_degree
 	end
 
