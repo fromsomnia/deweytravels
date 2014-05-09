@@ -144,7 +144,7 @@ class TopicsController < ApplicationController
       @nodes += (user.expertises & topic.subtopics)
     elsif params[:topic_id].present? then
       topic = Topic.find(params[:topic_id].to_i)
-      @nodes += topic.subtopics
+      @nodes += topic.subtopics.take(5)
       @nodes += topic.supertopics
       if @current_user then
         @nodes += (topic.experts & (@current_user.friends | [@current_user]))
