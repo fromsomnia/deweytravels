@@ -94,7 +94,7 @@ class User < ActiveRecord::Base
 
 	def degree
     degrees = [0, 0, 0, 0, 0]
-    self.topics.each do |topic|
+    self.expertises.each do |topic|
       index = topic.degree
       degrees[index] = degrees[index] + 1
     end
