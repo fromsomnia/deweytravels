@@ -99,13 +99,13 @@ class User < ActiveRecord::Base
       degrees[index] = degrees[index] + 1
     end
     if degrees[1] > 1
-      return 0
-    elsif degrees[2] >1
       return 1
-    elsif degrees[3] > 1
+    elsif degrees[2] >1
       return 2
-    elsif degrees[4] >= 1
+    elsif degrees[3] > 1
       return 3
+    elsif degrees[4] >= 1
+      return 4
     else
       return 0
     end
