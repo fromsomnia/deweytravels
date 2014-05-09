@@ -138,8 +138,8 @@ class TopicsController < ApplicationController
     @nodes = []
     @links = []
 
-    max_topics = params[:max_topics].present? ? 10 : params[:max_topics]
-    max_users = params[:max_users].present? ? 10 : params[:max_users]
+    max_topics = params[:max_topics].present? ? params[:max_topics] : 10
+    max_users = params[:max_users].present? ? params[:max_users] : 10
 
 
     if params[:user_id].present? && params[:topic_id].present? then
