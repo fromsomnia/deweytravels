@@ -123,6 +123,20 @@ class Topic < ActiveRecord::Base
 		return curr_degree
 	end
 
+  def self.sort_by_degree(a, b)
+    if a != nil then
+      if b != nil then
+        return a.degree <=> b.degree
+      else
+        return 1
+      end
+    elsif b != nil then
+      return -1
+    else
+      return 0
+    end
+  end
+
 
   def set_image_from_freebase
     freebase_topics = Freeb.const_get(:API).search(:query => "#{self.title}")

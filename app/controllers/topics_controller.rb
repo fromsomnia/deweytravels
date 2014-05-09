@@ -132,20 +132,6 @@ class TopicsController < ApplicationController
     end
   end
 
-  def sort_by_degree(a, b)
-    if a != nil then
-      if b != nil then
-        return a.degree <=> b.degree
-      else
-        return 1
-      end
-    elsif b != nil then
-      return -1
-    else
-      return 0
-    end
-  end
-
   #max_topics is in params
   #currently returns most connected USERS & TOPICS
   def most_connected

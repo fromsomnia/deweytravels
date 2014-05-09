@@ -98,6 +98,20 @@ class User < ActiveRecord::Base
 		return curr_degree
 	end
 
+  def self.sort_by_degree(a, b)
+    if a != nil then
+      if b != nil then
+        return a.degree <=> b.degree
+      else
+        return 1
+      end
+    elsif b != nil then
+      return -1
+    else
+      return 0
+    end
+  end
+
   def self.suggestions(topic, current_user, previous_suggestions=[])
     @users = previous_suggestions
     @users += (current_user.friends - topic.experts - previous_suggestions).uniq.sample(5)
