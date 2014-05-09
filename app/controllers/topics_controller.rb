@@ -1,5 +1,6 @@
 class TopicsController < ApplicationController
-  before_action :authenticate
+  before_action :authenticate, except: [:show, :related, :most_connected]
+  before_action :authenticate_without_401, only: [:show, :related, :most_connected]
   before_action :set_topic, only: [:show, :edit, :update, :destroy]
 
 
@@ -24,7 +25,6 @@ class TopicsController < ApplicationController
   # GET /topics/1
   # GET /topics/1.json
   def show
-    @topic = @current_graph.topics.find(params[:id])
     respond_to do |format|
       format.html { redirect_to topic_url }
       format.json { render json: @topic }
@@ -46,13 +46,18 @@ class TopicsController < ApplicationController
     end
   end
 
-  #Adds user to given topic
-  #user_id as payload
+  # Adds user to given topic
+  # user_id as payload
   def add_user
     if params[:id].present? then
       current_topic = @current_graph.topics.find(params[:id])
       user = @current_graph.users.find(params[:user_id].to_i)
       if current_topic != nil && user != nil then
+        mixpanel.track 'add_user_to_topic', {
+          :uid => user.id,
+          :tid => current_topic.id,
+          :topic_name => current_topic.title
+        }
         current_topic.experts << user
       end
     end
@@ -66,6 +71,12 @@ class TopicsController < ApplicationController
       current_topic = @current_graph.topics.find(params[:id])
       user = @current_graph.users.find(params[:user_id].to_i)
       if current_topic != nil && user != nil then
+        mixpanel.track 'remove_user_from_topic', {
+          :uid => user.id,
+          :tid => current_topic.id,
+          :topic_name => current_topic.title
+        }
+
         current_topic.experts.delete(user)
       end
     end
@@ -75,13 +86,13 @@ class TopicsController < ApplicationController
   #returns related topics (same parents)
   def related
     @topics = []
-    if params[:id].present? then
-      topic = @current_graph.topics.find(params[:id].to_i)
-      if topic != nil then
+    if params[:topic_id].present? then
+      topic = Topic.find(params[:topic_id].to_i)
+      if topic then
         topic.supertopics.each do |supertopic|
           supertopic.subtopics.each do |tiq|
-            if !related.include?(tiq) then
-              related << tiq
+            if !@topics.include?(tiq) then
+              @topics << tiq
             end
           end
         end
@@ -121,30 +132,27 @@ class TopicsController < ApplicationController
     end
   end
 
-  def sort_by_degree(a, b)
-    if a != nil then
-      if b != nil then
-        return a.degree <=> b.degree
-      else
-        return 1
-      end
-    elsif b != nil then
-      return -1
-    else
-      return 0
-    end
-  end
-
   #max_topics is in params
   #currently returns most connected USERS & TOPICS
   def most_connected
     @nodes = []
     @links = []
-    if params[:topic_id].present? then
-      topic = @current_graph.topics.find(params[:topic_id].to_i)
-      @nodes += topic.subtopics
+
+    max_topics = params[:max_topics].present? ? params[:max_topics] : 10
+    max_users = params[:max_users].present? ? params[:max_users] : 10
+
+
+    if params[:user_id].present? && params[:topic_id].present? then
+      user = User.find(params[:user_id].to_i)
+      topic = Topic.find(params[:topic_id].to_i)
+      @nodes += (user.expertises & topic.subtopics)
+    elsif params[:topic_id].present? then
+      topic = Topic.find(params[:topic_id].to_i)
+      @nodes += topic.subtopics.take(max_topics - 1)
       @nodes += topic.supertopics
-      @nodes += (topic.experts & (@current_user.friends | [@current_user]))
+      if @current_user then
+        @nodes += (topic.experts & (@current_user.friends | [@current_user])).take(max_users)
+      end
     end
     result = { :nodes => @nodes, :links => @links }
 
@@ -166,6 +174,11 @@ class TopicsController < ApplicationController
       topic = @current_graph.topics.find(params[:id].to_i)
       subtopic = @current_graph.topics.find(params[:topic_id2].to_i)
       if topic != nil && subtopic != nil then
+        mixpanel.track 'add_subtopic', {
+          :supertopic_id => topic.id,
+          :subtopic_id => subtopic.id,
+          :supertopic_name => topic.title,
+          :subtopic_name => subtopic.title }
         topic.subtopics << subtopic
       end
     end
@@ -178,6 +191,11 @@ class TopicsController < ApplicationController
       topic = @current_graph.topics.find(params[:id].to_i)
       supertopic = @current_graph.topics.find(params[:topic_id2].to_i)
       if topic != nil && supertopic != nil then
+        mixpanel.track 'add_supertopic', {
+          :subtopic_id => topic.id,
+          :supertopic_id => supertopic.id,
+          :subtopic_name => topic.title,
+          :supertopic_name => supertopic.title }
         topic.supertopics << supertopic
       end
     end
@@ -191,6 +209,11 @@ class TopicsController < ApplicationController
       subtopic = @current_graph.topics.find(params[:topic_id2].to_i)
       if topic != nil && subtopic != nil then
         if topic.subtopics.include?(subtopic) then
+          mixpanel.track 'remove_subtopic', {
+            :supertopic_id => topic.id,
+            :subtopic_id => subtopic.id,
+            :supertopic_name => topic.title,
+            :subtopic_name => subtopic.title }
           topic.subtopics.delete(subtopic)
         end
       end
@@ -205,6 +228,12 @@ class TopicsController < ApplicationController
       to_remove = @current_graph.topics.find(params[:topic_id2].to_i)
       if current_topic != nil && to_remove != nil then
         if current_topic.supertopics.include?(to_remove) then
+
+          mixpanel.track 'remove_supertopic', {
+            :subtopic_id => current_topic.id,
+            :supertopic_id => to_remove.id,
+            :subtopic_name => current_topic.title,
+            :supertopic_name => to_remove.title }
           current_topic.supertopics.delete(to_remove)
         end
       end
@@ -225,6 +254,12 @@ class TopicsController < ApplicationController
         @topic.graph = super_topic.graph
         respond_to do |format|
           if @topic.save
+
+            mixpanel.track 'create_topic', {
+              :topic_id => @topic.id,
+              :topic_name => @topic.title,
+              :supertopic_id => @super_topic.id,
+              :supertopic_name => @super_topic.title }
             @topic.supertopics << super_topic
             format.html { redirect_to @topic, notice: 'Topic was successfully created.' }
             format.json { render json: @topic }
@@ -279,7 +314,7 @@ class TopicsController < ApplicationController
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_topic
-      @topic = @current_graph.topics.find(params[:id])
+      @topic = Topic.find(params[:id])
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.

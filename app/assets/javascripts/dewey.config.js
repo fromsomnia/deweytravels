@@ -70,8 +70,18 @@ var Dewey = (function (Dewey) {
 
   }]);
   Dewey.DeweyApp.run(['$rootScope', 'currentUser', function($rootScope, currentUser) {
+    $.get('/sessions/mixpanel_id.json', function (data) {
+      mixpanel.init(data.mixpanel_id);
+    });
+
     currentUser.get(function(data) {
-      $rootScope.current_user_id = data.uid;
+      if (data.uid) {
+        $rootScope.isLoggedIn = true; 
+        $rootScope.currentUserId = data.uid;
+      }
+      else {
+        $rootScope.isLoggedIn = false;  
+      }
     });
   }]);
 	return Dewey;

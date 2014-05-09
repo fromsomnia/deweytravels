@@ -1,6 +1,7 @@
 class UsersController < ApplicationController
-  before_action :authenticate, except: [:import_google_contacts]
-  before_action :set_user, only: [:show, :edit, :update, :destroy]
+  before_action :authenticate, except: [:import_google_contacts, :show, :most_connected]
+  before_action :authenticate_without_401, only: [:show, :most_connected]
+  before_action :set_user, only: [:edit, :update, :destroy]
 
   # GET /users
   # GET /users.json
@@ -52,6 +53,10 @@ class UsersController < ApplicationController
   def add_friends
     friends = params[:friends]
     @current_user.delay.add_facebook_friends(friends)
+    mixpanel.track 'add_facebook_friends', {
+          :uid => @current_user.id,
+          :num_friends => friends.length
+        }
 
     render json: {}, status: :ok
   end
@@ -62,11 +67,22 @@ class UsersController < ApplicationController
     @nodes = []
     @links = []
 
+    @nodes = []
+    @links = []
+
+    max_topics = params[:max_topics].present? ? params[:max_topics] : 10
+    max_users = params[:max_users].present? ? params[:max_users] : 10
+
     if params[:user_id].present? then
-      user = @current_graph.users.find(params[:user_id].to_i)
+      user = User.find(params[:user_id].to_i)
       if user != nil then
-        @nodes += user.expertises
-        @nodes += user.friends.sample(20)
+        degree = user.degree
+        user.expertises.each do |expertise|
+          if expertise.degree == degree then
+            @nodes << expertise
+          end
+        end
+        @nodes += user.friends.sample(max_users)
       end
     end
 
@@ -107,6 +123,12 @@ class UsersController < ApplicationController
       topic = @current_graph.topics.find(params[:topic_id].to_i)
       user = @current_graph.users.find(params[:id].to_i)
       if topic != nil && user != nil then
+
+        mixpanel.track 'add_topic_to_user', {
+            :uid => @current_user.id,
+            :tid => topic.id,
+            :topic_name => topic.title
+          }
         user.expertises << topic
       end
     end
@@ -121,6 +143,12 @@ class UsersController < ApplicationController
       topic = @current_graph.topics.find(params[:topic_id].to_i)
       if topic != nil && user!= nil then
         if user.expertises.include? topic then
+
+          mixpanel.track 'remove_topic_from_user', {
+              :uid => user.id,
+              :tid => topic.id,
+              :topic_name => topic.title
+            }
           user.expertises.delete(topic)
         end
       end
@@ -131,7 +159,10 @@ class UsersController < ApplicationController
   # GET /users/1
   # GET /users/1.json
   def show
-    @user = @current_graph.users.find(params[:id].to_i)
+    @user = User.find(params[:id].to_i)
+    if !@current_user then
+      @user.email = nil
+    end
     respond_to do |format|
       format.html { redirect_to user_url }
       format.json { render json: @user }
