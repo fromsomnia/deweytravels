@@ -70,8 +70,8 @@ class UsersController < ApplicationController
     @nodes = []
     @links = []
 
-    max_topics = params[:max_topics].present? ? params[:max_topics] : 10
-    max_users = params[:max_users].present? ? params[:max_users] : 10
+    max_topics = params[:max_topics].present? ? params[:max_topics].to_i : 10
+    max_users = params[:max_users].present? ? params[:max_users].to_i : 10
 
     if params[:user_id].present? then
       user = User.find(params[:user_id].to_i)

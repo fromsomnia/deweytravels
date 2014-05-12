@@ -14,6 +14,7 @@ TeamDeweyWebsite::Application.routes.draw do
   post "sessions/register"
   get "sessions/get_users"
   get "users/index"
+  get "topics/most_connected"
 
   post "users/add_friends"
   get "about/team"
