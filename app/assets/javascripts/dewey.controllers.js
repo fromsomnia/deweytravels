@@ -236,8 +236,8 @@ var Dewey = (function (Dewey) {
   }]);
 
   Dewey.DeweyApp.controller('BaseLoginController',
-                  ['$scope', '$analytics', '$injector', '$location', '$http', 'localStorageService', 'DeweyFactory',
-                  function ($scope, $analytics, $injector, $location, $http, localStorageService, DeweyFactory) {
+                  ['$scope', 'currentUser', '$rootScope', '$analytics', '$injector', '$location', '$http', 'localStorageService', 'DeweyFactory',
+                  function ($scope, currentUser, $rootScope, $analytics, $injector, $location, $http, localStorageService, DeweyFactory) {
     $scope.loginData = {};
     $scope.facebookLoginButton = true;
 
@@ -267,6 +267,18 @@ var Dewey = (function (Dewey) {
     $scope.loginDeweyUser = function (authToken, deweyUid, analyticsPayload) {
       localStorageService.add('dewey_auth_token', authToken);
       $analytics.eventTrack('login_user', analyticsPayload);
+
+      if (!$rootScope.isLoggedIn) {
+        currentUser.get(function(data) {
+          if (data.uid) {
+            $rootScope.isLoggedIn = true; 
+            $rootScope.currentUserId = data.uid;
+          }
+          else {
+            $rootScope.isLoggedIn = false;  
+          }
+        });
+      }
       $location.path('/users/' + deweyUid);
     };
 
