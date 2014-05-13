@@ -59,7 +59,7 @@ class TopicsController < ApplicationController
           :topic_name => current_topic.title
         }
         while current_topic
-          current_topic.experts << user
+          current_topic.experts.push(user) unless current_topic.experts.include?(user)
           current_topic = current_topic.supertopics.take(1)
         end
       end

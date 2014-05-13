@@ -127,7 +127,7 @@ class UsersController < ApplicationController
             :topic_name => topic.title
           }
         while topic
-          user.expertises << topic
+          user.expertises.push(topic) unless user.expertises.include?(topic)
           topic = topic.supertopics.take(1)
         end
       end
