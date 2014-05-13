@@ -65,10 +65,6 @@ class UsersController < ApplicationController
   # currently returns most connected USERS & TOPICS
   def most_connected
     @nodes = []
-    @links = []
-
-    @nodes = []
-    @links = []
 
     max_topics = params[:max_topics].present? ? params[:max_topics].to_i : 10
     max_users = params[:max_users].present? ? params[:max_users].to_i : 10
@@ -79,24 +75,25 @@ class UsersController < ApplicationController
         degree = user.degree
         user.expertises.each do |expertise|
           if expertise.degree == degree then
+            expertise = expertise.as_json
+            expertise['category'] = 'topic'
             @nodes << expertise
           end
         end
-        @nodes += user.friends.sample(max_users)
+        user.friends.sample(max_users).each do |friend|
+          friend = friends.as_json
+          friend['category'] = 'user'
+          @nodes << friend
+        end
       end
     end
-
-    (0..@nodes.length - 1).each do |n|
-      link = { :source => @nodes.length,
-               :target => n }
-      @links << link
-    end
-    
+    user = user.as_json
+    user['category'] = 'user'
     @nodes << user
 
-    @result = { :nodes => @nodes, :links => @links }
+    @result = { :nodes => @nodes }
+    
     respond_to do |format|
-      format.html { redirect_to @nodes }
       format.json { render json: @result }
     end
   end

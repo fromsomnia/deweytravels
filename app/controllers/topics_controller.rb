@@ -136,7 +136,7 @@ class TopicsController < ApplicationController
   #currently returns most connected USERS & TOPICS
   def most_connected
     @nodes = []
-    @links = []
+    @hash = []
 
     max_topics = params[:max_topics].present? ? params[:max_topics].to_i : 10
     max_users = params[:max_users].present? ? params[:max_users].to_i : 10
@@ -154,18 +154,20 @@ class TopicsController < ApplicationController
         @nodes += (topic.experts & (@current_user.friends | [@current_user])).take(max_users)
       end
     end
-    result = { :nodes => @nodes, :links => @links }
 
-    (0..@nodes.length - 1).each do |n|
-      link = { :source => @nodes.length,
-               :target => n }
-      @links << link
+    @nodes << topic
+    @result = { :nodes => @hash }
+
+    @nodes.each do |n|
+      category = n.class.name.eql?('User') ? 'user' : 'topic'
+      n = n.as_json
+      n['category'] = category
+      @hash << n
     end
     
-    @nodes << topic
     respond_to do |format|
       format.html { redirect_to @nodes }
-      format.json { render json: result }
+      format.json { render json: @result }
     end
   end
 
