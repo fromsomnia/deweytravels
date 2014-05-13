@@ -67,8 +67,9 @@ var Dewey = (function (Dewey) {
           cluster.primaryNode.targetX = center.x;
           cluster.primaryNode.targetY = center.y;
         } else {
-          cluster.primaryNode.targetX = center.x + (clusters[0].primaryNode.radius + clusters[0].outerNodes[0].radius) * 2.5;
-          cluster.primaryNode.targetY = center.y;
+          var radians = (360 / (clusters.length) * (i - 1)) * Math.PI / 180;
+          cluster.primaryNode.targetX = center.x + 300 * Math.cos(radians);
+          cluster.primaryNode.targetY = center.y + 300 * Math.sin(radians);
         }
         cluster.outerNodes.forEach(function (node, i) {
           degrees = 360 / (cluster.outerNodes.length) * i;
@@ -85,7 +86,7 @@ var Dewey = (function (Dewey) {
         var numberOfOuterNodes = (cluster.outerNodes.length > maxOuterNodes) ? maxOuterNodes : cluster.outerNodes.length,
           primaryNodeRadius;
         if (i === 0) {
-          primaryNodeRadius = 100;
+          primaryNodeRadius = 75;
         } else {
           primaryNodeRadius = 50;
         }
@@ -146,9 +147,7 @@ var Dewey = (function (Dewey) {
     function animateNodes (nodes, width, height) {
       var force = d3.layout.force()
           .gravity(0.05)
-          .charge(function (d, i) { 
-            return -250;
-          })
+          .charge(-100)
           .nodes(nodes)
           .size([width, height]);
       force.start();
@@ -161,13 +160,17 @@ var Dewey = (function (Dewey) {
     }
         
     $scope.expandNode = function (node) {
+      if (node.category !== 'topic') {
+        return;
+      }
       DeweyFactory.getGraphNodesForUserAndTopic($scope.user.id, node.id)
         .then(function() {
           var cluster = {
             primaryNode: DeweyFactory.expandedGraphNodes[DeweyFactory.expandedGraphNodes.length - 1],
             outerNodes: DeweyFactory.expandedGraphNodes.slice(0,DeweyFactory.expandedGraphNodes.length - 1)
           };
-          $scope.clusters.push(cluster);
+          // $scope.clusters.push(cluster);
+          $scope.clusters.unshift(cluster);
           $scope.allNodes = $scope.allNodes.concat(DeweyFactory.expandedGraphNodes);
           $scope.makeGraph();
         });
