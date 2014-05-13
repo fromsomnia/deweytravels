@@ -114,11 +114,29 @@ class Topic < ActiveRecord::Base
 
 	def degree
 		curr_degree = 0
-		curr_degree = curr_degree + self.subtopics.size
-		curr_degree = curr_degree + self.supertopics.size
-		curr_degree = curr_degree + self.experts.size
+    node = self 
+    root = Topic.find_by_title('World')
+    while node.id != root.id
+      puts curr_degree.to_s
+      node = node.supertopics[0]
+      curr_degree += 1
+    end
 		return curr_degree
 	end
+
+  def self.sort_by_degree(a, b)
+    if a != nil then
+      if b != nil then
+        return a.degree <=> b.degree
+      else
+        return 1
+      end
+    elsif b != nil then
+      return -1
+    else
+      return 0
+    end
+  end
 
 
   def set_image_from_freebase

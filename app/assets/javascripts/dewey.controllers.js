@@ -32,6 +32,7 @@ var Dewey = (function (Dewey) {
           function (response) {
             if (response && !response.error) {
               console.log("Successfully shared to Facebook");
+              alert("Thanks for sharing Dewey on Facebook!");
             }
             else {
               console.log("Error sharing on Facebook");

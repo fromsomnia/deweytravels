@@ -1,9 +1,18 @@
+<<<<<<< index.html
+<!doctype html>
+<html>
+	<head>
+
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<meta property="og:image" content="http://team-dewey-website.herokuapp.com/assets/logo.png" />
+=======
 <!DOCTYPE html>
 <html lang="en">
 	<head>
 
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<meta property="og:image" content="http://www.deweytravels.com/assets/logo.png" />
+>>>>>>> dev/index.html
 		<meta property="og:title" content="Dewey" />
 		<meta property="og:description" content="Explore where your friends have traveled!" />
 
@@ -36,6 +45,18 @@
 		  fjs.parentNode.insertBefore(js, fjs);
 		}(document, 'script', 'facebook-jssdk'));</script>
 
+<<<<<<< index.html
+		<!-- required for facebook share button -->
+		<script>(function(d, s, id) {
+		  var js, fjs = d.getElementsByTagName(s)[0];
+		  if (d.getElementById(id)) return;
+		  js = d.createElement(s); js.id = id;
+		  js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&appId=1387319571552620&version=v2.0";
+		  fjs.parentNode.insertBefore(js, fjs);
+		}(document, 'script', 'facebook-jssdk'));</script>
+
+=======
+>>>>>>> dev/index.html
 		<!-- container; updates with angular routes -->
 		<div data-ng-view></div>
 
@@ -133,12 +154,18 @@
 			</div>
 		</script>
 		<script type="text/ng-template" id="/navbarbuttons">
+<<<<<<< index.html
+		<button ng-click="facebookLogout()" class="btn btn-default"
+					style="height:20px;text-size:10px;float:right;line-height:5px;">log out</button>
+		<div class="fb-share-button" data-href="http://team-dewey-website.herokuapp.com/dev" data-type="button" style="float:right;margin-right:5px;"></div>
+=======
 		<button ng-click="facebookLogout()" class="btn btn-default btn-dewey">
 			log out
 		</button>
 		<button ng-click="facebookShare()" class="btn btn-default btn-dewey">
 			share on fb
 		</button>
+>>>>>>> dev/index.html
 		</script>
 		<script type="text/ng-template" id="/user">
 			<div id="main-view">
@@ -167,7 +194,11 @@
 					<span class="name">{{ user.first_name }} {{ user.last_name }}</span>
 					<span ng-show="isLoggedIn" class="description">{{ user.position }}</span>
 					<span ng-show="isLoggedIn" class="email">{{ user.email }}</span>
+<<<<<<< index.html
+					<button ng-show="isLoggedIn" ng-click="sendFacebookMessage()" class="btn btn-default btn-med">message via fb</button>
+=======
 					<button ng-show="isLoggedIn" ng-click="sendFacebookMessage()" class="btn btn-dewey">message via fb</button>
+>>>>>>> dev/index.html
 				</div>
 			</div>
 		</script>
@@ -182,6 +213,202 @@
 	          <span ng-click="removeTopicFromUser($event, topic.id)" class="glyphicon glyphicon-remove"></span>
 	        </span>
 	      </div>
+<<<<<<< index.html
+				<div ng-show="isLoggedIn">
+	        <span ng-show="currentUserId == user.id">Have You Been To:</span>
+	        <span ng-show="currentUserId != user.id">Has {{user.first_name}} Been To:</span>
+	        <span class="tag" ng-repeat="topic in topicSuggestions">
+	          <a href="#/topics/{{ topic.id }}">{{ topic.title }}</a>
+	          <span ng-click="addTopicSuggestionToUser(topic, $topic)" class="glyphicon glyphicon-check"></span>
+	        </span>
+          <span ng-click="shuffleTopicSuggestionsToUser()" class="tag">Shuffle Suggestions</span>
+
+	        <input id="typeahead" type="text"  ng-model="selectedTopic" placeholder="Add places" typeahead-on-select="addTopicToUser($item)" typeahead="topic as topic.title for topic in topicChoices | filter: $viewValue | limitTo: 8"/>
+				</div>
+			</div>
+		</script>
+
+		<script type="text/ng-template" id="/topic">
+			<div id="main-view">
+				<div id="top-bar"><div ng-include src="'/navbarbuttons'"></div>
+					<div id="filters-container">
+						<div class="dropdown">
+							<button ng-show="isLoggedIn" class="btn dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown">Stanford, CA</button>
+							  <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
+							    <li role="presentation"><a role="menuitem" tabindex="-1" href="">Stanford, CA</a></li>
+							    <li role="presentation"><a role="menuitem" tabindex="-1" href="">Berkeley, CA</a></li>
+							    <li role="presentation"><a role="menuitem" tabindex="-1" href="">San Francisco, CA</a></li>
+							    <li role="presentation"><a role="menuitem" tabindex="-1" href="">San Jose, CA</a></li>
+							  </ul>
+						  </button>
+						</div>
+					</div>
+				</div>
+				<div id="left-bar">
+					<div ng-include src="'/navigation'"></div>
+					<div ng-include src="'/topicProfile'"></div>
+
+					<div ng-show="isLoggedIn" ng-include src="'/usersForTopic'"></div>
+					<div ng-include src="'/topicsForTopic'"></div>
+					<div ng-show="isLoggedIn" ng-include src="'/userSuggestionsForTopic'"></div>
+
+          <div ng-hide="isLoggedIn" ng-include src="'/callToSignupInTopic'"></div>
+				</div>
+				<div id="data-viz">
+					<div ng-include src="'/graph'"></div>
+				</div>
+			</div>
+		</script>
+
+    <script type="text/ng-template" id="/callToSignupInUser">
+      <div class="signup-call" ng-controller="BaseLoginController">
+        <div class="signup-call-header">
+          <h3><a href="#" ng-click="facebookLogin()">Signup with Facebook</a></h3>
+        </div>
+        <div class="signup-call-body">
+          {{ user.name }} has been to 30 places.
+          <b><a href="#" ng-click="facebookLogin()">
+          	Signup with Facebook to see where your friends have been.
+          </a></b>
+        </div>
+      </div>
+    </script>
+
+    <script type="text/ng-template" id="/callToSignupInTopic">
+      <div class="signup-call-header" ng-controller="BaseLoginController">
+        <h3><a href="#" ng-click="facebookLogin()">Signup with Facebook</a></h3>
+      </div>
+      <div class="signup-call-body">
+        30 people on Dewey have been to {{ topic.title }}. 
+        <b><a href="#" ng-click="facebookLogin()">
+        	Signup with Facebook to see where your friends have been.
+        </a></b>
+      </div>
+    </script>
+		<script type="text/ng-template" id="/topicProfile">
+			<div id="profile" class="col-xs-12">
+				<div id="information">
+					<div class="circular-image" style="background-image:url('{{ topic.image_url }}')"></div>
+			  	<div class="text-container">
+				    <h4 class="">{{ topic.title }}</h4>
+			  	</div>
+					<span class="description">{{ topic.description }}</span>
+				</div>
+				<br>
+			</div>
+		</script>
+
+		<script type="text/ng-template" id="/usersForTopic">
+			<div id="list" class="col-xs-12 list-group">
+				<h4>USERS</h4>
+				<div ng-repeat="user in usersForTopic" class="list-group-item">
+				  <a href="#/users/{{ user.id }}">
+						<div class="circular-image" style="background-image:url('{{ user.image_url }}')"></div>
+				  	<div class="user-text-container">
+					    <h4 class="list-group-item-heading">{{ user.name }}</h4>
+				  	</div>
+				  </a>
+				  <div class="col-xs-2" style="position: absolute; right: 10px;top: 20px;">
+            <span ng-click="removeUserFromTopic($event, user.id)" class="glyphicon glyphicon-remove"></span>
+          </div>
+				</div>
+      </div>
+    </script>
+
+    <script type="text/ng-template" id="/userSuggestionsForTopic">
+			<div id="list" class="col-xs-12 list-group">
+        <h4>Have Your Friends Been to {{ topic.title }}?</h4>
+				<div ng-repeat="user in userSuggestions" class="list-group-item">
+				  <a href="#/users/{{ user.id }}">
+						<div class="circular-image" style="background-image:url('{{ user.image_url }}')"></div>
+				  	<div class="user-text-container">
+					    <h4 class="list-group-item-heading">{{ user.first_name }} {{ user.last_name }}</h4>
+				  	</div>
+				  </a>
+				  <div class="col-xs-2" style="position: absolute; right: 10px;top: 20px;">
+            <span ng-click="addUserSuggestionToTopic(user, $index)" class="glyphicon glyphicon-check"></span>
+          </div>
+        </div>
+        <div ng-if="shouldShowAddUserToTopic">
+          <div class="list-group-item">
+					  <div class="circular-image" style="background-image:url('/assets/plus.png')"></div>
+					  <div class="result-text-container">
+              <input id="typeahead" type="text" class=" form-control" ng-model="selectedUser" placeholder="Add user" typeahead-on-select="addUserToTopic($item)" typeahead="user as user.name for user in userChoices | filter: {name: $viewValue} | limitTo: 8" style="width:140px"/>
+					  </div>
+          </div>
+        </div>
+				<div class="list list-group">
+	        <h4>Add a Destination in  {{ topic.title }}?</h4>
+					<div class="list-group-item">
+						<div class="circular-image" style="background-image:url('/assets/plus.png')"></div>
+						<div class=" result-text-container">
+							<input id="new-topic" type="text" class="form-control" placeholder="Add a destination" ng-keyup="addSubtopicToTopic()" ng-model="newTopic.title" style="width:140px" />
+						</div>
+						</div>
+					</div>
+				</div>
+				<br>
+			</div>
+		</script>
+
+		<script type="text/ng-template" id="/topicsForTopic">
+			<div id="list" class="col-xs-12 list-group">
+				<h4 ng-show="isLoggedIn">RELATED TOPICS</h4>
+				<div ng-repeat="topic in topicsForTopic | limitTo: 5" class="list-group-item">
+				  <a href="#/topics/{{ topic.id }}">
+						<div class="circular-image" style="background-image:url('{{ topic.image_url }}')"></div>
+				  	<div class="user-text-container">
+					    <h4 class="list-group-item-content">{{ topic.title }}</h4>
+				  	</div>
+				  </a>
+				</div>
+				<div ng-show="isLoggedIn" class="action-link-container">
+					<a href="" class="action-link">view more</a>
+					<a href="" class="action-link">add related topic</a>
+				</div>
+        <br>
+			</div>
+		</script>
+
+		<!-- visualization template -->
+		<script type="text/ng-template" id="/graph">
+			<div ng-controller="GraphController">
+				<svg>
+					<g class="graph-container">
+						<g class="primary" ng-attr-transform="{{ 'translate(' + primaryNode.x + ',' + primaryNode.y + ')'}}">
+							<a xlink:href="{{ (primaryNode.first_name) ? '#/users/' + primaryNode.id : '#/topics/' + primaryNode.id }}">
+								<circle ng-attr-r="{{ primaryNode.radius }}" ng-attr-fill="{{ (primaryNode.category === 'user' ) ? '#1d9f7f' : '#25a0ca' }}" stroke="#ffffbf" stroke-width="10"></circle>
+							</a>
+							<text pointer-events="none" dy="0.35em" style="font-size:1.2em" text-anchor="middle">{{ (primaryNode.first_name) ? primaryNode.first_name + ' ' + primaryNode.last_name : primaryNode.title }}</text>
+						</g>
+						<g class="outer" ng-repeat="node in outerNodes" ng-attr-transform="{{ 'translate(' + node.x + ',' + node.y + ')' }}">
+							<a xlink:href="{{ (node.first_name) ? '#/users/' + node.id : '#/topics/' + node.id }}">
+								<circle ng-attr-r="{{ node.radius }}" ng-attr-fill="{{ (node.category === 'user' ) ? '#1d9f7f' : '#25a0ca' }}" ></circle>
+							</a>
+							<text pointer-events="none" dy="0.35em" style="font-size:1.2em" text-anchor="middle">{{ (node.first_name) ? node.first_name + ' ' + node.last_name : node.title }}</text>
+						</g>
+					</g>
+				</svg>
+			</div>
+		</script>
+
+		<script src="/assets/angular.js"></script>
+		<script src="/assets/angulartics.js"></script>
+		<script src="/assets/angulartics-mixpanel.js"></script>
+		<script src="/assets/angular-route.js"></script>
+
+    <script src="/assets/ui-bootstrap-tpls-0.10.0.min.js "></script>
+    <script src="/assets/angular-local-storage.js "></script>
+		<script src="/assets/underscore.js"></script>
+		<script src="/assets/d3.v3.min.js"></script>
+
+
+		<!-- Angular javascript -->
+		<script src="/assets/dewey.js"></script>
+		<script src="/assets/dewey.config.js"></script>
+		<script src="/assets/dewey.service.js"></script>
+		<script src="/assets/dewey.controllers.js"></script>
+=======
 	    </div>
 
 		<div id="headerwrap">
@@ -302,9 +529,11 @@
 			<p class="centered">Theme adapted from BlackTie.co - Attribution License 3.0 - 2013</p>
 		</div><!-- /container -->
 		
-	    <!-- Bootstrap core JavaScript -->
+	    <!-- Bootstrap core JavaScript
+	    ================================================== -->
 	    <!-- Placed at the end of the document so the pages load faster -->
 	    <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
 	    <script src="assets/bootstrap.min.js"></script>
+>>>>>>> dev/index.html
 	</body>
 </html>
