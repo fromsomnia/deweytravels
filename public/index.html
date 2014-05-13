@@ -351,18 +351,20 @@
 		<script type="text/ng-template" id="/graph">
 			<div ng-controller="GraphController">
 				<svg>
-					<g class="graph-container">
-						<g class="primary" ng-attr-transform="{{ 'translate(' + primaryNode.x + ',' + primaryNode.y + ')'}}">
-							<a xlink:href="{{ (primaryNode.first_name) ? '#/users/' + primaryNode.id : '#/topics/' + primaryNode.id }}">
-								<circle ng-attr-r="{{ primaryNode.radius }}" ng-attr-fill="{{ (primaryNode.category === 'user' ) ? '#1d9f7f' : '#25a0ca' }}" stroke="#ffffbf" stroke-width="10"></circle>
-							</a>
-							<text pointer-events="none" dy="0.35em" style="font-size:1.2em" text-anchor="middle">{{ (primaryNode.first_name) ? primaryNode.first_name + ' ' + primaryNode.last_name : primaryNode.title }}</text>
-						</g>
-						<g class="outer" ng-repeat="node in outerNodes" ng-attr-transform="{{ 'translate(' + node.x + ',' + node.y + ')' }}">
-							<a xlink:href="{{ (node.first_name) ? '#/users/' + node.id : '#/topics/' + node.id }}">
-								<circle ng-attr-r="{{ node.radius }}" ng-attr-fill="{{ (node.category === 'user' ) ? '#1d9f7f' : '#25a0ca' }}" ></circle>
-							</a>
-							<text pointer-events="none" dy="0.35em" style="font-size:1.2em" text-anchor="middle">{{ (node.first_name) ? node.first_name + ' ' + node.last_name : node.title }}</text>
+					<g class="graph-container" ng-repeat="cluster in clusters">
+						<g class="cluster">
+							<g class="primary" ng-attr-transform="{{ 'translate(' + cluster.primaryNode.x + ',' + cluster.primaryNode.y + ')'}}">
+								<circle ng-attr-r="{{ cluster.primaryNode.radius }}" ng-attr-fill="{{ (cluster.primaryNode.category === 'user' ) ? '#1d9f7f' : '#25a0ca' }}" stroke="#ffffbf" stroke-width="5" ng-click="focusOnCluster($index)" style="cursor:pointer"></circle>
+								<a xlink:href="{{ (cluster.primaryNode.first_name) ? '#/users/' + cluster.primaryNode.id : '#/topics/' + cluster.primaryNode.id }}">
+									<text dy="0.35em" style="font-size:1.2em" text-anchor="middle">{{ (cluster.primaryNode.first_name) ? cluster.primaryNode.first_name + ' ' + cluster.primaryNode.last_name : cluster.primaryNode.title }}</text>
+								</a>
+							</g>
+							<g class="outer" ng-repeat="node in cluster.outerNodes" ng-attr-transform="{{ 'translate(' + node.x + ',' + node.y + ')' }}">
+								<circle ng-attr-r="{{ node.radius }}" ng-attr-fill="{{ (node.category === 'user' ) ? '#1d9f7f' : '#25a0ca' }}" ng-click="expandNode(node)" style="cursor:pointer"></circle>
+								<a xlink:href="{{ (node.first_name) ? '#/users/' + node.id : '#/topics/' + node.id }}">
+									<text dy="0.35em" style="font-size:0.7em" text-anchor="middle">{{ (node.first_name) ? node.first_name + ' ' + node.last_name : node.title }}</text>
+								</a>
+							</g>
 						</g>
 					</g>
 				</svg>
@@ -385,5 +387,11 @@
 		<script src="/assets/dewey.config.js"></script>
 		<script src="/assets/dewey.service.js"></script>
 		<script src="/assets/dewey.controllers.js"></script>
+
+
+
+
+
+
 	</body>
 </html>

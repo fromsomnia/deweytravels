@@ -181,6 +181,16 @@ var Dewey = (function (Dewey) {
       return defer.promise;
     }
 
+    function getGraphNodesForUserAndTopic (userId, topicId) {
+      var defer = $q.defer();
+      $http.get('/topics' + '/' + topicId + '/most_connected.json?user_id=' + userId)
+        .success(function (response) {
+          factory.expandedGraphNodes = response.nodes;
+          defer.resolve();
+        });
+      return defer.promise;
+    }
+
     // return public factory methods
     var factory = {
       getAllTopics: getAllTopics,
@@ -193,7 +203,8 @@ var Dewey = (function (Dewey) {
       getGraphNodesAndLinks: getGraphNodesAndLinks,
       getTopicSuggestions: getTopicSuggestions,
       getUserSuggestions: getUserSuggestions,
-      getTopicsForTopic: getTopicsForTopic
+      getTopicsForTopic: getTopicsForTopic,
+      getGraphNodesForUserAndTopic: getGraphNodesForUserAndTopic
     };
     return factory;
 

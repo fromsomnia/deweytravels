@@ -49,11 +49,15 @@ var Dewey = (function (Dewey) {
       $scope: $scope
     });
 
+    $scope.clusters = [];
+    $scope.allNodes = [];
+
     function reloadGraph () {
       DeweyFactory.getGraphNodesAndLinks().then(function () {
         $scope.graphNodes = DeweyFactory.graphNodes;
         $scope.graphLinks = DeweyFactory.graphLinks;
 
+        initInitialGraph();
         $scope.makeGraph();
       });
     };
@@ -62,21 +66,65 @@ var Dewey = (function (Dewey) {
     });
     reloadGraph();
 
-    function setNodePositions (primaryNode, outerNodes, containerWidth, containerHeight) {
+    function initInitialGraph () {
+      setCategoriesForNodes($scope.graphNodes);
+      var maxOuterNodes = 14, 
+        numberOfOuterNodes = ($scope.graphNodes.length > maxOuterNodes) ? maxOuterNodes : $scope.graphNodes.length - 1;
+      $scope.allNodes = $scope.allNodes.concat($scope.graphNodes);
+      $scope.clusters[0] = {
+        primaryNode: $scope.graphNodes[$scope.graphNodes.length - 1],
+        outerNodes: $scope.graphNodes.slice(0, numberOfOuterNodes)
+      };
+    }
 
-      primaryNode.targetX = containerWidth / 2;
-      primaryNode.targetY = containerHeight / 2;
-
-      var hypotenuse = primaryNode.radius + outerNodes[0].radius,
-        degrees,
-        radians;
-      _.each(outerNodes, function (node, i) {
-        degrees = 360 / (outerNodes.length) * i;
-        radians = degrees * Math.PI / 180;
-        node.targetX = primaryNode.targetX + hypotenuse * Math.cos(radians);
-        node.targetY = primaryNode.targetY + hypotenuse * Math.sin(radians);
+    function setNodePositions (clusters, width, height) {
+      var center = {
+        x: width / 2,
+        y: height / 2
+      };
+      clusters.forEach(function (cluster, i) {
+        var hypotenuse = cluster.primaryNode.radius + ((cluster.outerNodes.length) ? cluster.outerNodes[0].radius : 0),
+          degrees,
+          radians;
+        if (i === 0) {
+          cluster.primaryNode.targetX = center.x;
+          cluster.primaryNode.targetY = center.y;
+        } else {
+          var radians = (360 / (clusters.length) * (i - 1)) * Math.PI / 180;
+          cluster.primaryNode.targetX = center.x + 250 * Math.cos(radians);
+          cluster.primaryNode.targetY = center.y + 250 * Math.sin(radians);
+        }
+        cluster.outerNodes.forEach(function (node, i) {
+          degrees = 360 / (cluster.outerNodes.length) * i;
+          radians = degrees * Math.PI / 180;
+          node.targetX = cluster.primaryNode.targetX + hypotenuse * Math.cos(radians);
+          node.targetY = cluster.primaryNode.targetY + hypotenuse * Math.sin(radians);
+        });
       });
+    }
 
+    function setNodeRadii (clusters) {
+      var maxOuterNodes = 14;
+      clusters.forEach(function (cluster, i) {
+        var numberOfOuterNodes = (cluster.outerNodes.length > maxOuterNodes) ? maxOuterNodes : cluster.outerNodes.length,
+          primaryNodeRadius;
+        if (i === 0) {
+          primaryNodeRadius = 65;
+        } else {
+          primaryNodeRadius = 50;
+        }
+        var outerNodeRadius = (function () {
+          var radius = primaryNodeRadius / (numberOfOuterNodes / Math.PI - 1);
+          if (radius > primaryNodeRadius || radius < 0) {
+            radius = primaryNodeRadius * 2 / 3;
+          }
+          return radius;
+        })();
+        cluster.primaryNode.radius = primaryNodeRadius;
+        cluster.outerNodes.forEach(function (node) {
+          node.radius = outerNodeRadius;
+        });
+      });
     }
 
     function orbit (node, step) {
@@ -84,92 +132,94 @@ var Dewey = (function (Dewey) {
       node.y += (node.targetY - node.y) / step;
     }
 
+    // reorders graph nodes so that the first node is the center node
+    function sortNodes (nodes) {
+      var index;
+      if ($scope.user) {
+        _.each(nodes, function (node, i) {
+          if (node.first_name === $scope.user.first_name
+            && node.last_name === $scope.user.last_name)
+          {
+            index = i;
+          }
+        });
+      } else if ($scope.topic) {
+        _.each(nodes, function (node, i) {
+          if (node.title === $scope.topic.title)
+          {
+            index = i;
+          }
+        });
+      }
+      var restOfNodes = (function () {
+        return nodes.slice(0, index).concat(nodes.slice(index + 1));
+      })();
+      return [nodes[index]].concat(restOfNodes);
+    }
+
+    function setCategoriesForNodes (nodes) {
+      nodes.forEach(function (node) {
+       if (node.title) {
+          node.category = 'topic';
+        } else if (node.first_name && node.last_name) {
+          node.category = 'user';
+        }
+      });
+    }
+
+    function animateNodes (nodes, width, height) {
+      var force = d3.layout.force()
+          .gravity(0.05)
+          .charge(-100)
+          .nodes(nodes)
+          .size([width, height]);
+      force.start();
+      force.on('tick', function (e) {
+        nodes.forEach(function (node) {
+          orbit(node, 100);
+        });
+        $scope.$apply();
+      });
+    }
+
+    $scope.focusOnCluster = function (clusterIndex) {
+      var extractedCluster = $scope.clusters.splice(clusterIndex, 1)[0];
+      $scope.clusters.unshift(extractedCluster);
+      $scope.makeGraph();
+    }
+        
+    $scope.expandNode = function (node) {
+      if (node.category !== 'topic') {
+        return;
+      }
+      DeweyFactory.getGraphNodesForUserAndTopic($scope.user.id, node.id)
+        .then(function() {
+          setCategoriesForNodes(DeweyFactory.expandedGraphNodes);
+          var cluster = {
+            primaryNode: DeweyFactory.expandedGraphNodes[DeweyFactory.expandedGraphNodes.length - 1],
+            outerNodes: DeweyFactory.expandedGraphNodes.slice(0,DeweyFactory.expandedGraphNodes.length - 1)
+          };
+          $scope.clusters.unshift(cluster);
+          $scope.allNodes = $scope.allNodes.concat(DeweyFactory.expandedGraphNodes);
+          $scope.makeGraph();
+        });
+    };
+
+    $scope.viewAll = function (clusterIndex) {
+      $scope.clusters[clusterIndex].outerNodes = $scope.clusters[clusterIndex].outerNodes.concat($scope.graphNodes.slice($scope.clusters[clusterIndex].outerNodes.length, $scope.graphNodes.length - 1));
+      $scope.makeGraph();
+    };
+
     $scope.makeGraph = function () {
-      if ($scope.graphNodes) {
+      if ($scope.clusters.length) {
 
         $scope.graphWidth = $('#data-viz svg').width();
         $scope.graphHeight = $('#data-viz svg').height();
 
-        // reorders graph nodes so that the first node is the center node
-        (function () {
-          var index;
-          if ($scope.user) {
-            _.each($scope.graphNodes, function (node, i) {
-              if (node.first_name === $scope.user.first_name
-                && node.last_name === $scope.user.last_name)
-              {
-                index = i;
-              }
-            });
-          } else if ($scope.topic) {
-            _.each($scope.graphNodes, function (node, i) {
-              if (node.title === $scope.topic.title)
-              {
-                index = i;
-              }
-            });
-          }
-          var restOfNodes = (function () {
-            return $scope.graphNodes.slice(0, index).concat($scope.graphNodes.slice(index + 1));
-          })();
-          $scope.graphNodes = [$scope.graphNodes[index]].concat(restOfNodes);
-        })();
+        setNodeRadii($scope.clusters);
+        setNodePositions($scope.clusters, $scope.graphWidth, $scope.graphHeight);
+        animateNodes($scope.allNodes, $scope.graphWidth, $scope.graphHeight);
 
-        // set categories for nodes
-        (function () {
-          _.each($scope.graphNodes, function (node) {
-            if (node.title) {
-              node.category = 'topic';
-            } else if (node.first_name && node.last_name) {
-              node.category = 'user';
-            }
-          });
-        })();
-
-        var primaryNode = $scope.graphNodes[0],
-          numberOfOuterNodes = ($scope.graphNodes.length > 14) ? 14 : $scope.graphNodes.length - 1,
-          outerNodes = $scope.graphNodes.slice(1, 1 + numberOfOuterNodes),
-          outerNodesPadding = 1,
-          primaryNodeRadius = 100,
-          outerNodeRadius = primaryNodeRadius / (numberOfOuterNodes / Math.PI - 1);
-
-        primaryNode.radius = primaryNodeRadius;
-
-        if (outerNodeRadius > primaryNodeRadius || outerNodeRadius < 0) {
-          outerNodeRadius = primaryNodeRadius * 2 / 3;
-        }
-
-        _.each(outerNodes, function (node) {
-          node.radius = outerNodeRadius;
-        });
-
-        setNodePositions(primaryNode, outerNodes, $scope.graphWidth, $scope.graphHeight);
-
-        (function () {
-          var nodes = $scope.graphNodes,
-            w = $scope.graphWidth,
-            h = $scope.graphHeight;
-          var force = d3.layout.force()
-              .gravity(0.05)
-              .charge(function (d, i) { 
-                return i ? 0 : -2000; 
-              })
-              .nodes(nodes)
-              .size([w, h]);
-          force.start();
-          force.on('tick', function (e) {         
-            var q = d3.geom.quadtree(nodes),
-                i = 0,
-                n = nodes.length;
-            while (++i < n) {
-              orbit(nodes[i], 100);
-            }
-            $scope.$apply();
-          });
-        })();
-
-        $scope.primaryNode = primaryNode;
-        $scope.outerNodes = outerNodes;
       }
     };
 
