@@ -311,7 +311,9 @@ class TopicsController < ApplicationController
       else
         @users = User.suggestions(topic, @current_user)
       end
-
+      # if !@current_user.expertises.exists?(topic.id) then
+      #   @users[0] = @current_user
+      # end
       render json: @users
     end
   end

@@ -98,10 +98,16 @@ class User < ActiveRecord::Base
 		return curr_degree
 	end
 
-  def self.suggestions(topic, current_user, previous_suggestions=[])
+  def self.suggestions(topic, current_user, previous_suggestions=[]) 
+    should_suggest_self = !current_user.expertises.exists?(topic.id)
+    num_new_users = should_suggest_self ? 4 : 5
     @users = previous_suggestions
-    @users += (current_user.friends - topic.experts - previous_suggestions).uniq.sample(5)
-    @users.sample(5)
+    @users += (current_user.friends - topic.experts - previous_suggestions - [current_user]).uniq.sample(num_new_users)
+    if should_suggest_self then
+      [current_user]+@users.sample(num_new_users)
+    else
+      @users.sample(num_new_users)
+    end
   end
 
   private
