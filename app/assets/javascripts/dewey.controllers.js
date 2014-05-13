@@ -252,7 +252,7 @@ var Dewey = (function (Dewey) {
             id: response.authResponse.userID
           }).done(function (response) {
             $scope.$apply(function () {
-              $scope.loginDeweyUser(response.auth_token, response.uid, { 'type': 'facebook' });
+              $scope.loginDeweyUser(response.auth_token, response.uid, { 'type': 'facebook', 'uid': response.uid });
             });
           }).fail(function(response) {
             $scope.signupFacebookUser(authToken);
@@ -293,7 +293,7 @@ var Dewey = (function (Dewey) {
           image_url: response.picture.data.url,
           locations: response.locations
         }).done(function (response) {
-          $analytics.eventTrack('signup_user', { 'fb_id': response.uid });
+          $analytics.eventTrack('signup_user', { 'uid': response.uid });
 
           localStorageService.add('dewey_auth_token', response.auth_token);
           FB.api('/me/friends', {fields: ['first_name', 'last_name', 'picture']}, function(fb_response) {
@@ -302,7 +302,7 @@ var Dewey = (function (Dewey) {
               method: "POST",
               data: { friends: fb_response.data }
             }).success(function(null_response) {
-              $scope.loginDeweyUser(response.auth_token, response.uid, { 'type': 'facebook' })
+              $scope.loginDeweyUser(response.auth_token, response.uid, { 'type': 'facebook', 'uid': response.uid })
             });
           });
         }).fail(function (response) {
@@ -324,7 +324,7 @@ var Dewey = (function (Dewey) {
         url: '/sessions/get_auth_token',
         method: "GET"
       }).success(function(data, status, headers, config) {
-        $scope.loginDeweyUser(token, data.uid, { 'type': 'auto_login' });
+        $scope.loginDeweyUser(token, data.uid, { 'type': 'auto_login', 'uid': response.uid });
       });
     }
   }]);
@@ -333,8 +333,8 @@ var Dewey = (function (Dewey) {
     localStorageService.remove('dewey_auth_token');
 
     $rootScope.isLoggedIn = false; 
-    $rootScope.currentUserId = nil;
-    $analytics.eventTrack('logout_user')
+    $analytics.eventTrack('logout_user', { 'uid': $rootScope.currentUserId })
+    $rootScope.currentUserId = null;
 
 
     $location.path('/');
