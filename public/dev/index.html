@@ -1,388 +1,200 @@
-<!doctype html>
-<html>
+<!DOCTYPE html>
+<html lang="en">
 	<head>
+	    <meta charset="utf-8">
+	    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+	    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+	    <meta name="description" content="">
+	    <meta name="author" content="">
+	    <link rel="shortcut icon" href="assets/favicon.png">
 
-		<meta name="viewport" content="width=device-width, initial-scale=1.0">
-		<meta property="og:image" content="http://team-dewey-website.herokuapp.com/assets/logo.png" />
-		<meta property="og:title" content="Dewey" />
-		<meta property="og:description" content="Explore where your friends have traveled!" />
+	    <title>Dewey: Map Employees' Expertise in Your Company</title>
 
-		<title>Dewey | Explore Where Your Friends Have Been </title>
+	    <!-- Bootstrap core CSS -->
+	    <link href="assets/bootstrap.css" rel="stylesheet">
 
-		<link rel="stylesheet" type="text/css" href="/assets/bootstrap.css"/>
-		<link rel="stylesheet" type="text/css" href="/assets/dewey.css"/>
+	    <!-- Custom styles for this template -->
+	    <link href="assets/main.css" rel="stylesheet">
 
-		<script src="/assets/jquery-1.11.0.js"></script>
-    <!-- start Mixpanel -->
+	    <!-- Fonts from Google Fonts -->
+		<link href='http://fonts.googleapis.com/css?family=Lato:300,400,900' rel='stylesheet' type='text/css'>
+	    
+	    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+	    <!--[if lt IE 9]>
+	      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+	      <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+	    <![endif]-->
+  	</head>
+	<style>
 
-    <script type="text/javascript">(function(e,b){if(!b.__SV){var a,f,i,g;window.mixpanel=b;b._i=[];b.init=function(a,e,d){function f(b,h){var a=h.split(".");2==a.length&&(b=b[a[0]],h=a[1]);b[h]=function(){b.push([h].concat(Array.prototype.slice.call(arguments,0)))}}var c=b;"undefined"!==typeof d?c=b[d]=[]:d="mixpanel";c.people=c.people||[];c.toString=function(b){var a="mixpanel";"mixpanel"!==d&&(a+="."+d);b||(a+=" (stub)");return a};c.people.toString=function(){return c.toString(1)+".people (stub)"};i="disable track track_pageview track_links track_forms register register_once alias unregister identify name_tag set_config people.set people.set_once people.increment people.append people.track_charge people.clear_charges people.delete_user".split(" ");
-    for(g=0;g<i.length;g++)f(c,i[g]);b._i.push([a,e,d])};b.__SV=1.2;a=e.createElement("script");a.type="text/javascript";a.async=!0;a.src=("https:"===e.location.protocol?"https:":"http:")+'//cdn.mxpnl.com/libs/mixpanel-2.2.min.js';f=e.getElementsByTagName("script")[0];f.parentNode.insertBefore(a,f)}})(document,window.mixpanel||[]);
+	.node_info {
+		background-color: #25a0ca;
+		width: 300px;
+		height: 400px;
+		position: absolute;
+		color: #ffffff;
+		text-align: center;
+		font-size: 30px;
+	}
 
-   </script>
+	.overlay {
+	  fill: none;
+	  pointer-events: all;
+	}
 
+	.node text {
+	  pointer-events: none;
+	  font: 10px sans-serif;
+	}
 
-    <!-- end Mixpanel -->
-	</head>
+	.link {
+	  stroke: #999;
+	  stroke-opacity: .6;
+	}
 
-	<body data-ng-app="DeweyApp">
-		<div id="fb-root"></div>
+	</style>
+ 	<body>
 
-		<!-- required for facebook login -->
-		<script>(function(d, s, id) {
-		  var js, fjs = d.getElementsByTagName(s)[0];
-		  if (d.getElementById(id)) return;
-		  js = d.createElement(s); js.id = id;
-		  js.src = "//connect.facebook.net/en_US/all.js#xfbml=1&appId=1387319571552620";
-		  fjs.parentNode.insertBefore(js, fjs);
-		}(document, 'script', 'facebook-jssdk'));</script>
-
-		<!-- required for facebook share button -->
-		<script>(function(d, s, id) {
-		  var js, fjs = d.getElementsByTagName(s)[0];
-		  if (d.getElementById(id)) return;
-		  js = d.createElement(s); js.id = id;
-		  js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&appId=1387319571552620&version=v2.0";
-		  fjs.parentNode.insertBefore(js, fjs);
-		}(document, 'script', 'facebook-jssdk'));</script>
-
-		<!-- container; updates with angular routes -->
-		<div data-ng-view></div>
-
-		<!-- logout template -->
-		<script type="text/ng-template" id="/logout">
-			<div id="main-view">
-				<div id="top-bar"></div>
-				<div id="left-bar">
-	  			<div class="col-xs-12"> 
-				    <div class="login col-xs-12">
-				    	<img id="logo" class="col-xs-12" src="/assets/logo_transparent.png">
-				    	<br>
-				    	<span class="mission col-xs-12">explore where your friends have been</span>
-				    	<br>
-				    </div>
+	    <!-- Fixed navbar -->
+	    <div class="navbar navbar-default navbar-fixed-top">
+	      <div class="container">
+	        <div class="navbar-header">
+	          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+	            <span class="icon-bar"></span>
+	            <span class="icon-bar"></span>
+	            <span class="icon-bar"></span>
+	          </button>
+	          <a class="navbar-brand" href="#"><b>DEWEY</b></a>
 	        </div>
-				</div>
-				<div id="data-viz"></div>
-		</script>
-
-    <script type="text/ng-template" id="/facebookLoginButton">
-      <div>
-        <button ng-show="facebookLoginButton" ng-click="facebookLogin()" class="btn btn-default btn-lg col-xs-12">
-        	Signup with Facebook
-        </button>
-      </div>
-    </script>
-
-		<script type="text/ng-template" id="/login">
-			<div id="main-view">
-				<div id="top-bar"></div>
-				<div id="left-bar">
-					<div id="login" class="col-xs-12">
-						<img id="logo" class="col-xs-12" src="/assets/logo_transparent.png">
-						<br>
-			    	<span class="mission col-xs-12">explore where your friends have been</span>
-            <button ng-show="facebookLoginButton" ng-click="facebookLogin()" class="btn btn-default btn-lg col-xs-12">
-            	login with facebook
-            </button>
-					</div>
-				</div>
-				<div id="data-viz"></div>
-				</div>
-			</div>
-		</script>
-
-		<script type="text/ng-template" id="/search">
-			<div id="main-view">
-				<div id="top-bar">
-					<div id="filters-container">
-						<div class="dropdown">
-							<button class="btn dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown">All</button>
-							  <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
-							    <li role="presentation"><a role="menuitem" tabindex="-1" href="">Topics</a></li>
-							    <li role="presentation"><a role="menuitem" tabindex="-1" href="">Users</a></li>
-							    <li role="presentation"><a role="menuitem" tabindex="-1" href="">All</a></li>
-							  </ul>
-						  </button>
-						</div>
-					</div>
-				</div>
-				<div id="left-bar">
-					<div id="search">
-						<div ng-include src="'/navigation'"></div>
-						<div ng-include src="'/searchResults'"></div>
-					</div>
-				</div>
-				<div id="data-viz"></div>
-			</div>
-		</script>
-
-		<script type="text/ng-template" id="/navigation">
-			<nav id="nav" class="col-xs-12">
-				<a href="#/search">
-					<img id="logo" src="/assets/logo.png">
-				</a>
-				<div id="search" class="input-group input-group-lg">
-				  <input type="text" class="form-control" placeholder="search" ng-keyup="search()" ng-model="queryData.query">
-				</div>
-			</nav>
-		</script>
-
-		<script type="text/ng-template" id="/searchResults">
-			<div id="list" class="col-xs-12 list-group">
-				<div ng-repeat="result in searchResults | limitTo: 8" class="list-group-item">
-				  <a href="#/{{ result.category }}/{{ result.id }}">
-						<div class="circular-image" style="background-image:url('{{ result.image_url }}')"></div>
-				  	<div class="result-text-container">
-					    <h4 class="list-group-item-heading">{{ result.name }}</h4>
-					    <p class="list-group-item-text">{{ result.description }}</p>
-				  	</div>
-				  </a>
-				</div>
-				<a href="" class="action-link">view all</a>
-			</div>
-		</script>
-		<script type="text/ng-template" id="/navbarbuttons">
-		<button ng-click="facebookLogout()" class="btn btn-default"
-					style="height:20px;text-size:10px;float:right;line-height:5px;">log out</button>
-		<div class="fb-share-button" data-href="http://team-dewey-website.herokuapp.com/dev" data-type="button" style="float:right;margin-right:5px;"></div>
-		</script>
-		<script type="text/ng-template" id="/user">
-			<div id="main-view">
-				<div id="top-bar"><div ng-include src="'/navbarbuttons'"></div>
-				</div>
-				<div id="left-bar">
-					<div ng-include src="'/navigation'"></div>
-					<div ng-include src="'/userProfile'"></div>
-					<div ng-include src="'/topicsForUser'"></div>
-					<div ng-show="isLoggedIn" class="action-link-container">
-						<a href="" class="action-link">view more</a>
-					</div>
-
-          <div ng-hide="isLoggedIn" ng-include src="'/callToSignupInUser'"></div>
-				</div>
-				<div id="data-viz">
-					<div ng-include src="'/graph'"></div>
-				</div>
-			</div>
-		</script>
-
-		<script type="text/ng-template" id="/userProfile">
-			<div id="profile" class="col-xs-12">
-				<div id="information">
-					<div class="circular-image" style="background-image:url('{{ user.image_url }}')"></div>
-					<span class="name">{{ user.first_name }} {{ user.last_name }}</span>
-					<span ng-show="isLoggedIn" class="description">{{ user.position }}</span>
-					<span ng-show="isLoggedIn" class="email">{{ user.email }}</span>
-					<button ng-show="isLoggedIn" ng-click="sendFacebookMessage()" class="btn btn-default btn-med">message via fb</button>
-				</div>
-			</div>
-		</script>
-
-		<script type="text/ng-template" id="/topicsForUser">
-			<div id="tags" class="col-xs-12">
-				<div ng-show="topicsForUser && isLoggedIn">
-	        <span ng-show="currentUserId == user.id">Places You've Been To:</span>
-	        <span ng-show="currentUserId != user.id">Places {{user.first_name}}'s Been To:</span>
-	        <span class="tag" ng-repeat="topic in topicsForUser">
-	          <a href="#/topics/{{ topic.id }}">{{ topic.title }}</a>
-	          <span ng-click="removeTopicFromUser($event, topic.id)" class="glyphicon glyphicon-remove"></span>
-	        </span>
+	        <div class="navbar-collapse collapse">
+	          <ul class="nav navbar-nav navbar-right">
+	          </ul>
+	        </div><!--/.nav-collapse -->
 	      </div>
-				<div ng-show="isLoggedIn">
-	        <span ng-show="currentUserId == user.id">Have You Been To:</span>
-	        <span ng-show="currentUserId != user.id">Has {{user.first_name}} Been To:</span>
-	        <span class="tag" ng-repeat="topic in topicSuggestions">
-	          <a href="#/topics/{{ topic.id }}">{{ topic.title }}</a>
-	          <span ng-click="addTopicSuggestionToUser(topic, $topic)" class="glyphicon glyphicon-check"></span>
-	        </span>
-          <span ng-click="shuffleTopicSuggestionsToUser()" class="tag">Shuffle Suggestions</span>
+	    </div>
 
-	        <input id="typeahead" type="text"  ng-model="selectedTopic" placeholder="Add places" typeahead-on-select="addTopicToUser($item)" typeahead="topic as topic.title for topic in topicChoices | filter: $viewValue | limitTo: 8"/>
+		<div id="headerwrap">
+			<div class="container">
+				<div class="row">
+					<div class="col-lg-6">
+	          <h1>Map Employees' Expertise in Your Company</h1>
+	          <form action="http://indonesiamengglobal.us6.list-manage.com/subscribe/post?u=29ca9ece445cdb2426c69f009&amp;id=319e4a3d61" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate form-inline" role="form" target="_blank" novalidate>
+	            <input type="email" value="" name="EMAIL" class="form-control email" id="mce-EMAIL" placeholder="Enter your email address" required>
+	            <button type="submit" value="Subscribe" name="subscribe" id="mc-embedded-subscribe" class="btn btn-warning btn-lg">Invite Me!</button>
+	          </form>
+
+					</div><!-- /col-lg-6 -->
+					<div class="col-lg-6">
+						<img class="img-responsive" src="assets/ipad-hand.png" alt="">
+					</div><!-- /col-lg-6 -->
+
+				</div><!-- /row -->
+			</div><!-- /container -->
+		</div><!-- /headerwrap -->
+
+
+		<div class="container">
+			<div class="row mt centered">
+				<div class="col-lg-6 col-lg-offset-3">
+					<h1>Dewey delightfully and effectively answers:</h1>
+	        <h3>"Who Knows What?" <br /></h3>
+	        <h3>"Who Should I Ask?" <br /></h3>
 				</div>
-			</div>
-		</script>
+			</div><!-- /row -->
 
-		<script type="text/ng-template" id="/topic">
-			<div id="main-view">
-				<div id="top-bar"><div ng-include src="'/navbarbuttons'"></div>
-					<div id="filters-container">
-						<div class="dropdown">
-							<button ng-show="isLoggedIn" class="btn dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown">Stanford, CA</button>
-							  <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
-							    <li role="presentation"><a role="menuitem" tabindex="-1" href="">Stanford, CA</a></li>
-							    <li role="presentation"><a role="menuitem" tabindex="-1" href="">Berkeley, CA</a></li>
-							    <li role="presentation"><a role="menuitem" tabindex="-1" href="">San Francisco, CA</a></li>
-							    <li role="presentation"><a role="menuitem" tabindex="-1" href="">San Jose, CA</a></li>
-							  </ul>
-						  </button>
-						</div>
-					</div>
+			<div class="row mt centered">
+				<div class="col-lg-4">
+					<h4>Interactive</h4>
+					<p>Your company's expertise graph is represented in a delightfully interactive and explorable graph.</p>
+				</div><!--/col-lg-4 -->
+
+				<div class="col-lg-4">
+					<h4>Intelligent</h4>
+					<p>Intelligently builds the expertise graph from your corporate tools, such as SocialCast and MediaWiki</p>
+
+				</div><!--/col-lg-4 -->
+
+				<div class="col-lg-4">
+					<h4>Simple</h4>
+					<p>Easily add, remove, edit, and view expertise graph in your company.</p>
+				</div><!--/col-lg-4 -->
+			</div><!-- /row -->
+		</div><!-- /container -->
+
+		<div class="container">
+			<hr>
+			<div class="row centered">
+				<div class="col-lg-6 col-lg-offset-3">
+	        <form action="http://indonesiamengglobal.us6.list-manage.com/subscribe/post?u=29ca9ece445cdb2426c69f009&amp;id=319e4a3d61" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate form-inline" role="form" target="_blank" novalidate>
+	          <input type="email" value="" name="EMAIL" class="form-control email" id="mce-EMAIL" placeholder="Enter your email address" required>
+	          <button type="submit" value="Subscribe" name="subscribe" id="mc-embedded-subscribe" class="btn btn-warning btn-lg">Invite Me!</button>
+	        </form>
 				</div>
-				<div id="left-bar">
-					<div ng-include src="'/navigation'"></div>
-					<div ng-include src="'/topicProfile'"></div>
+				<div class="col-lg-3"></div>
+			</div><!-- /row -->
+			<hr>
+		</div><!-- /container -->
 
-					<div ng-show="isLoggedIn" ng-include src="'/usersForTopic'"></div>
-					<div ng-include src="'/topicsForTopic'"></div>
-					<div ng-show="isLoggedIn" ng-include src="'/userSuggestionsForTopic'"></div>
 
-          <div ng-hide="isLoggedIn" ng-include src="'/callToSignupInTopic'"></div>
+		<div class="container">
+			<div class="row mt centered">
+				<div class="col-lg-6 col-lg-offset-3">
+					<h1>Our Team</h1>
 				</div>
-				<div id="data-viz">
-					<div ng-include src="'/graph'"></div>
+			</div><!-- /row -->
+
+			<div class="row mt centered">
+	      <div class="col-lg-1"></div>
+
+				<div class="col-lg-2">
+					<img class="img-circle" src="assets/Brett.png" width="140" height="140" alt="">
+					<h4>Brett Solow</h4>
+				</div><!--/col-lg-2 -->
+
+				<div class="col-lg-2">
+					<img class="img-circle" src="assets/John.png" width="140" height="140" alt="">
+					<h4>John Pulvera</h4>
+				</div><!--/col-lg-2 -->
+
+				<div class="col-lg-2">
+					<img class="img-circle" src="assets/Stephen.png" width="140" height="140" alt="">
+					<h4>Stephen Quinonez</h4>
+				</div><!--/col-lg-2 -->
+
+				<div class="col-lg-2">
+					<img class="img-circle" src="assets/Veni.png" width="140" height="140" alt="">
+					<h4>Veni Johanna</h4>
+				</div><!--/col-lg-2 -->
+
+				<div class="col-lg-2">
+					<img class="img-circle" src="assets/William.png" width="140" height="140" alt="">
+					<h4>William Chidyausiku</h4>
+				</div><!--/col-lg-2 -->
+
+
+			</div><!-- /row -->
+		</div><!-- /container -->
+
+		<div class="container">
+			<hr>
+			<div class="row centered">
+				<div class="col-lg-6 col-lg-offset-3">
+
+	        <form action="http://indonesiamengglobal.us6.list-manage.com/subscribe/post?u=29ca9ece445cdb2426c69f009&amp;id=319e4a3d61" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate form-inline" role="form" target="_blank" novalidate>
+	          <input type="email" value="" name="EMAIL" class="form-control email" id="mce-EMAIL" placeholder="Enter your email address" required>
+	          <button type="submit" value="Subscribe" name="subscribe" id="mc-embedded-subscribe" class="btn btn-warning btn-lg">Invite Me!</button>
+	        </form>
 				</div>
-			</div>
-		</script>
-
-    <script type="text/ng-template" id="/callToSignupInUser">
-      <div class="signup-call" ng-controller="BaseLoginController">
-        <div class="signup-call-header">
-          <h3><a href="#" ng-click="facebookLogin()">Signup with Facebook</a></h3>
-        </div>
-        <div class="signup-call-body">
-          {{ user.name }} has been to 30 places.
-          <b><a href="#" ng-click="facebookLogin()">
-          	Signup with Facebook to see where your friends have been.
-          </a></b>
-        </div>
-      </div>
-    </script>
-
-    <script type="text/ng-template" id="/callToSignupInTopic">
-      <div class="signup-call-header" ng-controller="BaseLoginController">
-        <h3><a href="#" ng-click="facebookLogin()">Signup with Facebook</a></h3>
-      </div>
-      <div class="signup-call-body">
-        30 people on Dewey have been to {{ topic.title }}. 
-        <b><a href="#" ng-click="facebookLogin()">
-        	Signup with Facebook to see where your friends have been.
-        </a></b>
-      </div>
-    </script>
-		<script type="text/ng-template" id="/topicProfile">
-			<div id="profile" class="col-xs-12">
-				<div id="information">
-					<div class="circular-image" style="background-image:url('{{ topic.image_url }}')"></div>
-			  	<div class="text-container">
-				    <h4 class="">{{ topic.title }}</h4>
-			  	</div>
-					<span class="description">{{ topic.description }}</span>
-				</div>
-				<br>
-			</div>
-		</script>
-
-		<script type="text/ng-template" id="/usersForTopic">
-			<div id="list" class="col-xs-12 list-group">
-				<h4>USERS</h4>
-				<div ng-repeat="user in usersForTopic" class="list-group-item">
-				  <a href="#/users/{{ user.id }}">
-						<div class="circular-image" style="background-image:url('{{ user.image_url }}')"></div>
-				  	<div class="user-text-container">
-					    <h4 class="list-group-item-heading">{{ user.name }}</h4>
-				  	</div>
-				  </a>
-				  <div class="col-xs-2" style="position: absolute; right: 10px;top: 20px;">
-            <span ng-click="removeUserFromTopic($event, user.id)" class="glyphicon glyphicon-remove"></span>
-          </div>
-				</div>
-      </div>
-    </script>
-
-    <script type="text/ng-template" id="/userSuggestionsForTopic">
-			<div id="list" class="col-xs-12 list-group">
-        <h4>Have Your Friends Been to {{ topic.title }}?</h4>
-				<div ng-repeat="user in userSuggestions" class="list-group-item">
-				  <a href="#/users/{{ user.id }}">
-						<div class="circular-image" style="background-image:url('{{ user.image_url }}')"></div>
-				  	<div class="user-text-container">
-					    <h4 class="list-group-item-heading">{{ user.first_name }} {{ user.last_name }}</h4>
-				  	</div>
-				  </a>
-				  <div class="col-xs-2" style="position: absolute; right: 10px;top: 20px;">
-            <span ng-click="addUserSuggestionToTopic(user, $index)" class="glyphicon glyphicon-check"></span>
-          </div>
-        </div>
-        <div ng-if="shouldShowAddUserToTopic">
-          <div class="list-group-item">
-					  <div class="circular-image" style="background-image:url('/assets/plus.png')"></div>
-					  <div class="result-text-container">
-              <input id="typeahead" type="text" class=" form-control" ng-model="selectedUser" placeholder="Add user" typeahead-on-select="addUserToTopic($item)" typeahead="user as user.name for user in userChoices | filter: {name: $viewValue} | limitTo: 8" style="width:140px"/>
-					  </div>
-          </div>
-        </div>
-				<div class="list list-group">
-	        <h4>Add a Destination in  {{ topic.title }}?</h4>
-					<div class="list-group-item">
-						<div class="circular-image" style="background-image:url('/assets/plus.png')"></div>
-						<div class=" result-text-container">
-							<input id="new-topic" type="text" class="form-control" placeholder="Add a destination" ng-keyup="addSubtopicToTopic()" ng-model="newTopic.title" style="width:140px" />
-						</div>
-						</div>
-					</div>
-				</div>
-				<br>
-			</div>
-		</script>
-
-		<script type="text/ng-template" id="/topicsForTopic">
-			<div id="list" class="col-xs-12 list-group">
-				<h4 ng-show="isLoggedIn">RELATED TOPICS</h4>
-				<div ng-repeat="topic in topicsForTopic | limitTo: 5" class="list-group-item">
-				  <a href="#/topics/{{ topic.id }}">
-						<div class="circular-image" style="background-image:url('{{ topic.image_url }}')"></div>
-				  	<div class="user-text-container">
-					    <h4 class="list-group-item-content">{{ topic.title }}</h4>
-				  	</div>
-				  </a>
-				</div>
-				<div ng-show="isLoggedIn" class="action-link-container">
-					<a href="" class="action-link">view more</a>
-					<a href="" class="action-link">add related topic</a>
-				</div>
-        <br>
-			</div>
-		</script>
-
-		<!-- visualization template -->
-		<script type="text/ng-template" id="/graph">
-			<div ng-controller="GraphController">
-				<svg>
-					<g class="graph-container" ng-repeat="cluster in clusters">
-						<g class="cluster">
-							<g class="primary" ng-attr-transform="{{ 'translate(' + cluster.primaryNode.x + ',' + cluster.primaryNode.y + ')'}}">
-								<circle ng-attr-r="{{ cluster.primaryNode.radius }}" ng-attr-fill="{{ (cluster.primaryNode.category === 'user' ) ? '#1d9f7f' : '#25a0ca' }}" stroke="#ffffbf" stroke-width="5" ng-click="focusOnCluster($index)" style="cursor:pointer"></circle>
-								<a xlink:href="{{ (cluster.primaryNode.first_name) ? '#/users/' + cluster.primaryNode.id : '#/topics/' + cluster.primaryNode.id }}">
-									<text dy="0.35em" style="font-size:1.2em" text-anchor="middle">{{ (cluster.primaryNode.first_name) ? cluster.primaryNode.first_name + ' ' + cluster.primaryNode.last_name : cluster.primaryNode.title }}</text>
-								</a>
-							</g>
-							<g class="outer" ng-repeat="node in cluster.outerNodes" ng-attr-transform="{{ 'translate(' + node.x + ',' + node.y + ')' }}">
-								<circle ng-attr-r="{{ node.radius }}" ng-attr-fill="{{ (node.category === 'user' ) ? '#1d9f7f' : '#25a0ca' }}" ng-click="expandNode(node)" style="cursor:pointer"></circle>
-								<a xlink:href="{{ (node.first_name) ? '#/users/' + node.id : '#/topics/' + node.id }}">
-									<text dy="0.35em" style="font-size:0.7em" text-anchor="middle">{{ (node.first_name) ? node.first_name + ' ' + node.last_name : node.title }}</text>
-								</a>
-							</g>
-						</g>
-					</g>
-				</svg>
-			</div>
-		</script>
-
-		<script src="/assets/angular.js"></script>
-		<script src="/assets/angulartics.js"></script>
-		<script src="/assets/angulartics-mixpanel.js"></script>
-		<script src="/assets/angular-route.js"></script>
-
-    <script src="/assets/ui-bootstrap-tpls-0.10.0.min.js "></script>
-    <script src="/assets/angular-local-storage.js "></script>
-		<script src="/assets/underscore.js"></script>
-		<script src="/assets/d3.v3.min.js"></script>
-
-
-		<!-- Angular javascript -->
-		<script src="/assets/dewey.js"></script>
-		<script src="/assets/dewey.config.js"></script>
-		<script src="/assets/dewey.service.js"></script>
-		<script src="/assets/dewey.controllers.js"></script>
+				<div class="col-lg-3"></div>
+			</div><!-- /row -->
+			<hr>
+			<p class="centered">Theme adapted from BlackTie.co - Attribution License 3.0 - 2013</p>
+		</div><!-- /container -->
+		
+	    <!-- Bootstrap core JavaScript
+	    ================================================== -->
+	    <!-- Placed at the end of the document so the pages load faster -->
+	    <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
+	    <script src="assets/bootstrap.min.js"></script>
 	</body>
 </html>
