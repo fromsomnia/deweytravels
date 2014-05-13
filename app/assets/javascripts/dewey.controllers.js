@@ -27,7 +27,7 @@ var Dewey = (function (Dewey) {
           "POST",
           {
                   message: "See where your friends have traveled!",
-                  link: "http://team-dewey-website.herokuapp.com/dev"
+                  link: "http://www.deweytravels.com"
           },
           function (response) {
             if (response && !response.error) {
@@ -300,7 +300,7 @@ var Dewey = (function (Dewey) {
       FB.ui({
         method: 'send',
         to: $scope.user.fb_id,
-        link: 'http://team-dewey-website.herokuapp.com/dev'
+        link: 'http://www.deweytravels.com'
       });
     };
 
