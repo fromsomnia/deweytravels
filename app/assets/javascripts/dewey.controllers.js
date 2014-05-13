@@ -68,8 +68,8 @@ var Dewey = (function (Dewey) {
           cluster.primaryNode.targetY = center.y;
         } else {
           var radians = (360 / (clusters.length) * (i - 1)) * Math.PI / 180;
-          cluster.primaryNode.targetX = center.x + 300 * Math.cos(radians);
-          cluster.primaryNode.targetY = center.y + 300 * Math.sin(radians);
+          cluster.primaryNode.targetX = center.x + 250 * Math.cos(radians);
+          cluster.primaryNode.targetY = center.y + 250 * Math.sin(radians);
         }
         cluster.outerNodes.forEach(function (node, i) {
           degrees = 360 / (cluster.outerNodes.length) * i;
@@ -86,7 +86,7 @@ var Dewey = (function (Dewey) {
         var numberOfOuterNodes = (cluster.outerNodes.length > maxOuterNodes) ? maxOuterNodes : cluster.outerNodes.length,
           primaryNodeRadius;
         if (i === 0) {
-          primaryNodeRadius = 75;
+          primaryNodeRadius = 65;
         } else {
           primaryNodeRadius = 50;
         }
@@ -158,6 +158,12 @@ var Dewey = (function (Dewey) {
         $scope.$apply();
       });
     }
+
+    $scope.focusOnCluster = function (clusterIndex) {
+      var extractedCluster = $scope.clusters.splice(clusterIndex, 1)[0];
+      $scope.clusters.unshift(extractedCluster);
+      $scope.makeGraph();
+    }
         
     $scope.expandNode = function (node) {
       if (node.category !== 'topic') {
@@ -165,11 +171,11 @@ var Dewey = (function (Dewey) {
       }
       DeweyFactory.getGraphNodesForUserAndTopic($scope.user.id, node.id)
         .then(function() {
+          setCategoriesForNodes(DeweyFactory.expandedGraphNodes);
           var cluster = {
             primaryNode: DeweyFactory.expandedGraphNodes[DeweyFactory.expandedGraphNodes.length - 1],
             outerNodes: DeweyFactory.expandedGraphNodes.slice(0,DeweyFactory.expandedGraphNodes.length - 1)
           };
-          // $scope.clusters.push(cluster);
           $scope.clusters.unshift(cluster);
           $scope.allNodes = $scope.allNodes.concat(DeweyFactory.expandedGraphNodes);
           $scope.makeGraph();

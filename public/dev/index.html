@@ -351,7 +351,7 @@
 					<g class="graph-container" ng-repeat="cluster in clusters">
 						<g class="cluster">
 							<g class="primary" ng-attr-transform="{{ 'translate(' + cluster.primaryNode.x + ',' + cluster.primaryNode.y + ')'}}">
-								<circle ng-attr-r="{{ cluster.primaryNode.radius }}" ng-attr-fill="{{ (cluster.primaryNode.category === 'user' ) ? '#1d9f7f' : '#25a0ca' }}" stroke="#ffffbf" stroke-width="10"></circle>
+								<circle ng-attr-r="{{ cluster.primaryNode.radius }}" ng-attr-fill="{{ (cluster.primaryNode.category === 'user' ) ? '#1d9f7f' : '#25a0ca' }}" stroke="#ffffbf" stroke-width="5" ng-click="focusOnCluster($index)" style="cursor:pointer"></circle>
 								<a xlink:href="{{ (cluster.primaryNode.first_name) ? '#/users/' + cluster.primaryNode.id : '#/topics/' + cluster.primaryNode.id }}">
 									<text dy="0.35em" style="font-size:1.2em" text-anchor="middle">{{ (cluster.primaryNode.first_name) ? cluster.primaryNode.first_name + ' ' + cluster.primaryNode.last_name : cluster.primaryNode.title }}</text>
 								</a>
