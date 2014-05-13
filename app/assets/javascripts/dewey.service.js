@@ -173,7 +173,6 @@ var Dewey = (function (Dewey) {
         type = (params.topicId) ? 'topics' : 'users',
         id = params.topicId || params.userId;
       $http.get('/' + type + '/' + id + '/most_connected.json')
-      // $http.get('/' + type + '/' + id + '/most_connected.json?max_users=20')
         .success(function (response) {
           factory.graphNodes = response.nodes;
           factory.graphLinks = response.links;
