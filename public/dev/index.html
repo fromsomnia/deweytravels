@@ -355,7 +355,7 @@
 								<a xlink:href="{{ (cluster.primaryNode.first_name) ? '#/users/' + cluster.primaryNode.id : '#/topics/' + cluster.primaryNode.id }}">
 									<text dy="0.35em" style="font-size:1.2em" text-anchor="middle">{{ (cluster.primaryNode.first_name) ? cluster.primaryNode.first_name + ' ' + cluster.primaryNode.last_name : cluster.primaryNode.title }}</text>
 								</a>
-								<text dy="1.5em" style="font-size:1.0em" text-anchor="middle" ng-click="viewAll()">view all</text>
+								<text dy="1.5em" style="font-size:1.0em" text-anchor="middle" ng-click="viewAll($index)">view all</text>
 							</g>
 							<g class="outer" ng-repeat="node in cluster.outerNodes" ng-attr-transform="{{ 'translate(' + node.x + ',' + node.y + ')' }}">
 								<circle ng-attr-r="{{ node.radius }}" ng-attr-fill="{{ (node.category === 'user' ) ? '#1d9f7f' : '#25a0ca' }}" ng-click="expandNode(node)" style="cursor:pointer"></circle>

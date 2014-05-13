@@ -182,9 +182,12 @@ var Dewey = (function (Dewey) {
         });
     };
 
-    $scope.viewAll = function () {
+    $scope.viewAll = function (clusterIndex) {
       // show all nodes
-      console.log('view all');
+      debugger;
+      $scope.clusters[clusterIndex].outerNodes = $scope.clusters[clusterIndex].outerNodes.concat($scope.graphNodes.slice($scope.clusters[clusterIndex].outerNodes.length, $scope.graphNodes.length - 1));
+      $scope.makeGraph();
+      // disable view all after
     };
 
     $scope.makeGraph = function () {
