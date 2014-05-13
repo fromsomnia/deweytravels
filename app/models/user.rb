@@ -82,7 +82,6 @@ class User < ActiveRecord::Base
     end
 
     new_user = User.new
-    new_user.is_registered = true
     new_user.fb_id = id
     new_user.first_name = first_name
     new_user.last_name = last_name

@@ -293,7 +293,7 @@ var Dewey = (function (Dewey) {
           image_url: response.picture.data.url,
           locations: response.locations
         }).done(function (response) {
-          $analytics.eventTrack('signup_user');
+          $analytics.eventTrack('signup_user', { 'fb_id': response.uid });
 
           localStorageService.add('dewey_auth_token', response.auth_token);
           FB.api('/me/friends', {fields: ['first_name', 'last_name', 'picture']}, function(fb_response) {
