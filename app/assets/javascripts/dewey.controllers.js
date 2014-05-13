@@ -329,10 +329,14 @@ var Dewey = (function (Dewey) {
     }
   }]);
 
-  Dewey.DeweyApp.controller('LogoutController', ['$scope', '$analytics', '$injector', '$location', 'localStorageService', 'DeweyFactory', function ($scope, $analytics, $injector, $location, localStorageService, DeweyFactory) {
+  Dewey.DeweyApp.controller('LogoutController', ['$scope', '$rootScope', '$analytics', '$injector', '$location', 'localStorageService', 'DeweyFactory', function ($scope, $rootScope, $analytics, $injector, $location, localStorageService, DeweyFactory) {
     localStorageService.remove('dewey_auth_token');
 
+    $rootScope.isLoggedIn = false; 
+    $rootScope.currentUserId = nil;
     $analytics.eventTrack('logout_user')
+
+
     $location.path('/');
   }]);
 
