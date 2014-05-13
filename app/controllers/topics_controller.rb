@@ -58,7 +58,10 @@ class TopicsController < ApplicationController
           :tid => current_topic.id,
           :topic_name => current_topic.title
         }
-        current_topic.experts << user
+        while current_topic
+          current_topic.experts << user
+          current_topic = current_topic.supertopics.take(1)
+        end
       end
     end
     render :nothing => true

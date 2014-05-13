@@ -126,7 +126,10 @@ class UsersController < ApplicationController
             :tid => topic.id,
             :topic_name => topic.title
           }
-        user.expertises << topic
+        while topic
+          user.expertises << topic
+          topic = topic.supertopics.take(1)
+        end
       end
     end
     render :nothing => true
