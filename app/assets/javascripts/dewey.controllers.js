@@ -324,7 +324,7 @@ var Dewey = (function (Dewey) {
         url: '/sessions/get_auth_token',
         method: "GET"
       }).success(function(data, status, headers, config) {
-        $scope.loginDeweyUser(token, data.uid, { 'type': 'auto_login', 'uid': response.uid });
+        $scope.loginDeweyUser(token, data.uid, { 'type': 'auto_login', 'uid': data.uid });
       });
     }
   }]);
