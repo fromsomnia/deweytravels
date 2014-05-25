@@ -258,8 +258,8 @@ class TopicsController < ApplicationController
             mixpanel.track 'create_topic', {
               :topic_id => @topic.id,
               :topic_name => @topic.title,
-              :supertopic_id => @super_topic.id,
-              :supertopic_name => @super_topic.title }
+              :supertopic_id => super_topic.id,
+              :supertopic_name => super_topic.title }
             @topic.supertopics << super_topic
             format.html { redirect_to @topic, notice: 'Topic was successfully created.' }
             format.json { render json: @topic }

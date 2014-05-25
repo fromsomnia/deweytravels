@@ -227,8 +227,8 @@
 
 					<div ng-show="isLoggedIn" ng-include src="'/usersForTopic'"></div>
 					<div ng-include src="'/topicsForTopic'"></div>
-					<div ng-show="isLoggedIn" ng-include src="'/userSuggestionsForTopic'"></div>
 
+					<div ng-include src="'/addDestinationInTopic'"></div>
           <div ng-hide="isLoggedIn" ng-include src="'/callToSignupInTopic'"></div>
 				</div>
 				<div id="data-viz">
@@ -314,19 +314,23 @@
 					  </div>
           </div>
         </div>
-				<div class="list list-group">
-	        <h4>Add a Destination in  {{ topic.title }}?</h4>
-					<div class="list-group-item">
-						<div class="circular-image" style="background-image:url('/assets/plus.png')"></div>
-						<div class=" result-text-container">
-							<input id="new-topic" type="text" class="form-control" placeholder="Add a destination" ng-keyup="addSubtopicToTopic()" ng-model="newTopic.title" style="width:140px" />
-						</div>
-						</div>
-					</div>
-				</div>
+
 				<br>
 			</div>
 		</script>
+
+    <script type="text/ng-template" id="/addDestinationInTopic">
+			<div id="list" class="col-xs-12 list-group">
+	      <h4>Add a Destination in  {{ topic.title }}?</h4>
+		  	<div class="list-group-item">
+		  		<div class="circular-image" style="background-image:url('/assets/plus.png')"></div>
+		  		<div class=" result-text-container">
+		  			<input id="new-topic" type="text" class="form-control" placeholder="Add a destination" ng-keyup="addSubtopicToTopic()" ng-model="newTopic.title" style="width:140px" />
+		  		</div>
+		  		</div>
+		  	</div>
+		  </div>
+    </script>
 
 		<script type="text/ng-template" id="/topicsForTopic">
 			<div id="list" class="col-xs-12 list-group">
@@ -338,10 +342,6 @@
 					    <h4 class="list-group-item-content">{{ topic.title }}</h4>
 				  	</div>
 				  </a>
-				</div>
-				<div ng-show="isLoggedIn" class="action-link-container">
-					<a href="" class="action-link">view more</a>
-					<a href="" class="action-link">add related topic</a>
 				</div>
         <br>
 			</div>
