@@ -14,6 +14,14 @@ class Topic < ActiveRecord::Base
 	has_many :second_topic_topic_connections, :class_name => "TopicTopicConnection", :foreign_key => "subtopic_id"
 	has_many :subtopics, :through => :topic_topic_connections, :source => :subtopic
 
+  def experts_which_friends_with(user, only_registered=false)
+    result = self.experts.joins(:friendships).where(:friendships => { :friend_id => user.id})
+    if only_registered
+      result.where(:is_registered => true).all
+    else
+      result.all
+    end
+  end
 
   def self.from_freebase_topic(freebase_topic)
     default_graph = Graph.find_by_domain('fixtures')

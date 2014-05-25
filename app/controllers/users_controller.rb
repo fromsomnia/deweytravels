@@ -10,7 +10,10 @@ class UsersController < ApplicationController
     if params[:topic_id].present? then
       topic = @current_graph.topics.find(params[:topic_id].to_i)
       if topic != nil then
-        @users = (topic.experts & (@current_user.friends | [@current_user]))
+        @users = topic.experts_which_friends_with(@current_user)
+        if topic.experts.include?(@current_user)
+          @users << @current_user
+        end
       end
     else
       @users = User.all
