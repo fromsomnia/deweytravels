@@ -44,6 +44,10 @@ class User < ActiveRecord::Base
   has_many :friends, :through => :friendships, :source => :friend
   has_many :friend_requesters, :through => :received_friendship_requests, :source => :user
 
+  def friends_on_site
+    self.friends.where(:is_registered => true).all
+  end
+
   def add_friend(friend)
     self.friends << friend
     friend.friends << self

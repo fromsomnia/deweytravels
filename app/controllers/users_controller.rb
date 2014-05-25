@@ -82,7 +82,7 @@ class UsersController < ApplicationController
             @nodes << expertise
           end
         end
-        @nodes += user.friends.sample(max_users)
+        @nodes += user.friends_on_site.sample(max_users)
       end
     end
 

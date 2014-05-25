@@ -151,7 +151,7 @@ class TopicsController < ApplicationController
       @nodes += topic.subtopics.take(max_topics - 1)
       @nodes += topic.supertopics
       if @current_user then
-        @nodes += (topic.experts & (@current_user.friends | [@current_user])).take(max_users)
+        @nodes += (topic.experts & (@current_user.friends_on_site | [@current_user])).take(max_users)
       end
     end
     result = { :nodes => @nodes, :links => @links }
