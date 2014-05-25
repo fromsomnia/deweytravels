@@ -53,7 +53,7 @@ class Topic < ActiveRecord::Base
 
     continent_topics.each do |continent_topic|
       filter_str = "(all type:country (any part_of:" + continent_topic.freebase_id + "))"
-      countries = Freeb.const_get(:API).search(:filter => filter_str, :limit => 25)
+      countries = Freeb.const_get(:API).search(:filter => filter_str, :limit => 50)
       sleep 1
       countries.each do |country|
         country_topic = Topic.from_freebase_topic(country)
