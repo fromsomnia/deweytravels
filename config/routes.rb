@@ -1,4 +1,5 @@
 TeamDeweyWebsite::Application.routes.draw do
+  mount RailsEmailPreview::Engine, at: 'emails'
   resources :friendships do
     get "friends"
   end

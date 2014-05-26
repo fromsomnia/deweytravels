@@ -67,6 +67,69 @@ html, body {
 	background-color: $white;
 }
 
+/* email template */
+#email {
+  .header {
+    background-color: $blue;
+    #logo {
+      margin-top: 5px;
+    }
+  }
+  .content {
+    margin-top: 10px;
+    color: $blue;
+    .steps, p, li {
+      color: $blue;
+    }
+    
+    div {
+      margin-top: 30px;
+    }
+    ol {
+      counter-reset: li; /* Initiate a counter */
+      list-style: none; /* Remove default numbering */
+      padding: 0;
+      font-size: 15px;
+      text-shadow: 0 1px 0 rgba(255,255,255,.5);
+      li {
+        margin-left: 20px;
+        margin-top: 10px;
+      }
+    }
+    .rounded-list a{
+      position: relative;
+      padding-left: 20px;
+      font-weight: bold;
+      margin: .5em 0;
+      text-decoration: none;
+      border-radius: .3em;
+      transition: all .3s ease-out;   
+    }
+    
+    .rounded-list a:hover:before{
+      transform: rotate(360deg);  
+    }
+    
+    .rounded-list a:before{
+      content: counter(li);
+      counter-increment: li;
+      position: absolute; 
+      left: -1.3em;
+      top: 50%;
+      margin-top: -1.3em;
+      background: #87ceeb;
+      height: 2em;
+      width: 2em;
+      line-height: 2em;
+      border: .3em solid #fff;
+      text-align: center;
+      font-weight: bold;
+      border-radius: 2em;
+      transition: all .3s ease-out;
+    }    
+  }
+}
+
 /* login template */
 
 #login {

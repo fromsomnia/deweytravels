@@ -2,24 +2,39 @@
 <html>
   <head>
     <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
+    <link rel="stylesheet" type="text/css" href="/assets/bootstrap.css"/>
+    <link rel="stylesheet" type="text/css" href="/assets/dewey.css"/>
   </head>
   <body>
-    <h1>Welcome to Dewey, <%= @user.first_name %>!</h1>
-    <p>
-      In Dewey, you can collaboratively build a knowledge base about experts in your companies.
-    </p>
+    <div class="container" id="email">
+      <div class="header row">
+        <div class="row">
+          <div class="col-xs-4"></div>
+          <img id="logo" class="col-xs-4" src="/assets/logo_transparent.png">
+          <div class="col-xs-4"></div>
+        </div>
+        <div class="row text-center">
+          <span class="mission col-xs-12">explore where your friends have been</span>
+        </div>
+      </div>
+      <div class="content">
+        <h1>Welcome to Dewey, <%= @user.first_name %>!</h1>
 
-    <p>
-      Three Steps to Get Started:
-    </p>
-    <p>
-      <ol>
-        <li><a href="<%= @login_url %>">Login</a> and explore your company's data.</li>
-        <li>Invite your friends</li>
-        <li>What do you know? Complete your profile</li>
-      </ol>
-    </p>
+        <div class="steps">
+          Three Steps to Get Started:
 
-    <p>Thanks for joining and have a great day!</p>
+          <ol class="rounded-list">
+            <li><a href="<%= @login_url %>">Login and explore where your friends have been.</a></li>
+            <li><a href="<%= @login_url %>">Where have your been? Complete your profile</a></li>
+            <li><a href="#">Tell your friends! The more friends you have on Dewey, the more fun it is!</a></li>
+          </ol>
+        </div>
+        
+        <div>
+          <p>Thanks for joining and have a great day!</p>
+          <p>Dewey Team</p>
+        </div>
+      </div>
+    </div>
   </body>
 </html>
