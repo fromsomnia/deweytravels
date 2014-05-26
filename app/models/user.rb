@@ -12,6 +12,10 @@ class User < ActiveRecord::Base
   def name
     return first_name + ' ' + last_name
   end
+  
+  def production_url
+    'http://www.deweytravels.com/#/users/' + self.id.to_s
+  end
 
   def attributes
     super.merge('name' => self.name)

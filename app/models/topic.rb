@@ -5,6 +5,10 @@ class Topic < ActiveRecord::Base
   after_create :set_image
   belongs_to :graph
 
+  def production_url
+    'http://www.deweytravels.com/#/topics/' + self.id.to_s
+  end
+
 	has_many :topic_user_connections, :foreign_key => "expertise_id"
 	has_many :experts, -> { uniq }, :through => :topic_user_connections, :source => :expert
 

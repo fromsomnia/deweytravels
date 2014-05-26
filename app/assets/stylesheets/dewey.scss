@@ -82,8 +82,9 @@ html, body {
       color: $blue;
     }
     
-    div {
+    div.section {
       margin-top: 30px;
+      color: $dark-blue;
     }
     ol {
       counter-reset: li; /* Initiate a counter */
@@ -127,6 +128,19 @@ html, body {
       border-radius: 2em;
       transition: all .3s ease-out;
     }    
+
+    #list {
+      .list-group-item {
+        background-color: transparent;
+        .list-group-item-heading {
+          color: $blue;
+        }
+
+        .list-group-item-text {
+          color: $blue;
+        }
+      }
+    }
   }
 }
 

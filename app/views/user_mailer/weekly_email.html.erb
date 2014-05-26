@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
+    <link rel="stylesheet" type="text/css" href="/assets/bootstrap.css"/>
+    <link rel="stylesheet" type="text/css" href="/assets/dewey.css"/>
+  </head>
+  <body>
+    <div class="container" id="email">
+      <div class="header row">
+        <div class="row">
+          <div class="col-xs-4"></div>
+          <img id="logo" class="col-xs-4" src="/assets/logo_transparent.png">
+          <div class="col-xs-4"></div>
+        </div>
+        <div class="row text-center">
+          <span class="mission col-xs-12">explore where your friends have been</span>
+        </div>
+      </div>
+      <div class="content">
+        <div class="section friends">
+          <h1>Friends on Dewey</h1>
+          <div id="list" class="list-group">
+            <% @friends.each do |friend| %>
+              <div class="list-group-item">
+                <div class="circular-image" style="background-image:url('<%=  friend.image_url %>')"></div>
+                <div class="result-text-container">
+                  <h4 class="list-group-item-heading"><%= friend.name %></h4>
+                  <p class="list-group-item-text">
+                    <a href="<%= friend.production_url %>">See where <%= friend.first_name %> has been.</a>
+                  </p>
+                </div>
+              </div>
+            <% end %>
+          </div>
+        </div>
+
+
+        <div class="section self">
+          <h1>Have You Been to These Places?</h1>
+          <div id="list" class="list-group">
+            <% @suggestions.each do |topic| %>
+              <div class="list-group-item">
+                <div class="circular-image" style="background-image:url('<%= topic.image_url %>')"></div>
+                <div class="result-text-container">
+                  <h4 class="list-group-item-heading">
+                    <a href="<%= topic.production_url %>"><%= topic.title %></a>
+                  </h4>
+                  <p class="list-group-item-text"><a href="<%= @user_url %>">Add to Your Profile</a></p>
+                </div>
+              </div>
+            <% end %>
+          </div>
+        </div>
+
+
+      </div>
+    </div>
+  </body>
+</html>

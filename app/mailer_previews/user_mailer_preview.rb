@@ -3,6 +3,11 @@ class UserMailerPreview
     UserMailer.welcome_email mock_user
   end
 
+  def weekly_email
+    @friends = User.all.sample(5)
+    UserMailer.weekly_email(User.find_by_email('angelina.veni@gmail.com'), @friends)
+  end
+
   private
 
     def mock_user
