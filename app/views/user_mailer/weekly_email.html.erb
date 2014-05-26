@@ -2,19 +2,62 @@
 <html>
   <head>
     <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
-    <link rel="stylesheet" type="text/css" href="/assets/bootstrap.css"/>
-    <link rel="stylesheet" type="text/css" href="/assets/dewey.css"/>
+    <style>
+      h1 {
+        color:  #1d7e9f;
+      }
+      .circular-image {
+        border-radius: 50%;
+        background-repeat: no-repeat;
+        background-position: center;
+        background-size: cover;
+        height: 42px;
+        width: 42px;
+        float: left;
+        margin-right: 10px;
+      }
+      .list-group-item {
+        color: #25a0ca;
+        position: relative;
+        display: block;
+        padding: 5px 5px;
+        margin-bottom: -1px;
+        background-color: transparent;
+      }
+      .list-group-item-heading a {
+        color: #25a0ca;
+        margin-top: 0;
+        margin-bottom: 5px;
+      }
+
+      .list-group-item-text  a {
+        color: #25a0ca;
+      }
+      #list a {
+        text-decoration: none;
+      }
+      .friends {
+        float: left;
+        width: 50%;
+        display:inline;
+      }
+      .self {
+        float: right;
+        width:50%;
+        display:inline;
+      }
+    </style>
   </head>
   <body>
-    <div class="container" id="email">
-      <div class="header row">
-        <div class="row">
-          <div class="col-xs-4"></div>
-          <img id="logo" class="col-xs-4" src="/assets/logo_transparent.png">
-          <div class="col-xs-4"></div>
+    <div class="container" id="email" style="font-family: 'Trebuchet MS', Helvetica, sans-serif;">
+      <div class="header row" style="background-color: #25a0ca;">
+        <div class="row" style="display: table; margin-left: auto; margin-right:auto;">
+          <img id="logo" style="width:33.3%; display: block; margin-left: auto; margin-right: auto;" src="http://www.deweytravels.com/assets/logo_transparent.png" style="align: center;">
         </div>
-        <div class="row text-center">
-          <span class="mission col-xs-12">explore where your friends have been</span>
+        <div class="row text-center" style="display: table; margin-left:auto; margin-right:auto;">
+          <span class="mission col-xs-12" style="font-size:1.5 em; text-align: center; color: white; font-style: italic;">
+            explore where your friends have been
+          </span>
         </div>
       </div>
       <div class="content">
@@ -25,17 +68,12 @@
               <div class="list-group-item">
                 <div class="circular-image" style="background-image:url('<%=  friend.image_url %>')"></div>
                 <div class="result-text-container">
-                  <h4 class="list-group-item-heading"><%= friend.name %></h4>
-                  <p class="list-group-item-text">
-                    <a href="<%= friend.production_url %>">See where <%= friend.first_name %> has been.</a>
-                  </p>
+                  <h4 class="list-group-item-heading"><%= link_to 'See where ' + friend.name + ' has been', friend.production_url %></h4>
                 </div>
               </div>
             <% end %>
           </div>
         </div>
-
-
         <div class="section self">
           <h1>Have You Been to These Places?</h1>
           <div id="list" class="list-group">
@@ -44,9 +82,8 @@
                 <div class="circular-image" style="background-image:url('<%= topic.image_url %>')"></div>
                 <div class="result-text-container">
                   <h4 class="list-group-item-heading">
-                    <a href="<%= topic.production_url %>"><%= topic.title %></a>
+                    <a href="<%= topic.production_url %>">Add <%= topic.title %> to your profile</a>
                   </h4>
-                  <p class="list-group-item-text"><a href="<%= @user_url %>">Add to Your Profile</a></p>
                 </div>
               </div>
             <% end %>
