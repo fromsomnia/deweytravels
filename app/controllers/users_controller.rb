@@ -10,7 +10,10 @@ class UsersController < ApplicationController
     if params[:topic_id].present? then
       topic = @current_graph.topics.find(params[:topic_id].to_i)
       if topic != nil then
-        @users = (topic.experts & (@current_user.friends | [@current_user]))
+        @users = topic.experts_which_friends_with(@current_user)
+        if topic.experts.include?(@current_user)
+          @users << @current_user
+        end
       end
     else
       @users = User.all
@@ -67,11 +70,22 @@ class UsersController < ApplicationController
     @nodes = []
     @links = []
 
+    @nodes = []
+    @links = []
+
+    max_topics = params[:max_topics].present? ? params[:max_topics].to_i : 10
+    max_users = params[:max_users].present? ? params[:max_users].to_i : 10
+
     if params[:user_id].present? then
       user = User.find(params[:user_id].to_i)
       if user != nil then
-        @nodes += user.expertises
-        @nodes += user.friends.sample(20)
+        degree = user.degree
+        user.expertises.each do |expertise|
+          if expertise.degree == degree then
+            @nodes << expertise
+          end
+        end
+        @nodes += user.friends_on_site.sample(max_users)
       end
     end
 

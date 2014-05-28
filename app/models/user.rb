@@ -1,7 +1,7 @@
 require 'socialcast'
 
 class User < ActiveRecord::Base
-	attr_accessible :fb_id, :first_name, :last_name, :domain, :email, :phone, :username, :password, :image_url
+	attr_accessible :fb_id, :is_registered, :first_name, :last_name, :domain, :email, :phone, :username, :password, :image_url
   before_create :set_auth_token, :set_image_url
 
   belongs_to :graph
@@ -43,6 +43,10 @@ class User < ActiveRecord::Base
 
   has_many :friends, :through => :friendships, :source => :friend
   has_many :friend_requesters, :through => :received_friendship_requests, :source => :user
+
+  def friends_on_site
+    self.friends.where(:is_registered => true).all
+  end
 
   def add_friend(friend)
     self.friends << friend
@@ -93,12 +97,39 @@ class User < ActiveRecord::Base
   end
 
 	def degree
-		curr_degree = 0
-		curr_degree = curr_degree + self.expertises.size
-		return curr_degree
+    degrees = [0, 0, 0, 0, 0]
+    self.expertises.each do |topic|
+      index = topic.degree
+      degrees[index] = degrees[index] + 1
+    end
+    if degrees[1] > 1
+      return 1
+    elsif degrees[2] >1
+      return 2
+    elsif degrees[3] > 1
+      return 3
+    elsif degrees[4] >= 1
+      return 4
+    else
+      return 0
+    end
 	end
 
-  def self.suggestions(topic, current_user, previous_suggestions=[]) 
+  def self.sort_by_degree(a, b)
+    if a != nil then
+      if b != nil then
+        return a.degree <=> b.degree
+      else
+        return 1
+      end
+    elsif b != nil then
+      return -1
+    else
+      return 0
+    end
+  end
+
+  def self.suggestions(topic, current_user, previous_suggestions=[])
     should_suggest_self = !current_user.expertises.exists?(topic.id)
     num_new_users = should_suggest_self ? 4 : 5
     @users = previous_suggestions

@@ -14,6 +14,7 @@ TeamDeweyWebsite::Application.routes.draw do
   post "sessions/register"
   get "sessions/get_users"
   get "users/index"
+  get "topics/most_connected"
 
   post "users/add_friends"
   get "about/team"
@@ -52,7 +53,7 @@ TeamDeweyWebsite::Application.routes.draw do
   # See how all your routes lay out with "rake routes".
 
   # You can have the root of your site routed with "root"
-  # root 'users#index'
+  # root 'index'
 
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'

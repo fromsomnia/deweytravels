@@ -132,31 +132,29 @@ class TopicsController < ApplicationController
     end
   end
 
-  def sort_by_degree(a, b)
-    if a != nil then
-      if b != nil then
-        return a.degree <=> b.degree
-      else
-        return 1
-      end
-    elsif b != nil then
-      return -1
-    else
-      return 0
-    end
-  end
-
   #max_topics is in params
   #currently returns most connected USERS & TOPICS
   def most_connected
     @nodes = []
     @links = []
-    if params[:topic_id].present? then
+
+    max_topics = params[:max_topics].present? ? params[:max_topics].to_i : 10
+    max_users = params[:max_users].present? ? params[:max_users].to_i : 10
+
+
+    if params[:user_id].present? && params[:topic_id].present? then
+      user = User.find(params[:user_id].to_i)
       topic = Topic.find(params[:topic_id].to_i)
-      @nodes += topic.subtopics
+      @nodes += (user.expertises & topic.subtopics).take(max_topics)
+    elsif params[:topic_id].present? then
+      topic = Topic.find(params[:topic_id].to_i)
+      @nodes += topic.subtopics.take(max_topics - 1)
       @nodes += topic.supertopics
       if @current_user then
-        @nodes += (topic.experts & (@current_user.friends | [@current_user]))
+        @nodes = topic.experts_which_friends_with(@current_user, only_registered=true).take(max_users)
+        if topic.experts.include?(@current_user)
+          @nodes << @current_user
+        end
       end
     end
     result = { :nodes => @nodes, :links => @links }
@@ -263,8 +261,8 @@ class TopicsController < ApplicationController
             mixpanel.track 'create_topic', {
               :topic_id => @topic.id,
               :topic_name => @topic.title,
-              :supertopic_id => @super_topic.id,
-              :supertopic_name => @super_topic.title }
+              :supertopic_id => super_topic.id,
+              :supertopic_name => super_topic.title }
             @topic.supertopics << super_topic
             format.html { redirect_to @topic, notice: 'Topic was successfully created.' }
             format.json { render json: @topic }
