@@ -85,7 +85,7 @@ class UsersController < ApplicationController
         end
 
         user.friends_on_site.sample(max_users).each do |friend|
-          friend = friends.as_json
+          friend = friend.as_json
           friend['category'] = 'user'
           @nodes << friend
         end
