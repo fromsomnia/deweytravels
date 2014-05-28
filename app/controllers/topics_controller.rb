@@ -60,7 +60,7 @@ class TopicsController < ApplicationController
         }
         while current_topic
           current_topic.experts.push(user) unless current_topic.experts.include?(user)
-          current_topic = current_topic.supertopics.take(1)
+          current_topic = current_topic.supertopics.take
         end
       end
     end

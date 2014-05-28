@@ -20,8 +20,6 @@ var Dewey = (function (Dewey) {
     };
 
     $scope.facebookShare = function () {
-      console.log($scope.user);
-      console.log($scope.topic);
       FB.api(
           "/" + $scope.user.fb_id + "/feed",
           "POST",
