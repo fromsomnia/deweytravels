@@ -188,7 +188,7 @@
 	        <span ng-show="currentUserId != user.id">Places {{user.first_name}}'s Been To:</span>
 	        <span class="tag" ng-repeat="topic in topicsForUser">
 	          <a href="#/topics/{{ topic.id }}">{{ topic.title }}</a>
-	          <span ng-click="removeTopicFromUser($event, topic.id)" class="glyphicon glyphicon-remove"></span>
+	          <span ng-click="removeTopicFromUser(topic.id)" class="glyphicon glyphicon-remove"></span>
 	        </span>
 	      </div>
 				<div ng-show="isLoggedIn">
@@ -225,8 +225,10 @@
 					<div ng-include src="'/navigation'"></div>
 					<div ng-include src="'/topicProfile'"></div>
 
+
 					<div ng-show="isLoggedIn" ng-include src="'/usersForTopic'"></div>
-					<div ng-include src="'/topicsForTopic'"></div>
+
+					<div ng-show="isLoggedIn" ng-include src="'/topicsForTopic'"></div>
 
 					<div ng-include src="'/addDestinationInTopic'"></div>
           <div ng-hide="isLoggedIn" ng-include src="'/callToSignupInTopic'"></div>
@@ -237,6 +239,7 @@
 			</div>
 		</script>
 
+    
     <script type="text/ng-template" id="/callToSignupInUser">
       <div class="signup-call" ng-controller="BaseLoginController">
         <div class="signup-call-header">
@@ -270,6 +273,9 @@
 				    <h4 class="">{{ topic.title }}</h4>
 			  	</div>
 					<span class="description">{{ topic.description }}</span>
+			  	<div ng-show="isLoggedIn && !isUserAnExpert" class="text-container">
+            <span><a href="" ng-click="addSelfToTopic()">I have been here<span  class="glyphicon glyphicon-check"></span></a></span>
+          </div>
 				</div>
 				<br>
 			</div>
@@ -286,7 +292,7 @@
 				  	</div>
 				  </a>
 				  <div class="col-xs-2" style="position: absolute; right: 10px;top: 20px;">
-            <span ng-click="removeUserFromTopic($event, user.id)" class="glyphicon glyphicon-remove"></span>
+            <span ng-click="removeUserFromTopic(user.id)" class="glyphicon glyphicon-remove"></span>
           </div>
 				</div>
       </div>

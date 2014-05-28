@@ -382,7 +382,7 @@ var Dewey = (function (Dewey) {
     };
 
 
-    $scope.removeTopicFromUser = function ($event, $tagID) {
+    $scope.removeTopicFromUser = function ($tagID) {
       $http({
         url: '/users/' + $scope.user.id + '/remove_topic',
         method: "POST",
@@ -441,14 +441,21 @@ var Dewey = (function (Dewey) {
     });
 
     $scope.topic = DeweyFactory.topic;
-
     DeweyFactory.getTopicsForTopic().then(function() {
       $scope.topicsForTopic = DeweyFactory.topicsForTopic;
     });
 
+    $scope.isUserAnExpert = false;
+
     if ($rootScope.isLoggedIn) {
       DeweyFactory.getUsersForTopic().then(function() {
         $scope.usersForTopic = DeweyFactory.usersForTopic;
+
+        $scope.usersForTopic.forEach(function(element, index, array) {
+          if (element.id == $rootScope.currentUserId) {
+            $scope.isUserAnExpert = true;
+          }
+        });
       });
 
       DeweyFactory.getAllUsers().then(function () {
@@ -466,7 +473,6 @@ var Dewey = (function (Dewey) {
     $scope.updateUsersForTopic = function () {
       $injector.get('$rootScope').$broadcast('graphUpdated');
       DeweyFactory.getUsersForTopic();
-      $(typeahead).val('');
       setTimeout(function () {
         $scope.$apply(function () {
           $scope.usersForTopic = DeweyFactory.usersForTopic;
@@ -474,17 +480,30 @@ var Dewey = (function (Dewey) {
       }, 500);
     };
 
-    $scope.removeUserFromTopic = function ($event, $userID) {
+    $scope.removeUserFromTopic = function ($userID) {
       $http({
         url: '/topics/' + $scope.topic.id + '/remove_user',
         data: {
-          user_id: $item.id,
+          user_id: $userID,
           id: $scope.topic.id },
         method: "POST",
       }).success(function (response) {
         $scope.updateUsersForTopic();
       });
     };
+
+    $scope.addSelfToTopic = function () {
+      $analytics.eventTrack('add_self_to_topic', { 'tid': $scope.topic.id, 'uid': $rootScope.currentUserId });
+      $http({
+        url: '/topics/' + $scope.topic.id + '/add_user',
+        data: {
+          user_id: $rootScope.currentUserId,
+          id: $scope.topic.id },
+        method: "POST",
+      }).success(function (response) {
+        $scope.updateUsersForTopic();
+      });
+    }
 
     $scope.addUserToTopic = function ($item) {
       $http({
