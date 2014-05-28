@@ -309,7 +309,6 @@ class TopicsController < ApplicationController
       else
         @users = User.suggestions(topic, @current_user)
       end
-
       render json: @users
     end
   end
