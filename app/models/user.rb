@@ -1,7 +1,7 @@
 require 'socialcast'
 
 class User < ActiveRecord::Base
-	attr_accessible :fb_id, :first_name, :last_name, :domain, :email, :phone, :username, :password, :image_url
+	attr_accessible :fb_id, :is_registered, :first_name, :last_name, :domain, :email, :phone, :username, :password, :image_url
   before_create :set_auth_token, :set_image_url
 
   belongs_to :graph
@@ -43,6 +43,10 @@ class User < ActiveRecord::Base
 
   has_many :friends, :through => :friendships, :source => :friend
   has_many :friend_requesters, :through => :received_friendship_requests, :source => :user
+
+  def friends_on_site
+    self.friends.where(:is_registered => true).all
+  end
 
   def add_friend(friend)
     self.friends << friend

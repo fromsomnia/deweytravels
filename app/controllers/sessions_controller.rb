@@ -23,7 +23,7 @@ class SessionsController < ApplicationController
   def post_try_facebook_login
     id = params[:id]
     @user = User.find_by_fb_id(id)
-    if @user
+    if @user and @user.is_registered
       render json: {:auth_token => @user.auth_token, :uid => @user.id}, status: :ok
     else
       render json: {}, status: :not_authorized
@@ -44,6 +44,8 @@ class SessionsController < ApplicationController
     if !@user
       @user = User.register_facebook_user(id, first_name, last_name, email, image_url)
     end
+    @user.is_registered = true
+    @user.save
     render json: {:auth_token => @user.auth_token,
                   :uid => @user.id}, status: :ok
     return

@@ -154,7 +154,10 @@ class TopicsController < ApplicationController
       @nodes += topic.subtopics.take(max_topics - 1)
       @nodes += topic.supertopics
       if @current_user then
-        @nodes += (topic.experts & (@current_user.friends | [@current_user])).take(max_users)
+        @nodes = topic.experts_which_friends_with(@current_user, only_registered=true).take(max_users)
+        if topic.experts.include?(@current_user)
+          @nodes << @current_user
+        end
       end
     end
 
@@ -263,8 +266,8 @@ class TopicsController < ApplicationController
             mixpanel.track 'create_topic', {
               :topic_id => @topic.id,
               :topic_name => @topic.title,
-              :supertopic_id => @super_topic.id,
-              :supertopic_name => @super_topic.title }
+              :supertopic_id => super_topic.id,
+              :supertopic_name => super_topic.title }
             @topic.supertopics << super_topic
             format.html { redirect_to @topic, notice: 'Topic was successfully created.' }
             format.json { render json: @topic }

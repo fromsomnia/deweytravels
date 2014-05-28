@@ -1,9 +1,18 @@
+<<<<<<< index.html
 <!doctype html>
 <html>
 	<head>
 
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<meta property="og:image" content="http://team-dewey-website.herokuapp.com/assets/logo.png" />
+=======
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<meta property="og:image" content="http://www.deweytravels.com/assets/logo.png" />
+>>>>>>> dev/index.html
 		<meta property="og:title" content="Dewey" />
 		<meta property="og:description" content="Explore where your friends have traveled!" />
 
@@ -36,6 +45,7 @@
 		  fjs.parentNode.insertBefore(js, fjs);
 		}(document, 'script', 'facebook-jssdk'));</script>
 
+<<<<<<< index.html
 		<!-- required for facebook share button -->
 		<script>(function(d, s, id) {
 		  var js, fjs = d.getElementsByTagName(s)[0];
@@ -45,6 +55,8 @@
 		  fjs.parentNode.insertBefore(js, fjs);
 		}(document, 'script', 'facebook-jssdk'));</script>
 
+=======
+>>>>>>> dev/index.html
 		<!-- container; updates with angular routes -->
 		<div data-ng-view></div>
 
@@ -142,12 +154,18 @@
 			</div>
 		</script>
 		<script type="text/ng-template" id="/navbarbuttons">
+<<<<<<< index.html
+		<button ng-click="facebookLogout()" class="btn btn-default"
+					style="height:20px;text-size:10px;float:right;line-height:5px;">log out</button>
+		<div class="fb-share-button" data-href="http://team-dewey-website.herokuapp.com/dev" data-type="button" style="float:right;margin-right:5px;"></div>
+=======
 		<button ng-click="facebookLogout()" class="btn btn-default btn-dewey">
 			log out
 		</button>
 		<button ng-click="facebookShare()" class="btn btn-default btn-dewey">
 			share on fb
 		</button>
+>>>>>>> dev/index.html
 		</script>
 		<script type="text/ng-template" id="/user">
 			<div id="main-view">
@@ -176,7 +194,11 @@
 					<span class="name">{{ user.first_name }} {{ user.last_name }}</span>
 					<span ng-show="isLoggedIn" class="description">{{ user.position }}</span>
 					<span ng-show="isLoggedIn" class="email">{{ user.email }}</span>
+<<<<<<< index.html
 					<button ng-show="isLoggedIn" ng-click="sendFacebookMessage()" class="btn btn-default btn-med">message via fb</button>
+=======
+					<button ng-show="isLoggedIn" ng-click="sendFacebookMessage()" class="btn btn-dewey">message via fb</button>
+>>>>>>> dev/index.html
 				</div>
 			</div>
 		</script>
@@ -191,6 +213,7 @@
 	          <span ng-click="removeTopicFromUser($event, topic.id)" class="glyphicon glyphicon-remove"></span>
 	        </span>
 	      </div>
+<<<<<<< index.html
 				<div ng-show="isLoggedIn">
 	        <span ng-show="currentUserId == user.id">Have You Been To:</span>
 	        <span ng-show="currentUserId != user.id">Has {{user.first_name}} Been To:</span>
@@ -227,8 +250,8 @@
 
 					<div ng-show="isLoggedIn" ng-include src="'/usersForTopic'"></div>
 					<div ng-include src="'/topicsForTopic'"></div>
+					<div ng-show="isLoggedIn" ng-include src="'/userSuggestionsForTopic'"></div>
 
-					<div ng-include src="'/addDestinationInTopic'"></div>
           <div ng-hide="isLoggedIn" ng-include src="'/callToSignupInTopic'"></div>
 				</div>
 				<div id="data-viz">
@@ -314,23 +337,19 @@
 					  </div>
           </div>
         </div>
-
+				<div class="list list-group">
+	        <h4>Add a Destination in  {{ topic.title }}?</h4>
+					<div class="list-group-item">
+						<div class="circular-image" style="background-image:url('/assets/plus.png')"></div>
+						<div class=" result-text-container">
+							<input id="new-topic" type="text" class="form-control" placeholder="Add a destination" ng-keyup="addSubtopicToTopic()" ng-model="newTopic.title" style="width:140px" />
+						</div>
+						</div>
+					</div>
+				</div>
 				<br>
 			</div>
 		</script>
-
-    <script type="text/ng-template" id="/addDestinationInTopic">
-			<div id="list" class="col-xs-12 list-group">
-	      <h4>Add a Destination in  {{ topic.title }}?</h4>
-		  	<div class="list-group-item">
-		  		<div class="circular-image" style="background-image:url('/assets/plus.png')"></div>
-		  		<div class=" result-text-container">
-		  			<input id="new-topic" type="text" class="form-control" placeholder="Add a destination" ng-keyup="addSubtopicToTopic()" ng-model="newTopic.title" style="width:140px" />
-		  		</div>
-		  		</div>
-		  	</div>
-		  </div>
-    </script>
 
 		<script type="text/ng-template" id="/topicsForTopic">
 			<div id="list" class="col-xs-12 list-group">
@@ -343,6 +362,10 @@
 				  	</div>
 				  </a>
 				</div>
+				<div ng-show="isLoggedIn" class="action-link-container">
+					<a href="" class="action-link">view more</a>
+					<a href="" class="action-link">add related topic</a>
+				</div>
         <br>
 			</div>
 		</script>
@@ -351,20 +374,18 @@
 		<script type="text/ng-template" id="/graph">
 			<div ng-controller="GraphController">
 				<svg>
-					<g class="graph-container" ng-repeat="cluster in clusters">
-						<g class="cluster">
-							<g class="primary" ng-attr-transform="{{ 'translate(' + cluster.primaryNode.x + ',' + cluster.primaryNode.y + ')'}}">
-								<circle ng-attr-r="{{ cluster.primaryNode.radius }}" ng-attr-fill="{{ (cluster.primaryNode.category === 'user' ) ? '#1d9f7f' : '#25a0ca' }}" stroke="#ffffbf" stroke-width="5" ng-click="focusOnCluster($index)" style="cursor:pointer"></circle>
-								<a xlink:href="{{ (cluster.primaryNode.first_name) ? '#/users/' + cluster.primaryNode.id : '#/topics/' + cluster.primaryNode.id }}">
-									<text dy="0.35em" style="font-size:1.2em" text-anchor="middle">{{ (cluster.primaryNode.first_name) ? cluster.primaryNode.first_name + ' ' + cluster.primaryNode.last_name : cluster.primaryNode.title }}</text>
-								</a>
-							</g>
-							<g class="outer" ng-repeat="node in cluster.outerNodes" ng-attr-transform="{{ 'translate(' + node.x + ',' + node.y + ')' }}">
-								<circle ng-attr-r="{{ node.radius }}" ng-attr-fill="{{ (node.category === 'user' ) ? '#1d9f7f' : '#25a0ca' }}" ng-click="expandNode(node)" style="cursor:pointer"></circle>
-								<a xlink:href="{{ (node.first_name) ? '#/users/' + node.id : '#/topics/' + node.id }}">
-									<text dy="0.35em" style="font-size:0.7em" text-anchor="middle">{{ (node.first_name) ? node.first_name + ' ' + node.last_name : node.title }}</text>
-								</a>
-							</g>
+					<g class="graph-container">
+						<g class="primary" ng-attr-transform="{{ 'translate(' + primaryNode.x + ',' + primaryNode.y + ')'}}">
+							<a xlink:href="{{ (primaryNode.first_name) ? '#/users/' + primaryNode.id : '#/topics/' + primaryNode.id }}">
+								<circle ng-attr-r="{{ primaryNode.radius }}" ng-attr-fill="{{ (primaryNode.category === 'user' ) ? '#1d9f7f' : '#25a0ca' }}" stroke="#ffffbf" stroke-width="10"></circle>
+							</a>
+							<text pointer-events="none" dy="0.35em" style="font-size:1.2em" text-anchor="middle">{{ (primaryNode.first_name) ? primaryNode.first_name + ' ' + primaryNode.last_name : primaryNode.title }}</text>
+						</g>
+						<g class="outer" ng-repeat="node in outerNodes" ng-attr-transform="{{ 'translate(' + node.x + ',' + node.y + ')' }}">
+							<a xlink:href="{{ (node.first_name) ? '#/users/' + node.id : '#/topics/' + node.id }}">
+								<circle ng-attr-r="{{ node.radius }}" ng-attr-fill="{{ (node.category === 'user' ) ? '#1d9f7f' : '#25a0ca' }}" ></circle>
+							</a>
+							<text pointer-events="none" dy="0.35em" style="font-size:1.2em" text-anchor="middle">{{ (node.first_name) ? node.first_name + ' ' + node.last_name : node.title }}</text>
 						</g>
 					</g>
 				</svg>
@@ -387,11 +408,132 @@
 		<script src="/assets/dewey.config.js"></script>
 		<script src="/assets/dewey.service.js"></script>
 		<script src="/assets/dewey.controllers.js"></script>
+=======
+	    </div>
+
+		<div id="headerwrap">
+			<div class="container">
+				<div class="row">
+					<div class="col-lg-6">
+	          <h1>Map Employees' Expertise in Your Company</h1>
+	          <form action="http://indonesiamengglobal.us6.list-manage.com/subscribe/post?u=29ca9ece445cdb2426c69f009&amp;id=319e4a3d61" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate form-inline" role="form" target="_blank" novalidate>
+	            <input type="email" value="" name="EMAIL" class="form-control email" id="mce-EMAIL" placeholder="Enter your email address" required>
+	            <button type="submit" value="Subscribe" name="subscribe" id="mc-embedded-subscribe" class="btn btn-warning btn-lg">Invite Me!</button>
+	          </form>
+
+					</div><!-- /col-lg-6 -->
+					<div class="col-lg-6">
+						<img class="img-responsive" src="assets/ipad-hand.png" alt="">
+					</div><!-- /col-lg-6 -->
+
+				</div><!-- /row -->
+			</div><!-- /container -->
+		</div><!-- /headerwrap -->
 
 
+		<div class="container">
+			<div class="row mt centered">
+				<div class="col-lg-6 col-lg-offset-3">
+					<h1>Dewey delightfully and effectively answers:</h1>
+	        <h3>"Who Knows What?" <br /></h3>
+	        <h3>"Who Should I Ask?" <br /></h3>
+				</div>
+			</div><!-- /row -->
+
+			<div class="row mt centered">
+				<div class="col-lg-4">
+					<h4>Interactive</h4>
+					<p>Your company's expertise graph is represented in a delightfully interactive and explorable graph.</p>
+				</div><!--/col-lg-4 -->
+
+				<div class="col-lg-4">
+					<h4>Intelligent</h4>
+					<p>Intelligently builds the expertise graph from your corporate tools, such as SocialCast and MediaWiki</p>
+
+				</div><!--/col-lg-4 -->
+
+				<div class="col-lg-4">
+					<h4>Simple</h4>
+					<p>Easily add, remove, edit, and view expertise graph in your company.</p>
+				</div><!--/col-lg-4 -->
+			</div><!-- /row -->
+		</div><!-- /container -->
+
+		<div class="container">
+			<hr>
+			<div class="row centered">
+				<div class="col-lg-6 col-lg-offset-3">
+	        <form action="http://indonesiamengglobal.us6.list-manage.com/subscribe/post?u=29ca9ece445cdb2426c69f009&amp;id=319e4a3d61" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate form-inline" role="form" target="_blank" novalidate>
+	          <input type="email" value="" name="EMAIL" class="form-control email" id="mce-EMAIL" placeholder="Enter your email address" required>
+	          <button type="submit" value="Subscribe" name="subscribe" id="mc-embedded-subscribe" class="btn btn-warning btn-lg">Invite Me!</button>
+	        </form>
+				</div>
+				<div class="col-lg-3"></div>
+			</div><!-- /row -->
+			<hr>
+		</div><!-- /container -->
 
 
+		<div class="container">
+			<div class="row mt centered">
+				<div class="col-lg-6 col-lg-offset-3">
+					<h1>Our Team</h1>
+				</div>
+			</div><!-- /row -->
+
+			<div class="row mt centered">
+	      <div class="col-lg-1"></div>
+
+				<div class="col-lg-2">
+					<img class="img-circle" src="assets/Brett.png" width="140" height="140" alt="">
+					<h4>Brett Solow</h4>
+				</div><!--/col-lg-2 -->
+
+				<div class="col-lg-2">
+					<img class="img-circle" src="assets/John.png" width="140" height="140" alt="">
+					<h4>John Pulvera</h4>
+				</div><!--/col-lg-2 -->
+
+				<div class="col-lg-2">
+					<img class="img-circle" src="assets/Stephen.png" width="140" height="140" alt="">
+					<h4>Stephen Quinonez</h4>
+				</div><!--/col-lg-2 -->
+
+				<div class="col-lg-2">
+					<img class="img-circle" src="assets/Veni.png" width="140" height="140" alt="">
+					<h4>Veni Johanna</h4>
+				</div><!--/col-lg-2 -->
+
+				<div class="col-lg-2">
+					<img class="img-circle" src="assets/William.png" width="140" height="140" alt="">
+					<h4>William Chidyausiku</h4>
+				</div><!--/col-lg-2 -->
 
 
+			</div><!-- /row -->
+		</div><!-- /container -->
+
+		<div class="container">
+			<hr>
+			<div class="row centered">
+				<div class="col-lg-6 col-lg-offset-3">
+
+	        <form action="http://indonesiamengglobal.us6.list-manage.com/subscribe/post?u=29ca9ece445cdb2426c69f009&amp;id=319e4a3d61" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate form-inline" role="form" target="_blank" novalidate>
+	          <input type="email" value="" name="EMAIL" class="form-control email" id="mce-EMAIL" placeholder="Enter your email address" required>
+	          <button type="submit" value="Subscribe" name="subscribe" id="mc-embedded-subscribe" class="btn btn-warning btn-lg">Invite Me!</button>
+	        </form>
+				</div>
+				<div class="col-lg-3"></div>
+			</div><!-- /row -->
+			<hr>
+			<p class="centered">Theme adapted from BlackTie.co - Attribution License 3.0 - 2013</p>
+		</div><!-- /container -->
+		
+	    <!-- Bootstrap core JavaScript
+	    ================================================== -->
+	    <!-- Placed at the end of the document so the pages load faster -->
+	    <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
+	    <script src="assets/bootstrap.min.js"></script>
+>>>>>>> dev/index.html
 	</body>
 </html>
