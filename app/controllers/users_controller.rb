@@ -132,7 +132,7 @@ class UsersController < ApplicationController
           }
         while topic
           user.expertises.push(topic) unless user.expertises.include?(topic)
-          topic = topic.supertopics.take(1)
+          topic = topic.supertopics.take
         end
       end
     end
