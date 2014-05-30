@@ -155,12 +155,12 @@ class UsersController < ApplicationController
             }
           user.expertises.delete(topic)
 
-          to_delete = topic.subtopics
+          to_delete = topic.subtopics & user.expertises
           user.expertises.delete(topic) unless !user.expertises.include?(topic)
           while !to_delete.empty?
             current_topic = to_delete.pop
-            to_delete.concat(current_topic.subtopics) unless !current_topic.subtopics
-            user.expertises.delete(topic) unless !user.expertises.include?(topic)
+            to_delete.concat(current_topic.subtopics & user.expertises) unless !current_topic.subtopics
+            user.expertises.delete(current_topic) unless !user.expertises.include?(current_topic)
           end
 
         end
