@@ -157,9 +157,7 @@
 			<div id="profile" class="col-xs-12">
 				<div id="information">
 					<div class="circular-image" style="background-image:url('{{ user.image_url }}')"></div>
-					<span class="name">{{ user.first_name }} {{ user.last_name }}</span>
-					<span ng-show="isLoggedIn" class="description">{{ user.position }}</span>
-					<span ng-show="isLoggedIn" class="email">{{ user.email }}</span>
+					<h4 class="name">{{ user.first_name }} {{ user.last_name }}</h4>
 					<button ng-show="isLoggedIn" ng-click="sendFacebookMessage()" class="btn btn-default btn-med">message via fb</button>
 				</div>
 			</div>
