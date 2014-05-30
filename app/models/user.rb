@@ -1,6 +1,8 @@
 require 'socialcast'
 
 class User < ActiveRecord::Base
+  searchkick word_start: [:first_name, :last_name]
+
 	attr_accessible :fb_id, :is_registered, :first_name, :last_name, :domain, :email, :phone, :username, :password, :image_url
   before_create :set_auth_token, :set_image_url
 

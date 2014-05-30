@@ -38,21 +38,11 @@ class Graph < ActiveRecord::Base
 	def search(query)
 		results = []
 		if !query.blank? then
-			search_query = query.downcase
-			self.users.each do |user|
-				search_this = user.first_name + " " + user.last_name
-				search_this = search_this.downcase
-				if search_this.include?(search_query) then
-					results << user
-				end
-			end
-			self.topics.each do |topic|
-				search_this = topic.title.downcase
-				if search_this.include?(search_query) then
-					results << topic
-				end
-			end
+      topic_results = (Topic.search query, fields: [{title: :word_start}]).results
+      user_results =  (User.search query, fields: [{first_name: :word_start}, {last_name: :word_start}]).results
+
+      results = topic_results + user_results
 		end
-		return results.to_json
+    results
 	end
 end
