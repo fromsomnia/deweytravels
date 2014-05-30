@@ -320,3 +320,10 @@ html, body {
 	font-size: 1.1em;
 	margin-left: 3px;
 }
+
+#tags .shuffle-button {
+	cursor:pointer;
+	&:hover {
+		background-color:#d2d0bf;
+	}
+}
