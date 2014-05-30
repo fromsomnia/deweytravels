@@ -197,6 +197,14 @@ var Dewey = (function (Dewey) {
             primaryNode: DeweyFactory.expandedGraphNodes[DeweyFactory.expandedGraphNodes.length - 1],
             outerNodes: DeweyFactory.expandedGraphNodes.slice(0,DeweyFactory.expandedGraphNodes.length - 1)
           };
+          for(var i = 0; i < $scope.clusters.length; i++){
+            var temp = $scope.clusters[i];
+            var primary = temp['primaryNode'];
+            if(primary.id == cluster['primaryNode'].id){
+              $scope.focusOnCluster(i);
+              return;
+            }
+          }
           $scope.clusters.unshift(cluster);
           $scope.allNodes = $scope.allNodes.concat(DeweyFactory.expandedGraphNodes);
           $scope.makeGraph();

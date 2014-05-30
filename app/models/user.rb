@@ -102,13 +102,13 @@ class User < ActiveRecord::Base
       index = topic.degree
       degrees[index] = degrees[index] + 1
     end
-    if degrees[1] > 1
+    if degrees[1] > 0
       return 1
-    elsif degrees[2] >1
+    elsif degrees[2] > 0
       return 2
-    elsif degrees[3] > 1
+    elsif degrees[3] > 0
       return 3
-    elsif degrees[4] >= 1
+    elsif degrees[4] > 0
       return 4
     else
       return 0
