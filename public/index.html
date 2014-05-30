@@ -93,19 +93,7 @@
 
 		<script type="text/ng-template" id="/search">
 			<div id="main-view">
-				<div id="top-bar">
-					<div id="filters-container">
-						<div class="dropdown">
-							<button class="btn dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown">All</button>
-							  <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
-							    <li role="presentation"><a role="menuitem" tabindex="-1" href="">Topics</a></li>
-							    <li role="presentation"><a role="menuitem" tabindex="-1" href="">Users</a></li>
-							    <li role="presentation"><a role="menuitem" tabindex="-1" href="">All</a></li>
-							  </ul>
-						  </button>
-						</div>
-					</div>
-				</div>
+				<div id="top-bar"></div>
 				<div id="left-bar">
 					<div id="search">
 						<div ng-include src="'/navigation'"></div>
@@ -118,11 +106,11 @@
 
 		<script type="text/ng-template" id="/navigation">
 			<nav id="nav" class="col-xs-12">
-				<a href="#/search">
+				<a ng-attr-href="#/users/{{ currentUserId }}">
 					<img id="logo" src="/assets/logo.png">
 				</a>
 				<div id="search" class="input-group input-group-lg">
-				  <input type="text" class="form-control" placeholder="search" ng-keyup="search()" ng-model="queryData.query">
+				  <input type="text" class="form-control" placeholder="search for person or place" ng-keyup="search()" ng-model="queryData.query">
 				</div>
 			</nav>
 		</script>
@@ -138,7 +126,6 @@
 				  	</div>
 				  </a>
 				</div>
-				<a href="" class="action-link">view all</a>
 			</div>
 		</script>
 		<script type="text/ng-template" id="/navbarbuttons">
@@ -157,9 +144,6 @@
 					<div ng-include src="'/navigation'"></div>
 					<div ng-include src="'/userProfile'"></div>
 					<div ng-include src="'/topicsForUser'"></div>
-					<div ng-show="isLoggedIn" class="action-link-container">
-						<a href="" class="action-link">view more</a>
-					</div>
 
           <div ng-hide="isLoggedIn" ng-include src="'/callToSignupInUser'"></div>
 				</div>
@@ -173,9 +157,7 @@
 			<div id="profile" class="col-xs-12">
 				<div id="information">
 					<div class="circular-image" style="background-image:url('{{ user.image_url }}')"></div>
-					<span class="name">{{ user.first_name }} {{ user.last_name }}</span>
-					<span ng-show="isLoggedIn" class="description">{{ user.position }}</span>
-					<span ng-show="isLoggedIn" class="email">{{ user.email }}</span>
+					<h4 class="name">{{ user.first_name }} {{ user.last_name }}</h4>
 					<button ng-show="isLoggedIn" ng-click="sendFacebookMessage()" class="btn btn-default btn-med">message via fb</button>
 				</div>
 			</div>
@@ -183,44 +165,30 @@
 
 		<script type="text/ng-template" id="/topicsForUser">
 			<div id="tags" class="col-xs-12">
+        <input ng-show="isLoggedIn" id="typeahead" type="text"  ng-model="selectedTopic" placeholder="add a place to profile" typeahead-on-select="addTopicToUser($item)" typeahead="topic as topic.title for topic in topicChoices | filter: $viewValue | limitTo: 8"/>
 				<div ng-show="topicsForUser && isLoggedIn">
-	        <span ng-show="currentUserId == user.id">Places You've Been To:</span>
-	        <span ng-show="currentUserId != user.id">Places {{user.first_name}}'s Been To:</span>
+	        <h4 ng-show="currentUserId == user.id">Places you've been to:</h4>
+	        <h4 ng-show="currentUserId != user.id">Places {{user.first_name}}'s been to:</h4>
 	        <span class="tag" ng-repeat="topic in topicsForUser">
 	          <a href="#/topics/{{ topic.id }}">{{ topic.title }}</a>
 	          <span ng-click="removeTopicFromUser(topic.id)" class="glyphicon glyphicon-remove"></span>
 	        </span>
 	      </div>
 				<div ng-show="isLoggedIn">
-	        <span ng-show="currentUserId == user.id">Have You Been To:</span>
-	        <span ng-show="currentUserId != user.id">Has {{user.first_name}} Been To:</span>
+	        <h4 ng-show="currentUserId == user.id">Have you been to the following places?</h4>
+	        <h4 ng-show="currentUserId != user.id">Has {{user.first_name}} been to the following places?</h4>
 	        <span class="tag" ng-repeat="topic in topicSuggestions">
 	          <a href="#/topics/{{ topic.id }}">{{ topic.title }}</a>
-	          <span ng-click="addTopicSuggestionToUser(topic, $topic)" class="glyphicon glyphicon-check"></span>
+	          <span ng-click="addTopicSuggestionToUser(topic, $topic)" class="glyphicon glyphicon-plus"></span>
 	        </span>
-          <span ng-click="shuffleTopicSuggestionsToUser()" class="tag">Shuffle Suggestions</span>
-
-	        <input id="typeahead" type="text"  ng-model="selectedTopic" placeholder="Add places" typeahead-on-select="addTopicToUser($item)" typeahead="topic as topic.title for topic in topicChoices | filter: $viewValue | limitTo: 8"/>
+          <span ng-click="shuffleTopicSuggestionsToUser()" class="tag shuffle-button">Shuffle Suggestions</span>
 				</div>
 			</div>
 		</script>
 
 		<script type="text/ng-template" id="/topic">
 			<div id="main-view">
-				<div id="top-bar"><div ng-include src="'/navbarbuttons'"></div>
-					<div id="filters-container">
-						<div class="dropdown">
-							<button ng-show="isLoggedIn" class="btn dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown">Stanford, CA</button>
-							  <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
-							    <li role="presentation"><a role="menuitem" tabindex="-1" href="">Stanford, CA</a></li>
-							    <li role="presentation"><a role="menuitem" tabindex="-1" href="">Berkeley, CA</a></li>
-							    <li role="presentation"><a role="menuitem" tabindex="-1" href="">San Francisco, CA</a></li>
-							    <li role="presentation"><a role="menuitem" tabindex="-1" href="">San Jose, CA</a></li>
-							  </ul>
-						  </button>
-						</div>
-					</div>
-				</div>
+				<div id="top-bar"><div ng-include src="'/navbarbuttons'"></div></div>
 				<div id="left-bar">
 					<div ng-include src="'/navigation'"></div>
 					<div ng-include src="'/topicProfile'"></div>
@@ -283,7 +251,7 @@
 
 		<script type="text/ng-template" id="/usersForTopic">
 			<div id="list" class="col-xs-12 list-group">
-				<h4>USERS</h4>
+				<h4>People who've been here</h4>
 				<div ng-repeat="user in usersForTopic" class="list-group-item">
 				  <a href="#/users/{{ user.id }}">
 						<div class="circular-image" style="background-image:url('{{ user.image_url }}')"></div>
@@ -327,11 +295,11 @@
 
     <script type="text/ng-template" id="/addDestinationInTopic">
 			<div id="list" class="col-xs-12 list-group">
-	      <h4>Add a Destination in  {{ topic.title }}?</h4>
+	      <h4>Add a place within {{ topic.title }}?</h4>
 		  	<div class="list-group-item">
 		  		<div class="circular-image" style="background-image:url('/assets/plus.png')"></div>
 		  		<div class=" result-text-container">
-		  			<input id="new-topic" type="text" class="form-control" placeholder="Add a destination" ng-keyup="addSubtopicToTopic()" ng-model="newTopic.title" style="width:140px" />
+		  			<input id="new-topic" type="text" class="form-control" placeholder="add a place" ng-keyup="addSubtopicToTopic()" ng-model="newTopic.title" style="width:140px" />
 		  		</div>
 		  		</div>
 		  	</div>
@@ -340,7 +308,7 @@
 
 		<script type="text/ng-template" id="/topicsForTopic">
 			<div id="list" class="col-xs-12 list-group">
-				<h4 ng-show="isLoggedIn">RELATED TOPICS</h4>
+				<h4 ng-show="isLoggedIn">Similar places</h4>
 				<div ng-repeat="topic in topicsForTopic | limitTo: 5" class="list-group-item">
 				  <a href="#/topics/{{ topic.id }}">
 						<div class="circular-image" style="background-image:url('{{ topic.image_url }}')"></div>
@@ -360,13 +328,13 @@
 					<g class="graph-container" ng-repeat="cluster in clusters">
 						<g class="cluster">
 							<g class="primary" ng-attr-transform="{{ 'translate(' + cluster.primaryNode.x + ',' + cluster.primaryNode.y + ')'}}">
-								<circle ng-attr-r="{{ cluster.primaryNode.radius }}" ng-attr-fill="{{ (cluster.primaryNode.category === 'user' ) ? '#1d9f7f' : '#25a0ca' }}" stroke="#ffffbf" stroke-width="5" ng-click="focusOnCluster($index)" style="cursor:pointer"></circle>
+								<circle ng-attr-r="{{ cluster.primaryNode.radius }}" ng-attr-fill="{{ (cluster.primaryNode.category === 'user' ) ? '#1d9f7f' : '#25a0ca' }}" stroke="#ffffbf" stroke-width="5" ng-click="focusOnCluster($index)" ng-attr-style="cursor:{{ (cluster.primaryNode.category === 'user' ) ? 'default' : 'pointer' }}"></circle>
 								<a xlink:href="{{ (cluster.primaryNode.first_name) ? '#/users/' + cluster.primaryNode.id : '#/topics/' + cluster.primaryNode.id }}">
 									<text dy="0.35em" style="font-size:1.2em" text-anchor="middle">{{ (cluster.primaryNode.first_name) ? cluster.primaryNode.first_name + ' ' + cluster.primaryNode.last_name : cluster.primaryNode.title }}</text>
 								</a>
 							</g>
 							<g class="outer" ng-repeat="node in cluster.outerNodes" ng-attr-transform="{{ 'translate(' + node.x + ',' + node.y + ')' }}">
-								<circle ng-attr-r="{{ node.radius }}" ng-attr-fill="{{ (node.category === 'user' ) ? '#1d9f7f' : '#25a0ca' }}" ng-click="expandNode(node)" style="cursor:pointer"></circle>
+								<circle ng-attr-r="{{ node.radius }}" ng-attr-fill="{{ (node.category === 'user' ) ? '#1d9f7f' : '#25a0ca' }}" ng-click="expandNode(node)" ng-attr-style="cursor:{{ (node.category === 'user' ) ? 'default' : 'pointer' }}"></circle>
 								<a xlink:href="{{ (node.first_name) ? '#/users/' + node.id : '#/topics/' + node.id }}">
 									<text dy="0.35em" style="font-size:0.7em" text-anchor="middle">{{ (node.first_name) ? node.first_name + ' ' + node.last_name : node.title }}</text>
 								</a>

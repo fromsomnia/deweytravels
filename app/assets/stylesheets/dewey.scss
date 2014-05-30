@@ -112,6 +112,8 @@ html, body {
 			margin-left: 5%;
 			background-color: $white;
 			color: $blue;
+			padding: 5px;
+			font-size: 0.9em;
 		}
 	}
 }
@@ -202,12 +204,13 @@ html, body {
 		border-radius: 3px;
 		padding: 5px 10px;
 		margin: 3px;
-		&:hover {
-			background-color: $gray;
-			cursor: pointer;
-		}
 		.glyphicon {
 			color: $blue;
+			cursor: pointer;
+			&:hover {
+				color: $dark-blue;
+				font-size:1.25em;
+			}
 		}
 	}
 }
@@ -217,28 +220,6 @@ html, body {
 #groups {
 	color: $white;
 	text-align: center;
-}
-
-/* filters */
-
-#filters-container {
-	height: 100%;
-	position: relative;
-	left: 25%;
-	.dropdown {
-		height: 100%;
-	}
-	button {
-		height: 100%;
-		background-color: $blue;
-		color: $white;
-	}
-	ul {
-		background-color: $white;
-		li a:hover {
-			background-color: $gray;
-		}
-	}
 }
 
 /* notifications */
@@ -338,4 +319,11 @@ html, body {
 	color: $blue;
 	font-size: 1.1em;
 	margin-left: 3px;
+}
+
+#tags .shuffle-button {
+	cursor:pointer;
+	&:hover {
+		background-color:#d2d0bf;
+	}
 }
