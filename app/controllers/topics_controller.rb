@@ -80,7 +80,13 @@ class TopicsController < ApplicationController
           :topic_name => current_topic.title
         }
 
-        current_topic.experts.delete(user)
+        to_delete = current_topic.subtopics
+        current_topic.experts.delete(user) unless !current_topic.experts.include?(user)
+        while !to_delete.empty?
+          current_topic = to_delete.pop
+          to_delete.concat(current_topic.subtopics) unless !current_topic.subtopics
+          current_topic.experts.delete(user) unless !current_topic.experts.include?(user)
+        end
       end
     end
     render :nothing => true
