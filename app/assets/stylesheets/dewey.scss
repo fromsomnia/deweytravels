@@ -204,12 +204,13 @@ html, body {
 		border-radius: 3px;
 		padding: 5px 10px;
 		margin: 3px;
-		&:hover {
-			background-color: $gray;
-			cursor: pointer;
-		}
 		.glyphicon {
 			color: $blue;
+			cursor: pointer;
+			&:hover {
+				color: $dark-blue;
+				font-size:1.25em;
+			}
 		}
 	}
 }

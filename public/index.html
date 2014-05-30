@@ -179,7 +179,7 @@
 	        <h4 ng-show="currentUserId != user.id">Has {{user.first_name}} been to the following places?</h4>
 	        <span class="tag" ng-repeat="topic in topicSuggestions">
 	          <a href="#/topics/{{ topic.id }}">{{ topic.title }}</a>
-	          <span ng-click="addTopicSuggestionToUser(topic, $topic)" class="glyphicon glyphicon-check"></span>
+	          <span ng-click="addTopicSuggestionToUser(topic, $topic)" class="glyphicon glyphicon-plus"></span>
 	        </span>
           <span ng-click="shuffleTopicSuggestionsToUser()" class="tag">Shuffle Suggestions</span>
 				</div>
