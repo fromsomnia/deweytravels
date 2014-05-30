@@ -251,7 +251,7 @@
 
 		<script type="text/ng-template" id="/usersForTopic">
 			<div id="list" class="col-xs-12 list-group">
-				<h4>USERS</h4>
+				<h4>People who've been here</h4>
 				<div ng-repeat="user in usersForTopic" class="list-group-item">
 				  <a href="#/users/{{ user.id }}">
 						<div class="circular-image" style="background-image:url('{{ user.image_url }}')"></div>
@@ -308,7 +308,7 @@
 
 		<script type="text/ng-template" id="/topicsForTopic">
 			<div id="list" class="col-xs-12 list-group">
-				<h4 ng-show="isLoggedIn">RELATED TOPICS</h4>
+				<h4 ng-show="isLoggedIn">Similar places</h4>
 				<div ng-repeat="topic in topicsForTopic | limitTo: 5" class="list-group-item">
 				  <a href="#/topics/{{ topic.id }}">
 						<div class="circular-image" style="background-image:url('{{ topic.image_url }}')"></div>
