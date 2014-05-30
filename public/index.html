@@ -366,7 +366,7 @@
 								</a>
 							</g>
 							<g class="outer" ng-repeat="node in cluster.outerNodes" ng-attr-transform="{{ 'translate(' + node.x + ',' + node.y + ')' }}">
-								<circle ng-attr-r="{{ node.radius }}" ng-attr-fill="{{ (node.category === 'user' ) ? '#1d9f7f' : '#25a0ca' }}" ng-click="expandNode(node, $index)" style="cursor:pointer"></circle>
+								<circle ng-attr-r="{{ node.radius }}" ng-attr-fill="{{ (node.category === 'user' ) ? '#1d9f7f' : '#25a0ca' }}" ng-click="expandNode(node)" style="cursor:pointer"></circle>
 								<a xlink:href="{{ (node.first_name) ? '#/users/' + node.id : '#/topics/' + node.id }}">
 									<text dy="0.35em" style="font-size:0.7em" text-anchor="middle">{{ (node.first_name) ? node.first_name + ' ' + node.last_name : node.title }}</text>
 								</a>
