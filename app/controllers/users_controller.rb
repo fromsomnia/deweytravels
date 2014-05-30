@@ -154,6 +154,15 @@ class UsersController < ApplicationController
               :topic_name => topic.title
             }
           user.expertises.delete(topic)
+
+          to_delete = topic.subtopics
+          user.expertises.delete(topic) unless !user.expertises.include?(topic)
+          while !to_delete.empty?
+            current_topic = to_delete.pop
+            to_delete.concat(current_topic.subtopics) unless !current_topic.subtopics
+            user.expertises.delete(topic) unless !user.expertises.include?(topic)
+          end
+
         end
       end
     end
