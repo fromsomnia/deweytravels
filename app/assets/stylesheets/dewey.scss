@@ -219,28 +219,6 @@ html, body {
 	text-align: center;
 }
 
-/* filters */
-
-#filters-container {
-	height: 100%;
-	position: relative;
-	left: 25%;
-	.dropdown {
-		height: 100%;
-	}
-	button {
-		height: 100%;
-		background-color: $blue;
-		color: $white;
-	}
-	ul {
-		background-color: $white;
-		li a:hover {
-			background-color: $gray;
-		}
-	}
-}
-
 /* notifications */
 
 #notifications {

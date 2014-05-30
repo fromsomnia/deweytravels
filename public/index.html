@@ -93,19 +93,7 @@
 
 		<script type="text/ng-template" id="/search">
 			<div id="main-view">
-				<div id="top-bar">
-					<div id="filters-container">
-						<div class="dropdown">
-							<button class="btn dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown">All</button>
-							  <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
-							    <li role="presentation"><a role="menuitem" tabindex="-1" href="">Topics</a></li>
-							    <li role="presentation"><a role="menuitem" tabindex="-1" href="">Users</a></li>
-							    <li role="presentation"><a role="menuitem" tabindex="-1" href="">All</a></li>
-							  </ul>
-						  </button>
-						</div>
-					</div>
-				</div>
+				<div id="top-bar"></div>
 				<div id="left-bar">
 					<div id="search">
 						<div ng-include src="'/navigation'"></div>
@@ -207,20 +195,7 @@
 
 		<script type="text/ng-template" id="/topic">
 			<div id="main-view">
-				<div id="top-bar"><div ng-include src="'/navbarbuttons'"></div>
-					<div id="filters-container">
-						<div class="dropdown">
-							<button ng-show="isLoggedIn" class="btn dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown">Stanford, CA</button>
-							  <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
-							    <li role="presentation"><a role="menuitem" tabindex="-1" href="">Stanford, CA</a></li>
-							    <li role="presentation"><a role="menuitem" tabindex="-1" href="">Berkeley, CA</a></li>
-							    <li role="presentation"><a role="menuitem" tabindex="-1" href="">San Francisco, CA</a></li>
-							    <li role="presentation"><a role="menuitem" tabindex="-1" href="">San Jose, CA</a></li>
-							  </ul>
-						  </button>
-						</div>
-					</div>
-				</div>
+				<div id="top-bar"><div ng-include src="'/navbarbuttons'"></div></div>
 				<div id="left-bar">
 					<div ng-include src="'/navigation'"></div>
 					<div ng-include src="'/topicProfile'"></div>
