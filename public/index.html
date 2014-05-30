@@ -126,7 +126,6 @@
 				  	</div>
 				  </a>
 				</div>
-				<a href="" class="action-link">view all</a>
 			</div>
 		</script>
 		<script type="text/ng-template" id="/navbarbuttons">
@@ -145,9 +144,6 @@
 					<div ng-include src="'/navigation'"></div>
 					<div ng-include src="'/userProfile'"></div>
 					<div ng-include src="'/topicsForUser'"></div>
-					<div ng-show="isLoggedIn" class="action-link-container">
-						<a href="" class="action-link">view more</a>
-					</div>
 
           <div ng-hide="isLoggedIn" ng-include src="'/callToSignupInUser'"></div>
 				</div>
@@ -171,24 +167,23 @@
 
 		<script type="text/ng-template" id="/topicsForUser">
 			<div id="tags" class="col-xs-12">
+        <input ng-show="isLoggedIn" id="typeahead" type="text"  ng-model="selectedTopic" placeholder="Add places" typeahead-on-select="addTopicToUser($item)" typeahead="topic as topic.title for topic in topicChoices | filter: $viewValue | limitTo: 8"/>
 				<div ng-show="topicsForUser && isLoggedIn">
-	        <span ng-show="currentUserId == user.id">Places You've Been To:</span>
-	        <span ng-show="currentUserId != user.id">Places {{user.first_name}}'s Been To:</span>
+	        <h4 ng-show="currentUserId == user.id">Places you've been to:</h4>
+	        <h4 ng-show="currentUserId != user.id">Places {{user.first_name}}'s been to:</h4>
 	        <span class="tag" ng-repeat="topic in topicsForUser">
 	          <a href="#/topics/{{ topic.id }}">{{ topic.title }}</a>
 	          <span ng-click="removeTopicFromUser(topic.id)" class="glyphicon glyphicon-remove"></span>
 	        </span>
 	      </div>
 				<div ng-show="isLoggedIn">
-	        <span ng-show="currentUserId == user.id">Have You Been To:</span>
-	        <span ng-show="currentUserId != user.id">Has {{user.first_name}} Been To:</span>
+	        <h4 ng-show="currentUserId == user.id">Have you been to the following places?</h4>
+	        <h4 ng-show="currentUserId != user.id">Has {{user.first_name}} been to the following places?</h4>
 	        <span class="tag" ng-repeat="topic in topicSuggestions">
 	          <a href="#/topics/{{ topic.id }}">{{ topic.title }}</a>
 	          <span ng-click="addTopicSuggestionToUser(topic, $topic)" class="glyphicon glyphicon-check"></span>
 	        </span>
           <span ng-click="shuffleTopicSuggestionsToUser()" class="tag">Shuffle Suggestions</span>
-
-	        <input id="typeahead" type="text"  ng-model="selectedTopic" placeholder="Add places" typeahead-on-select="addTopicToUser($item)" typeahead="topic as topic.title for topic in topicChoices | filter: $viewValue | limitTo: 8"/>
 				</div>
 			</div>
 		</script>
