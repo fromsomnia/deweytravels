@@ -199,10 +199,11 @@ var Dewey = (function (Dewey) {
           };
           for(var i = 0; i < $scope.clusters.length; i++){
             var temp = $scope.clusters[i];
-            var primary = temp['primaryNode'];
-            if(primary.id == cluster['primaryNode'].id){
-              $scope.focusOnCluster(i);
-              return;
+            if(temp['primaryNode'].category == 'topic'){
+              if(temp['primaryNode'].id == cluster['primaryNode'].id){
+                $scope.focusOnCluster(i);
+                return;
+              }
             }
           }
           $scope.clusters.unshift(cluster);
@@ -377,14 +378,35 @@ var Dewey = (function (Dewey) {
       });
     };
 
-    $scope.updateTopicsForUser = function () {
-      $injector.get('$rootScope').$broadcast('graphUpdated');
+    $scope.updateTopicsForUser = function ($tagID) {
+      //$injector.get('$rootScope').$broadcast('graphUpdated');
       DeweyFactory.getTopicsForUser();
       setTimeout(function () {
         $scope.$apply(function () {
           $scope.topicsForUser = DeweyFactory.topicsForUser;
         });
       }, 500);
+
+      // For Dynamic Updating
+      DeweyFactory.getGraphNodesForUserAndTopic($scope.user.id, $tagID)
+        .then(function() {
+          setCategoriesForNodes(DeweyFactory.expandedGraphNodes);
+          var cluster = {
+            primaryNode: DeweyFactory.expandedGraphNodes[DeweyFactory.expandedGraphNodes.length - 1],
+            outerNodes: DeweyFactory.expandedGraphNodes.slice(0,DeweyFactory.expandedGraphNodes.length - 1)
+          };
+          for(var i = 0; i < $scope.clusters.length; i++){
+            var temp = $scope.clusters[i];
+            if(temp['primaryNode'].id == cluster['primaryNode'].id){
+              $scope.focusOnCluster(i);
+            }
+          }
+          $scope.clusters.unshift(cluster);
+          $scope.allNodes = $scope.allNodes.concat(DeweyFactory.expandedGraphNodes);
+          $scope.makeGraph();
+        });
+
+
     };
 
 
@@ -396,7 +418,7 @@ var Dewey = (function (Dewey) {
           topic_id: $tagID,
           id: $scope.user.id }
       }).success(function(response) {
-        $scope.updateTopicsForUser();
+        $scope.updateTopicsForUser($tagID);
       });
     };
 
@@ -408,7 +430,7 @@ var Dewey = (function (Dewey) {
           id: $scope.user.id },
         method: "POST",
       }).success(function (response) {
-        $scope.updateTopicsForUser();
+        $scope.updateTopicsForUser($item.id);
       });
     };
 
