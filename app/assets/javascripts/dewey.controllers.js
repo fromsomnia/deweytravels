@@ -158,6 +158,16 @@ var Dewey = (function (Dewey) {
       return [nodes[index]].concat(restOfNodes);
     }
 
+    function setCategoriesForNodes (nodes) {
+      nodes.forEach(function (node) {
+       if (node.title) {
+          node.category = 'topic';
+        } else if (node.first_name && node.last_name) {
+          node.category = 'user';
+        }
+      });
+    }
+
     function animateNodes (nodes, width, height) {
       var force = d3.layout.force()
           .gravity(0.05)
@@ -370,16 +380,6 @@ var Dewey = (function (Dewey) {
         link: 'http://www.deweytravels.com'
       });
     };
-
-    function setCategoriesForNodes (nodes) {
-      nodes.forEach(function (node) {
-       if (node.title) {
-          node.category = 'topic';
-        } else if (node.first_name && node.last_name) {
-          node.category = 'user';
-        }
-      });
-    }
 
     $scope.updateTopicsForUser = function () {
       $injector.get('$rootScope').$broadcast('updateTopicsForUser');
