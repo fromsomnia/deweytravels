@@ -160,7 +160,7 @@ class TopicsController < ApplicationController
       @nodes += topic.subtopics.take(max_topics - 1)
       @nodes += topic.supertopics
       if @current_user then
-        @nodes = topic.experts_which_friends_with(@current_user, only_registered=true).take(max_users)
+        @nodes += topic.experts_which_friends_with(@current_user, only_registered=true).take(max_users)
         if topic.experts.include?(@current_user)
           @nodes << @current_user
         end

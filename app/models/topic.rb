@@ -1,6 +1,7 @@
 require 'freeb/api'
 
 class Topic < ActiveRecord::Base
+  searchkick word_start: [:title]
 	attr_accessible :title, :image_url, :freebase_image_url
   after_create :set_image
   belongs_to :graph
