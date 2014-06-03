@@ -333,3 +333,9 @@ html, body {
     color: $dark-blue;
   }
 }
+.outer.topic {
+	circle:hover {
+		stroke:#ffffbf;
+		stroke-width:4;
+	}
+}
