@@ -2,7 +2,61 @@ var Dewey = (function (Dewey) {
 
   // controller for all views; other controllers inherit from this
   Dewey.DeweyApp.controller('BaseController', ['$rootScope', '$http', '$scope', '$location', 'DeweyFactory', function ($rootScope, $http, $scope, $location, DeweyFactory) {
+    $scope.startOnboarding = function() {
+      $scope.stepIndex = 0;
+      $scope.showOnboarding = true;
+    };
 
+    $scope.finishOnboarding = function() {
+      $scope.showOnboarding = undefined;
+    };
+    $scope.onboardingSteps = [
+      {
+        title: 'Welcome to Dewey!',
+        description: "Dewey is an application where you can find out where your friends have been. This is your user page - you can come back here any time by clicking the logo on the top left.",
+        position: 'right',
+        attachTo: '#left-bar'
+      },
+
+      {
+        overlay: true,
+        title: "Add a place you've been to",
+        description: "Use this to fill out your travel profile.",
+        position: 'right',
+        attachTo: '#left-bar'
+      },
+      {
+        overlay: true,
+        title: "These are places you have been to.",
+        description: "Click on the text to go to the topic page and x to remove from your profile.",
+        position: 'right',
+        attachTo: '#left-bar'
+      },
+
+      {
+        overlay: true,
+        title: "These are some suggested places. Have you been here?",
+        description: "Click on the text to go to the topic page and + to add to your profile.",
+        position: 'right',
+        attachTo: '#left-bar'
+      },
+
+      {
+        overlay: true,
+        title: "Message via FB",
+        description: "If you find someone who's been somewhere interesting, you can message him/her",
+        position: 'right',
+        attachTo: '#left-bar'
+      },
+
+      {
+        overlay: true,
+        title: "Visualizing your locations",
+        description: "Click on the bubbles to expand (if available), click on the text to go to topic page.",
+        position: 'right',
+        attachTo: '#left-bar'
+      },
+    ]
     $scope.queryData = {};
     $scope.graphNodes = DeweyFactory.graphNodes;
     $scope.graphLinks = DeweyFactory.graphLinks;
@@ -366,6 +420,7 @@ var Dewey = (function (Dewey) {
         $scope.topicSuggestions = DeweyFactory.topicSuggestions;
       });
     }
+
 
     $scope.user = DeweyFactory.user;
 

@@ -327,3 +327,9 @@ html, body {
 		background-color:#d2d0bf;
 	}
 }
+
+.onboarding-popover {
+  p, h3, .onboarding-step-info {
+    color: $dark-blue;
+  }
+}
