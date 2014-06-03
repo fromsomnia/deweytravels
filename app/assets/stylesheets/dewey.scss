@@ -328,6 +328,11 @@ html, body {
 	}
 }
 
+.onboarding-popover {
+  p, h3, .onboarding-step-info {
+    color: $dark-blue;
+  }
+}
 .outer.topic {
 	circle:hover {
 		stroke:#ffffbf;

@@ -10,6 +10,7 @@
 		<title>Dewey | Explore Where Your Friends Have Been </title>
 
 		<link rel="stylesheet" type="text/css" href="/assets/bootstrap.css"/>
+		<link rel="stylesheet" type="text/css" href="/assets/ng-onboarding.css"/>
 		<link rel="stylesheet" type="text/css" href="/assets/dewey.css"/>
 
 		<script src="/assets/jquery-1.11.0.js"></script>
@@ -129,15 +130,23 @@
 			</div>
 		</script>
 		<script type="text/ng-template" id="/navbarbuttons">
-		<button ng-click="facebookLogout()" class="btn btn-default btn-dewey">
-			log out
-		</button>
-		<button ng-click="facebookShare()" class="btn btn-default btn-dewey">
-			share on fb
-		</button>
+
+
+		  <button ng-click="facebookLogout()" class="btn btn-default btn-dewey">
+		  	log out
+		  </button>
+		  <button ng-click="facebookShare()" class="btn btn-default btn-dewey">
+		  	share on fb
+		  </button>
+		  <button ng-click="startOnboarding()" class="btn btn-default btn-dewey">
+		  	tutorial
+		  </button>
+
+      <onboarding-popover enabled='showOnboarding' on-finish-callback='finishOnboarding' steps='onboardingSteps' step-index='stepIndex'></onboarding-popover>
 		</script>
 		<script type="text/ng-template" id="/user">
 			<div id="main-view">
+
 				<div id="top-bar"><div ng-include src="'/navbarbuttons'"></div>
 				</div>
 				<div id="left-bar">
@@ -154,13 +163,15 @@
 		</script>
 
 		<script type="text/ng-template" id="/userProfile">
+
 			<div id="profile" class="col-xs-12">
 				<div id="information">
 					<div class="circular-image" style="background-image:url('{{ user.image_url }}')"></div>
 					<h4 class="name">{{ user.first_name }} {{ user.last_name }}</h4>
-					<button ng-show="isLoggedIn" ng-click="sendFacebookMessage()" class="btn btn-default btn-med">message via fb</button>
+					<button id='fb-message' ng-show="isLoggedIn" ng-click="sendFacebookMessage()" class="btn btn-default btn-med">message via fb</button>
 				</div>
 			</div>
+
 		</script>
 
 		<script type="text/ng-template" id="/topicsForUser">
@@ -354,7 +365,7 @@
     <script src="/assets/angular-local-storage.js "></script>
 		<script src="/assets/underscore.js"></script>
 		<script src="/assets/d3.v3.min.js"></script>
-
+    <script src="/assets/ng-onboarding.min.js"></script>
 
 		<!-- Angular javascript -->
 		<script src="/assets/dewey.js"></script>
