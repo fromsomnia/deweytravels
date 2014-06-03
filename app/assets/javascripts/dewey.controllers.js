@@ -13,46 +13,62 @@ var Dewey = (function (Dewey) {
     $scope.onboardingSteps = [
       {
         title: 'Welcome to Dewey!',
-        description: "Dewey is an application where you can find out where your friends have been. This is your user page - you can come back here any time by clicking the logo on the top left.",
+        description: "Dewey is a place to share where you've traveled and explore where your friends have been. First, let's build your profile.",
         position: 'right',
         attachTo: '#left-bar'
       },
 
       {
         overlay: true,
-        title: "Add a place you've been to",
-        description: "Use this to fill out your travel profile.",
+        title: 'Adding places',
+        description: "<p>This is your profile. Let's start adding places! You can type in a place you've been into the box labeled 'add a place to profile', or click the plus sign on one of the suggested places. You've been to the World, right?</p><img src='/assets/onboarding_1.png'></img>",
         position: 'right',
         attachTo: '#left-bar'
       },
       {
         overlay: true,
-        title: "These are places you have been to.",
-        description: "Click on the text to go to the topic page and x to remove from your profile.",
-        position: 'right',
-        attachTo: '#left-bar'
-      },
-
-      {
-        overlay: true,
-        title: "These are some suggested places. Have you been here?",
-        description: "Click on the text to go to the topic page and + to add to your profile.",
+        title: "Searching",
+        description: "<p>Once you've filled out your profile, you can start to explore Dewey. Try typing in a friend's name into the search bar, or click on one of the green friend nodes around you from your profile page.</p><img src='/assets/onboarding_2.png'></img>",
         position: 'right',
         attachTo: '#left-bar'
       },
 
       {
         overlay: true,
-        title: "Message via FB",
-        description: "If you find someone who's been somewhere interesting, you can message him/her",
+        title: "Friend's Profile",
+        description: "<p>Here's an example of a friend's profile. This person has been to a lot of places! I wonder where in Europe she has been? Let's click on the 'Europe' node...</p><img width='600' src='/assets/onboarding_3.png'></img>",
         position: 'right',
         attachTo: '#left-bar'
       },
 
       {
         overlay: true,
-        title: "Visualizing your locations",
-        description: "Click on the bubbles to expand (if available), click on the text to go to topic page.",
+        title: "Exploring",
+        description: "<p>Now we can see the countries in Europe this person has been. Any blue node can be clicked to drill down for further information.</p><img src='/assets/onboarding_4.png'></img>",
+        position: 'right',
+        attachTo: '#left-bar'
+      },
+
+      {
+        overlay: true,
+        title: "Messaging",
+        description: "<p>See a place you want to know more about? Click on the 'message via fb' button for an easy to way to ask your friend about a place.</p><img src='/assets/onboarding_5.png'></img>",
+        position: 'right',
+        attachTo: '#left-bar'
+      },
+
+      {
+        overlay: true,
+        title: "Other Ways to Explore",
+        description: "<p>You can also click on the name of the place you're interested in, or find it via the search box, to see more information about which of your friends have been there.</p><img width='600' src='/assets/onboarding_6.png'></img>",
+        position: 'right',
+        attachTo: '#left-bar'
+      },
+
+      {
+        overlay: true,
+        title: "Thanks!",
+        description: "Thanks for using Dewey!",
         position: 'right',
         attachTo: '#left-bar'
       },
