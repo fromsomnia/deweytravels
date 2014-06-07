@@ -7,6 +7,7 @@
 #  expertise_id :integer
 #
 
+# Connection class between topics and users - the 'experts-expertise' relationship
 class TopicUserConnection < ActiveRecord::Base
 	# attr_accessible :
 
@@ -15,6 +16,7 @@ class TopicUserConnection < ActiveRecord::Base
 
   validate :in_same_graph, on: :create
 
+  # Returns true if the two nodes involved are in the same graph.
   def in_same_graph
     if expert.graph.id != expertise.graph.id
       errors.add(:expert,  "should be in the same graph with the expertise")

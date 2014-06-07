@@ -6,6 +6,8 @@
 #  domain :string(255)
 #
 
+# Represents a graph of users and expertises. This will be particularly useful
+# when Dewey has multiple instances.
 class Graph < ActiveRecord::Base
 	attr_accessible :title
 
@@ -31,18 +33,10 @@ class Graph < ActiveRecord::Base
     end
   end
 
-	def experts
-		@experts = []
-		self.topics.each do |topic|
-			topic.experts.each do |expert|
-				if !@experts.include?(expert) then
-					@experts << expert
-				end
-			end
-		end
-		return @experts
-	end
-
+  # Search for a particular query in this graph, powered by elastic search.
+  # This function will search over topics and users. Topics are indexed by title,
+  # and users are indexed by first name and last name. All searches are
+  # by start-of-word rule.
 	def search(query)
 		results = []
 		if !query.blank? then

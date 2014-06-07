@@ -103,13 +103,7 @@
 
 <h2>Overview</h2><div class="docstring">
   <div class="discussion">
-    <p>== Schema Information</p>
-
-<p>Table name: topic_topic_connections</p>
-
-<p>id            :integer          not null, primary key
- subtopic_id   :integer
- supertopic_id :integer</p>
+    <p>Intermediary connection class between two topics - a subtopic-supertopic relationship</p>
 
 
   </div>
@@ -172,7 +166,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
+    <span class="summary_desc"><div class='inline'><p>Returns true if the two nodes involved in this connection is in the same graph.</p>
 </div></span>
   
 </li>
@@ -203,12 +197,12 @@
       <pre class="lines">
 
 
-21
-22
-23</pre>
+23
+24
+25</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'app/models/topic_topic_connection.rb', line 21</span>
+      <pre class="code"><span class="info file"># File 'app/models/topic_topic_connection.rb', line 23</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_graph'>graph</span>
   <span class='id identifier rubyid_supertopic'>supertopic</span><span class='period'>.</span><span class='id identifier rubyid_graph'>graph</span>
@@ -227,20 +221,30 @@
   
 
   
-</h3><table class="source_code">
+</h3><div class="docstring">
+  <div class="discussion">
+    <p>Returns true if the two nodes involved in this connection is in the same graph</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
   <tr>
     <td>
       <pre class="lines">
 
 
-15
-16
 17
 18
-19</pre>
+19
+20
+21</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'app/models/topic_topic_connection.rb', line 15</span>
+      <pre class="code"><span class="info file"># File 'app/models/topic_topic_connection.rb', line 17</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_in_same_graph'>in_same_graph</span>
   <span class='kw'>if</span> <span class='id identifier rubyid_supertopic'>supertopic</span><span class='period'>.</span><span class='id identifier rubyid_graph'>graph</span><span class='period'>.</span><span class='id identifier rubyid_id'>id</span> <span class='op'>!=</span> <span class='id identifier rubyid_subtopic'>subtopic</span><span class='period'>.</span><span class='id identifier rubyid_graph'>graph</span><span class='period'>.</span><span class='id identifier rubyid_id'>id</span>
@@ -257,7 +261,7 @@
 </div>
 
     <div id="footer">
-  Generated on Sat Jun  7 03:09:34 2014 by
+  Generated on Sat Jun  7 03:16:03 2014 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.7.4 (ruby-2.0.0).
 </div>
