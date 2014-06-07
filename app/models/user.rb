@@ -21,6 +21,13 @@
 
 require 'socialcast'
 
+# Represents users in Dewey Travels. Users in Dewey sign up with Facebook, and thus
+# its facebook credentials are stored in this class. It is important to note that 
+# Dewey users' Facebook friends are also stored in this class, regarless of whether they
+# already signed up. The attribute is_registered is important to distinguish
+# Dewey users and non-user friends of Dewey users.
+# Users are indexed by first name and last name in ElasticSearch through searchkick.
+
 class User < ActiveRecord::Base
   searchkick word_start: [:first_name, :last_name]
 
@@ -32,14 +39,22 @@ class User < ActiveRecord::Base
 	has_many :topic_user_connections, :foreign_key => "expert_id"
 	has_many :expertises, -> { uniq }, :through => :topic_user_connections, :source => :expertise
 
+  # Returns the full name of this user
   def name
     return first_name + ' ' + last_name
   end
 
+  # Returns the full list of attributes associated with this class.
   def attributes
+    # This is a quick hack to make sure that the full name is always sent to Angular,
+    # even though it is not a natural attribute of the class.
     super.merge('name' => self.name)
   end
 
+  # Adds a list of Facebook friends to this user.
+  # The input is a list of friends, where each friend is represented as a map (as returned by
+  # Facebook API). This function will create the user object for each friends (if it has not exist already)
+  # and add it to the current user's list of friends.
   def add_facebook_friends(friends)
     friends.each do |friend|
       id = friend[:id]
@@ -67,38 +82,19 @@ class User < ActiveRecord::Base
   has_many :friends, :through => :friendships, :source => :friend
   has_many :friend_requesters, :through => :received_friendship_requests, :source => :user
 
+  # Returns the list of friends that are registered on Dewey
   def friends_on_site
     self.friends.where(:is_registered => true).all
   end
 
+  # Add a user object friend as a friend.
   def add_friend(friend)
     self.friends << friend
     friend.friends << self
   end
 
-  # TODO: complete if already requested on other side
-  def request_friend(requested)
-    requested.friend_requesters << self
-  end
-
-  def confirm_friend_request(requester)
-    request = Friendship.where(:user_id => requester.id, :friend_id => self.id, :accepted => false).take
-    if request
-      request.accepted = true
-      request.save(:validate => false)
-
-      self.friends << requester
-    end
-  end
-
-  def remove_friend(friend)
-    friendship = Friendship.find_by_user_id_and_friend_id(self.id, friend.id)
-    friendship.delete
-
-    friendship = Friendship.find_by_user_id_and_friend_id(friend.id, self.id)
-    friendship.delete
-  end
-
+  # Register Facebook user to Dewey, given its ID, first name, last name, email
+  # and image url as grabbed from Facebook API.
   def self.register_facebook_user(id, first_name, last_name, email, image_url)
     # TODO: register facebook users to a different domain?
     graph = Graph.find_by_domain('fixtures')
@@ -119,6 +115,11 @@ class User < ActiveRecord::Base
     return new_user
   end
 
+  # Returns the smallest topic depth that is associated to this user.
+  # For example, if a user is listed as an expert on topics Brazil, South America,
+  # and Rio Janeiro, this function will return 1 because South America is the closest
+  # topic to the root and its distance is 1.
+  # Read the documentation of the degree method of Topic class to understand more.
 	def degree
     degrees = [0, 0, 0, 0, 0]
     self.expertises.each do |topic|
@@ -138,6 +139,8 @@ class User < ActiveRecord::Base
     end
 	end
 
+  # Comparison function between two users using the smallest topic depth / degree
+  # as its differentiator.
   def self.sort_by_degree(a, b)
     if a != nil then
       if b != nil then
@@ -151,7 +154,8 @@ class User < ActiveRecord::Base
       return 0
     end
   end
-
+ 
+  # Returns at most five user suggestions, given the current user, the topic, and the previous suggestions.
   def self.suggestions(topic, current_user, previous_suggestions=[])
     should_suggest_self = !current_user.expertises.exists?(topic.id)
     num_new_users = should_suggest_self ? 4 : 5
@@ -165,6 +169,7 @@ class User < ActiveRecord::Base
   end
 
   private
+    # Set the auth token of this user. This is used during authentication.
     def set_auth_token
       return if auth_token.present?
 
@@ -173,6 +178,7 @@ class User < ActiveRecord::Base
       end while self.class.exists?(auth_token: self.auth_token)
     end
 
+    # Set the image URL of all users. If does not exist, then the default user image is used.
     def set_image_url
       return if image_url.present?
 
