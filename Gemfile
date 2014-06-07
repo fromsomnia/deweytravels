@@ -65,3 +65,6 @@ gem 'bcrypt', :require => 'bcrypt'
 gem 'mixpanel'
 gem 'newrelic_rpm'
 gem 'searchkick'
+gem 'annotate', ">=2.6.0"
+gem 'yard'
+gem 'kramdown', :groups => [:development], :require => false

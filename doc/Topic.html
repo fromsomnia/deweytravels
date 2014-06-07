@@ -1,0 +1,951 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>
+  Class: Topic
+  
+    &mdash; Documentation by YARD 0.8.7.4
+  
+</title>
+
+  <link rel="stylesheet" href="css/style.css" type="text/css" charset="utf-8" />
+
+  <link rel="stylesheet" href="css/common.css" type="text/css" charset="utf-8" />
+
+<script type="text/javascript" charset="utf-8">
+  hasFrames = window.top.frames.main ? true : false;
+  relpath = '';
+  framesUrl = "frames.html#!Topic.html";
+</script>
+
+
+  <script type="text/javascript" charset="utf-8" src="js/jquery.js"></script>
+
+  <script type="text/javascript" charset="utf-8" src="js/app.js"></script>
+
+
+  </head>
+  <body>
+    <div id="header">
+      <div id="menu">
+  
+    <a href="_index.html">Index (T)</a> &raquo;
+    
+    
+    <span class="title">Topic</span>
+  
+
+  <div class="noframes"><span class="title">(</span><a href="." target="_top">no frames</a><span class="title">)</span></div>
+</div>
+
+      <div id="search">
+  
+    <a class="full_list_link" id="class_list_link"
+        href="class_list.html">
+      Class List
+    </a>
+  
+    <a class="full_list_link" id="method_list_link"
+        href="method_list.html">
+      Method List
+    </a>
+  
+    <a class="full_list_link" id="file_list_link"
+        href="file_list.html">
+      File List
+    </a>
+  
+</div>
+      <div class="clear"></div>
+    </div>
+
+    <iframe id="search_frame"></iframe>
+
+    <div id="content"><h1>Class: Topic
+  
+  
+  
+</h1>
+
+<dl class="box">
+  
+    <dt class="r1">Inherits:</dt>
+    <dd class="r1">
+      <span class="inheritName">ActiveRecord::Base</span>
+      
+        <ul class="fullTree">
+          <li>Object</li>
+          
+            <li class="next">ActiveRecord::Base</li>
+          
+            <li class="next">Topic</li>
+          
+        </ul>
+        <a href="#" class="inheritanceTree">show all</a>
+      
+      </dd>
+    
+  
+  
+    
+  
+    
+  
+  
+  
+    <dt class="r2 last">Defined in:</dt>
+    <dd class="r2 last">app/models/topic.rb</dd>
+  
+</dl>
+<div class="clear"></div>
+
+<h2>Overview</h2><div class="docstring">
+  <div class="discussion">
+    <p>Represents places in Dewey Travels. Each topic has subtopics, supertopics, and experts.
+Topics in Dewey are closely associated with Freebase, which is used for topic seeding
+and topic image scraping.
+Topics are indexed by title in ElasticSearch through searchkick.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+
+
+
+
+
+
+  
+    <h2>
+      Class Method Summary
+      <small>(<a href="#" class="summary_toggle">collapse</a>)</small>
+    </h2>
+
+    <ul class="summary">
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#from_freebase_topic-class_method" title="from_freebase_topic (class method)">+ (Object) <strong>from_freebase_topic</strong>(freebase_topic) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Returns a Dewey Topic from a given freebase topic object.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#seed-class_method" title="seed (class method)">+ (Object) <strong>seed</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Seed the Dewey database with countries, cities, and continents as grabbed from Freebase.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#sort_by_degree-class_method" title="sort_by_degree (class method)">+ (Object) <strong>sort_by_degree</strong>(a, b) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Comparison function between two topics, where the criteria is the topic’s node depth.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#suggestions-class_method" title="suggestions (class method)">+ (Object) <strong>suggestions</strong>(user, previous_suggestions = []) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Returns at most five topic suggestions, given the receiving user and the previous suggestions.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#update_all_images-class_method" title="update_all_images (class method)">+ (Object) <strong>update_all_images</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Update the images of all the topics in the database, with images scraped from Freebase.</p>
+</div></span>
+  
+</li>
+
+      
+    </ul>
+  
+    <h2>
+      Instance Method Summary
+      <small>(<a href="#" class="summary_toggle">collapse</a>)</small>
+    </h2>
+
+    <ul class="summary">
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#degree-instance_method" title="#degree (instance method)">- (Object) <strong>degree</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Returns the depth of the current node in the tree / distance of this node from the root.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#experts_which_friends_with-instance_method" title="#experts_which_friends_with (instance method)">- (Object) <strong>experts_which_friends_with</strong>(user, only_registered = false) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Returns experts of this topic that are friends with a given user.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#related-instance_method" title="#related (instance method)">- (Object) <strong>related</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Returns this topic’s related topic, defined as a sibling node (node with same parents) of this topic.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#set_image_from_freebase-instance_method" title="#set_image_from_freebase (instance method)">- (Object) <strong>set_image_from_freebase</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Set the topic’s image url property to an image scraped from Freebase.</p>
+</div></span>
+  
+</li>
+
+      
+    </ul>
+  
+
+
+  
+
+  <div id="class_method_details" class="method_details_list">
+    <h2>Class Method Details</h2>
+
+    
+      <div class="method_details first">
+  <h3 class="signature first" id="from_freebase_topic-class_method">
+  
+    + (<tt>Object</tt>) <strong>from_freebase_topic</strong>(freebase_topic) 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p>Returns a Dewey Topic from a given freebase topic object.
+If the corresponding Dewey Topic does not exist, will create one and return the newly-
+created topic.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'app/models/topic.rb', line 47</span>
+
+<span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_from_freebase_topic'>from_freebase_topic</span><span class='lparen'>(</span><span class='id identifier rubyid_freebase_topic'>freebase_topic</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_default_graph'>default_graph</span> <span class='op'>=</span> <span class='const'>Graph</span><span class='period'>.</span><span class='id identifier rubyid_find_by_domain'>find_by_domain</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>fixtures</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_topic'>topic</span> <span class='op'>=</span> <span class='const'>Topic</span><span class='period'>.</span><span class='id identifier rubyid_find_by_title'>find_by_title</span><span class='lparen'>(</span><span class='id identifier rubyid_freebase_topic'>freebase_topic</span><span class='period'>.</span><span class='id identifier rubyid_name'>name</span><span class='rparen'>)</span>
+  <span class='kw'>if</span> <span class='op'>!</span><span class='id identifier rubyid_topic'>topic</span>
+    <span class='id identifier rubyid_topic'>topic</span> <span class='op'>=</span> <span class='const'>Topic</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span>
+    <span class='id identifier rubyid_topic'>topic</span><span class='period'>.</span><span class='id identifier rubyid_image_url'>image_url</span> <span class='op'>=</span> <span class='id identifier rubyid_freebase_topic'>freebase_topic</span><span class='period'>.</span><span class='id identifier rubyid_image_url'>image_url</span>
+    <span class='id identifier rubyid_topic'>topic</span><span class='period'>.</span><span class='id identifier rubyid_title'>title</span> <span class='op'>=</span> <span class='id identifier rubyid_freebase_topic'>freebase_topic</span><span class='period'>.</span><span class='id identifier rubyid_name'>name</span>
+    <span class='id identifier rubyid_topic'>topic</span><span class='period'>.</span><span class='id identifier rubyid_graph'>graph</span> <span class='op'>=</span> <span class='id identifier rubyid_default_graph'>default_graph</span>
+    <span class='id identifier rubyid_topic'>topic</span><span class='period'>.</span><span class='id identifier rubyid_freebase_id'>freebase_id</span> <span class='op'>=</span> <span class='id identifier rubyid_freebase_topic'>freebase_topic</span><span class='period'>.</span><span class='id identifier rubyid_mid'>mid</span>
+    <span class='id identifier rubyid_topic'>topic</span><span class='period'>.</span><span class='id identifier rubyid_save'>save</span>
+  <span class='kw'>end</span>
+  <span class='id identifier rubyid_topic'>topic</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="seed-class_method">
+  
+    + (<tt>Object</tt>) <strong>seed</strong> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p>Seed the Dewey database with countries, cities, and continents as grabbed from Freebase.
+This operation creates needed topics as well as set up the hierarchy between topics.
+This function is very slow.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97
+98
+99
+100
+101
+102
+103
+104
+105
+106
+107
+108
+109
+110
+111
+112
+113</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'app/models/topic.rb', line 64</span>
+
+<span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_seed'>seed</span>
+  <span class='id identifier rubyid_default_graph'>default_graph</span> <span class='op'>=</span> <span class='const'>Graph</span><span class='period'>.</span><span class='id identifier rubyid_find_by_domain'>find_by_domain</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>fixtures</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_root'>root</span> <span class='op'>=</span> <span class='const'>Topic</span><span class='period'>.</span><span class='id identifier rubyid_find_by_title'>find_by_title</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>World</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span>
+  <span class='kw'>if</span> <span class='op'>!</span><span class='id identifier rubyid_root'>root</span>
+    <span class='id identifier rubyid_root'>root</span> <span class='op'>=</span> <span class='const'>Topic</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span>
+    <span class='id identifier rubyid_root'>root</span><span class='period'>.</span><span class='id identifier rubyid_title'>title</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>World</span><span class='tstring_end'>&#39;</span></span>
+    <span class='id identifier rubyid_root'>root</span><span class='period'>.</span><span class='id identifier rubyid_graph'>graph</span> <span class='op'>=</span> <span class='id identifier rubyid_default_graph'>default_graph</span>
+    <span class='id identifier rubyid_root'>root</span><span class='period'>.</span><span class='id identifier rubyid_set_image_from_freebase'>set_image_from_freebase</span>
+  <span class='kw'>end</span>
+
+  <span class='id identifier rubyid_continents'>continents</span> <span class='op'>=</span> <span class='const'>Freeb</span><span class='period'>.</span><span class='id identifier rubyid_const_get'>const_get</span><span class='lparen'>(</span><span class='symbol'>:API</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_search'>search</span><span class='lparen'>(</span><span class='symbol'>:type</span> <span class='op'>=&gt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>/location/continent</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='symbol'>:limit</span> <span class='op'>=&gt;</span> <span class='int'>200</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_sleep'>sleep</span> <span class='int'>1</span>
+  <span class='id identifier rubyid_continent_topics'>continent_topics</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='rbracket'>]</span>
+  <span class='id identifier rubyid_continents'>continents</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_continent'>continent</span><span class='op'>|</span>
+    <span class='id identifier rubyid_continent_topic'>continent_topic</span> <span class='op'>=</span> <span class='const'>Topic</span><span class='period'>.</span><span class='id identifier rubyid_from_freebase_topic'>from_freebase_topic</span><span class='lparen'>(</span><span class='id identifier rubyid_continent'>continent</span><span class='rparen'>)</span>
+
+    <span class='id identifier rubyid_continent_topics'>continent_topics</span> <span class='op'>&lt;&lt;</span> <span class='id identifier rubyid_continent_topic'>continent_topic</span>
+    <span class='kw'>if</span> <span class='op'>!</span><span class='id identifier rubyid_root'>root</span><span class='period'>.</span><span class='id identifier rubyid_subtopics'>subtopics</span><span class='period'>.</span><span class='id identifier rubyid_include?'>include?</span><span class='lparen'>(</span><span class='id identifier rubyid_continent_topic'>continent_topic</span><span class='rparen'>)</span> 
+      <span class='id identifier rubyid_root'>root</span><span class='period'>.</span><span class='id identifier rubyid_subtopics'>subtopics</span> <span class='op'>&lt;&lt;</span> <span class='id identifier rubyid_continent_topic'>continent_topic</span>
+    <span class='kw'>end</span>
+  <span class='kw'>end</span>
+
+  <span class='id identifier rubyid_continent_topics'>continent_topics</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_continent_topic'>continent_topic</span><span class='op'>|</span>
+    <span class='id identifier rubyid_filter_str'>filter_str</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>(all type:country (any part_of:</span><span class='tstring_end'>&quot;</span></span> <span class='op'>+</span> <span class='id identifier rubyid_continent_topic'>continent_topic</span><span class='period'>.</span><span class='id identifier rubyid_freebase_id'>freebase_id</span> <span class='op'>+</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>))</span><span class='tstring_end'>&quot;</span></span>
+    <span class='id identifier rubyid_countries'>countries</span> <span class='op'>=</span> <span class='const'>Freeb</span><span class='period'>.</span><span class='id identifier rubyid_const_get'>const_get</span><span class='lparen'>(</span><span class='symbol'>:API</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_search'>search</span><span class='lparen'>(</span><span class='symbol'>:filter</span> <span class='op'>=&gt;</span> <span class='id identifier rubyid_filter_str'>filter_str</span><span class='comma'>,</span> <span class='symbol'>:limit</span> <span class='op'>=&gt;</span> <span class='int'>50</span><span class='rparen'>)</span>
+    <span class='id identifier rubyid_sleep'>sleep</span> <span class='int'>1</span>
+    <span class='id identifier rubyid_countries'>countries</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_country'>country</span><span class='op'>|</span>
+      <span class='id identifier rubyid_country_topic'>country_topic</span> <span class='op'>=</span> <span class='const'>Topic</span><span class='period'>.</span><span class='id identifier rubyid_from_freebase_topic'>from_freebase_topic</span><span class='lparen'>(</span><span class='id identifier rubyid_country'>country</span><span class='rparen'>)</span>
+
+      <span class='kw'>if</span> <span class='op'>!</span><span class='id identifier rubyid_continent_topic'>continent_topic</span><span class='period'>.</span><span class='id identifier rubyid_subtopics'>subtopics</span><span class='period'>.</span><span class='id identifier rubyid_include?'>include?</span><span class='lparen'>(</span><span class='id identifier rubyid_country_topic'>country_topic</span><span class='rparen'>)</span> <span class='op'>&amp;&amp;</span> <span class='lparen'>(</span><span class='id identifier rubyid_country_topic'>country_topic</span> <span class='op'>!=</span> <span class='id identifier rubyid_continent_topic'>continent_topic</span><span class='rparen'>)</span>
+        <span class='id identifier rubyid_continent_topic'>continent_topic</span><span class='period'>.</span><span class='id identifier rubyid_subtopics'>subtopics</span> <span class='op'>&lt;&lt;</span> <span class='id identifier rubyid_country_topic'>country_topic</span>
+      <span class='kw'>end</span>
+
+      <span class='kw'>if</span> <span class='id identifier rubyid_country_topic'>country_topic</span><span class='period'>.</span><span class='id identifier rubyid_subtopics'>subtopics</span><span class='period'>.</span><span class='id identifier rubyid_length'>length</span> <span class='op'>&gt;</span> <span class='int'>0</span>
+        <span class='kw'>next</span>
+      <span class='kw'>end</span>
+
+      <span class='id identifier rubyid_filter_str'>filter_str</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>(all type:city (any part_of:</span><span class='tstring_end'>&quot;</span></span> <span class='op'>+</span> <span class='id identifier rubyid_country_topic'>country_topic</span><span class='period'>.</span><span class='id identifier rubyid_freebase_id'>freebase_id</span> <span class='op'>+</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>))</span><span class='tstring_end'>&quot;</span></span>
+      <span class='id identifier rubyid_cities'>cities</span> <span class='op'>=</span> <span class='const'>Freeb</span><span class='period'>.</span><span class='id identifier rubyid_const_get'>const_get</span><span class='lparen'>(</span><span class='symbol'>:API</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_search'>search</span><span class='lparen'>(</span><span class='symbol'>:filter</span> <span class='op'>=&gt;</span> <span class='id identifier rubyid_filter_str'>filter_str</span><span class='comma'>,</span> <span class='symbol'>:limit</span> <span class='op'>=&gt;</span> <span class='int'>10</span><span class='rparen'>)</span>
+      <span class='id identifier rubyid_sleep'>sleep</span> <span class='int'>1</span>
+      <span class='id identifier rubyid_cities'>cities</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_city'>city</span><span class='op'>|</span>
+        <span class='id identifier rubyid_city_topic'>city_topic</span> <span class='op'>=</span> <span class='const'>Topic</span><span class='period'>.</span><span class='id identifier rubyid_from_freebase_topic'>from_freebase_topic</span><span class='lparen'>(</span><span class='id identifier rubyid_city'>city</span><span class='rparen'>)</span>
+
+        <span class='kw'>if</span> <span class='op'>!</span><span class='id identifier rubyid_country_topic'>country_topic</span><span class='period'>.</span><span class='id identifier rubyid_subtopics'>subtopics</span><span class='period'>.</span><span class='id identifier rubyid_include?'>include?</span><span class='lparen'>(</span><span class='id identifier rubyid_city_topic'>city_topic</span><span class='rparen'>)</span> <span class='op'>&amp;&amp;</span> <span class='lparen'>(</span><span class='id identifier rubyid_city_topic'>city_topic</span> <span class='op'>!=</span> <span class='id identifier rubyid_country_topic'>country_topic</span><span class='rparen'>)</span>
+          <span class='id identifier rubyid_country_topic'>country_topic</span><span class='period'>.</span><span class='id identifier rubyid_subtopics'>subtopics</span> <span class='op'>&lt;&lt;</span> <span class='id identifier rubyid_city_topic'>city_topic</span>
+        <span class='kw'>end</span>
+      <span class='kw'>end</span>
+    <span class='kw'>end</span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="sort_by_degree-class_method">
+  
+    + (<tt>Object</tt>) <strong>sort_by_degree</strong>(a, b) 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p>Comparison function between two topics, where the criteria is the topic’s node depth.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+165
+166
+167
+168
+169
+170
+171
+172
+173
+174
+175
+176
+177</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'app/models/topic.rb', line 165</span>
+
+<span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_sort_by_degree'>sort_by_degree</span><span class='lparen'>(</span><span class='id identifier rubyid_a'>a</span><span class='comma'>,</span> <span class='id identifier rubyid_b'>b</span><span class='rparen'>)</span>
+  <span class='kw'>if</span> <span class='id identifier rubyid_a'>a</span> <span class='op'>!=</span> <span class='kw'>nil</span> <span class='kw'>then</span>
+    <span class='kw'>if</span> <span class='id identifier rubyid_b'>b</span> <span class='op'>!=</span> <span class='kw'>nil</span> <span class='kw'>then</span>
+      <span class='kw'>return</span> <span class='id identifier rubyid_a'>a</span><span class='period'>.</span><span class='id identifier rubyid_degree'>degree</span> <span class='op'>&lt;=&gt;</span> <span class='id identifier rubyid_b'>b</span><span class='period'>.</span><span class='id identifier rubyid_degree'>degree</span>
+    <span class='kw'>else</span>
+      <span class='kw'>return</span> <span class='int'>1</span>
+    <span class='kw'>end</span>
+  <span class='kw'>elsif</span> <span class='id identifier rubyid_b'>b</span> <span class='op'>!=</span> <span class='kw'>nil</span> <span class='kw'>then</span>
+    <span class='kw'>return</span> <span class='op'>-</span><span class='int'>1</span>
+  <span class='kw'>else</span>
+    <span class='kw'>return</span> <span class='int'>0</span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="suggestions-class_method">
+  
+    + (<tt>Object</tt>) <strong>suggestions</strong>(user, previous_suggestions = []) 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p>Returns at most five topic suggestions, given the receiving user and the previous suggestions.
+The suggestions are random picks from subtopics of topics that the user is already
+associated to.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+118
+119
+120
+121
+122
+123
+124
+125
+126
+127
+128
+129
+130</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'app/models/topic.rb', line 118</span>
+
+<span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_suggestions'>suggestions</span><span class='lparen'>(</span><span class='id identifier rubyid_user'>user</span><span class='comma'>,</span> <span class='id identifier rubyid_previous_suggestions'>previous_suggestions</span><span class='op'>=</span><span class='lbracket'>[</span><span class='rbracket'>]</span><span class='rparen'>)</span>
+  <span class='ivar'>@topics</span> <span class='op'>=</span> <span class='id identifier rubyid_previous_suggestions'>previous_suggestions</span>
+  <span class='ivar'>@topics</span><span class='period'>.</span><span class='id identifier rubyid_append'>append</span><span class='lparen'>(</span><span class='const'>Topic</span><span class='period'>.</span><span class='id identifier rubyid_find_by_title'>find_by_title</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>World</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_iter'>iter</span> <span class='op'>=</span> <span class='int'>0</span>
+  <span class='kw'>while</span> <span class='ivar'>@topics</span><span class='period'>.</span><span class='id identifier rubyid_length'>length</span> <span class='op'>&lt;</span> <span class='int'>5</span> <span class='kw'>and</span> <span class='id identifier rubyid_iter'>iter</span> <span class='op'>&lt;</span> <span class='int'>5</span> <span class='kw'>do</span>
+    <span class='id identifier rubyid_user'>user</span><span class='period'>.</span><span class='id identifier rubyid_expertises'>expertises</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_topic'>topic</span><span class='op'>|</span>
+      <span class='ivar'>@topics</span> <span class='op'>+=</span> <span class='id identifier rubyid_topic'>topic</span><span class='period'>.</span><span class='id identifier rubyid_subtopics'>subtopics</span><span class='period'>.</span><span class='id identifier rubyid_sample'>sample</span><span class='lparen'>(</span><span class='int'>5</span><span class='rparen'>)</span>
+    <span class='kw'>end</span>
+    <span class='id identifier rubyid_iter'>iter</span> <span class='op'>+=</span> <span class='int'>1</span>
+    <span class='ivar'>@topics</span> <span class='op'>=</span> <span class='lparen'>(</span><span class='ivar'>@topics</span> <span class='op'>-</span> <span class='id identifier rubyid_user'>user</span><span class='period'>.</span><span class='id identifier rubyid_expertises'>expertises</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_uniq'>uniq</span>
+  <span class='kw'>end</span>
+  <span class='ivar'>@topics</span><span class='period'>.</span><span class='id identifier rubyid_sample'>sample</span><span class='lparen'>(</span><span class='int'>5</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="update_all_images-class_method">
+  
+    + (<tt>Object</tt>) <strong>update_all_images</strong> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p>Update the images of all the topics in the database, with images scraped from Freebase.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+146
+147
+148
+149
+150</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'app/models/topic.rb', line 146</span>
+
+<span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_update_all_images'>update_all_images</span>
+  <span class='const'>Topic</span><span class='period'>.</span><span class='id identifier rubyid_all'>all</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_topic'>topic</span><span class='op'>|</span>
+    <span class='id identifier rubyid_topic'>topic</span><span class='period'>.</span><span class='id identifier rubyid_scrape_image_from_freebase'>scrape_image_from_freebase</span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
+  <div id="instance_method_details" class="method_details_list">
+    <h2>Instance Method Details</h2>
+
+    
+      <div class="method_details first">
+  <h3 class="signature first" id="degree-instance_method">
+  
+    - (<tt>Object</tt>) <strong>degree</strong> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p>Returns the depth of the current node in the tree / distance of this node from the root.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+153
+154
+155
+156
+157
+158
+159
+160
+161
+162</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'app/models/topic.rb', line 153</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_degree'>degree</span>
+	<span class='id identifier rubyid_curr_degree'>curr_degree</span> <span class='op'>=</span> <span class='int'>0</span>
+   <span class='id identifier rubyid_node'>node</span> <span class='op'>=</span> <span class='kw'>self</span> 
+   <span class='id identifier rubyid_root'>root</span> <span class='op'>=</span> <span class='const'>Topic</span><span class='period'>.</span><span class='id identifier rubyid_find_by_title'>find_by_title</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>World</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span>
+   <span class='kw'>while</span> <span class='id identifier rubyid_node'>node</span><span class='period'>.</span><span class='id identifier rubyid_id'>id</span> <span class='op'>!=</span> <span class='id identifier rubyid_root'>root</span><span class='period'>.</span><span class='id identifier rubyid_id'>id</span>
+     <span class='id identifier rubyid_node'>node</span> <span class='op'>=</span> <span class='id identifier rubyid_node'>node</span><span class='period'>.</span><span class='id identifier rubyid_supertopics'>supertopics</span><span class='lbracket'>[</span><span class='int'>0</span><span class='rbracket'>]</span>
+     <span class='id identifier rubyid_curr_degree'>curr_degree</span> <span class='op'>+=</span> <span class='int'>1</span>
+   <span class='kw'>end</span>
+	<span class='kw'>return</span> <span class='id identifier rubyid_curr_degree'>curr_degree</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="experts_which_friends_with-instance_method">
+  
+    - (<tt>Object</tt>) <strong>experts_which_friends_with</strong>(user, only_registered = false) 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p>Returns experts of this topic that are friends with a given user.
+If the only_registered flag is set to true, will only return registered users.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+35
+36
+37
+38
+39
+40
+41
+42</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'app/models/topic.rb', line 35</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_experts_which_friends_with'>experts_which_friends_with</span><span class='lparen'>(</span><span class='id identifier rubyid_user'>user</span><span class='comma'>,</span> <span class='id identifier rubyid_only_registered'>only_registered</span><span class='op'>=</span><span class='kw'>false</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_result'>result</span> <span class='op'>=</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_experts'>experts</span><span class='period'>.</span><span class='id identifier rubyid_joins'>joins</span><span class='lparen'>(</span><span class='symbol'>:friendships</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_where'>where</span><span class='lparen'>(</span><span class='symbol'>:friendships</span> <span class='op'>=&gt;</span> <span class='lbrace'>{</span> <span class='symbol'>:friend_id</span> <span class='op'>=&gt;</span> <span class='id identifier rubyid_user'>user</span><span class='period'>.</span><span class='id identifier rubyid_id'>id</span><span class='rbrace'>}</span><span class='rparen'>)</span>
+  <span class='kw'>if</span> <span class='id identifier rubyid_only_registered'>only_registered</span>
+    <span class='id identifier rubyid_result'>result</span><span class='period'>.</span><span class='id identifier rubyid_where'>where</span><span class='lparen'>(</span><span class='symbol'>:is_registered</span> <span class='op'>=&gt;</span> <span class='kw'>true</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_all'>all</span>
+  <span class='kw'>else</span>
+    <span class='id identifier rubyid_result'>result</span><span class='period'>.</span><span class='id identifier rubyid_all'>all</span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="related-instance_method">
+  
+    - (<tt>Object</tt>) <strong>related</strong> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p>Returns this topic’s related topic, defined as a sibling node (node with same parents) of this topic.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+133
+134
+135
+136
+137
+138
+139
+140
+141
+142
+143</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'app/models/topic.rb', line 133</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_related'>related</span>
+	<span class='ivar'>@related</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='rbracket'>]</span>
+	<span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_supertopics'>supertopics</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_top'>top</span><span class='op'>|</span>
+		<span class='id identifier rubyid_top'>top</span><span class='period'>.</span><span class='id identifier rubyid_subtopics'>subtopics</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_my_related'>my_related</span><span class='op'>|</span>
+			<span class='kw'>if</span><span class='lparen'>(</span><span class='op'>!</span><span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_eql?'>eql?</span><span class='lparen'>(</span><span class='id identifier rubyid_my_related'>my_related</span><span class='rparen'>)</span><span class='rparen'>)</span> <span class='kw'>then</span>
+				<span class='ivar'>@related</span> <span class='op'>&lt;&lt;</span> <span class='id identifier rubyid_my_related'>my_related</span>
+			<span class='kw'>end</span>
+		<span class='kw'>end</span>
+	<span class='kw'>end</span>
+	<span class='kw'>return</span> <span class='ivar'>@related</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="set_image_from_freebase-instance_method">
+  
+    - (<tt>Object</tt>) <strong>set_image_from_freebase</strong> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p>Set the topic’s image url property to an image scraped from Freebase.
+The function picks the top result of a Freebase search with the topic title as the query.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+181
+182
+183
+184
+185
+186
+187
+188</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'app/models/topic.rb', line 181</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_set_image_from_freebase'>set_image_from_freebase</span>
+  <span class='id identifier rubyid_freebase_topics'>freebase_topics</span> <span class='op'>=</span> <span class='const'>Freeb</span><span class='period'>.</span><span class='id identifier rubyid_const_get'>const_get</span><span class='lparen'>(</span><span class='symbol'>:API</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_search'>search</span><span class='lparen'>(</span><span class='symbol'>:query</span> <span class='op'>=&gt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_title'>title</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
+  <span class='kw'>if</span> <span class='id identifier rubyid_freebase_topics'>freebase_topics</span> <span class='kw'>and</span> <span class='id identifier rubyid_freebase_topics'>freebase_topics</span><span class='lbracket'>[</span><span class='int'>0</span><span class='rbracket'>]</span>
+    <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_freebase_id'>freebase_id</span> <span class='op'>=</span> <span class='id identifier rubyid_freebase_topics'>freebase_topics</span><span class='lbracket'>[</span><span class='int'>0</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_id'>id</span>
+    <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_image_url'>image_url</span> <span class='op'>=</span> <span class='id identifier rubyid_freebase_topics'>freebase_topics</span><span class='lbracket'>[</span><span class='int'>0</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_image_url'>image_url</span>
+    <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_save'>save</span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
+</div>
+
+    <div id="footer">
+  Generated on Sat Jun  7 03:09:33 2014 by
+  <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
+  0.8.7.4 (ruby-2.0.0).
+</div>
+
+  </body>
+</html>

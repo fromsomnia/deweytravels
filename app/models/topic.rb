@@ -1,5 +1,20 @@
+# == Schema Information
+#
+# Table name: topics
+#
+#  id          :integer          not null, primary key
+#  title       :string(255)
+#  image_url   :string(255)
+#  graph_id    :integer
+#  freebase_id :string(255)
+#
+
 require 'freeb/api'
 
+# Represents places in Dewey Travels. Each topic has subtopics, supertopics, and experts.
+# Topics in Dewey are closely associated with Freebase, which is used for topic seeding
+# and topic image scraping.
+# Topics are indexed by title in ElasticSearch through searchkick.
 class Topic < ActiveRecord::Base
   searchkick word_start: [:title]
 	attr_accessible :title, :image_url, :freebase_image_url
@@ -15,6 +30,8 @@ class Topic < ActiveRecord::Base
 	has_many :second_topic_topic_connections, :class_name => "TopicTopicConnection", :foreign_key => "subtopic_id"
 	has_many :subtopics, :through => :topic_topic_connections, :source => :subtopic
 
+  # Returns experts of this topic that are friends with a given user.
+  # If the only_registered flag is set to true, will only return registered users.
   def experts_which_friends_with(user, only_registered=false)
     result = self.experts.joins(:friendships).where(:friendships => { :friend_id => user.id})
     if only_registered
@@ -24,6 +41,9 @@ class Topic < ActiveRecord::Base
     end
   end
 
+  # Returns a Dewey Topic from a given freebase topic object.
+  # If the corresponding Dewey Topic does not exist, will create one and return the newly-
+  # created topic.
   def self.from_freebase_topic(freebase_topic)
     default_graph = Graph.find_by_domain('fixtures')
     topic = Topic.find_by_title(freebase_topic.name)
@@ -38,6 +58,9 @@ class Topic < ActiveRecord::Base
     topic
   end
 
+  # Seed the Dewey database with countries, cities, and continents as grabbed from Freebase.
+  # This operation creates needed topics as well as set up the hierarchy between topics.
+  # This function is very slow.
   def self.seed
     default_graph = Graph.find_by_domain('fixtures')
     root = Topic.find_by_title('World')
@@ -89,6 +112,9 @@ class Topic < ActiveRecord::Base
     end
   end
 
+  # Returns at most five topic suggestions, given the receiving user and the previous suggestions.
+  # The suggestions are random picks from subtopics of topics that the user is already
+  # associated to. 
   def self.suggestions(user, previous_suggestions=[])
     @topics = previous_suggestions
     @topics.append(Topic.find_by_title('World'))
@@ -103,6 +129,7 @@ class Topic < ActiveRecord::Base
     @topics.sample(5)
   end
 
+  # Returns this topic's related topic, defined as a sibling node (node with same parents) of this topic.
 	def related
 		@related = []
 		self.supertopics.each do |top|
@@ -115,12 +142,14 @@ class Topic < ActiveRecord::Base
 		return @related
 	end
 
+  # Update the images of all the topics in the database, with images scraped from Freebase.
   def self.update_all_images
     Topic.all.each do |topic|
       topic.scrape_image_from_freebase
     end
   end
 
+  # Returns the depth of the current node in the tree / distance of this node from the root.
 	def degree
 		curr_degree = 0
     node = self 
@@ -132,6 +161,7 @@ class Topic < ActiveRecord::Base
 		return curr_degree
 	end
 
+  # Comparison function between two topics, where the criteria is the topic's node depth.
   def self.sort_by_degree(a, b)
     if a != nil then
       if b != nil then
@@ -146,7 +176,8 @@ class Topic < ActiveRecord::Base
     end
   end
 
-
+  # Set the topic's image url property to an image scraped from Freebase.
+  # The function picks the top result of a Freebase search with the topic title as the query.
   def set_image_from_freebase
     freebase_topics = Freeb.const_get(:API).search(:query => "#{self.title}")
     if freebase_topics and freebase_topics[0]
@@ -157,6 +188,9 @@ class Topic < ActiveRecord::Base
   end
 
   private
+    # Set the topic's image url to either the placeholder or a freebase image (if available).
+    # The process of scraping the freebase image happens in the background, so the image
+    # might not be updated when this function returns.
     def set_image
       if !self.image_url
         self.image_url = '/assets/picture_placeholder.png'

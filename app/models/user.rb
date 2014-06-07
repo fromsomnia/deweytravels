@@ -1,3 +1,24 @@
+# == Schema Information
+#
+# Table name: users
+#
+#  id            :integer          not null, primary key
+#  first_name    :string(255)
+#  last_name     :string(255)
+#  email         :string(255)
+#  phone         :string(255)
+#  username      :string(255)
+#  password      :string(255)
+#  password_enc  :string(255)
+#  salt          :string(255)
+#  image_url     :string(255)
+#  title         :string(255)
+#  fb_id         :string(255)
+#  graph_id      :integer
+#  auth_token    :string(255)
+#  is_registered :boolean          default(FALSE)
+#
+
 require 'socialcast'
 
 class User < ActiveRecord::Base

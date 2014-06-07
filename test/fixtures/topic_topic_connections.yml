@@ -1,3 +1,12 @@
+# == Schema Information
+#
+# Table name: topic_topic_connections
+#
+#  id            :integer          not null, primary key
+#  subtopic_id   :integer
+#  supertopic_id :integer
+#
+
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
 # This model initially had no columns defined.  If you add columns to the

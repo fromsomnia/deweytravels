@@ -1,3 +1,12 @@
+# == Schema Information
+#
+# Table name: topic_user_connections
+#
+#  id           :integer          not null, primary key
+#  expert_id    :integer
+#  expertise_id :integer
+#
+
 class TopicUserConnection < ActiveRecord::Base
 	# attr_accessible :
 

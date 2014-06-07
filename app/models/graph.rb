@@ -1,3 +1,11 @@
+# == Schema Information
+#
+# Table name: graphs
+#
+#  id     :integer          not null, primary key
+#  domain :string(255)
+#
+
 class Graph < ActiveRecord::Base
 	attr_accessible :title
 

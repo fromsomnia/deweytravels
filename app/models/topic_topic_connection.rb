@@ -1,3 +1,12 @@
+# == Schema Information
+#
+# Table name: topic_topic_connections
+#
+#  id            :integer          not null, primary key
+#  subtopic_id   :integer
+#  supertopic_id :integer
+#
+
 class TopicTopicConnection < ActiveRecord::Base
 	belongs_to :supertopic, :class_name => "Topic"
 	belongs_to :subtopic, :class_name => "Topic"
