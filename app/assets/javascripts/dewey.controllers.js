@@ -132,6 +132,9 @@ var Dewey = (function (Dewey) {
     $scope.$on('graphUpdated', function() {
       reloadGraph();
     });
+    $scope.$on('updateTopicsForUser', function() {
+      $scope.clusters = [];
+    });
     reloadGraph();
 
     function initInitialGraph () {
@@ -269,10 +272,11 @@ var Dewey = (function (Dewey) {
           };
           for(var i = 0; i < $scope.clusters.length; i++){
             var temp = $scope.clusters[i];
-            var primary = temp['primaryNode'];
-            if(primary.id == cluster['primaryNode'].id){
-              $scope.focusOnCluster(i);
-              return;
+            if(temp['primaryNode'].category == 'topic'){
+              if(temp['primaryNode'].id == cluster['primaryNode'].id){
+                $scope.focusOnCluster(i);
+                return;
+              }
             }
           }
           $scope.clusters.unshift(cluster);
@@ -449,6 +453,7 @@ var Dewey = (function (Dewey) {
     };
 
     $scope.updateTopicsForUser = function () {
+      $injector.get('$rootScope').$broadcast('updateTopicsForUser');
       $injector.get('$rootScope').$broadcast('graphUpdated');
       DeweyFactory.getTopicsForUser();
       setTimeout(function () {
