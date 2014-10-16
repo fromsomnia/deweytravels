@@ -62,7 +62,7 @@ module Freeb
     end
 
     def self.get_result(url, params={})
-      params[:key] = "AIzaSyBkoufuKh0rimMiJLjkKenQy9GDP9FudUE"
+      params[:key] = "AIzaSyBJ_KYqZgCENJhIjl-2E0QTr_bS-XN3k9g"
       url = "#{url}?#{params.to_query}"
       log "Url: #{url}"
       get_uncached_result(url)
