@@ -71,7 +71,7 @@ class Topic < ActiveRecord::Base
       root.set_image_from_freebase
     end
 
-    continents = Freeb.const_get(:API).search(:type => "/location/continent/", :limit => 200)
+    continents = Freeb.const_get(:API).search(:type => "/location/continent", :limit => 200)
 	#continent_list = ["Europe", "North America", "South America", "Antarctica", "Asia", "Australia", "Africa"]
     sleep 1
     continent_topics = []

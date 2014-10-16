@@ -68,3 +68,6 @@ gem 'searchkick'
 gem 'annotate', ">=2.6.0"
 gem 'yard'
 gem 'kramdown', :groups => [:development], :require => false
+gem 'elasticsearch-model'
+gem 'elasticsearch-rails'
+gem 'bonsai-elasticsearch-rails'
