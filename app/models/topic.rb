@@ -102,7 +102,7 @@ class Topic < ActiveRecord::Base
         end
 
         filter_str = "(all /location/location/containedby:" + country_topic.freebase_id + ")"
-        cities = Freeb.const_get(:API).search(:type => "/location/city/town/village", :filter => filter_str, :limit => 10)
+        cities = Freeb.const_get(:API).search(:type => "/location/citytown", :filter => filter_str, :limit => 10)
         sleep 1
         cities.each do |city|
           city_topic = Topic.from_freebase_topic(city)
