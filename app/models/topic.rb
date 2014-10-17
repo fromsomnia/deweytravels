@@ -71,24 +71,23 @@ class Topic < ActiveRecord::Base
       root.set_image_from_freebase
     end
 
-    continents = Freeb.const_get(:API).search(:type => "/location/continent", :limit => 200)
-	#continent_list = ["Europe", "North America", "South America", "Antarctica", "Asia", "Australia", "Africa"]
+    continents = Freeb.const_get(:API).search(:type => "/base/locations/continents", :limit => 200)
+	continent_list = ["Europe", "North America", "South America", "Antarctica", "Asia", "Australia", "Africa"]
     sleep 1
     continent_topics = []
     continents.each do |continent|
-		#if continent_list.include?(continent.name)
+		if continent_list.include?(continent.name)
 		  continent_topic = Topic.from_freebase_topic(continent)
 
 		  continent_topics << continent_topic
 		  if !root.subtopics.include?(continent_topic) 
 			root.subtopics << continent_topic
 		  end
-		  #end
+		end
     end
 
     continent_topics.each do |continent_topic|
-      filter_str = "(all type:country (any part_of:" + continent_topic.freebase_id + "))"
-      countries = Freeb.const_get(:API).search(:filter => filter_str, :limit => 50)
+		countries = Freeb.const_get(:API).search(:type => "/location/country", "/location/location/containedby" => { :mid => continent_topic.freebase_id }, :limit => 100)
       sleep 1
       countries.each do |country|
         country_topic = Topic.from_freebase_topic(country)
@@ -101,8 +100,7 @@ class Topic < ActiveRecord::Base
           next
         end
 
-        filter_str = "(all type:city (any part_of:" + country_topic.freebase_id + "))"
-        cities = Freeb.const_get(:API).search(:filter => filter_str, :limit => 10)
+        cities = Freeb.const_get(:API).search(:type => "/location/citytown", "/location/location/containedby" => { :mid => country_topic.freebase_id }, :limit => 10)
         sleep 1
         cities.each do |city|
           city_topic = Topic.from_freebase_topic(city)
