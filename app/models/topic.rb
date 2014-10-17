@@ -78,7 +78,6 @@ class Topic < ActiveRecord::Base
     continents.each do |continent|
 		if continent_list.include?(continent.name)
 		  continent_topic = Topic.from_freebase_topic(continent)
-
 		  continent_topics << continent_topic
 		  if !root.subtopics.include?(continent_topic) 
 			root.subtopics << continent_topic
