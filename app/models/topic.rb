@@ -90,6 +90,7 @@ class Topic < ActiveRecord::Base
 		countries = Freeb.const_get(:API).search(:type => "/location/country", "/location/location/containedby" => { :mid => continent_topic.freebase_id }, :limit => 100)
       sleep 1
       countries.each do |country|
+		  puts country
         country_topic = Topic.from_freebase_topic(country)
 
         if !continent_topic.subtopics.include?(country_topic) && (country_topic != continent_topic)
