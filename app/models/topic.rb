@@ -87,7 +87,7 @@ class Topic < ActiveRecord::Base
     end
 
     continent_topics.each do |continent_topic|
-		 filter_str = "(all type:country (all /location/location/containedby:{ mid:" + continent_topic.freebase_id + "}))"
+		 filter_str = "(all type:country (all /location/location/containedby:" + continent_topic.freebase_id + "))"
 		countries = Freeb.const_get(:API).search(:filter => filter_str, :limit => 100)
       sleep 1
       countries.each do |country|
@@ -101,7 +101,7 @@ class Topic < ActiveRecord::Base
           next
         end
 
-        filter_str = "(all type:citytown (all /location/location/containedby:{ mid:" + country_topic.freebase_id + "}))"
+        filter_str = "(all type:citytown (all /location/location/containedby:" + country_topic.freebase_id + "))"
         cities = Freeb.const_get(:API).search(:filter => filter_str, :limit => 10)
         sleep 1
         cities.each do |city|
