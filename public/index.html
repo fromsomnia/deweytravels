@@ -12,7 +12,7 @@
 		<link rel="stylesheet" type="text/css" href="/assets/bootstrap.css"/>
 		<link rel="stylesheet" type="text/css" href="/assets/ng-onboarding.css"/>
 		<link rel="stylesheet" type="text/css" href="/assets/dewey.css"/>
-
+		<script src="/assets/d3.v3.min.js"></script>
 		<script src="/assets/jquery-1.11.0.js"></script>
     <!-- start Mixpanel -->
 
@@ -334,7 +334,7 @@
 
 		<!-- visualization template -->
 		<script type="text/ng-template" id="/graph">
-			<div ng-controller="GraphController">
+			<div ng-controller="GraphController" id="svg-container">
 				<svg>
 					<g class="graph-container" ng-repeat="cluster in clusters">
 						<g class="cluster">
@@ -364,7 +364,6 @@
     <script src="/assets/ui-bootstrap-tpls-0.10.0.min.js "></script>
     <script src="/assets/angular-local-storage.js "></script>
 		<script src="/assets/underscore.js"></script>
-		<script src="/assets/d3.v3.min.js"></script>
     <script src="/assets/ng-onboarding.min.js"></script>
 
 		<!-- Angular javascript -->
